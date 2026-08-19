@@ -1,0 +1,28 @@
+{
+  "name": "e-commerce",
+  "version": "0.0.0",
+  "description": "Backend of e-commerce managing",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "migrate": "node-pg-migrate",
+    "migrate:create": "node-pg-migrate create"
+  },
+  "author": "fiandrianana",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "tsx": "^4.23.12",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "node-pg-migrate": "^9.0.0",
+    "pg": "^8.23.0"
+  },
+  "keywords": []
+}

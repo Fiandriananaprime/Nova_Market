@@ -61,14 +61,60 @@ export default function LandingPage() {
 
             {/* Hero visual */}
             <div className="hidden lg:flex flex-col gap-3">
-              <div className="grid grid-cols-2 gap-3">
-                {products.slice(0, 4).map(p => (
-                  <div key={p.id} className="bg-white/5 border border-white/10 rounded-xl p-3 hover:bg-white/8 transition-colors">
-                    <img src={`https://images.unsplash.com/${p.image}?w=200&h=130&fit=crop&auto=format`} alt={p.name} className="w-full h-28 object-cover rounded-lg mb-2 bg-[#1e3540]" />
-                    <div className="text-xs font-medium text-white truncate">{p.name}</div>
-                    <div className="text-xs text-[#5ABCB9] font-bold mt-0.5">{formatPrice(p.price)}</div>
-                  </div>
-                ))}
+              <div className="flex flex-col items-center py-6">
+                {/* Ligne 1 : 2 */}
+                <div className="flex gap-12">
+                  {products.slice(0, 2).map((p) => (
+                    <div
+                      key={p.id}
+                      className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
+                                border border-white/10 bg-secondary
+                                hover:scale-105 transition-transform"
+                    >
+                      <img
+                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        alt=""
+                        className="w-full h-full object-cover -rotate-45 scale-[1.42]"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Ligne 2 : 3 */}
+                <div className="flex gap-12 -my-1">
+                  {products.slice(2, 5).map((p) => (
+                    <div
+                      key={p.id}
+                      className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
+                                border border-white/10 bg-[#1e3540]
+                                hover:scale-105 transition-transform"
+                    >
+                      <img
+                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        alt=""
+                        className="w-full h-full object-cover -rotate-45 scale-[1.42]"
+                      />
+                    </div>
+                  ))}
+                </div>
+
+                {/* Ligne 3 : 2 */}
+                <div className="flex gap-12">
+                  {products.slice(5, 7).map((p) => (
+                    <div
+                      key={p.id}
+                      className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
+                                border border-white/10 bg-[#1e3540]
+                                hover:scale-105 transition-transform"
+                    >
+                      <img
+                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        alt=""
+                        className="w-full h-full object-cover -rotate-45 scale-[1.42]"
+                      />
+                    </div>
+                  ))}
+                </div>
               </div>
               <div className="bg-[#0077B6]/20 border border-[#0077B6]/30 rounded-xl p-4 flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-[#5ABCB9] flex items-center justify-center">

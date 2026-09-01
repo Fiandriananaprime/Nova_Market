@@ -4,6 +4,7 @@ import { ShoppingBag, Search, Heart, Bell, ShoppingCart, Globe, Sun, Moon, LogOu
 import { useApp } from '../contexts/AppContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { formatPrice } from '../data/mock';
+import { logout } from '@/api/auth.api';
 
 export default function BuyerLayout() {
   const { lang, setLang, cart, cartTotal, favorites, removeFromCart, t } = useApp();
@@ -15,6 +16,11 @@ export default function BuyerLayout() {
   const location = useLocation();
   const profileRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
+
+  const handleLogout = () => {
+    logout();
+    navigate('/');
+  };
 
   useEffect(() => {
     const handler = (e: MouseEvent) => {
@@ -200,7 +206,7 @@ export default function BuyerLayout() {
                       ))}
                       <div className="border-t border-[var(--border)] my-1" />
                       <button
-                        onClick={() => { navigate('/'); setProfileOpen(false); }}
+                        onClick={() => {handleLogout(); setProfileOpen(false); }}
                         className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
                       >
                         <LogOut className="w-4 h-4" />

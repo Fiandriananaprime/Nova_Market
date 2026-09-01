@@ -1,0 +1,187 @@
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { MapPin, Truck, CreditCard, CheckCircle2, ChevronRight, Smartphone } from 'lucide-react';
+import { Button, Input } from '../../components/ui';
+import { useApp } from '../../contexts/AppContext';
+import { formatPrice } from '../../data/mock';
+
+type Step = 'delivery' | 'method' | 'payment' | 'review';
+
+export default function Checkout() {
+  const navigate = useNavigate();
+  const { cart, cartTotal, t } = useApp();
+  const [step, setStep] = useState<Step>('delivery');
+  const [deliveryMethod, setDeliveryMethod] = useState('standard');
+  const [paymentMethod, setPaymentMethod] = useState('mvola');
+  const [loading, setLoading] = useState(false);
+
+  const steps: { id: Step; label: string }[] = [
+    { id: 'delivery', label: t('Delivery', 'Livraison') },
+    { id: 'method', label: t('Method', 'Méthode') },
+    { id: 'payment', label: t('Payment', 'Paiement') },
+    { id: 'review', label: t('Review', 'Révision') },
+  ];
+
+  const currentIdx = steps.findIndex(s => s.id === step);
+  const shipping = deliveryMethod === 'express' ? 12000 : deliveryMethod === 'pickup' ? 0 : 3500;
+  const total = cartTotal + shipping;
+
+  const handlePlaceOrder = async () => {
+    setLoading(true);
+    await new Promise(r => setTimeout(r, 1500));
+    setLoading(false);
+    navigate('/orders/ORD-2026-004?new=1');
+  };
+
+  return (
+    <div className="max-w-3xl mx-auto pb-8">
+      <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-6">{t('Checkout', 'Commande')}</h1>
+
+      {/* Step indicator */}
+      <div className="flex items-center mb-8">
+        {steps.map((s, i) => (
+          <div key={s.id} className="flex items-center flex-1">
+            <div className={`flex flex-col items-center ${i > 0 ? 'flex-1' : ''}`}>
+              {i > 0 && <div className={`h-0.5 w-full ${i <= currentIdx ? 'bg-[#0077B6]' : 'bg-[var(--border)]'} mb-2`} />}
+              <div className={`flex items-center gap-2 ${i === 0 ? '' : ''}`}>
+                <div className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${i < currentIdx ? 'bg-[#0077B6] text-white' : i === currentIdx ? 'bg-[#0077B6] text-white ring-4 ring-[#0077B6]/20' : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'}`}>
+                  {i < currentIdx ? <CheckCircle2 className="w-4 h-4" /> : i + 1}
+                </div>
+                <span className={`text-xs font-medium hidden sm:block ${i === currentIdx ? 'text-[#0077B6]' : i < currentIdx ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>{s.label}</span>
+              </div>
+            </div>
+            {i < steps.length - 1 && i > 0 && <div className="hidden" />}
+          </div>
+        ))}
+      </div>
+
+      <div className="grid md:grid-cols-5 gap-6">
+        <div className="md:col-span-3 space-y-4">
+          {step === 'delivery' && (
+            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 space-y-4">
+              <div className="flex items-center gap-2 mb-2">
+                <MapPin className="w-5 h-5 text-[#0077B6]" />
+                <h2 className="font-semibold font-display text-[var(--foreground)]">{t('Delivery address', 'Adresse de livraison')}</h2>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <Input label={t('First name', 'Prénom')} placeholder="Andry" />
+                <Input label={t('Last name', 'Nom')} placeholder="Rakoto" />
+              </div>
+              <Input label={t('Address', 'Adresse')} placeholder="12 Rue Rainitovo" />
+              <div className="grid grid-cols-2 gap-3">
+                <Input label={t('City', 'Ville')} placeholder="Antananarivo" />
+                <Input label={t('Postal code', 'Code postal')} placeholder="101" />
+              </div>
+              <Input label={t('Phone', 'Téléphone')} type="tel" placeholder="+261 34 000 0000" />
+              <Input label={t('Delivery instructions', 'Instructions de livraison')} placeholder={t('Optional', 'Optionnel')} />
+              <Button className="w-full" onClick={() => setStep('method')}>
+                {t('Continue', 'Continuer')} <ChevronRight className="w-4 h-4" />
+              </Button>
+            </div>
+          )}
+
+          {step === 'method' && (
+            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <Truck className="w-5 h-5 text-[#0077B6]" />
+                <h2 className="font-semibold font-display text-[var(--foreground)]">{t('Delivery method', 'Mode de livraison')}</h2>
+              </div>
+              <div className="space-y-2 mb-5">
+                {[
+                  { id: 'standard', label: t('Standard delivery', 'Livraison standard'), desc: '3-5 days', price: 3500 },
+                  { id: 'express', label: t('Express delivery', 'Livraison express'), desc: '1-2 days', price: 12000 },
+                  { id: 'pickup', label: t('Store pickup', 'Retrait en boutique'), desc: t('Ready in 2h', 'Prêt en 2h'), price: 0 },
+                ].map(m => (
+                  <label key={m.id} className={`flex items-center gap-3 p-3.5 border-2 rounded-xl cursor-pointer transition-colors ${deliveryMethod === m.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-[var(--border)] hover:border-[#0077B6]/30'}`}>
+                    <input type="radio" name="delivery" value={m.id} checked={deliveryMethod === m.id} onChange={e => setDeliveryMethod(e.target.value)} className="sr-only" />
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${deliveryMethod === m.id ? 'border-[#0077B6] bg-[#0077B6]' : 'border-[var(--border)]'}`} />
+                    <div className="flex-1">
+                      <div className="font-medium text-sm text-[var(--foreground)]">{m.label}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{m.desc}</div>
+                    </div>
+                    <span className="font-semibold text-sm text-[var(--foreground)]">{m.price === 0 ? t('Free', 'Gratuit') : formatPrice(m.price)}</span>
+                  </label>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setStep('delivery')}>{t('Back', 'Retour')}</Button>
+                <Button className="flex-1" onClick={() => setStep('payment')}>{t('Continue', 'Continuer')} <ChevronRight className="w-4 h-4" /></Button>
+              </div>
+            </div>
+          )}
+
+          {step === 'payment' && (
+            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+              <div className="flex items-center gap-2 mb-4">
+                <CreditCard className="w-5 h-5 text-[#0077B6]" />
+                <h2 className="font-semibold font-display text-[var(--foreground)]">{t('Payment', 'Paiement')}</h2>
+              </div>
+              <div className="space-y-2 mb-5">
+                {[
+                  { id: 'mvola', label: 'MVola', desc: 'Mobile money', icon: '📱' },
+                  { id: 'orangemoney', label: 'Orange Money', desc: 'Mobile money', icon: '🟠' },
+                  { id: 'airtel', label: 'Airtel Money', desc: 'Mobile money', icon: '🔴' },
+                  { id: 'card', label: t('Bank card', 'Carte bancaire'), desc: 'Visa / Mastercard', icon: '💳' },
+                  { id: 'cod', label: t('Cash on delivery', 'Paiement à la livraison'), desc: t('Pay when you receive', 'Payez à la réception'), icon: '💵' },
+                ].map(m => (
+                  <label key={m.id} className={`flex items-center gap-3 p-3 border-2 rounded-xl cursor-pointer transition-colors ${paymentMethod === m.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-[var(--border)] hover:border-[#0077B6]/30'}`}>
+                    <input type="radio" name="payment" value={m.id} checked={paymentMethod === m.id} onChange={e => setPaymentMethod(e.target.value)} className="sr-only" />
+                    <div className={`w-4 h-4 rounded-full border-2 flex-shrink-0 ${paymentMethod === m.id ? 'border-[#0077B6] bg-[#0077B6]' : 'border-[var(--border)]'}`} />
+                    <span className="text-lg">{m.icon}</span>
+                    <div className="flex-1">
+                      <div className="font-medium text-sm text-[var(--foreground)]">{m.label}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">{m.desc}</div>
+                    </div>
+                  </label>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setStep('method')}>{t('Back', 'Retour')}</Button>
+                <Button className="flex-1" onClick={() => setStep('review')}>{t('Continue', 'Continuer')} <ChevronRight className="w-4 h-4" /></Button>
+              </div>
+            </div>
+          )}
+
+          {step === 'review' && (
+            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+              <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">{t('Review your order', 'Vérifiez votre commande')}</h2>
+              <div className="space-y-2 mb-5">
+                {cart.map(item => (
+                  <div key={item.productId} className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-lg overflow-hidden bg-[var(--secondary)] flex-shrink-0">
+                      <img src={`https://images.unsplash.com/${item.image}?w=60&h=60&fit=crop&auto=format`} alt="" className="w-full h-full object-cover" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="text-sm font-medium text-[var(--foreground)] truncate">{item.name}</div>
+                      <div className="text-xs text-[var(--muted-foreground)]">x{item.qty}</div>
+                    </div>
+                    <span className="text-sm font-semibold text-[var(--foreground)]">{formatPrice(item.price * item.qty)}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2">
+                <Button variant="outline" onClick={() => setStep('payment')}>{t('Back', 'Retour')}</Button>
+                <Button className="flex-1" loading={loading} onClick={handlePlaceOrder}>
+                  {t('Place order', 'Passer la commande')}
+                  <CheckCircle2 className="w-4 h-4" />
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Summary */}
+        <div className="md:col-span-2">
+          <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 sticky top-24">
+            <h3 className="font-semibold font-display text-[var(--foreground)] mb-3 text-sm">{t('Summary', 'Résumé')}</h3>
+            <div className="space-y-1.5 text-sm mb-3">
+              <div className="flex justify-between"><span className="text-[var(--muted-foreground)]">{t('Items', 'Articles')}</span><span>{formatPrice(cartTotal)}</span></div>
+              <div className="flex justify-between"><span className="text-[var(--muted-foreground)]">{t('Shipping', 'Livraison')}</span><span>{shipping === 0 ? t('Free', 'Gratuit') : formatPrice(shipping)}</span></div>
+              <div className="border-t border-[var(--border)] pt-2 flex justify-between"><span className="font-semibold text-[var(--foreground)]">Total</span><span className="font-bold text-[var(--foreground)]">{formatPrice(total)}</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

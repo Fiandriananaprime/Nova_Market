@@ -1,0 +1,2376 @@
+openapi: 3.0.3
+info:
+  title: Nova Market API
+  description: >
+    OpenAPI specification for the Nova Market backend API, the Malagasy e-commerce
+    multi-vendor marketplace. This specification covers all endpoints needed
+    to replace mock data (src/data/mock.ts) in the React frontend
+    (repo Fiandriananaprime/Nova_Market) and power the three application portals:
+    Buyer, Seller, and Admin, as well as public pages (landing, catalog, login/register).
+  version: 1.0.0
+  contact:
+    name: Nova Market Engineering
+    email: dev@novamarket.mg
+  license:
+    name: Proprietary
+
+servers:
+  - url: https://api.novamarket.mg/v1
+    description: Production
+  - url: https://staging-api.novamarket.mg/v1
+    description: Staging
+  - url: http://localhost:4000/v1
+    description: Local development
+
+tags:
+  - name: Auth
+    description: Registration, login, session management (buyer, seller, admin)
+  - name: Catalog
+    description: Categories, products, stores (public + buyer access)
+  - name: Buyer - Cart
+    description: Authenticated buyer's shopping cart
+  - name: Buyer - Checkout & Orders
+    description: Buyer checkout funnel and order tracking
+  - name: Buyer - Favorites
+    description: Favorites list (products, followed stores)
+  - name: Buyer - Profile & Settings
+    description: Buyer profile, preferences, and notifications
+  - name: Buyer - Reviews
+    description: Product reviews left by the buyer
+  - name: Seller - Dashboard
+    description: Seller KPIs and dashboard overview
+  - name: Seller - Products
+    description: Seller product catalog management
+  - name: Seller - Inventory
+    description: Inventory management and out-of-stock alerts
+  - name: Seller - Orders
+    description: Orders received by the seller
+  - name: Seller - Analytics
+    description: Seller sales statistics and analytics
+  - name: Seller - Reviews
+    description: Reviews received and seller responses
+  - name: Seller - Promotions
+    description: Seller promo codes and discounts
+  - name: Seller - Store
+    description: Seller store settings
+  - name: Seller - Customers
+    description: Seller customer base
+  - name: Admin - Dashboard
+    description: Global platform KPIs
+  - name: Admin - Users
+    description: User management (buyers, sellers, admins)
+  - name: Admin - Seller Applications
+    description: Seller applications to validate
+  - name: Admin - Products
+    description: Product moderation
+  - name: Admin - Categories
+    description: Category tree management
+  - name: Admin - Orders
+    description: Global view of all platform orders
+  - name: Admin - Payments
+    description: Transactions and platform commissions
+  - name: Admin - Promotions
+    description: Global promotions view (all stores)
+  - name: Admin - Reviews
+    description: Review moderation
+  - name: Admin - Settings
+    description: Platform settings (commission rate, etc.)
+  - name: Admin - Reports
+    description: Platform reports and analytics
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: >
+        JWT token returned by /auth/login or /auth/register. The role
+        (buyer/seller/admin) is encoded in the token and verified server-side
+        for each restricted endpoint.
+
+  parameters:
+    PageParam:
+      name: page
+      in: query
+      schema: { type: integer, minimum: 1, default: 1 }
+      description: Page number (pagination)
+    LimitParam:
+      name: limit
+      in: query
+      schema: { type: integer, minimum: 1, maximum: 100, default: 20 }
+      description: Number of items per page
+    SearchParam:
+      name: search
+      in: query
+      schema: { type: string }
+      description: Full-text search
+    IdParam:
+      name: id
+      in: path
+      required: true
+      schema: { type: string }
+
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code: { type: string, example: "VALIDATION_ERROR" }
+            message: { type: string, example: "The email field is invalid." }
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field: { type: string }
+                  message: { type: string }
+      required: [error]
+
+    PaginationMeta:
+      type: object
+      properties:
+        page: { type: integer, example: 1 }
+        limit: { type: integer, example: 20 }
+        total: { type: integer, example: 96 }
+        totalPages: { type: integer, example: 5 }
+
+    Lang:
+      type: string
+      enum: [en, fr]
+
+    UserRole:
+      type: string
+      enum: [buyer, seller, admin]
+
+    # ---------- AUTH ----------
+    AuthTokens:
+      type: object
+      properties:
+        accessToken: { type: string }
+        refreshToken: { type: string }
+        expiresIn: { type: integer, example: 3600 }
+
+    User:
+      type: object
+      properties:
+        id: { type: string, example: "1" }
+        firstName: { type: string, example: "Rakoto" }
+        lastName: { type: string, example: "Andry" }
+        name: { type: string, example: "Rakoto Andry" }
+        email: { type: string, format: email }
+        phone: { type: string, example: "+261 34 123 4567" }
+        role: { $ref: '#/components/schemas/UserRole' }
+        status: { type: string, enum: [active, suspended], example: active }
+        avatarUrl: { type: string, nullable: true }
+        joinedAt: { type: string, format: date }
+        ordersCount: { type: integer, example: 12 }
+        addresses:
+          type: array
+          items: { $ref: '#/components/schemas/Address' }
+
+    RegisterBuyerRequest:
+      type: object
+      required: [firstName, lastName, email, password]
+      properties:
+        firstName: { type: string, example: "Andry" }
+        lastName: { type: string, example: "Rakoto" }
+        email: { type: string, format: email }
+        password: { type: string, format: password, minLength: 8 }
+
+    RegisterSellerRequest:
+      type: object
+      required: [firstName, lastName, email, password, businessName, phone, location]
+      properties:
+        firstName: { type: string, example: "Jean" }
+        lastName: { type: string, example: "Rakoto" }
+        email: { type: string, format: email }
+        password: { type: string, format: password, minLength: 8 }
+        businessName: { type: string, example: "My Store MG" }
+        phone: { type: string, example: "+261 34 000 0000" }
+        location: { type: string, example: "Antananarivo" }
+        category: { type: string, example: "Electronics" }
+        description: { type: string }
+
+    LoginRequest:
+      type: object
+      required: [email, password]
+      properties:
+        email: { type: string, format: email }
+        password: { type: string, format: password }
+        remember: { type: boolean, default: false }
+
+    AuthResponse:
+      type: object
+      properties:
+        user: { $ref: '#/components/schemas/User' }
+        tokens: { $ref: '#/components/schemas/AuthTokens' }
+
+    # ---------- CATALOG ----------
+    Category:
+      type: object
+      properties:
+        id: { type: string, example: "1" }
+        name: { type: string, example: "Electronics" }
+        nameF: { type: string, example: "Électronique" }
+        icon: { type: string, example: "Cpu" }
+        image: { type: string, example: "photo-1498049794561-7780e7231661" }
+        count: { type: integer, example: 2450 }
+        parentId: { type: string, nullable: true, example: null }
+        children:
+          type: array
+          items: { $ref: '#/components/schemas/Category' }
+
+    CategoryInput:
+      type: object
+      required: [name]
+      properties:
+        name: { type: string }
+        nameF: { type: string }
+        icon: { type: string }
+        image: { type: string }
+        parentId: { type: string, nullable: true }
+
+    ProductSpecs:
+      type: object
+      additionalProperties: { type: string }
+      example: { Display: "6.7\" AMOLED", RAM: "8GB", Storage: "256GB" }
+
+    ProductVariant:
+      type: object
+      properties:
+        name: { type: string, example: "Color" }
+        values:
+          type: array
+          items: { type: string }
+          example: ["Black", "White"]
+
+    Product:
+      type: object
+      properties:
+        id: { type: string, example: "1" }
+        name: { type: string, example: "Samsung Galaxy A56" }
+        nameF: { type: string, example: "Samsung Galaxy A56" }
+        brand: { type: string, example: "Samsung" }
+        description: { type: string }
+        price: { type: number, example: 1299000 }
+        originalPrice: { type: number, nullable: true, example: 1450000 }
+        discount: { type: number, example: 10 }
+        rating: { type: number, example: 4.8 }
+        reviewsCount: { type: integer, example: 342 }
+        sellerId: { type: string, example: "1" }
+        sellerName: { type: string, example: "TechStore MG" }
+        categoryId: { type: string, example: "7" }
+        image: { type: string }
+        images:
+          type: array
+          items: { type: string }
+        stock: { type: integer, example: 45 }
+        sku: { type: string, example: "SKU-001" }
+        tags:
+          type: array
+          items: { type: string }
+          example: ["smartphone", "5G"]
+        specs: { $ref: '#/components/schemas/ProductSpecs' }
+        variants:
+          type: array
+          items: { $ref: '#/components/schemas/ProductVariant' }
+        weightGrams: { type: number, example: 200 }
+        dimensions: { type: string, example: "15x10x5" }
+        status:
+          type: string
+          enum: [draft, active, inactive, pending, approved, rejected]
+          example: approved
+        createdAt: { type: string, format: date-time }
+
+    ProductInput:
+      type: object
+      required: [name, price, categoryId, stock]
+      properties:
+        name: { type: string }
+        description: { type: string }
+        brand: { type: string }
+        categoryId: { type: string }
+        tags:
+          type: array
+          items: { type: string }
+        images:
+          type: array
+          items: { type: string, format: binary }
+        price: { type: number }
+        promotionalPrice: { type: number, nullable: true }
+        sku: { type: string }
+        stock: { type: integer }
+        lowStockThreshold: { type: integer, default: 10 }
+        variants:
+          type: array
+          items: { $ref: '#/components/schemas/ProductVariant' }
+        weightGrams: { type: number }
+        dimensions: { type: string }
+        status:
+          type: string
+          enum: [active, draft, inactive]
+          default: draft
+
+    Seller:
+      type: object
+      properties:
+        id: { type: string, example: "1" }
+        name: { type: string, example: "TechStore MG" }
+        logo: { type: string }
+        cover: { type: string }
+        verified: { type: boolean }
+        rating: { type: number, example: 4.9 }
+        productsCount: { type: integer, example: 1240 }
+        location: { type: string, example: "Antananarivo" }
+        joinedYear: { type: string, example: "2023" }
+        followersCount: { type: integer, example: 8420 }
+        description: { type: string }
+        isFollowedByCurrentUser: { type: boolean }
+
+    Review:
+      type: object
+      properties:
+        id: { type: string }
+        productId: { type: string }
+        productName: { type: string }
+        customerId: { type: string }
+        customerName: { type: string, example: "Rakoto A." }
+        rating: { type: integer, minimum: 1, maximum: 5 }
+        comment: { type: string }
+        date: { type: string, format: date }
+        replied: { type: boolean, default: false }
+        reply: { type: string, nullable: true }
+
+    ReviewInput:
+      type: object
+      required: [rating, comment]
+      properties:
+        rating: { type: integer, minimum: 1, maximum: 5 }
+        comment: { type: string }
+
+    ReviewReplyInput:
+      type: object
+      required: [reply]
+      properties:
+        reply: { type: string }
+
+    # ---------- CART / ORDERS ----------
+    Address:
+      type: object
+      properties:
+        id: { type: string }
+        label: { type: string, example: "Home" }
+        fullAddress: { type: string, example: "12 Rue Rainitovo, Antananarivo 101" }
+        city: { type: string, example: "Antananarivo" }
+        phone: { type: string }
+        isDefault: { type: boolean }
+
+    CartItem:
+      type: object
+      properties:
+        productId: { type: string }
+        name: { type: string }
+        image: { type: string }
+        price: { type: number }
+        qty: { type: integer }
+        sellerId: { type: string }
+        sellerName: { type: string }
+        stock: { type: integer }
+
+    CartItemInput:
+      type: object
+      required: [productId, qty]
+      properties:
+        productId: { type: string }
+        qty: { type: integer, minimum: 1, default: 1 }
+
+    CartItemUpdate:
+      type: object
+      required: [qty]
+      properties:
+        qty: { type: integer, minimum: 0 }
+
+    Cart:
+      type: object
+      properties:
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/CartItem' }
+        subtotal: { type: number }
+        itemsCount: { type: integer }
+
+    OrderItem:
+      type: object
+      properties:
+        productId: { type: string }
+        productName: { type: string }
+        image: { type: string }
+        price: { type: number }
+        qty: { type: integer }
+        sellerId: { type: string }
+        sellerName: { type: string }
+
+    OrderStatus:
+      type: string
+      enum: [pending, confirmed, processing, preparing, shipped, delivered, cancelled]
+
+    Order:
+      type: object
+      properties:
+        id: { type: string, example: "ORD-2026-001" }
+        buyerId: { type: string }
+        buyerName: { type: string }
+        items:
+          type: array
+          items: { $ref: '#/components/schemas/OrderItem' }
+        sellerNames:
+          type: array
+          items: { type: string }
+        subtotal: { type: number }
+        shippingFee: { type: number }
+        total: { type: number }
+        status: { $ref: '#/components/schemas/OrderStatus' }
+        deliveryMethod: { type: string, enum: [standard, express, pickup] }
+        paymentMethod: { type: string, enum: [mvola, orange_money, card, cod] }
+        paymentStatus: { type: string, enum: [pending, paid, failed, refunded] }
+        address: { $ref: '#/components/schemas/Address' }
+        tracking: { type: string, nullable: true, example: "TRK892345MG" }
+        estimatedDelivery: { type: string, format: date, nullable: true }
+        date: { type: string, format: date-time }
+
+    CheckoutRequest:
+      type: object
+      required: [addressId, deliveryMethod, paymentMethod]
+      properties:
+        addressId: { type: string }
+        newAddress: { $ref: '#/components/schemas/Address' }
+        deliveryMethod: { type: string, enum: [standard, express, pickup] }
+        paymentMethod: { type: string, enum: [mvola, orange_money, card, cod] }
+        paymentPhoneNumber: { type: string, nullable: true, example: "+261 34 000 0000" }
+        note: { type: string, nullable: true }
+
+    OrderStatusUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { $ref: '#/components/schemas/OrderStatus' }
+        tracking: { type: string, nullable: true }
+
+    # ---------- FAVORITES ----------
+    FavoriteToggleResponse:
+      type: object
+      properties:
+        productId: { type: string }
+        isFavorite: { type: boolean }
+
+    # ---------- BUYER SETTINGS ----------
+    NotificationPrefs:
+      type: object
+      properties:
+        orders: { type: boolean, default: true }
+        promotions: { type: boolean, default: true }
+        sellers: { type: boolean, default: false }
+        recommendations: { type: boolean, default: true }
+        email: { type: boolean, default: false }
+
+    UserSettings:
+      type: object
+      properties:
+        theme: { type: string, enum: [light, dark, system] }
+        lang: { $ref: '#/components/schemas/Lang' }
+        notifications: { $ref: '#/components/schemas/NotificationPrefs' }
+
+    ProfileUpdateRequest:
+      type: object
+      properties:
+        firstName: { type: string }
+        lastName: { type: string }
+        phone: { type: string }
+        avatarUrl: { type: string }
+        addresses:
+          type: array
+          items: { $ref: '#/components/schemas/Address' }
+
+    # ---------- SELLER ----------
+    SellerMetrics:
+      type: object
+      properties:
+        revenue: { type: number, example: 12580000 }
+        orders: { type: integer, example: 183 }
+        products: { type: integer, example: 426 }
+        lowStock: { type: integer, example: 8 }
+        revenueChangePct: { type: number, example: 12.4 }
+        ordersChangePct: { type: number, example: 8.1 }
+        productsChangePct: { type: number, example: 5.2 }
+        lowStockChangePct: { type: number, example: -2 }
+
+    RevenuePoint:
+      type: object
+      properties:
+        month: { type: string, example: "Aug" }
+        revenue: { type: number }
+        orders: { type: integer }
+
+    SellerDashboard:
+      type: object
+      properties:
+        metrics: { $ref: '#/components/schemas/SellerMetrics' }
+        revenueSeries:
+          type: array
+          items: { $ref: '#/components/schemas/RevenuePoint' }
+        recentOrders:
+          type: array
+          items: { $ref: '#/components/schemas/Order' }
+
+    InventoryItem:
+      type: object
+      properties:
+        productId: { type: string }
+        name: { type: string }
+        sku: { type: string }
+        stock: { type: integer }
+        reserved: { type: integer }
+        available: { type: integer }
+        threshold: { type: integer }
+        status: { type: string, enum: [in_stock, low_stock, out_of_stock] }
+
+    InventoryUpdate:
+      type: object
+      properties:
+        stock: { type: integer }
+        threshold: { type: integer }
+
+    SellerAnalytics:
+      type: object
+      properties:
+        period: { type: string, enum: [today, 7d, 30d, 3m, custom] }
+        totalRevenue: { type: number }
+        totalOrders: { type: integer }
+        conversionRate: { type: number }
+        storeViews: { type: integer }
+        revenueSeries:
+          type: array
+          items: { $ref: '#/components/schemas/RevenuePoint' }
+        topProducts:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              unitsSold: { type: integer }
+        salesByCategory:
+          type: array
+          items:
+            type: object
+            properties:
+              name: { type: string }
+              percentage: { type: number }
+
+    Promotion:
+      type: object
+      properties:
+        id: { type: string }
+        sellerId: { type: string }
+        sellerName: { type: string }
+        name: { type: string, example: "Back to School Sale" }
+        type: { type: string, enum: [percentage, fixed] }
+        discount: { type: number, example: 15 }
+        productIds:
+          type: array
+          items: { type: string }
+        productsCount: { type: integer }
+        startDate: { type: string, format: date }
+        endDate: { type: string, format: date }
+        status: { type: string, enum: [active, scheduled, inactive, expired] }
+
+    PromotionInput:
+      type: object
+      required: [name, type, discount, startDate, endDate]
+      properties:
+        name: { type: string }
+        type: { type: string, enum: [percentage, fixed] }
+        discount: { type: number }
+        productIds:
+          type: array
+          items: { type: string }
+        startDate: { type: string, format: date }
+        endDate: { type: string, format: date }
+
+    Customer:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        email: { type: string }
+        avatarInitial: { type: string, example: "R" }
+        ordersCount: { type: integer }
+        totalSpent: { type: number }
+        lastOrderDate: { type: string, format: date }
+        status: { type: string, enum: [active, inactive] }
+
+    StoreSettings:
+      type: object
+      properties:
+        id: { type: string }
+        name: { type: string }
+        description: { type: string }
+        logoUrl: { type: string }
+        coverUrl: { type: string }
+        location: { type: string }
+        phone: { type: string }
+        email: { type: string }
+        isOpen: { type: boolean }
+        businessHours: { type: string }
+        socialLinks:
+          type: object
+          properties:
+            facebook: { type: string }
+            instagram: { type: string }
+            website: { type: string }
+
+    StoreSettingsUpdate:
+      type: object
+      properties:
+        name: { type: string }
+        description: { type: string }
+        logoUrl: { type: string }
+        coverUrl: { type: string }
+        location: { type: string }
+        phone: { type: string }
+        email: { type: string }
+        isOpen: { type: boolean }
+        businessHours: { type: string }
+        socialLinks:
+          type: object
+          properties:
+            facebook: { type: string }
+            instagram: { type: string }
+            website: { type: string }
+
+    # ---------- ADMIN ----------
+    AdminMetrics:
+      type: object
+      properties:
+        totalRevenue: { type: number, example: 284500000 }
+        totalOrders: { type: integer, example: 8432 }
+        totalBuyers: { type: integer, example: 24800 }
+        totalSellers: { type: integer, example: 342 }
+        totalProducts: { type: integer, example: 18650 }
+        pendingApplications: { type: integer, example: 14 }
+        pendingProducts: { type: integer, example: 38 }
+
+    AdminRevenuePoint:
+      type: object
+      properties:
+        month: { type: string }
+        revenue: { type: number }
+        sellers: { type: integer }
+        buyers: { type: integer }
+
+    AdminDashboard:
+      type: object
+      properties:
+        metrics: { $ref: '#/components/schemas/AdminMetrics' }
+        revenueSeries:
+          type: array
+          items: { $ref: '#/components/schemas/AdminRevenuePoint' }
+
+    UserStatusUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, enum: [active, suspended] }
+
+    SellerApplication:
+      type: object
+      properties:
+        id: { type: string, example: "APP-001" }
+        businessName: { type: string }
+        owner: { type: string }
+        email: { type: string }
+        phone: { type: string }
+        location: { type: string }
+        category: { type: string }
+        date: { type: string, format: date }
+        status: { type: string, enum: [pending, approved, rejected] }
+
+    SellerApplicationReview:
+      type: object
+      required: [action]
+      properties:
+        action: { type: string, enum: [approve, reject] }
+        reason: { type: string, nullable: true }
+
+    ProductModerationUpdate:
+      type: object
+      required: [status]
+      properties:
+        status: { type: string, enum: [approved, rejected, inactive] }
+        reason: { type: string, nullable: true }
+
+    Transaction:
+      type: object
+      properties:
+        id: { type: string, example: "PAY-001" }
+        orderId: { type: string }
+        buyerName: { type: string }
+        sellerName: { type: string }
+        amount: { type: number }
+        method: { type: string, enum: [MVola, Orange Money, Card, COD] }
+        commission: { type: number }
+        status: { type: string, enum: [completed, pending, failed, refunded] }
+        date: { type: string, format: date }
+
+    PaymentsSummary:
+      type: object
+      properties:
+        totalVolume: { type: number }
+        totalCommission: { type: number }
+        seriesByMonth:
+          type: array
+          items:
+            type: object
+            properties:
+              month: { type: string }
+              mvola: { type: number }
+              orangeMoney: { type: number }
+              card: { type: number }
+              cod: { type: number }
+
+    PlatformSettings:
+      type: object
+      properties:
+        commissionRatePct: { type: number, example: 10 }
+        supportedPaymentMethods:
+          type: array
+          items: { type: string }
+          example: ["MVola", "Orange Money", "Card", "COD"]
+        standardShippingFee: { type: number, example: 3500 }
+        expressShippingFee: { type: number, example: 12000 }
+        maintenanceMode: { type: boolean, default: false }
+
+    PlatformSettingsUpdate:
+      type: object
+      properties:
+        commissionRatePct: { type: number }
+        supportedPaymentMethods:
+          type: array
+          items: { type: string }
+        standardShippingFee: { type: number }
+        expressShippingFee: { type: number }
+        maintenanceMode: { type: boolean }
+
+paths:
+  # ============================================================
+  # AUTH
+  # ============================================================
+  /auth/register:
+    post:
+      tags: [Auth]
+      summary: Register buyer account
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterBuyerRequest' }
+      responses:
+        '201':
+          description: Account created and session established
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '409':
+          description: Email already in use
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /auth/register/seller:
+    post:
+      tags: [Auth]
+      summary: Submit seller application
+      description: >
+        Creates a pending user and seller application
+        (SellerApplication, status=pending) to be validated by an admin
+        via /admin/sellers/applications/{id}.
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RegisterSellerRequest' }
+      responses:
+        '201':
+          description: Application submitted, pending admin validation
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SellerApplication' }
+        '409':
+          description: Email already in use
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /auth/login:
+    post:
+      tags: [Auth]
+      summary: Login (buyer, seller, or admin)
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/LoginRequest' }
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthResponse' }
+        '401':
+          description: Invalid credentials
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '403':
+          description: Account suspended
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /auth/refresh:
+    post:
+      tags: [Auth]
+      summary: Refresh access token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [refreshToken]
+              properties:
+                refreshToken: { type: string }
+      responses:
+        '200':
+          description: New token pair
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AuthTokens' }
+        '401':
+          description: Refresh token invalid or expired
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /auth/logout:
+    post:
+      tags: [Auth]
+      summary: Logout (invalidates refresh token)
+      responses:
+        '204': { description: Logged out }
+
+  /auth/me:
+    get:
+      tags: [Auth]
+      summary: Get current user (buyer/seller/admin)
+      responses:
+        '200':
+          description: Current user
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '401':
+          description: Unauthenticated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  # ============================================================
+  # CATALOG (public + buyer)
+  # ============================================================
+  /categories:
+    get:
+      tags: [Catalog]
+      summary: List categories (with subcategories)
+      security: []
+      responses:
+        '200':
+          description: Category list
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Category' }
+
+  /categories/{id}:
+    get:
+      tags: [Catalog]
+      summary: Category details
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Category
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Category' }
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /products:
+    get:
+      tags: [Catalog]
+      summary: Search / filter products (Buyer catalog)
+      description: Powers Shop.tsx and Products.tsx (search, filters, sorting, pagination).
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: category
+          in: query
+          schema: { type: string }
+          description: Category ID
+        - name: sellerId
+          in: query
+          schema: { type: string }
+        - name: minPrice
+          in: query
+          schema: { type: number }
+        - name: maxPrice
+          in: query
+          schema: { type: number }
+        - name: minRating
+          in: query
+          schema: { type: number, minimum: 0, maximum: 5 }
+        - name: onSale
+          in: query
+          schema: { type: boolean }
+          description: Filter products on sale (discount > 0)
+        - name: sort
+          in: query
+          schema:
+            type: string
+            enum: [relevance, price_asc, price_desc, rating, newest]
+            default: relevance
+      responses:
+        '200':
+          description: Paginated product list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /products/{id}:
+    get:
+      tags: [Catalog]
+      summary: Product details
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /products/{id}/related:
+    get:
+      tags: [Catalog]
+      summary: Related products (same category) and seller's other products
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Related products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sameCategory:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+                  sameSeller:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+
+  /products/{id}/reviews:
+    get:
+      tags: [Catalog, Buyer - Reviews]
+      summary: List product reviews
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+      responses:
+        '200':
+          description: Product reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Review' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+    post:
+      tags: [Buyer - Reviews]
+      summary: Leave a review for a product (buyer)
+      description: Allowed only if the buyer has a delivered order containing this product.
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReviewInput' }
+      responses:
+        '201':
+          description: Review created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Review' }
+        '403':
+          description: Unverified purchase
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /stores:
+    get:
+      tags: [Catalog]
+      summary: List stores / sellers (SellersPage, Shop.tsx)
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: verified
+          in: query
+          schema: { type: boolean }
+        - name: location
+          in: query
+          schema: { type: string }
+      responses:
+        '200':
+          description: Store list
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Seller' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /stores/{id}:
+    get:
+      tags: [Catalog]
+      summary: Store details (StoreDetail.tsx)
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Store
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Seller' }
+        '404':
+          description: Store not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /stores/{id}/products:
+    get:
+      tags: [Catalog]
+      summary: Store products
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+      responses:
+        '200':
+          description: Store products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /stores/{id}/reviews:
+    get:
+      tags: [Catalog]
+      summary: Reviews received by the store (across all products)
+      security: []
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+      responses:
+        '200':
+          description: Store reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Review' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /stores/{id}/follow:
+    post:
+      tags: [Buyer - Favorites]
+      summary: Follow a store (buyer)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '204': { description: Store followed }
+    delete:
+      tags: [Buyer - Favorites]
+      summary: Unfollow a store (buyer)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '204': { description: Store unfollowed }
+
+  # ============================================================
+  # BUYER - CART
+  # ============================================================
+  /cart:
+    get:
+      tags: [Buyer - Cart]
+      summary: View current cart
+      responses:
+        '200':
+          description: Cart
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+    delete:
+      tags: [Buyer - Cart]
+      summary: Clear cart
+      responses:
+        '204': { description: Cart cleared }
+
+  /cart/items:
+    post:
+      tags: [Buyer - Cart]
+      summary: Add product to cart
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CartItemInput' }
+      responses:
+        '200':
+          description: Cart updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+        '409':
+          description: Insufficient stock
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /cart/items/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Buyer - Cart]
+      summary: Update item quantity (qty=0 removes item)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CartItemUpdate' }
+      responses:
+        '200':
+          description: Cart updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+    delete:
+      tags: [Buyer - Cart]
+      summary: Remove item from cart
+      responses:
+        '200':
+          description: Cart updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Cart' }
+
+  # ============================================================
+  # BUYER - CHECKOUT & ORDERS
+  # ============================================================
+  /checkout:
+    post:
+      tags: [Buyer - Checkout & Orders]
+      summary: Place order (Checkout.tsx — delivery/method/payment/review steps)
+      description: >
+        Converts current cart into one or more orders (one per seller if
+        the cart contains products from multiple stores) and triggers payment
+        (MVola, Orange Money, Card, or COD).
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CheckoutRequest' }
+      responses:
+        '201':
+          description: Order(s) created
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Order' }
+        '400':
+          description: Empty cart or missing delivery info
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '402':
+          description: Payment failed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+        '409':
+          description: Insufficient stock on one or more items
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /orders:
+    get:
+      tags: [Buyer - Checkout & Orders]
+      summary: List my orders (Orders.tsx, filterable by status/tab)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/OrderStatus' }
+      responses:
+        '200':
+          description: Buyer orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Order' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /orders/{id}:
+    get:
+      tags: [Buyer - Checkout & Orders]
+      summary: Order details (details + tracking)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Order
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '404':
+          description: Order not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /orders/{id}/cancel:
+    post:
+      tags: [Buyer - Checkout & Orders]
+      summary: Cancel an order (if status = pending/confirmed)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Order cancelled
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+        '409':
+          description: Order already shipped, cancellation impossible
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  # ============================================================
+  # BUYER - FAVORITES
+  # ============================================================
+  /favorites/products:
+    get:
+      tags: [Buyer - Favorites]
+      summary: List my favorite products (Favorites.tsx)
+      responses:
+        '200':
+          description: Favorite products
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Product' }
+
+  /favorites/products/{productId}:
+    parameters:
+      - name: productId
+        in: path
+        required: true
+        schema: { type: string }
+    post:
+      tags: [Buyer - Favorites]
+      summary: Add product to favorites
+      responses:
+        '200':
+          description: Favorite status updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FavoriteToggleResponse' }
+    delete:
+      tags: [Buyer - Favorites]
+      summary: Remove product from favorites
+      responses:
+        '200':
+          description: Favorite status updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/FavoriteToggleResponse' }
+
+  /favorites/stores:
+    get:
+      tags: [Buyer - Favorites]
+      summary: List followed stores ("Stores" tab in Favorites.tsx)
+      responses:
+        '200':
+          description: Followed stores
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Seller' }
+
+  # ============================================================
+  # BUYER - PROFILE & SETTINGS
+  # ============================================================
+  /profile:
+    get:
+      tags: [Buyer - Profile & Settings]
+      summary: View my profile (Profile.tsx)
+      responses:
+        '200':
+          description: Profile
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+    patch:
+      tags: [Buyer - Profile & Settings]
+      summary: Update my profile (name, phone, addresses)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProfileUpdateRequest' }
+      responses:
+        '200':
+          description: Profile updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+
+  /profile/addresses:
+    post:
+      tags: [Buyer - Profile & Settings]
+      summary: Add delivery address
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Address' }
+      responses:
+        '201':
+          description: Address added
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Address' }
+
+  /profile/addresses/{addressId}:
+    parameters:
+      - name: addressId
+        in: path
+        required: true
+        schema: { type: string }
+    patch:
+      tags: [Buyer - Profile & Settings]
+      summary: Update address
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/Address' }
+      responses:
+        '200':
+          description: Address updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Address' }
+    delete:
+      tags: [Buyer - Profile & Settings]
+      summary: Delete address
+      responses:
+        '204': { description: Address deleted }
+
+  /settings:
+    get:
+      tags: [Buyer - Profile & Settings]
+      summary: View my preferences (theme, language, notifications) — Settings.tsx
+      responses:
+        '200':
+          description: Preferences
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserSettings' }
+    patch:
+      tags: [Buyer - Profile & Settings]
+      summary: Update my preferences
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UserSettings' }
+      responses:
+        '200':
+          description: Preferences updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/UserSettings' }
+
+  # ============================================================
+  # SELLER - DASHBOARD
+  # ============================================================
+  /seller/dashboard:
+    get:
+      tags: [Seller - Dashboard]
+      summary: Seller KPIs and overview (Dashboard.tsx)
+      responses:
+        '200':
+          description: Seller dashboard
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SellerDashboard' }
+
+  # ============================================================
+  # SELLER - PRODUCTS
+  # ============================================================
+  /seller/products:
+    get:
+      tags: [Seller - Products]
+      summary: List my products (Products.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [draft, active, inactive] }
+      responses:
+        '200':
+          description: Seller products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+    post:
+      tags: [Seller - Products]
+      summary: Create a product (AddProduct.tsx)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductInput' }
+          multipart/form-data:
+            schema: { $ref: '#/components/schemas/ProductInput' }
+      responses:
+        '201':
+          description: Product created (initial status = pending, awaiting admin moderation)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '422':
+          description: Validation error
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  /seller/products/{id}:
+    parameters:
+      - { $ref: '#/components/parameters/IdParam' }
+    get:
+      tags: [Seller - Products]
+      summary: Detail of a seller product (editing — AddProduct.tsx in edit mode)
+      responses:
+        '200':
+          description: Product
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+        '404':
+          description: Not found
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+    put:
+      tags: [Seller - Products]
+      summary: Update a product
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductInput' }
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+    delete:
+      tags: [Seller - Products]
+      summary: Delete a product
+      responses:
+        '204': { description: Product deleted }
+
+  /seller/products/{id}/duplicate:
+    post:
+      tags: [Seller - Products]
+      summary: Duplicate a product (context menu in Products.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '201':
+          description: Product copy created (status = draft)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+
+  # ============================================================
+  # SELLER - INVENTORY
+  # ============================================================
+  /seller/inventory:
+    get:
+      tags: [Seller - Inventory]
+      summary: Inventory overview (Inventory.tsx, low stock alerts)
+      parameters:
+        - name: status
+          in: query
+          schema: { type: string, enum: [in_stock, low_stock, out_of_stock] }
+        - { $ref: '#/components/parameters/SearchParam' }
+      responses:
+        '200':
+          description: Items in stock
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/InventoryItem' }
+
+  /seller/inventory/{productId}:
+    patch:
+      tags: [Seller - Inventory]
+      summary: Adjust stock / alert threshold for a product
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/InventoryUpdate' }
+      responses:
+        '200':
+          description: Stock updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/InventoryItem' }
+
+  # ============================================================
+  # SELLER - ORDERS
+  # ============================================================
+  /seller/orders:
+    get:
+      tags: [Seller - Orders]
+      summary: List received orders (Orders.tsx, tabs by status)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { $ref: '#/components/schemas/OrderStatus' }
+      responses:
+        '200':
+          description: Received orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Order' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /seller/orders/{id}:
+    get:
+      tags: [Seller - Orders]
+      summary: Received order detail (detail modal)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Order
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+
+  /seller/orders/{id}/status:
+    patch:
+      tags: [Seller - Orders]
+      summary: Update order status ("Update status")
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/OrderStatusUpdate' }
+      responses:
+        '200':
+          description: Order updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+
+  # ============================================================
+  # SELLER - ANALYTICS
+  # ============================================================
+  /seller/analytics:
+    get:
+      tags: [Seller - Analytics]
+      summary: Sales statistics (Analytics.tsx — revenue, top products, sales/category)
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [today, 7d, 30d, 3m, custom]
+            default: 30d
+        - name: from
+          in: query
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Seller analytics
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SellerAnalytics' }
+
+  # ============================================================
+  # SELLER - REVIEWS
+  # ============================================================
+  /seller/reviews:
+    get:
+      tags: [Seller - Reviews]
+      summary: List reviews received on my products (Reviews.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: rating
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 5 }
+        - name: replied
+          in: query
+          schema: { type: boolean }
+      responses:
+        '200':
+          description: Received reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Review' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  averageRating: { type: number }
+                  ratingBreakdown:
+                    type: object
+                    additionalProperties: { type: integer }
+
+  /seller/reviews/{id}/reply:
+    post:
+      tags: [Seller - Reviews]
+      summary: Reply to a customer review
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ReviewReplyInput' }
+      responses:
+        '200':
+          description: Reply saved
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Review' }
+
+  # ============================================================
+  # SELLER - PROMOTIONS
+  # ============================================================
+  /seller/promotions:
+    get:
+      tags: [Seller - Promotions]
+      summary: List my promotions (Promotions.tsx)
+      responses:
+        '200':
+          description: Seller promotions
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Promotion' }
+    post:
+      tags: [Seller - Promotions]
+      summary: Create a promotion
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PromotionInput' }
+      responses:
+        '201':
+          description: Promotion created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Promotion' }
+
+  /seller/promotions/{id}:
+    parameters:
+      - { $ref: '#/components/parameters/IdParam' }
+    patch:
+      tags: [Seller - Promotions]
+      summary: Update a promotion (e.g. enable/disable)
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PromotionInput' }
+      responses:
+        '200':
+          description: Promotion updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Promotion' }
+    delete:
+      tags: [Seller - Promotions]
+      summary: Delete a promotion
+      responses:
+        '204': { description: Promotion deleted }
+
+  # ============================================================
+  # SELLER - STORE
+  # ============================================================
+  /seller/store:
+    get:
+      tags: [Seller - Store]
+      summary: My store settings (StoreSettings.tsx)
+      responses:
+        '200':
+          description: Store settings
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoreSettings' }
+    patch:
+      tags: [Seller - Store]
+      summary: Update my store settings
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/StoreSettingsUpdate' }
+          multipart/form-data:
+            schema: { $ref: '#/components/schemas/StoreSettingsUpdate' }
+      responses:
+        '200':
+          description: Store updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoreSettings' }
+
+  # ============================================================
+  # SELLER - CUSTOMERS
+  # ============================================================
+  /seller/customers:
+    get:
+      tags: [Seller - Customers]
+      summary: List my customers (Customers.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: sort
+          in: query
+          schema: { type: string, enum: [totalSpent, orders, lastOrder], default: totalSpent }
+      responses:
+        '200':
+          description: Seller customers
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Customer' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  summary:
+                    type: object
+                    properties:
+                      totalCustomers: { type: integer }
+                      repeatBuyersPct: { type: number }
+                      avgOrderValue: { type: number }
+
+  # ============================================================
+  # ADMIN - DASHBOARD
+  # ============================================================
+  /admin/dashboard:
+    get:
+      tags: [Admin - Dashboard]
+      summary: Platform-wide KPIs (Dashboard.tsx)
+      responses:
+        '200':
+          description: Admin dashboard
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/AdminDashboard' }
+
+  # ============================================================
+  # ADMIN - USERS
+  # ============================================================
+  /admin/users:
+    get:
+      tags: [Admin - Users]
+      summary: List users (Users.tsx — All/Buyers/Sellers/Admins tabs)
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: role
+          in: query
+          schema: { $ref: '#/components/schemas/UserRole' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [active, suspended] }
+      responses:
+        '200':
+          description: Users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/User' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/users/{id}:
+    get:
+      tags: [Admin - Users]
+      summary: User details
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: User
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+
+  /admin/users/{id}/status:
+    patch:
+      tags: [Admin - Users]
+      summary: Suspend / reactivate a user
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/UserStatusUpdate' }
+      responses:
+        '200':
+          description: Status updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+
+  # ============================================================
+  # ADMIN - SELLER APPLICATIONS
+  # ============================================================
+  /admin/sellers/applications:
+    get:
+      tags: [Admin - Seller Applications]
+      summary: List seller applications (SellerApplications.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [pending, approved, rejected] }
+      responses:
+        '200':
+          description: Applications
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/SellerApplication' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/sellers/applications/{id}:
+    get:
+      tags: [Admin - Seller Applications]
+      summary: Application detail (review modal)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Application
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SellerApplication' }
+    patch:
+      tags: [Admin - Seller Applications]
+      summary: Approve or reject a seller application
+      description: If approved, creates seller account + store and notifies the applicant.
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/SellerApplicationReview' }
+      responses:
+        '200':
+          description: Application processed
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/SellerApplication' }
+
+  # ============================================================
+  # ADMIN - PRODUCTS (moderation)
+  # ============================================================
+  /admin/products:
+    get:
+      tags: [Admin - Products]
+      summary: List products for moderation (Products.tsx — All/Approved/Pending/Rejected tabs)
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [all, approved, pending, rejected] }
+      responses:
+        '200':
+          description: Products
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Product' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/products/{id}/status:
+    patch:
+      tags: [Admin - Products]
+      summary: Approve / reject / disable a product
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/ProductModerationUpdate' }
+      responses:
+        '200':
+          description: Product updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Product' }
+
+  # ============================================================
+  # ADMIN - CATEGORIES
+  # ============================================================
+  /admin/categories:
+    get:
+      tags: [Admin - Categories]
+      summary: List category tree (Categories.tsx)
+      responses:
+        '200':
+          description: Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Category' }
+    post:
+      tags: [Admin - Categories]
+      summary: Create a category or subcategory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CategoryInput' }
+      responses:
+        '201':
+          description: Category created
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Category' }
+
+  /admin/categories/{id}:
+    parameters:
+      - { $ref: '#/components/parameters/IdParam' }
+    patch:
+      tags: [Admin - Categories]
+      summary: Update a category
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/CategoryInput' }
+      responses:
+        '200':
+          description: Category updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Category' }
+    delete:
+      tags: [Admin - Categories]
+      summary: Delete a category
+      responses:
+        '204': { description: Category deleted }
+        '409':
+          description: Non-empty category (linked products or subcategories)
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Error' }
+
+  # ============================================================
+  # ADMIN - ORDERS
+  # ============================================================
+  /admin/orders:
+    get:
+      tags: [Admin - Orders]
+      summary: List all platform orders (Orders.tsx)
+      parameters:
+        - { $ref: '#/components/parameters/SearchParam' }
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [all, pending, confirmed, processing, shipped, delivered, cancelled] }
+      responses:
+        '200':
+          description: Orders
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Order' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/orders/{id}:
+    get:
+      tags: [Admin - Orders]
+      summary: Order details (admin view)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Order
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Order' }
+
+  # ============================================================
+  # ADMIN - PAYMENTS
+  # ============================================================
+  /admin/payments/transactions:
+    get:
+      tags: [Admin - Payments]
+      summary: List transactions (Payments.tsx, Transactions tab)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: method
+          in: query
+          schema: { type: string, enum: [all, MVola, Orange Money, Card, COD] }
+        - name: status
+          in: query
+          schema: { type: string, enum: [completed, pending, failed, refunded] }
+      responses:
+        '200':
+          description: Transactions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Transaction' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/payments/summary:
+    get:
+      tags: [Admin - Payments]
+      summary: Volumes and commissions by payment method (Overview tab, chart)
+      parameters:
+        - name: from
+          in: query
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Payments summary
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PaymentsSummary' }
+
+  /admin/payments/transactions/{id}/refund:
+    post:
+      tags: [Admin - Payments]
+      summary: Trigger refund for a transaction
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Refund initiated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Transaction' }
+
+  # ============================================================
+  # ADMIN - PROMOTIONS (global view, all stores)
+  # ============================================================
+  /admin/promotions:
+    get:
+      tags: [Admin - Promotions]
+      summary: List all active promotions on the platform
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: status
+          in: query
+          schema: { type: string, enum: [active, scheduled, inactive, expired] }
+      responses:
+        '200':
+          description: Promotions
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Promotion' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/promotions/{id}:
+    delete:
+      tags: [Admin - Promotions]
+      summary: Remove a promotion (moderation)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '204': { description: Promotion deleted }
+
+  # ============================================================
+  # ADMIN - REVIEWS (moderation)
+  # ============================================================
+  /admin/reviews:
+    get:
+      tags: [Admin - Reviews]
+      summary: List all platform reviews (moderation)
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: rating
+          in: query
+          schema: { type: integer, minimum: 1, maximum: 5 }
+      responses:
+        '200':
+          description: Reviews
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Review' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
+  /admin/reviews/{id}:
+    delete:
+      tags: [Admin - Reviews]
+      summary: Delete a review (inappropriate content)
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '204': { description: Review deleted }
+
+  # ============================================================
+  # ADMIN - SETTINGS
+  # ============================================================
+  /admin/settings:
+    get:
+      tags: [Admin - Settings]
+      summary: Platform settings (Settings.tsx — commission rate, etc.)
+      responses:
+        '200':
+          description: Settings
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PlatformSettings' }
+    patch:
+      tags: [Admin - Settings]
+      summary: Update platform settings
+      requestBody:
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/PlatformSettingsUpdate' }
+      responses:
+        '200':
+          description: Settings updated
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/PlatformSettings' }
+
+  # ============================================================
+  # ADMIN - REPORTS
+  # ============================================================
+  /admin/reports:
+    get:
+      tags: [Admin - Reports]
+      summary: Platform reports and analytics (Reports.tsx — reuses Analytics screen)
+      parameters:
+        - name: period
+          in: query
+          schema:
+            type: string
+            enum: [today, 7d, 30d, 3m, custom]
+            default: 30d
+        - name: from
+          in: query
+          schema: { type: string, format: date }
+        - name: to
+          in: query
+          schema: { type: string, format: date }
+      responses:
+        '200':
+          description: Platform report
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  totalRevenue: { type: number }
+                  totalOrders: { type: integer }
+                  totalBuyers: { type: integer }
+                  totalSellers: { type: integer }
+                  revenueSeries:
+                    type: array
+                    items: { $ref: '#/components/schemas/AdminRevenuePoint' }
+                  topSellers:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        sellerId: { type: string }
+                        sellerName: { type: string }
+                        revenue: { type: number }
+                  topCategories:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name: { type: string }
+                        percentage: { type: number }

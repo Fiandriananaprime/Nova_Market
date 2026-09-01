@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AuthResponse } from "../type/auth";
+import { AuthTokens } from "../type/auth";
 
 const baseConfig = {
   baseURL: import.meta.env.VITE_API_URL,
@@ -79,15 +79,15 @@ api.interceptors.response.use(
     isRefreshing = true;
 
     try {
-      const response = await baseApi.post<AuthResponse>("/auth/refresh", {
+      const response = await baseApi.post<AuthTokens>("/auth/refresh", {
         refreshToken,
       });
 
-      const newAccessToken = response.data.tokens.accessToken;
+      const newAccessToken = response.data.accessToken;
       localStorage.setItem("accessToken", newAccessToken);
 
-      if (response.data.tokens.refreshToken) {
-        localStorage.setItem("refreshToken", response.data.tokens.refreshToken);
+      if (response.data.refreshToken) {
+        localStorage.setItem("refreshToken", response.data.refreshToken);
       }
 
       processQueue(null, newAccessToken);

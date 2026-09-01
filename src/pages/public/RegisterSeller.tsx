@@ -17,6 +17,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({
     firstName: '',
     lastName: '',
@@ -28,16 +29,33 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
   });
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    const payload: RegisterSellerRequest = {
+      firstName: form.firstName.trim(),
+      lastName: form.lastName.trim(),
+      email: form.email.trim(),
+      password: form.password,
+      businessName: form.businessName.trim(),
+      phone: form.phone.trim(),
+      location: form.location.trim(),
+    };
+
+    if (!payload.firstName || !payload.lastName || !payload.email || !payload.password || !payload.businessName || !payload.phone || !payload.location) {
+      setError('Veuillez remplir tous les champs obligatoires.');
+      return;
+    }
+
     setLoading(true);
     try {
-        const data: RegisterSellerResponse = await registerSeller(form as RegisterSellerRequest);
-        if (data.status === 'pending') {
-            navigate('/received');
-        }
+      const data: RegisterSellerResponse = await registerSeller(payload);
+      if (data.status === 'pending') {
+        navigate('/received');
+      }
     } catch (error) {
       console.error('Error registering seller:', error);
-    }
-    finally {
+      setError('Impossible de soumettre la candidature. Vérifiez vos informations et réessayez.');
+    } finally {
       setLoading(false);
     }
   };
@@ -87,6 +105,10 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
           <p className="text-xs text-[var(--muted-foreground)]">
             {t('Your application will be reviewed within 24-48 hours.', 'Votre candidature sera examinée sous 24-48 heures.')}
           </p>
+
+          {error && (
+            <p className="text-sm text-red-500">{error}</p>
+          )}
 
           <Button type="submit" className="w-full" size="lg" variant="accent" loading={loading}>
             {t('Submit application', 'Soumettre la candidature')}

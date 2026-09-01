@@ -23,15 +23,21 @@ export const registerSeller = async (data: RegisterSellerRequest): Promise<Regis
 }
 
 export const logout = async (): Promise<void> => {
-    try{
-        await baseApi.post("/auth/logout");
+  const refreshToken = localStorage.getItem("refreshToken");
+
+  try {
+    if (refreshToken) {
+      await baseApi.post("/auth/logout", { refreshToken });
     }
-    finally {
+  } catch (error) {
+    console.warn("Logout request failed, clearing local session anyway.", error);
+  } finally {
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("user");
-    }
-}
+    window.dispatchEvent(new CustomEvent("auth:logout"));
+  }
+};
 
 export const getMe = async () => {
   const response = await api.get("/auth/me");

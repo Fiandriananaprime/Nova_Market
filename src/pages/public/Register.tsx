@@ -12,6 +12,7 @@ export default function Register() {
   const { setUserRole, t } = useApp();
   const [step, setStep] = useState<'choose' | 'buyer' | 'seller'>('choose');
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const [form, setForm] = useState<RegisterRequest>({
     firstName: '',
@@ -30,6 +31,13 @@ export default function Register() {
   }
   const handleBuyerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError(null);
+
+    if (!form.firstName.trim() || !form.lastName.trim() || !form.email.trim() || !form.password.trim()) {
+      setError('Veuillez remplir tous les champs du formulaire.');
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -41,9 +49,10 @@ export default function Register() {
       navigate('/shop');
     } catch (error) {
       console.error('Error registering user:', error);
+      setError('Impossible de créer le compte. Vérifiez vos informations.');
     }
     finally {
-    setLoading(false);
+      setLoading(false);
     }
   };
 
@@ -71,6 +80,10 @@ export default function Register() {
             </div>
             <Input value={form.email} name="email" label="Email" type="email" placeholder="andry@email.com" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
             <Input value={form.password} name="password" label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
+
+            {error && (
+              <p className="text-sm text-red-500">{error}</p>
+            )}
 
             <Button type="submit" className="w-full" size="lg" loading={loading}>
               {t('Create account', 'Créer le compte')}

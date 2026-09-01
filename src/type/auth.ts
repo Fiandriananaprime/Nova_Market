@@ -33,13 +33,12 @@ export interface RegisterSellerRequest extends RegisterRequest {
 }
 
 export interface RegisterSellerResponse {
-    id:String;
-    businessName: String;
-    owner: String;
-    email: String;
-    phone: String;
-    location: String;
-    category: String;
-    date: String;
+    id: string;
+    businessName: string;
+    owner: string;
+    email: string;
+    phone: string;
+    location: string;
+    date: string;
     status: status;
 }

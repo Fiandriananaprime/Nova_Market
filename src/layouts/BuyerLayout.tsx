@@ -7,7 +7,7 @@ import { formatPrice } from '../data/mock';
 import { logout } from '@/api/auth.api';
 
 export default function BuyerLayout() {
-  const { lang, setLang, cart, cartTotal, favorites, removeFromCart, t } = useApp();
+  const { lang, setLang, cart, cartTotal, favorites, removeFromCart, t, setUserRole } = useApp();
   const { resolvedTheme, setTheme } = useTheme();
   const [search, setSearch] = useState('');
   const [profileOpen, setProfileOpen] = useState(false);
@@ -17,8 +17,9 @@ export default function BuyerLayout() {
   const profileRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    setUserRole(null);
+    await logout();
     navigate('/');
   };
 

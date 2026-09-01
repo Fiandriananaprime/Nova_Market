@@ -22,11 +22,12 @@ export default function SellerLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
-  const { lang, setLang } = useApp();
+  const { lang, setLang, setUserRole } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const handleLogout = () => {
-    logout();
+  const handleLogout = async () => {
+    setUserRole(null);
+    await logout();
     navigate('/');
   };
 

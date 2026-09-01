@@ -18,11 +18,18 @@ export default function Login() {
 
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
 const handleSubmit = async (
   e: React.FormEvent<HTMLFormElement>
 ) => {
   e.preventDefault();
+  setError(null);
+
+  if (!form.email.trim() || !form.password.trim()) {
+    setError('Veuillez saisir votre email et votre mot de passe.');
+    return;
+  }
 
   setLoading(true);
 
@@ -52,7 +59,7 @@ const handleSubmit = async (
         break;
 
       case "seller":
-        navigate("/vendor");
+        navigate("/seller");
         break;
 
       case "buyer":
@@ -65,6 +72,7 @@ const handleSubmit = async (
 
   } catch (error) {
     console.error("Login failed:", error);
+    setError('Email ou mot de passe invalide.');
   } finally {
     setLoading(false);
   }
@@ -126,6 +134,10 @@ const handleSubmit = async (
             </label>
             <a href="#" className="text-sm text-[#0077B6] hover:underline">{t('Forgot password?', 'Mot de passe oublié ?')}</a>
           </div>
+
+          {error && (
+            <p className="text-sm text-red-500 mt-3">{error}</p>
+          )}
 
           <Button className="w-full" size="lg" type="submit" loading={loading}>
             {t('Sign in', 'Se connecter')}

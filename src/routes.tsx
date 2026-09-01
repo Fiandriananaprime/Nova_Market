@@ -45,6 +45,7 @@ import AdminCategories from './pages/admin/Categories';
 import AdminOrders from './pages/admin/Orders';
 import AdminSettings from './pages/admin/Settings';
 import AdminPayments from './pages/admin/Payments';
+import Received from './pages/public/Received';
 
 function NotFound() {
   return (
@@ -71,7 +72,8 @@ export const router = createBrowserRouter([
   },
   { path: '/login', Component: Login },
   { path: '/register', Component: Register },
-
+  { path: '/received', Component: Received },
+  
   // Buyer routes
   {
     path: '/',

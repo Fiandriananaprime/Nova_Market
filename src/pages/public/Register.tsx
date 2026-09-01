@@ -4,6 +4,8 @@ import { ShoppingBag, User, Mail, Lock, Building2, ChevronRight } from 'lucide-r
 import { Button, Input } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import RegisterSeller from './RegisterSeller';
+import { RegisterRequest, AuthResponse } from '../../type/auth';
+import { register } from '../../api/auth.api';
 
 export default function Register() {
   const navigate = useNavigate();
@@ -11,13 +13,38 @@ export default function Register() {
   const [step, setStep] = useState<'choose' | 'buyer' | 'seller'>('choose');
   const [loading, setLoading] = useState(false);
 
+  const [form, setForm] = useState<RegisterRequest>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value,
+    });
+  }
   const handleBuyerSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    await new Promise((r) => setTimeout(r, 1000));
-    setUserRole('buyer');
+
+    try {
+      const data: AuthResponse = await register(form);
+      localStorage.setItem('accessToken', data.tokens.accessToken);
+      localStorage.setItem('refreshToken', data.tokens.refreshToken);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUserRole(data.user.role);
+      navigate('/shop');
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
+    finally {
     setLoading(false);
-    navigate('/shop');
+    }
   };
 
   if (step === 'seller') {
@@ -39,11 +66,11 @@ export default function Register() {
 
           <form onSubmit={handleBuyerSubmit} className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <Input label={t('First name', 'Prénom')} placeholder="Andry" icon={<User className="w-4 h-4" />} />
-              <Input label={t('Last name', 'Nom')} placeholder="Rakoto" />
+              <Input value={form.firstName} name="firstName" label={t('First name', 'Prénom')} placeholder="Andry" icon={<User className="w-4 h-4" />} onChange={handleChange} />
+              <Input value={form.lastName} name="lastName" label={t('Last name', 'Nom')} placeholder="Rakoto" icon={<User className="w-4 h-4" />} onChange={handleChange} />
             </div>
-            <Input label="Email" type="email" placeholder="andry@email.com" icon={<Mail className="w-4 h-4" />} />
-            <Input label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} />
+            <Input value={form.email} name="email" label="Email" type="email" placeholder="andry@email.com" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
+            <Input value={form.password} name="password" label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
 
             <Button type="submit" className="w-full" size="lg" loading={loading}>
               {t('Create account', 'Créer le compte')}

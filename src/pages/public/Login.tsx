@@ -31,12 +31,12 @@ const handleSubmit = async (
 
     localStorage.setItem(
       "accessToken",
-      data.token.accessToken
+      data.tokens.accessToken
     );
 
     localStorage.setItem(
       "refreshToken",
-      data.token.refreshToken
+      data.tokens.refreshToken
     );
 
     localStorage.setItem(
@@ -56,7 +56,7 @@ const handleSubmit = async (
         break;
 
       case "buyer":
-        navigate("/buyer");
+        navigate("/shop");
         break;
 
       default:

@@ -15,7 +15,7 @@ export interface AuthTokens {
 }
 
 export interface AuthResponse {
-  token: AuthTokens;
+  tokens: AuthTokens;
   user: User;
 }
 

@@ -1,11 +1,15 @@
 import axios from "axios";
 
-const api = axios.create({
+const baseConfig = {
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
-});
+};
+
+export const baseApi = axios.create(baseConfig);
+
+export const api = axios.create(baseConfig);
 
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("accessToken");

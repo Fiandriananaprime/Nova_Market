@@ -880,8 +880,25 @@ paths:
     post:
       tags: [Auth]
       summary: Logout (invalidates refresh token)
+
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+                  description: Refresh token to invalidate
+
       responses:
-        '204': { description: Logged out }
+        '204':
+          description: Logged out
+        '401':
+          description: Invalid or expired refresh token
 
   /auth/me:
     get:

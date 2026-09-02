@@ -2,23 +2,38 @@ import { useNavigate } from 'react-router';
 import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store, Truck } from 'lucide-react';
 import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
-import { sellers, products, formatPrice } from '../../data/mock';
+import { sellers,  formatPrice } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
-import { getCategories } from '../../api/catalog.api';
+import { getCategories } from '../../api/catalog/catalog.api';
 import { Category } from '@/type/category';
 import { useEffect, useState } from 'react';
+import { Product } from '@/type/product';
+import { getFeaturedProducts } from '@/api/catalog/product.api';
 
+type HomeData = {
+  categories: Category[];
+  featuredProducts: Product[];
+};
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const { t, addToCart } = useApp();
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [homeData, setHomeData] = useState<HomeData | null>({
+    categories: [],
+    featuredProducts: []
+  });
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data = await getCategories();
-        setCategories(data);
+        const [categories, featuredProducts] = await Promise.all([
+        getCategories(),
+        getFeaturedProducts(),
+      ]);
+        setHomeData({
+          categories: categories,
+          featuredProducts: featuredProducts.data ?? []
+        });
       } catch (error) {
         console.error('Error fetching categories:', error);
       }
@@ -70,7 +85,7 @@ export default function LandingPage() {
               <div className="flex flex-col items-center py-6">
                 {/* Ligne 1 : 2 */}
                 <div className="flex gap-12">
-                  {products.slice(0, 2).map((p) => (
+                  {homeData?.featuredProducts.slice(0, 2).map((p) => (
                     <div
                       key={p.id}
                       className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
@@ -88,7 +103,7 @@ export default function LandingPage() {
 
                 {/* Ligne 2 : 3 */}
                 <div className="flex gap-12 -my-1">
-                  {products.slice(2, 5).map((p) => (
+                  {homeData?.featuredProducts.slice(2, 5).map((p) => (
                     <div
                       key={p.id}
                       className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
@@ -106,7 +121,7 @@ export default function LandingPage() {
 
                 {/* Ligne 3 : 2 */}
                 <div className="flex gap-12">
-                  {products.slice(5, 7).map((p) => (
+                  {homeData?.featuredProducts.slice(5, 7).map((p) => (
                     <div
                       key={p.id}
                       className="w-32 h-32 rotate-45 overflow-hidden rounded-xl
@@ -232,7 +247,7 @@ export default function LandingPage() {
             </Button>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 gap-3">
-            {categories
+            {homeData?.categories
             .sort((a, b) => b.count - a.count)
             .slice(0, 9)
             .filter(cat => !cat.parentId)
@@ -325,11 +340,11 @@ export default function LandingPage() {
             </Button>
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {products.slice(0, 8).map(product => (
+            {homeData?.featuredProducts.slice(0, 8).map(product => (
               <div key={product.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/30 transition-all group cursor-pointer" onClick={() => navigate(`/products/${product.id}`)}>
                 <div className="relative overflow-hidden bg-[var(--secondary)]">
                   <img src={`https://images.unsplash.com/${product.image}?w=300&h=220&fit=crop&auto=format`} alt={product.name} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" />
-                  {product.discount > 0 && <Badge variant="danger" className="absolute top-2 left-2">-{product.discount}%</Badge>}
+                  {product.discount && product.discount > 0 && <Badge variant="danger" className="absolute top-2 left-2">-{product.discount}%</Badge>}
                 </div>
                 <div className="p-3">
                   <p className="text-xs text-[var(--muted-foreground)]">{product.brand}</p>

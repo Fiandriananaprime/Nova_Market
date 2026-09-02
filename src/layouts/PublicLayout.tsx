@@ -11,10 +11,28 @@ function PublicNavbar() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const updateActiveHash = () => setActiveHash(window.location.hash || '#Home');
+    const sectionIds = ['#Home', '#HowItWorks', '#Categories', '#FeaturedSellers', '#FeaturedProducts'];
+    const updateActiveHash = () => {
+      const scrollPosition = window.scrollY + 120;
+      let currentHash = '#Home';
+
+      for (const hash of sectionIds) {
+        const section = document.querySelector(hash);
+        if (section && (section as HTMLElement).offsetTop <= scrollPosition) {
+          currentHash = hash;
+        }
+      }
+
+      setActiveHash(currentHash);
+    };
+
     updateActiveHash();
     window.addEventListener('hashchange', updateActiveHash);
-    return () => window.removeEventListener('hashchange', updateActiveHash);
+    window.addEventListener('scroll', updateActiveHash, { passive: true });
+    return () => {
+      window.removeEventListener('hashchange', updateActiveHash);
+      window.removeEventListener('scroll', updateActiveHash);
+    };
   }, []);
 
   return (

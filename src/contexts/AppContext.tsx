@@ -1,5 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { products as allProducts } from '../data/mock';
+import { useEffect } from 'react';
 
 export type Lang = 'en' | 'fr';
 export type UserRole = 'buyer' | 'seller' | 'admin' | null;
@@ -31,13 +32,47 @@ interface AppContextType {
 
 const AppContext = createContext<AppContextType>({} as AppContextType);
 
+const getStoredUserRole = (): UserRole => {
+  try {
+    const storedUser = localStorage.getItem('user');
+    if (!storedUser) return null;
+
+    const parsedUser = JSON.parse(storedUser);
+    return parsedUser?.role ?? null;
+  } catch {
+    return null;
+  }
+};
+
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [lang, setLang] = useState<Lang>('en');
-  const [userRole, setUserRole] = useState<UserRole>(null);
+  const [userRole, setUserRoleState] = useState<UserRole>(() => getStoredUserRole());
   const [cart, setCart] = useState<CartItem[]>([]);
   const [favorites, setFavorites] = useState<string[]>(['1', '3']);
 
+  const setUserRole = (role: UserRole) => {
+    setUserRoleState(role);
+  };
+
   const t = (en: string, fr: string) => lang === 'fr' ? fr : en;
+
+  useEffect(() => {
+    const handleAuthLogout = () => {
+      setUserRoleState(null);
+    };
+
+    const handleStoredSessionRestore = () => {
+      setUserRoleState(getStoredUserRole());
+    };
+
+    window.addEventListener('auth:logout', handleAuthLogout);
+    window.addEventListener('auth:session-restored', handleStoredSessionRestore);
+
+    return () => {
+      window.removeEventListener('auth:logout', handleAuthLogout);
+      window.removeEventListener('auth:session-restored', handleStoredSessionRestore);
+    };
+  }, []);
 
   const addToCart = (productId: string, qty = 1) => {
     const product = allProducts.find(p => p.id === productId);

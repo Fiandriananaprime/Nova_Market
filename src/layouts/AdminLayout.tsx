@@ -3,6 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router';
 import { ShoppingBag, LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck, Shield } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
+import { logout } from '@/api/auth.api';
 
 const navItems = [
   { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: 'Dashboard', to: '/admin' },
@@ -22,8 +23,14 @@ export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
-  const { lang, setLang } = useApp();
+  const { lang, setLang, setUserRole } = useApp();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleLogout = async () => {
+    setUserRole(null);
+    await logout();
+    navigate('/');
+  };
 
   const Sidebar = ({ mobile = false }) => (
     <div className={`flex flex-col h-full bg-[#16262E] text-[#F5EFFF] ${mobile ? '' : 'w-56'}`}>
@@ -62,7 +69,7 @@ export default function AdminLayout() {
             <div className="text-xs text-[#8da8b5]">Super Admin</div>
           </div>
         </div>
-        <button onClick={() => navigate('/')} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-[#8da8b5] hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
+        <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-[#8da8b5] hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
           <LogOut className="w-4 h-4" />
           Logout
         </button>

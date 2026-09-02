@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router';
-import { Globe, Menu, X, ShoppingBag, ChevronDown } from 'lucide-react';
+import { Globe, Menu, X, ShoppingBag } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { Button } from '../components/ui';
-
+import Logo from '../assets/NovaLogo.png';
 function PublicNavbar() {
   const { lang, setLang, t } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -14,10 +14,10 @@ function PublicNavbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
-              <ShoppingBag className="w-4.5 h-4.5 text-white" />
+            <div className="w-8 h-8 rounded-lg  flex items-center justify-center">
+              <img src={Logo} alt="NovaMarket Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-bold text-lg font-display text-[var(--foreground)]">MasoMarket</span>
+            <span className="font-bold text-lg font-display text-[var(--foreground)]">NovaMarket</span>
           </Link>
 
           <div className="hidden md:flex items-center gap-1">
@@ -72,7 +72,7 @@ function PublicFooter() {
               <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
                 <ShoppingBag className="w-4.5 h-4.5 text-white" />
               </div>
-              <span className="font-bold text-lg font-display">MasoMarket</span>
+              <span className="font-bold text-lg font-display">NovaMarket</span>
             </div>
             <p className="text-sm text-[#8da8b5] leading-relaxed">{t('Your trusted multi-vendor marketplace.', 'Votre marketplace multi-vendeurs de confiance.')}</p>
           </div>
@@ -96,7 +96,7 @@ function PublicFooter() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-[#8da8b5]">© 2026 MasoMarket. {t('All rights reserved.', 'Tous droits réservés.')}</p>
+          <p className="text-sm text-[#8da8b5]">© 2026 NovaMarket. {t('All rights reserved.', 'Tous droits réservés.')}</p>
           <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="flex items-center gap-1.5 text-sm text-[#8da8b5] hover:text-white transition-colors">
             <Globe className="w-4 h-4" />
             {lang === 'en' ? 'English' : 'Français'}

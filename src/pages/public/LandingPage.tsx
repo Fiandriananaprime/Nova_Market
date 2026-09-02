@@ -93,7 +93,7 @@ export default function LandingPage() {
                                 hover:scale-105 transition-transform"
                     >
                       <img
-                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        src={p.image}
                         alt=""
                         className="w-full h-full object-cover -rotate-45 scale-[1.42]"
                       />
@@ -111,7 +111,7 @@ export default function LandingPage() {
                                 hover:scale-105 transition-transform"
                     >
                       <img
-                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        src={p.image}
                         alt=""
                         className="w-full h-full object-cover -rotate-45 scale-[1.42]"
                       />
@@ -129,7 +129,7 @@ export default function LandingPage() {
                                 hover:scale-105 transition-transform"
                     >
                       <img
-                        src={`https://images.unsplash.com/${p.image}?w=300&h=300&fit=crop&auto=format`}
+                        src={p.image}
                         alt=""
                         className="w-full h-full object-cover -rotate-45 scale-[1.42]"
                       />
@@ -343,7 +343,7 @@ export default function LandingPage() {
             {homeData?.featuredProducts.slice(0, 8).map(product => (
               <div key={product.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/30 transition-all group cursor-pointer" onClick={() => navigate(`/products/${product.id}`)}>
                 <div className="relative overflow-hidden bg-[var(--secondary)]">
-                  <img src={`https://images.unsplash.com/${product.image}?w=300&h=220&fit=crop&auto=format`} alt={product.name} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <img src={product.image} alt={product.name} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" />
                   {product.discount && product.discount > 0 && <Badge variant="danger" className="absolute top-2 left-2">-{product.discount}%</Badge>}
                 </div>
                 <div className="p-3">

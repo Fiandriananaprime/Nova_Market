@@ -1,25 +1,31 @@
 import { useNavigate } from 'react-router';
-import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, Star, TrendingUp, Cpu, Shirt, ShoppingBasket, Home, Sparkles, Dumbbell, Smartphone, Watch, MapPin, ChevronRight, Building2, Store, Truck, Users } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store, Truck } from 'lucide-react';
+import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
-import { categories, sellers, products, formatPrice } from '../../data/mock';
+import { sellers, products, formatPrice } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
+import { getCategories } from '../../api/catalog.api';
+import { Category } from '@/type/category';
+import { useEffect, useState } from 'react';
 
-const categoryIcons: Record<string, React.ReactNode> = {
-  Cpu: <Cpu className="w-6 h-6" />,
-  Shirt: <Shirt className="w-6 h-6" />,
-  ShoppingBasket: <ShoppingBasket className="w-6 h-6" />,
-  Home: <Home className="w-6 h-6" />,
-  Sparkles: <Sparkles className="w-6 h-6" />,
-  Dumbbell: <Dumbbell className="w-6 h-6" />,
-  Smartphone: <Smartphone className="w-6 h-6" />,
-  Watch: <Watch className="w-6 h-6" />,
-  MapPin: <MapPin className="w-6 h-6" />,
-};
 
 export default function LandingPage() {
   const navigate = useNavigate();
   const { t, addToCart } = useApp();
+  const [categories, setCategories] = useState<Category[]>([]);
 
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
   return (
     <div className="bg-[var(--background)]">
       {/* Hero */}
@@ -226,14 +232,31 @@ export default function LandingPage() {
             </Button>
           </div>
           <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-9 gap-3">
-            {categories.map(cat => (
-              <button key={cat.id} onClick={() => navigate(`/products?category=${cat.id}`)} className="flex flex-col items-center gap-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-xl hover:border-[#0077B6]/40 hover:shadow-md transition-all group text-center">
+            {categories
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 9)
+            .filter(cat => !cat.parentId)
+            .map(cat => (
+              <button
+                key={cat.id}
+                onClick={() => navigate(`/products?category=${cat.id}`)}
+                className="flex flex-col items-center gap-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-xl hover:border-[#0077B6]/40 hover:shadow-md transition-all group text-center"
+              >
                 <div className="w-10 h-10 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] group-hover:bg-[#0077B6] group-hover:text-white transition-colors">
-                  {categoryIcons[cat.icon]}
+                  <DynamicIcon
+                    name={cat.icon as any}
+                    className="w-6 h-6"
+                  />
                 </div>
+
                 <div>
-                  <div className="text-xs font-medium text-[var(--foreground)] leading-tight">{cat.name}</div>
-                  <div className="text-[10px] text-[var(--muted-foreground)]">{cat.count.toLocaleString()}</div>
+                  <div className="text-xs font-medium text-[var(--foreground)] leading-tight">
+                    {cat.name}
+                  </div>
+
+                  <div className="text-[10px] text-[var(--muted-foreground)]">
+                    {cat.count.toLocaleString()}
+                  </div>
                 </div>
               </button>
             ))}

@@ -2,10 +2,11 @@ import { useNavigate } from 'react-router';
 import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store, Truck } from 'lucide-react';
 import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
-import { sellers,  formatPrice } from '../../data/mock';
+import { formatPrice } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
-import { getCategories } from '../../api/catalog/catalog.api';
+import { getCategories, getFeaturedSellers } from '../../api/catalog/catalog.api';
 import { Category } from '@/type/category';
+import { Seller } from '@/type/user';
 import { useEffect, useState } from 'react';
 import { Product } from '@/type/product';
 import { getFeaturedProducts } from '@/api/catalog/product.api';
@@ -13,26 +14,31 @@ import { getFeaturedProducts } from '@/api/catalog/product.api';
 type HomeData = {
   categories: Category[];
   featuredProducts: Product[];
+  featuredSellers: Seller[];
 };
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const { t, addToCart } = useApp();
+  const { t } = useApp();
   const [homeData, setHomeData] = useState<HomeData | null>({
     categories: [],
-    featuredProducts: []
+    featuredProducts: [],
+    featuredSellers: [],
   });
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const [categories, featuredProducts] = await Promise.all([
-        getCategories(),
-        getFeaturedProducts(),
-      ]);
+        const [categories, featuredProducts, featuredSellers] = await Promise.all([
+          getCategories().catch(() => ( [] )),
+          getFeaturedProducts().catch(() => ({ data: [] })),
+          getFeaturedSellers().catch(() => ({ data: [] })),
+        ]);
+
         setHomeData({
-          categories: categories,
-          featuredProducts: featuredProducts.data ?? []
+          categories: categories ?? [],
+          featuredProducts: featuredProducts.data ?? [],
+          featuredSellers: featuredSellers.data ?? [],
         });
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -44,7 +50,7 @@ export default function LandingPage() {
   return (
     <div className="bg-[var(--background)]">
       {/* Hero */}
-      <section className="relative overflow-hidden bg-[#16262E]">
+      <section id="Home" className="relative overflow-hidden bg-[#16262E]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#0077B620,_transparent_60%)]" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
@@ -205,7 +211,7 @@ export default function LandingPage() {
       </section>
 
       {/* How it works */}
-      <section className="py-16 bg-[#16262E]">
+      <section id="HowItWorks" className="py-16 bg-[#16262E]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3">{t('How it works', 'Comment ça marche')}</h2>
@@ -234,7 +240,7 @@ export default function LandingPage() {
       </section>
 
       {/* Categories */}
-      <section className="py-16 sm:py-20">
+      <section id="Categories" className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -280,7 +286,7 @@ export default function LandingPage() {
       </section>
 
       {/* Featured Sellers */}
-      <section className="py-16 bg-[var(--secondary)]">
+      <section id="FeaturedSellers" className="py-16 bg-[var(--secondary)]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -293,13 +299,13 @@ export default function LandingPage() {
             </Button>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {sellers.slice(0, 3).map(seller => (
+            {homeData?.featuredSellers.map(seller => (
               <div key={seller.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md transition-all">
                 <div className="h-24 bg-[#16262E] relative">
-                  <img src={`https://images.unsplash.com/${seller.cover}?w=600&h=200&fit=crop&auto=format`} alt="" className="w-full h-full object-cover opacity-60" />
+                  <img src={seller.cover} alt="" className="w-full h-full object-cover opacity-60" />
                   <div className="absolute bottom-3 left-3">
                     <div className="w-12 h-12 rounded-xl bg-white border-2 border-[var(--border)] overflow-hidden">
-                      <img src={`https://images.unsplash.com/${seller.logo}?w=100&h=100&fit=crop&auto=format`} alt={seller.name} className="w-full h-full object-cover" />
+                      <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
                     </div>
                   </div>
                 </div>
@@ -312,7 +318,7 @@ export default function LandingPage() {
                     <Rating value={seller.rating} showCount={false} />
                   </div>
                   <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] mb-3">
-                    <span>{seller.products.toLocaleString()} products</span>
+                    <span>{seller.productsCount.toLocaleString()} products</span>
                     <span>·</span>
                     <span>{seller.location}</span>
                   </div>
@@ -327,7 +333,7 @@ export default function LandingPage() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-16 sm:py-20">
+      <section id="FeaturedProducts" className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
@@ -356,10 +362,6 @@ export default function LandingPage() {
                     </div>
                     <Rating value={product.rating} showCount={false} size="xs" />
                   </div>
-                  <Button variant="primary" size="xs" className="w-full mt-2.5" onClick={e => { e.stopPropagation(); addToCart(product.id); navigate('/login'); }}>
-                    <ShoppingCart className="w-3 h-3" />
-                    {t('Add to cart', 'Ajouter')}
-                  </Button>
                 </div>
               </div>
             ))}

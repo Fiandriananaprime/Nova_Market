@@ -1119,6 +1119,27 @@ paths:
             application/json:
               schema: { $ref: '#/components/schemas/Error' }
 
+  /stores/featured:
+    get:
+      tags: [Catalog]
+      summary: List the six best sellers
+      description: Returns active sellers ranked by active product count, average product rating, follower count, and business name.
+      security: []
+      responses:
+        '200':
+          description: Six best sellers
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data, meta]
+                properties:
+                  data:
+                    type: array
+                    maxItems: 6
+                    items: { $ref: '#/components/schemas/Seller' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
+
   /stores:
     get:
       tags: [Catalog]

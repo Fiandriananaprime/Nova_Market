@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router';
 import { Globe, Menu, X, ShoppingBag } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
@@ -7,7 +7,15 @@ import Logo from '../assets/NovaLogo.png';
 function PublicNavbar() {
   const { lang, setLang, t } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState('#Home');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const updateActiveHash = () => setActiveHash(window.location.hash || '#Home');
+    updateActiveHash();
+    window.addEventListener('hashchange', updateActiveHash);
+    return () => window.removeEventListener('hashchange', updateActiveHash);
+  }, []);
 
   return (
     <nav className="sticky top-0 z-40 bg-[var(--card)] border-b border-[var(--border)] shadow-sm">
@@ -20,11 +28,22 @@ function PublicNavbar() {
             <span className="font-bold text-lg font-display text-[var(--foreground)]">NovaMarket</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {[['/', t('Home', 'Accueil')], ['/how-it-works', t('How it works', 'Comment ça marche')], ['/categories', t('Categories', 'Catégories')], ['/sellers', t('Sellers', 'Vendeurs')], ['/about', t('About', 'À propos')]].map(([href, label]) => (
-              <Link key={href} to={href} className="px-3 py-2 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--secondary)] transition-colors">
+         <div className="hidden md:flex items-center gap-1">
+            {[
+              ['#Home', t('Home', 'Accueil')],
+              ['#HowItWorks', t('How it works', 'Comment ça marche')],
+              ['#Categories', t('Categories', 'Catégories')],
+              ['#FeaturedSellers', t('Sellers', 'Vendeurs')],
+              ['#FeaturedProducts', t('Products', 'Produits')],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setActiveHash(href)}
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-[var(--secondary)] transition-colors ${activeHash === href ? "text-[var(--primary)] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-[var(--foreground)] after:content-['']" : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+              >
                 {label}
-              </Link>
+              </a>
             ))}
           </div>
 

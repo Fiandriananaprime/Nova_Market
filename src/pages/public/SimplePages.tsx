@@ -1,8 +1,11 @@
 import { useNavigate } from 'react-router';
 import { Button } from '../../components/ui';
-import { categories, sellers } from '../../data/mock';
+import { sellers } from '../../data/mock';
 import { Rating, VerifiedBadge } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
+import { getCategories } from '@/api/catalog/catalog.api';
+import { useEffect, useState } from 'react';
+import { Category } from '@/type/category';
 
 export function HowItWorks() {
   const { t } = useApp();
@@ -33,6 +36,20 @@ export function HowItWorks() {
 
 export function CategoriesPage() {
   const navigate = useNavigate();
+  const [categories, setCategories] = useState<Category[]>([])
+
+  useEffect(() => {
+    const fetchCategorie = async () => {
+      try {
+        const data = await getCategories();
+        setCategories(data)
+      }
+      catch(error){
+        console.error("Error on fetching categorie" + error)
+      }
+    }
+    fetchCategorie()
+  }, [])
   const { t } = useApp();
   return (
     <div className="max-w-6xl mx-auto px-4 py-16">
@@ -41,7 +58,7 @@ export function CategoriesPage() {
       <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
         {categories.map(cat => (
           <button key={cat.id} onClick={() => navigate(`/products?category=${cat.id}`)} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 text-left hover:border-[#0077B6]/40 hover:shadow-md transition-all group">
-            <img src={`https://images.unsplash.com/${cat.image}?w=400&h=200&fit=crop&auto=format`} alt={cat.name} className="w-full h-32 object-cover rounded-lg mb-3 bg-[var(--secondary)]" />
+            <img src={cat.image} alt={cat.name} className="w-full h-32 object-cover rounded-lg mb-3 bg-[var(--secondary)]" />
             <h3 className="font-semibold font-display text-[var(--foreground)] group-hover:text-[#0077B6] transition-colors">{cat.name}</h3>
             <p className="text-sm text-[var(--muted-foreground)]">{cat.count.toLocaleString()} {t('products', 'produits')}</p>
           </button>

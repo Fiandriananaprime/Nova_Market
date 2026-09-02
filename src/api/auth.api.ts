@@ -27,7 +27,7 @@ export const logout = async (): Promise<void> => {
 
   try {
     if (refreshToken) {
-      await baseApi.post("/auth/logout", { refreshToken });
+      await api.post("/auth/logout", { refreshToken });
     }
   } catch (error) {
     console.warn("Logout request failed, clearing local session anyway.", error);

@@ -1,30 +1,67 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, Outlet, useNavigate } from 'react-router';
-import { Globe, Menu, X, ShoppingBag, ChevronDown } from 'lucide-react';
+import { Globe, Menu, X, ShoppingBag } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { Button } from '../components/ui';
-
+import Logo from '../assets/NovaLogo.png';
 function PublicNavbar() {
   const { lang, setLang, t } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHash, setActiveHash] = useState('#Home');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const sectionIds = ['#Home', '#HowItWorks', '#Categories', '#FeaturedSellers', '#FeaturedProducts'];
+    const updateActiveHash = () => {
+      const scrollPosition = window.scrollY + 120;
+      let currentHash = '#Home';
+
+      for (const hash of sectionIds) {
+        const section = document.querySelector(hash);
+        if (section && (section as HTMLElement).offsetTop <= scrollPosition) {
+          currentHash = hash;
+        }
+      }
+
+      setActiveHash(currentHash);
+    };
+
+    updateActiveHash();
+    window.addEventListener('hashchange', updateActiveHash);
+    window.addEventListener('scroll', updateActiveHash, { passive: true });
+    return () => {
+      window.removeEventListener('hashchange', updateActiveHash);
+      window.removeEventListener('scroll', updateActiveHash);
+    };
+  }, []);
 
   return (
     <nav className="sticky top-0 z-40 bg-[var(--card)] border-b border-[var(--border)] shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
-              <ShoppingBag className="w-4.5 h-4.5 text-white" />
+            <div className="w-8 h-8 rounded-lg  flex items-center justify-center">
+              <img src={Logo} alt="NovaMarket Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-bold text-lg font-display text-[var(--foreground)]">MasoMarket</span>
+            <span className="font-bold text-lg font-display text-[var(--foreground)]">NovaMarket</span>
           </Link>
 
-          <div className="hidden md:flex items-center gap-1">
-            {[['/', t('Home', 'Accueil')], ['/how-it-works', t('How it works', 'Comment ça marche')], ['/categories', t('Categories', 'Catégories')], ['/sellers', t('Sellers', 'Vendeurs')], ['/about', t('About', 'À propos')]].map(([href, label]) => (
-              <Link key={href} to={href} className="px-3 py-2 text-sm font-medium text-[var(--muted-foreground)] hover:text-[var(--foreground)] rounded-lg hover:bg-[var(--secondary)] transition-colors">
+         <div className="hidden md:flex items-center gap-1">
+            {[
+              ['#Home', t('Home', 'Accueil')],
+              ['#HowItWorks', t('How it works', 'Comment ça marche')],
+              ['#Categories', t('Categories', 'Catégories')],
+              ['#FeaturedSellers', t('Sellers', 'Vendeurs')],
+              ['#FeaturedProducts', t('Products', 'Produits')],
+            ].map(([href, label]) => (
+              <a
+                key={href}
+                href={href}
+                onClick={() => setActiveHash(href)}
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-[var(--secondary)] transition-colors ${activeHash === href ? "text-[var(--primary)] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-[var(--foreground)] after:content-['']" : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+              >
                 {label}
-              </Link>
+              </a>
             ))}
           </div>
 
@@ -72,7 +109,7 @@ function PublicFooter() {
               <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
                 <ShoppingBag className="w-4.5 h-4.5 text-white" />
               </div>
-              <span className="font-bold text-lg font-display">MasoMarket</span>
+              <span className="font-bold text-lg font-display">NovaMarket</span>
             </div>
             <p className="text-sm text-[#8da8b5] leading-relaxed">{t('Your trusted multi-vendor marketplace.', 'Votre marketplace multi-vendeurs de confiance.')}</p>
           </div>
@@ -96,7 +133,7 @@ function PublicFooter() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-[#8da8b5]">© 2026 MasoMarket. {t('All rights reserved.', 'Tous droits réservés.')}</p>
+          <p className="text-sm text-[#8da8b5]">© 2026 NovaMarket. {t('All rights reserved.', 'Tous droits réservés.')}</p>
           <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="flex items-center gap-1.5 text-sm text-[#8da8b5] hover:text-white transition-colors">
             <Globe className="w-4 h-4" />
             {lang === 'en' ? 'English' : 'Français'}

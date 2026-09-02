@@ -17,36 +17,13 @@ const NotFound = () => {
   );
 }
 
-const getStoredAuth = () => {
-  try {
-    const rawUser = localStorage.getItem('user');
-    const user = rawUser ? JSON.parse(rawUser) : null;
-    const role = user?.role ?? null;
-    const hasToken = Boolean(localStorage.getItem('accessToken'));
-
-    return {
-      isAuthenticated: Boolean(hasToken && role),
-      userRole: role,
-    };
-  } catch {
-    return {
-      isAuthenticated: false,
-      userRole: null,
-    };
-  }
-};
-
-const useAuth = () => getStoredAuth();
-
-export const createAppRouter = (auth: ReturnType<typeof useAuth> = useAuth()) => {
-  const safeAuth = auth ?? getStoredAuth();
-
+export const createAppRouter = () => {
   return createBrowserRouter([
     ...publicRoutes,
     {
       element: (
         <ProtectedRoute
-          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'buyer')}
+          requiredRole="buyer"
           redirectTo="/login"
         />
       ),
@@ -55,7 +32,7 @@ export const createAppRouter = (auth: ReturnType<typeof useAuth> = useAuth()) =>
     {
       element: (
         <ProtectedRoute
-          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'seller')}
+          requiredRole="seller"
           redirectTo="/login"
         />
       ),
@@ -64,7 +41,7 @@ export const createAppRouter = (auth: ReturnType<typeof useAuth> = useAuth()) =>
     {
       element: (
         <ProtectedRoute
-          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'admin')}
+          requiredRole="admin"
           redirectTo="/login"
         />
       ),

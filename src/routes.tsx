@@ -1,53 +1,12 @@
 import { createBrowserRouter } from 'react-router';
+import { ProtectedRoute } from './routes/ProtectedRoute';
 
-// Layouts
-import PublicLayout from './layouts/PublicLayout';
-import BuyerLayout from './layouts/BuyerLayout';
-import SellerLayout from './layouts/SellerLayout';
-import AdminLayout from './layouts/AdminLayout';
+import { publicRoutes } from './routes/public.route';
+import { buyerRoutes } from './routes/buyer.route';
+import { sellerRoutes } from './routes/seller.route';
+import { adminRoutes } from './routes/admin.route';
 
-// Public pages
-import LandingPage from './pages/public/LandingPage';
-import Login from './pages/public/Login';
-import Register from './pages/public/Register';
-import { HowItWorks, CategoriesPage, SellersPage, About } from './pages/public/SimplePages';
-
-// Buyer pages
-import Shop from './pages/buyer/Shop';
-import Products from './pages/buyer/Products';
-import ProductDetail from './pages/buyer/ProductDetail';
-import Cart from './pages/buyer/Cart';
-import Checkout from './pages/buyer/Checkout';
-import { OrdersList, OrderDetail } from './pages/buyer/Orders';
-import Favorites from './pages/buyer/Favorites';
-import Settings from './pages/buyer/Settings';
-import Profile from './pages/buyer/Profile';
-import StoreDetail from './pages/buyer/StoreDetail';
-
-// Seller pages
-import SellerDashboard from './pages/seller/Dashboard';
-import SellerProducts from './pages/seller/Products';
-import AddProduct from './pages/seller/AddProduct';
-import Inventory from './pages/seller/Inventory';
-import SellerOrders from './pages/seller/Orders';
-import SellerAnalytics from './pages/seller/Analytics';
-import SellerReviews from './pages/seller/Reviews';
-import SellerPromotions from './pages/seller/Promotions';
-import SellerStoreSettings from './pages/seller/StoreSettings';
-import SellerCustomers from './pages/seller/Customers';
-
-// Admin pages
-import AdminDashboard from './pages/admin/Dashboard';
-import AdminUsers from './pages/admin/Users';
-import SellerApplications from './pages/admin/SellerApplications';
-import AdminProducts from './pages/admin/Products';
-import AdminCategories from './pages/admin/Categories';
-import AdminOrders from './pages/admin/Orders';
-import AdminSettings from './pages/admin/Settings';
-import AdminPayments from './pages/admin/Payments';
-import Received from './pages/public/Received';
-
-function NotFound() {
+const NotFound = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8">
       <div className="text-6xl font-bold font-display text-[var(--border)] mb-3">404</div>
@@ -58,81 +17,61 @@ function NotFound() {
   );
 }
 
-export const router = createBrowserRouter([
-  {
-    path: '/',
-    Component: PublicLayout,
-    children: [
-      { index: true, Component: LandingPage },
-      { path: 'how-it-works', Component: HowItWorks },
-      { path: 'categories', Component: CategoriesPage },
-      { path: 'sellers', Component: SellersPage },
-      { path: 'about', Component: About },
-    ],
-  },
-  { path: '/login', Component: Login },
-  { path: '/register', Component: Register },
-  { path: '/received', Component: Received },
-  
-  // Buyer routes
-  {
-    path: '/',
-    Component: BuyerLayout,
-    children: [
-      { path: 'shop', Component: Shop },
-      { path: 'products', Component: Products },
-      { path: 'products/:id', Component: ProductDetail },
-      { path: 'stores/:id', Component: StoreDetail },
-      { path: 'cart', Component: Cart },
-      { path: 'checkout', Component: Checkout },
-      { path: 'orders', Component: OrdersList },
-      { path: 'orders/:id', Component: OrderDetail },
-      { path: 'favorites', Component: Favorites },
-      { path: 'profile', Component: Profile },
-      { path: 'settings', Component: Settings },
-    ],
-  },
+const getStoredAuth = () => {
+  try {
+    const rawUser = localStorage.getItem('user');
+    const user = rawUser ? JSON.parse(rawUser) : null;
+    const role = user?.role ?? null;
+    const hasToken = Boolean(localStorage.getItem('accessToken'));
 
-  // Seller routes
-  {
-    path: '/seller',
-    Component: SellerLayout,
-    children: [
-      { index: true, Component: SellerDashboard },
-      { path: 'products', Component: SellerProducts },
-      { path: 'products/new', Component: AddProduct },
-      { path: 'products/:id/edit', Component: AddProduct },
-      { path: 'inventory', Component: Inventory },
-      { path: 'orders', Component: SellerOrders },
-      { path: 'analytics', Component: SellerAnalytics },
-      { path: 'reviews', Component: SellerReviews },
-      { path: 'promotions', Component: SellerPromotions },
-      { path: 'store', Component: SellerStoreSettings },
-      { path: 'settings', Component: Settings },
-      { path: 'customers', Component: SellerCustomers },
-    ],
-  },
+    return {
+      isAuthenticated: Boolean(hasToken && role),
+      userRole: role,
+    };
+  } catch {
+    return {
+      isAuthenticated: false,
+      userRole: null,
+    };
+  }
+};
 
-  // Admin routes
-  {
-    path: '/admin',
-    Component: AdminLayout,
-    children: [
-      { index: true, Component: AdminDashboard },
-      { path: 'users', Component: AdminUsers },
-      { path: 'buyers', Component: AdminUsers },
-      { path: 'sellers', Component: AdminUsers },
-      { path: 'sellers/applications', Component: SellerApplications },
-      { path: 'products', Component: AdminProducts },
-      { path: 'categories', Component: AdminCategories },
-      { path: 'orders', Component: AdminOrders },
-      { path: 'payments', Component: AdminPayments },
-      { path: 'promotions', Component: SellerPromotions },
-      { path: 'reviews', Component: SellerReviews },
-      { path: 'reports', Component: SellerAnalytics },
-      { path: 'settings', Component: AdminSettings },
-    ],
-  },
+const useAuth = () => getStoredAuth();
 
-  { path: '*', Component: NotFound },
-]);
+export const createAppRouter = (auth: ReturnType<typeof useAuth> = useAuth()) => {
+  const safeAuth = auth ?? getStoredAuth();
+
+  return createBrowserRouter([
+    ...publicRoutes,
+    {
+      element: (
+        <ProtectedRoute
+          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'buyer')}
+          redirectTo="/login"
+        />
+      ),
+      children: [buyerRoutes],
+    },
+    {
+      element: (
+        <ProtectedRoute
+          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'seller')}
+          redirectTo="/login"
+        />
+      ),
+      children: [sellerRoutes],
+    },
+    {
+      element: (
+        <ProtectedRoute
+          isAllowed={Boolean(safeAuth.isAuthenticated && safeAuth.userRole === 'admin')}
+          redirectTo="/login"
+        />
+      ),
+      children: [adminRoutes],
+    },
+    { path: '*', Component: NotFound },
+  ]);
+};
+
+export const router = createAppRouter();

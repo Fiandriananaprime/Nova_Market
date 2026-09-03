@@ -13,4 +13,4 @@ export type AdminRevenue = {
     revenue: number;
     sellers: number;
     buyers: number;
-}
+};

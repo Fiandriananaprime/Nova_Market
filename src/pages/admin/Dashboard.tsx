@@ -1,28 +1,29 @@
 
-import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
-import { StatCard, StatusBadge, Badge } from '../../components/ui';
-import { sellerApplications, formatMillionAr } from '../../data/mock';
-import { useState, useEffect } from 'react';
-import { getDashboardStats } from '@/api/admin/dashboard.api';
-import { AdminMetrics, AdminRevenue } from '@/type/admin/dashboard';
-import { BarStat, LineStat } from '@/components/ui/StatCard';
-import { OrderResponse } from '@/type/order/order';
-import { getOrder } from '@/api/admin/order.api';
-import  TableCard, { Column }  from '@/components/TableCard';
 import { isAxiosError } from 'axios';
+import { Link } from 'react-router';
+import { useState, useEffect } from 'react';
+import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 
+import { StatCard, StatusBadge, Badge } from '../../components/ui';
+import  TableCard, { Column }  from '@/components/TableCard';
+import { BarStat, LineStat } from '@/components/ui/StatCard';
 
+import { AdminMetrics, AdminRevenue} from '@/type/admin/dashboard';
+import { OrderResponse } from '@/type/order/order';
+import { SellerApplicationResponse, TopSeller } from '@/type/admin/seller';
 
-const topSellers = [
-  { name: 'TechStore MG', revenue: 84200000, orders: 1240, status: 'active' },
-  { name: 'Lewis Store', revenue: 42100000, orders: 860, status: 'active' },
-  { name: 'MasoMaro Market', revenue: 38900000, orders: 2100, status: 'active' },
-  { name: 'SportZone', revenue: 21800000, orders: 620, status: 'active' },
-];
+import { getOrder } from '@/api/admin/order.api';
+import { getSellerApplications } from '@/api/admin/sellerApplication';
+import { getTopSeller, getDashboardStats } from '@/api/admin/dashboard.api';
+
+import {  formatMillionAr } from '../../data/mock';
+
 type DashData = {
   metrics: AdminMetrics,
   revenueSeries: AdminRevenue[],
-  recentOrder: OrderResponse["data"]
+  recentOrder: OrderResponse["data"],
+  sellerApplications: SellerApplicationResponse,
+  topSellers: TopSeller[],
 }
 interface RecentOrder {
   id: string;
@@ -71,35 +72,93 @@ export default function AdminDashboard() {
       ),
     },
   ];
-useEffect(() => {
-  const fetchDashboardStats = async () => {
-    try {
-      const [dashboard, orders] = await Promise.all([
-        getDashboardStats(),
-        getOrder({ page: 1, limit: 5 }),
-      ]);
 
-      
-      const { metrics, revenueSeries } = dashboard;
-      const { data: recentOrder } = orders;
+  const topSellerColumns: Column<TopSeller>[] = [
+    {
+      key: 'name',
+      header: 'Seller',
+      render: (seller, index) => (
+        <div className="flex items-center gap-2">
+          <span className="w-5 h-5 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">
+            {index + 1}
+          </span>
 
-      setDashBoardData({
-        metrics,
-        revenueSeries,
-        recentOrder,
-      });
-    } catch (error) {
-      console.error('Error fetching dashboard stats:', error);
-      setFetchError(
-        isAxiosError(error) && error.response?.status === 403
-          ? 'Your account is not authorized to view the admin dashboard.'
-          : 'Unable to load dashboard data. Please try again.'
-      );
-    }
-  };
+          <span className="font-medium text-[var(--foreground)]">
+            {seller.name}
+          </span>
+        </div>
+      ),
+    },
+    {
+      key: 'revenue',
+      header: 'Revenue',
+      render: (seller) => (
+        <span className="font-medium text-[var(--foreground)]">
+          {(seller.revenue / 1000000).toFixed(1)}M Ar
+        </span>
+      ),
+    },
+    {
+      key: 'orders',
+      header: 'Orders',
+      render: (seller) => (
+        <span className="text-[var(--muted-foreground)]">
+          {seller.ordersCount.toLocaleString()}
+        </span>
+      ),
+    },
+    {
+      key: 'status',
+      header: 'Status',
+      render: (seller) => (
+        <StatusBadge status={seller.status} />
+      ),
+    },
+    {
+      key: 'commission',
+      header: 'Commission',
+      render: (seller) => (
+        <span className="text-[#5ABCB9] font-medium">
+          {((seller.revenue * 0.10) / 1000000).toFixed(1)}M Ar
+        </span>
+      ),
+    },
+  ];
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const [dashboard, orders, sellerApplications, topSellerResponse] = await Promise.all([
+          getDashboardStats(),
+          getOrder({ page: 1, limit: 5 }),
+          getSellerApplications({ page: 1, limit: 3, status: 'pending' }),
+          getTopSeller(),
+        ]);
 
-  fetchDashboardStats();
-}, []);
+        
+        const { metrics, revenueSeries } = dashboard;
+        const { data: recentOrder } = orders;
+        const { data: sellerApplicationsData, meta: sellerApplicationsMeta } = sellerApplications;
+        const { data: topSellers } = topSellerResponse;
+
+        setDashBoardData({
+          metrics,
+          revenueSeries,
+          recentOrder,
+          sellerApplications: { data: sellerApplicationsData, meta: sellerApplicationsMeta },
+          topSellers,
+        });
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+        setFetchError(
+          isAxiosError(error) && error.response?.status === 403
+            ? 'Your account is not authorized to view the admin dashboard.'
+            : 'Unable to load dashboard data. Please try again.'
+        );
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -124,12 +183,12 @@ useEffect(() => {
             </span>
           </div>
 
-          <a
-            href="/admin/sellers/applications"
+          <Link
+            to="/admin/sellers/applications"
             className="text-sm font-medium text-amber-700 dark:text-amber-300 hover:underline"
           >
             Review now →
-          </a>
+          </Link>
         </div>
       )}
 
@@ -163,10 +222,10 @@ useEffect(() => {
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
             <h2 className="font-semibold font-display text-[var(--foreground)]">Pending seller applications</h2>
-            <Badge variant="warning">{sellerApplications.length} pending</Badge>
+            <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} pending</Badge>
           </div>
           <div className="divide-y divide-[var(--border)]">
-            {sellerApplications.map(app => (
+            {dashBoardData?.sellerApplications.data.map(app => (
               <div key={app.id} className="px-5 py-4 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] font-bold text-sm flex-shrink-0">
                   {app.businessName[0]}
@@ -175,45 +234,20 @@ useEffect(() => {
                   <div className="font-medium text-sm text-[var(--foreground)] truncate">{app.businessName}</div>
                   <div className="text-xs text-[var(--muted-foreground)]">{app.owner} · {app.category} · {app.date}</div>
                 </div>
-                <a href="/admin/sellers/applications" className="text-xs text-[#0077B6] hover:underline flex-shrink-0">Review</a>
+                <Link to="/admin/sellers/applications" className="text-xs text-[#0077B6] hover:underline flex-shrink-0">Review</Link>
               </div>
             ))}
           </div>
         </div>
 
         {/* Top sellers */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden lg:col-span-2">
-          <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Top sellers</h2>
-          </div>
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
-                  {['Seller', 'Revenue', 'Orders', 'Status', 'Commission'].map(h => <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide">{h}</th>)}
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[var(--border)]">
-                {topSellers.map((s, i) => (
-                  <tr key={s.name} className="hover:bg-[var(--secondary)] transition-colors">
-                    <td className="px-4 py-3">
-                      <div className="flex items-center gap-2">
-                        <span className="w-5 h-5 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">{i + 1}</span>
-                        <span className="font-medium text-[var(--foreground)]">{s.name}</span>
-                      </div>
-                    </td>
-                    <td className="px-4 py-3 font-medium text-[var(--foreground)]">{(s.revenue / 1000000).toFixed(1)}M Ar</td>
-                    <td className="px-4 py-3 font-medium text-[var(--foreground)]">{formatMillionAr(s.revenue)}</td>
-                    <td className="px-4 py-3 text-[var(--muted-foreground)]">{s.orders.toLocaleString()}</td>
-                    <td className="px-4 py-3"><StatusBadge status={s.status} /></td>
-                    <td className="px-4 py-3 text-[#5ABCB9] font-medium">{((s.revenue * 0.10) / 1000000).toFixed(1)}M Ar</td>
-                  <td className="px-4 py-3 text-[#5ABCB9] font-medium">{formatMillionAr(s.revenue * 0.10)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        <TableCard
+          title="Top sellers"
+          data={dashBoardData?.topSellers ?? []}
+          columns={topSellerColumns}
+          rowKey={(seller) => seller.name}
+          className="lg:col-span-2"
+        />
       </div>
     </div>
   );

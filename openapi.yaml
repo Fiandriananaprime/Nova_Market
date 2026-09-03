@@ -681,6 +681,19 @@ components:
           type: array
           items: { $ref: '#/components/schemas/AdminRevenuePoint' }
 
+    AdminTopSeller:
+      type: object
+      properties:
+        id: { type: string, format: uuid }
+        name: { type: string }
+        location: { type: string, nullable: true }
+        category: { type: string, nullable: true }
+        logoUrl: { type: string, nullable: true }
+        status: { type: string, enum: [active, suspended] }
+        revenue: { type: number }
+        ordersCount: { type: integer }
+        rating: { type: number, format: float, minimum: 4.5, exclusiveMinimum: true, maximum: 5 }
+
     UserStatusUpdate:
       type: object
       required: [status]
@@ -1978,6 +1991,24 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/AdminDashboard' }
+
+  /admin/top-sellers:
+    get:
+      tags: [Admin - Dashboard]
+      summary: Get the six active sellers with the highest revenue and order count
+      responses:
+        '200':
+          description: Top sellers with an average rating above 4.5
+          content:
+            application/json:
+              schema:
+                type: object
+                required: [data]
+                properties:
+                  data:
+                    type: array
+                    maxItems: 6
+                    items: { $ref: '#/components/schemas/AdminTopSeller' }
 
   # ============================================================
   # ADMIN - USERS

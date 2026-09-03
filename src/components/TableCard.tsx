@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { Link } from 'react-router';
 
 export interface Column<T> {
   key: string;
@@ -35,12 +36,12 @@ interface AdminTableCardProps<T> {
         </h2>
 
         {viewAllHref && (
-          <a
-            href={viewAllHref}
+          <Link
+            to={viewAllHref}
             className="text-xs text-[#0077B6] hover:underline"
           >
             View all
-          </a>
+          </Link>
         )}
       </div>
 

@@ -1,10 +1,11 @@
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+
 import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 import { StatCard, StatusBadge, Badge } from '../../components/ui';
-import {  adminRevenueData, sellerApplications, formatPrice } from '../../data/mock';
+import {  sellerApplications, formatPrice } from '../../data/mock';
 import { useState, useEffect } from 'react';
 import { getDashboardStats } from '@/api/admin/dashboard.api';
 import { AdminMetrics, AdminRevenue } from '@/type/admin/dashboard';
+import { BarStat, LineStat } from '@/components/ui/StatCard';
 const recentOrders = [
   { id: 'ORD-2026-001', buyer: 'Rakoto A.', seller: 'TechStore MG', amount: 1388000, status: 'delivered', date: '2026-08-28' },
   { id: 'ORD-2026-002', buyer: 'Marie R.', seller: 'TechStore MG', amount: 890000, status: 'shipped', date: '2026-08-30' },
@@ -78,31 +79,8 @@ const [revenueSeries, setRevenueSeries] = useState<AdminRevenue[]>([]);
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-5">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">Marketplace Revenue</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={adminRevenueData} barSize={20}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v / 1000000).toFixed(0)}M`} />
-              <Tooltip formatter={(v) => [formatPrice(Number(v ?? 0)), 'Revenue']} contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
-              <Bar dataKey="revenue" fill="#0077B6" radius={[4, 4, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">User growth</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <LineChart data={adminRevenueData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
-              <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
-              <Tooltip contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
-              <Line dataKey="buyers" stroke="#0077B6" strokeWidth={2.5} dot={false} name="Buyers" />
-              <Line dataKey="sellers" stroke="#5ABCB9" strokeWidth={2.5} dot={false} name="Sellers" />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        <BarStat title="MarketPlace Revenue" data={revenueSeries} />
+        <LineStat title="User Growth" data={revenueSeries} />
       </div>
 
       {/* Tables grid */}

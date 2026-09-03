@@ -1,12 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { CheckCircle2, XCircle, MessageSquare, Building2 } from 'lucide-react';
 import { Button, StatusBadge, Badge, Modal } from '../../components/ui';
-import { sellerApplications } from '../../data/mock';
+import { getSellerApplications } from '@/api/admin/sellerApplication';
+import type { SellerApplication } from '@/type/admin/seller';
 
 export default function SellerApplications() {
-  const [apps, setApps] = useState(sellerApplications.map(a => ({ ...a })));
+  const [apps, setApps] = useState<SellerApplication[]>([]);
+  const [loading, setLoading] = useState(true);
   const [reviewModal, setReviewModal] = useState<typeof apps[0] | null>(null);
   const [action, setAction] = useState<'approve' | 'reject' | null>(null);
+
+  useEffect(() => {
+    getSellerApplications({ page: 1, limit: 50, status: 'pending' })
+      .then(({ data }) => setApps(data))
+      .finally(() => setLoading(false));
+  }, []);
 
   const handleAction = (id: string, newStatus: 'approved' | 'rejected') => {
     setApps(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
@@ -21,6 +29,9 @@ export default function SellerApplications() {
         <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} pending</Badge>
       </div>
 
+      {loading ? (
+        <div className="text-sm text-[var(--muted-foreground)]">Loading applications...</div>
+      ) : (
       <div className="grid gap-4">
         {apps.map(app => (
           <div key={app.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
@@ -71,6 +82,7 @@ export default function SellerApplications() {
           </div>
         ))}
       </div>
+      )}
     </div>
   );
 }

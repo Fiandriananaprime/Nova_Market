@@ -119,7 +119,7 @@ export function VerifiedBadge({ small }: { small?: boolean }) {
 // Stat card
 interface StatCardProps {
   title: string;
-  value: string;
+  value: number | string;
   change?: number;
   icon: React.ReactNode;
   color?: string;

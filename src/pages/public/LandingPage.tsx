@@ -5,10 +5,10 @@ import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
 import { formatPrice } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
 import { getCategories, getFeaturedSellers } from '../../api/catalog/catalog.api';
-import { Category } from '@/type/category';
+import { Category } from '@/type/catalog/category';
 import { Seller } from '@/type/user';
 import { useEffect, useState } from 'react';
-import { Product } from '@/type/product';
+import { Product } from '@/type/catalog/product';
 import { getFeaturedProducts } from '@/api/catalog/product.api';
 
 type HomeData = {

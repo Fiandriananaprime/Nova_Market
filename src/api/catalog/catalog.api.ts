@@ -1,4 +1,4 @@
-import { Category } from "@/type/category";
+import { Category } from "@/type/catalog/category";
 import { Seller } from "@/type/user";
 import { baseApi, api } from "../axios";
 

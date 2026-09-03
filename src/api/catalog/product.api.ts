@@ -1,5 +1,5 @@
 import { baseApi, api } from "../axios";
-import { GetProductsResponse, GetProductsQueryParams} from "@/type/product";
+import { GetProductsResponse, GetProductsQueryParams} from "@/type/catalog/product";
 
 export const getFeaturedProducts = async (): Promise<GetProductsResponse> => {
   const response = await baseApi.get<GetProductsResponse>("/products/featured");

@@ -1,8 +1,10 @@
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 import { StatCard, StatusBadge, Badge } from '../../components/ui';
-import { adminMetrics, adminRevenueData, products, sellers, sellerApplications, formatPrice } from '../../data/mock';
-
+import {  adminRevenueData, sellerApplications, formatPrice } from '../../data/mock';
+import { useState, useEffect } from 'react';
+import { getDashboardStats } from '@/api/admin/dashboard.api';
+import { AdminMetrics, AdminRevenue } from '@/type/admin/dashboard';
 const recentOrders = [
   { id: 'ORD-2026-001', buyer: 'Rakoto A.', seller: 'TechStore MG', amount: 1388000, status: 'delivered', date: '2026-08-28' },
   { id: 'ORD-2026-002', buyer: 'Marie R.', seller: 'TechStore MG', amount: 890000, status: 'shipped', date: '2026-08-30' },
@@ -18,27 +20,60 @@ const topSellers = [
 ];
 
 export default function AdminDashboard() {
+const [metrics, setMetrics] = useState<AdminMetrics | null>(null);
+const [revenueSeries, setRevenueSeries] = useState<AdminRevenue[]>([]);
+
+  useEffect(() => {
+    const fetchDashboardStats = async () => {
+      try {
+        const {
+          metrics,
+          revenue,
+        } = await getDashboardStats();
+
+        setMetrics(metrics);
+        setRevenueSeries(revenue);
+      } catch (error) {
+        console.error('Error fetching dashboard stats:', error);
+      }
+    };
+
+    fetchDashboardStats();
+  }, []);
+
   return (
     <div className="space-y-6">
       {/* Alert */}
-      {adminMetrics.pendingApplications > 0 && (
+      {(metrics?.pendingApplications ?? 0) > 0 && (
         <div className="flex items-center gap-3 p-4 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0" />
+
           <div className="flex-1 text-sm">
-            <span className="font-medium text-amber-800 dark:text-amber-300">{adminMetrics.pendingApplications} seller applications</span>
-            <span className="text-amber-700 dark:text-amber-400"> and {adminMetrics.pendingProducts} products are awaiting review.</span>
+            <span className="font-medium text-amber-800 dark:text-amber-300">
+              {metrics?.pendingApplications ?? 0} seller applications
+            </span>
+
+            <span className="text-amber-700 dark:text-amber-400">
+              {' '}and {metrics?.pendingProducts ?? 0} products are awaiting review.
+            </span>
           </div>
-          <a href="/admin/sellers/applications" className="text-sm font-medium text-amber-700 dark:text-amber-300 hover:underline">Review now →</a>
+
+          <a
+            href="/admin/sellers/applications"
+            className="text-sm font-medium text-amber-700 dark:text-amber-300 hover:underline"
+          >
+            Review now →
+          </a>
         </div>
       )}
 
       {/* Metrics */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard title="Total Revenue" value="284.5M Ar" change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Total Orders" value="8,432" change={9.3} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title="Buyers" value="24,800" change={11.8} icon={<Users className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Sellers" value="342" change={6.4} icon={<Store className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title="Products" value="18,650" change={7.1} icon={<Package className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title="Total Revenue" value={metrics?.totalRevenue ?? 0} change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title="Total Orders" value={metrics?.totalOrders ?? 0} change={9.3} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title="Buyers" value={metrics?.totalBuyers ?? 0} change={11.8} icon={<Users className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title="Sellers" value={metrics?.totalSellers ?? 0} change={6.4} icon={<Store className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title="Products" value={metrics?.totalProducts ?? 0} change={7.1} icon={<Package className="w-5 h-5" />} color="#0077B6" />
       </div>
 
       {/* Charts */}
@@ -50,7 +85,7 @@ export default function AdminDashboard() {
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v / 1000000).toFixed(0)}M`} />
-              <Tooltip formatter={(v: number) => [formatPrice(v), 'Revenue']} contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
+              <Tooltip formatter={(v) => [formatPrice(Number(v ?? 0)), 'Revenue']} contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
               <Bar dataKey="revenue" fill="#0077B6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

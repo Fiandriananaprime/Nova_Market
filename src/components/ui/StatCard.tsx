@@ -1,5 +1,5 @@
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { formatPrice } from '@/data/mock';
+import { formatMillionAr } from '@/data/mock';
 
 type BarStatProp={
     title:string,
@@ -14,7 +14,7 @@ const BarStat = ({title,data}: BarStatProp) => {
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
               <XAxis dataKey="month" tick={{ fontSize: 12, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} />
               <YAxis tick={{ fontSize: 11, fill: 'var(--muted-foreground)' }} axisLine={false} tickLine={false} tickFormatter={v => `${(v / 1000000).toFixed(0)}M`} />
-              <Tooltip formatter={(v) => [formatPrice(Number(v ?? 0)), 'Revenue']} contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
+              <Tooltip formatter={(v) => [formatMillionAr(Number(v ?? 0)), 'Revenue']} contentStyle={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: '8px', fontSize: '12px' }} />
               <Bar dataKey="revenue" fill="#0077B6" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>

@@ -82,3 +82,7 @@ export const sellerApplications = [
 ];
 
 export const formatPrice = (price: number) => `${price.toLocaleString('fr-MG')} Ar`;
+export const formatMillionAr = (amount: number) => {
+  const millions = amount / 1_000_000;
+  return `${millions.toFixed(1).replace(/\.0$/, '')}M Ar`;
+};

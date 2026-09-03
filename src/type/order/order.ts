@@ -39,6 +39,6 @@ export interface Order {
 }
 
 export interface OrderResponse {
-    data : Order,
+    data : Order[],
     meta: PaginationMeta
 }

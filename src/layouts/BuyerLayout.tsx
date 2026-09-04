@@ -35,26 +35,26 @@ export default function BuyerLayout() {
   const cartCount = cart.reduce((s, i) => s + i.qty, 0);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] flex flex-col">
+    <div className="min-h-screen bg-background flex flex-col">
       {/* Navbar */}
-      <nav className="sticky top-0 z-40 bg-[var(--card)] border-b border-[var(--border)] shadow-sm">
+      <nav className="sticky top-0 z-40 bg-card border-b border-border shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center gap-3 h-16">
             <Link to="/shop" className="flex items-center gap-2 flex-shrink-0">
               <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
                 <ShoppingBag className="w-4 h-4 text-white" />
               </div>
-              <span className="font-bold text-lg font-display text-[var(--foreground)] hidden sm:block">MasoMarket</span>
+              <span className="font-bold text-lg font-display text-foreground hidden sm:block">MasoMarket</span>
             </Link>
 
             <form className="flex-1 max-w-2xl" onSubmit={(e) => { e.preventDefault(); navigate(`/products?q=${search}`); }}>
               <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-foreground)]" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <input
                   value={search}
                   onChange={e => setSearch(e.target.value)}
                   placeholder={t('Search products, brands or stores...', 'Rechercher produits, marques ou boutiques...')}
-                  className="w-full pl-10 pr-4 py-2 text-sm bg-[var(--secondary)] border border-[var(--border)] rounded-xl text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:ring-2 focus:ring-[#0077B6]/25 focus:border-[#0077B6] transition-all"
+                  className="w-full pl-10 pr-4 py-2 text-sm bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/25 focus:border-[#0077B6] transition-all"
                 />
               </div>
             </form>
@@ -63,7 +63,7 @@ export default function BuyerLayout() {
               {/* Language */}
               <button
                 onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-                className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-xs font-medium text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors"
+                className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
                 title="Switch language"
               >
                 <Globe className="w-4 h-4" />
@@ -73,7 +73,7 @@ export default function BuyerLayout() {
               {/* Theme toggle */}
               <button
                 onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')}
-                className="p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors"
+                className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
                 title={resolvedTheme === 'dark' ? 'Light mode' : 'Dark mode'}
               >
                 {resolvedTheme === 'dark' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
@@ -82,7 +82,7 @@ export default function BuyerLayout() {
               {/* Favorites */}
               <Link
                 to="/favorites"
-                className="relative p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors"
+                className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
                 title={t('Favorites', 'Favoris')}
               >
                 <Heart className="w-4 h-4" />
@@ -94,7 +94,7 @@ export default function BuyerLayout() {
               </Link>
 
               {/* Notifications */}
-              <Link to="/orders" className="hidden sm:block relative p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors" title="Notifications">
+              <Link to="/orders" className="hidden sm:block relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors" title="Notifications">
                 <Bell className="w-4 h-4" />
               </Link>
 
@@ -102,7 +102,7 @@ export default function BuyerLayout() {
               <div className="relative" ref={cartRef}>
                 <button
                   onClick={() => setCartOpen(!cartOpen)}
-                  className="relative p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors"
+                  className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
                   title={t('Cart', 'Panier')}
                 >
                   <ShoppingCart className="w-4 h-4" />
@@ -114,43 +114,43 @@ export default function BuyerLayout() {
                 </button>
 
                 {cartOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-80 bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl z-50 overflow-hidden">
-                    <div className="flex items-center justify-between px-4 py-3 border-b border-[var(--border)]">
-                      <span className="font-semibold text-sm font-display text-[var(--foreground)]">{t('Cart', 'Panier')} ({cartCount})</span>
-                      <button onClick={() => setCartOpen(false)} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)]"><X className="w-4 h-4" /></button>
+                  <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden">
+                    <div className="flex items-center justify-between px-4 py-3 border-b border-border">
+                      <span className="font-semibold text-sm font-display text-foreground">{t('Cart', 'Panier')} ({cartCount})</span>
+                      <button onClick={() => setCartOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="w-4 h-4" /></button>
                     </div>
                     {cart.length === 0 ? (
-                      <div className="py-8 text-center text-sm text-[var(--muted-foreground)]">
+                      <div className="py-8 text-center text-sm text-muted-foreground">
                         <ShoppingCart className="w-8 h-8 mx-auto mb-2 opacity-40" />
                         {t('Your cart is empty', 'Votre panier est vide')}
                       </div>
                     ) : (
                       <>
-                        <div className="max-h-64 overflow-y-auto divide-y divide-[var(--border)]">
+                        <div className="max-h-64 overflow-y-auto divide-y divide-border">
                           {cart.map(item => (
                             <div key={item.productId} className="flex items-center gap-3 px-4 py-3">
-                              <div className="w-10 h-10 rounded-lg overflow-hidden bg-[var(--secondary)] flex-shrink-0">
+                              <div className="w-10 h-10 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
                                 <img src={`https://images.unsplash.com/${item.image}?w=60&h=60&fit=crop&auto=format`} alt="" className="w-full h-full object-cover" />
                               </div>
                               <div className="flex-1 min-w-0">
-                                <div className="text-xs font-medium text-[var(--foreground)] truncate">{item.name}</div>
-                                <div className="text-xs text-[var(--muted-foreground)]">x{item.qty} · {formatPrice(item.price)}</div>
+                                <div className="text-xs font-medium text-foreground truncate">{item.name}</div>
+                                <div className="text-xs text-muted-foreground">x{item.qty} · {formatPrice(item.price)}</div>
                               </div>
-                              <button onClick={() => removeFromCart(item.productId)} className="text-[var(--muted-foreground)] hover:text-red-500 transition-colors flex-shrink-0">
+                              <button onClick={() => removeFromCart(item.productId)} className="text-muted-foreground hover:text-red-500 transition-colors flex-shrink-0">
                                 <X className="w-3.5 h-3.5" />
                               </button>
                             </div>
                           ))}
                         </div>
-                        <div className="px-4 py-3 border-t border-[var(--border)] bg-[var(--secondary)]">
+                        <div className="px-4 py-3 border-t border-border bg-secondary">
                           <div className="flex items-center justify-between text-sm mb-3">
-                            <span className="font-medium text-[var(--foreground)]">Total</span>
-                            <span className="font-bold text-[var(--foreground)]">{formatPrice(cartTotal)}</span>
+                            <span className="font-medium text-foreground">Total</span>
+                            <span className="font-bold text-foreground">{formatPrice(cartTotal)}</span>
                           </div>
                           <div className="flex gap-2">
                             <button
                               onClick={() => { navigate('/cart'); setCartOpen(false); }}
-                              className="flex-1 py-2 text-sm font-medium border border-[var(--border)] rounded-xl text-[var(--foreground)] hover:bg-[var(--border)] transition-colors"
+                              className="flex-1 py-2 text-sm font-medium border border-border rounded-xl text-foreground hover:bg-border transition-colors"
                             >
                               {t('View cart', 'Voir le panier')}
                             </button>
@@ -172,23 +172,23 @@ export default function BuyerLayout() {
               <div className="relative" ref={profileRef}>
                 <button
                   onClick={() => setProfileOpen(!profileOpen)}
-                  className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-xl hover:bg-[var(--secondary)] transition-colors"
+                  className="flex items-center gap-1.5 pl-1 pr-2 py-1 rounded-xl hover:bg-secondary transition-colors"
                 >
                   <div className="w-7 h-7 rounded-full bg-gradient-to-br from-[#0077B6] to-[#5ABCB9] flex items-center justify-center text-white text-xs font-bold">A</div>
-                  <ChevronDown className="w-3.5 h-3.5 text-[var(--muted-foreground)] hidden sm:block" />
+                  <ChevronDown className="w-3.5 h-3.5 text-muted-foreground hidden sm:block" />
                 </button>
 
                 {profileOpen && (
-                  <div className="absolute right-0 top-full mt-1.5 w-52 bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl z-50">
+                  <div className="absolute right-0 top-full mt-1.5 w-52 bg-card border border-border rounded-2xl shadow-2xl z-50">
                     <div className="p-2">
                       <div className="flex items-center gap-2.5 px-3 py-2.5 mb-1">
                         <div className="w-9 h-9 rounded-full bg-gradient-to-br from-[#0077B6] to-[#5ABCB9] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">A</div>
                         <div className="min-w-0">
-                          <div className="font-semibold text-sm text-[var(--foreground)] truncate">Andry Rakoto</div>
-                          <div className="text-xs text-[var(--muted-foreground)] truncate">andry@email.com</div>
+                          <div className="font-semibold text-sm text-foreground truncate">Andry Rakoto</div>
+                          <div className="text-xs text-muted-foreground truncate">andry@email.com</div>
                         </div>
                       </div>
-                      <div className="border-t border-[var(--border)] my-1" />
+                      <div className="border-t border-border my-1" />
                       {[
                         { icon: '👤', label: t('My profile', 'Mon profil'), to: '/profile' },
                         { icon: '📦', label: t('My orders', 'Mes commandes'), to: '/orders' },
@@ -199,13 +199,13 @@ export default function BuyerLayout() {
                           key={item.to}
                           to={item.to}
                           onClick={() => setProfileOpen(false)}
-                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-[var(--foreground)] hover:bg-[var(--secondary)] rounded-xl transition-colors"
+                          className="flex items-center gap-2.5 px-3 py-2 text-sm text-foreground hover:bg-secondary rounded-xl transition-colors"
                         >
                           <span className="text-base">{item.icon}</span>
                           {item.label}
                         </Link>
                       ))}
-                      <div className="border-t border-[var(--border)] my-1" />
+                      <div className="border-t border-border my-1" />
                       <button
                         onClick={() => {handleLogout(); setProfileOpen(false); }}
                         className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
@@ -227,7 +227,7 @@ export default function BuyerLayout() {
       </main>
 
       {/* Mobile bottom nav */}
-      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-[var(--card)] border-t border-[var(--border)] z-40 safe-area-pb">
+      <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 safe-area-pb">
         <div className="grid grid-cols-5 h-16">
           {[
             { icon: <Home className="w-5 h-5" />, label: t('Home', 'Accueil'), to: '/shop' },
@@ -246,7 +246,7 @@ export default function BuyerLayout() {
               <Link
                 key={item.to}
                 to={item.to}
-                className={`flex flex-col items-center justify-center gap-0.5 transition-colors ${active ? 'text-[#0077B6]' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                className={`flex flex-col items-center justify-center gap-0.5 transition-colors ${active ? 'text-[#0077B6]' : 'text-muted-foreground hover:text-foreground'}`}
               >
                 {item.icon}
                 <span className="text-[10px] font-medium">{item.label}</span>

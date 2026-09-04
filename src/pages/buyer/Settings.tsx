@@ -10,18 +10,18 @@ export default function Settings() {
   const [notifications, setNotifications] = useState({ orders: true, promotions: true, sellers: false, recommendations: true, email: false });
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-[var(--foreground)] mb-4 text-base">{title}</h2>
+    <div className="bg-card border border-border rounded-xl p-5 mb-4">
+      <h2 className="font-semibold font-display text-foreground mb-4 text-base">{title}</h2>
       {children}
     </div>
   );
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-6">{t('Settings', 'Paramètres')}</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-6">{t('Settings', 'Paramètres')}</h1>
 
       <Section title={t('Appearance', 'Apparence')}>
-        <p className="text-sm text-[var(--muted-foreground)] mb-3">{t('Theme', 'Thème')}</p>
+        <p className="text-sm text-muted-foreground mb-3">{t('Theme', 'Thème')}</p>
         <div className="grid grid-cols-3 gap-2">
           {[
             { id: 'light', icon: <Sun className="w-4.5 h-4.5" />, label: t('Light', 'Clair') },
@@ -31,7 +31,7 @@ export default function Settings() {
             <button
               key={opt.id}
               onClick={() => setTheme(opt.id as any)}
-              className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-colors ${theme === opt.id ? 'border-[#0077B6] bg-[#0077B6]/5 text-[#0077B6]' : 'border-[var(--border)] text-[var(--muted-foreground)] hover:border-[#0077B6]/30'}`}
+              className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-colors ${theme === opt.id ? 'border-[#0077B6] bg-[#0077B6]/5 text-[#0077B6]' : 'border-border text-muted-foreground hover:border-[#0077B6]/30'}`}
             >
               {opt.icon}
               <span className="text-sm font-medium">{opt.label}</span>
@@ -46,10 +46,10 @@ export default function Settings() {
             <button
               key={l.id}
               onClick={() => setLang(l.id as 'en' | 'fr')}
-              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${lang === l.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-[var(--border)] hover:border-[#0077B6]/30'}`}
+              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${lang === l.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-border hover:border-[#0077B6]/30'}`}
             >
               <span className="text-xl">{l.flag}</span>
-              <span className={`text-sm font-medium ${lang === l.id ? 'text-[#0077B6]' : 'text-[var(--foreground)]'}`}>{l.label}</span>
+              <span className={`text-sm font-medium ${lang === l.id ? 'text-[#0077B6]' : 'text-foreground'}`}>{l.label}</span>
             </button>
           ))}
         </div>
@@ -66,8 +66,8 @@ export default function Settings() {
           ].map(item => (
             <div key={item.id} className="flex items-start justify-between gap-4 py-1">
               <div className="flex-1">
-                <div className="text-sm font-medium text-[var(--foreground)]">{item.label}</div>
-                <div className="text-xs text-[var(--muted-foreground)]">{item.desc}</div>
+                <div className="text-sm font-medium text-foreground">{item.label}</div>
+                <div className="text-xs text-muted-foreground">{item.desc}</div>
               </div>
               <Toggle
                 checked={notifications[item.id as keyof typeof notifications]}
@@ -85,13 +85,13 @@ export default function Settings() {
             { icon: <Bell className="w-4 h-4" />, label: t('Marketing preferences', 'Préférences marketing'), desc: t('Manage how we use your data for marketing', 'Gérez comment nous utilisons vos données') },
             { icon: <Shield className="w-4 h-4" />, label: t('Data settings', 'Paramètres de données'), desc: t('Manage your personal data', 'Gérez vos données personnelles') },
           ].map((item, i) => (
-            <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-[var(--secondary)] transition-colors text-left">
-              <span className="text-[var(--muted-foreground)]">{item.icon}</span>
+            <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
+              <span className="text-muted-foreground">{item.icon}</span>
               <div className="flex-1">
-                <div className="text-sm font-medium text-[var(--foreground)]">{item.label}</div>
-                <div className="text-xs text-[var(--muted-foreground)]">{item.desc}</div>
+                <div className="text-sm font-medium text-foreground">{item.label}</div>
+                <div className="text-xs text-muted-foreground">{item.desc}</div>
               </div>
-              <span className="text-[var(--muted-foreground)]">›</span>
+              <span className="text-muted-foreground">›</span>
             </button>
           ))}
         </div>
@@ -100,7 +100,7 @@ export default function Settings() {
       <Section title={t('Security', 'Sécurité')}>
         <div className="space-y-3">
           <div>
-            <h3 className="text-sm font-medium text-[var(--foreground)] mb-2">{t('Change password', 'Changer le mot de passe')}</h3>
+            <h3 className="text-sm font-medium text-foreground mb-2">{t('Change password', 'Changer le mot de passe')}</h3>
             <div className="space-y-2 mb-3">
               <Input type="password" placeholder={t('Current password', 'Mot de passe actuel')} />
               <Input type="password" placeholder={t('New password', 'Nouveau mot de passe')} />
@@ -108,10 +108,10 @@ export default function Settings() {
             </div>
             <Button size="sm">{t('Update password', 'Mettre à jour')}</Button>
           </div>
-          <div className="border-t border-[var(--border)] pt-3 flex items-start justify-between">
+          <div className="border-t border-border pt-3 flex items-start justify-between">
             <div>
-              <div className="text-sm font-medium text-[var(--foreground)]">{t('Two-factor authentication', 'Authentification à deux facteurs')}</div>
-              <div className="text-xs text-[var(--muted-foreground)]">{t('Add an extra layer of security', 'Ajoutez une couche de sécurité supplémentaire')}</div>
+              <div className="text-sm font-medium text-foreground">{t('Two-factor authentication', 'Authentification à deux facteurs')}</div>
+              <div className="text-xs text-muted-foreground">{t('Add an extra layer of security', 'Ajoutez une couche de sécurité supplémentaire')}</div>
             </div>
             <Button size="sm" variant="outline">{t('Enable', 'Activer')}</Button>
           </div>

@@ -29,32 +29,32 @@ export default function SellerOrders() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-[var(--foreground)] mb-5">Orders</h1>
+      <h1 className="text-xl font-bold font-display text-foreground mb-5">Orders</h1>
 
       <div className="overflow-x-auto mb-5">
         <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
       </div>
 
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
+              <tr className="border-b border-border bg-secondary">
                 {['Order', 'Customer', 'Product', 'Qty', 'Amount', 'Status', 'Date', 'Actions'].map(h => (
-                  <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide whitespace-nowrap">{h}</th>
+                  <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {filtered.map(order => (
-                <tr key={order.id} className="hover:bg-[var(--secondary)] transition-colors">
+                <tr key={order.id} className="hover:bg-secondary transition-colors">
                   <td className="px-4 py-3 font-mono text-xs text-[#0077B6] font-bold">{order.id}</td>
-                  <td className="px-4 py-3 text-[var(--foreground)]">{order.customer}</td>
-                  <td className="px-4 py-3 text-[var(--foreground)] truncate max-w-36">{order.product}</td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{order.qty}</td>
-                  <td className="px-4 py-3 font-medium text-[var(--foreground)] whitespace-nowrap">{formatPrice(order.amount)}</td>
+                  <td className="px-4 py-3 text-foreground">{order.customer}</td>
+                  <td className="px-4 py-3 text-foreground truncate max-w-36">{order.product}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{order.qty}</td>
+                  <td className="px-4 py-3 font-medium text-foreground whitespace-nowrap">{formatPrice(order.amount)}</td>
                   <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{order.date}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{order.date}</td>
                   <td className="px-4 py-3">
                     <Button size="xs" variant="outline" onClick={() => { setDetailOrder(order); setNewStatus(order.status); }}>
                       Details
@@ -80,26 +80,26 @@ export default function SellerOrders() {
       >
         {detailOrder && (
           <div className="space-y-3 text-sm">
-            <div className="p-3 bg-[var(--secondary)] rounded-lg">
+            <div className="p-3 bg-secondary rounded-lg">
               <div className="font-medium mb-1">{detailOrder.customer}</div>
-              <div className="flex items-start gap-1 text-[var(--muted-foreground)]"><MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />{detailOrder.address}</div>
-              <div className="text-[var(--muted-foreground)] mt-0.5">{detailOrder.phone}</div>
+              <div className="flex items-start gap-1 text-muted-foreground"><MapPin className="w-3.5 h-3.5 mt-0.5 flex-shrink-0" />{detailOrder.address}</div>
+              <div className="text-muted-foreground mt-0.5">{detailOrder.phone}</div>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
-              <span className="text-[var(--muted-foreground)]">Product</span>
-              <span className="font-medium text-[var(--foreground)]">{detailOrder.product}</span>
+            <div className="flex justify-between py-1.5 border-b border-border">
+              <span className="text-muted-foreground">Product</span>
+              <span className="font-medium text-foreground">{detailOrder.product}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
-              <span className="text-[var(--muted-foreground)]">Quantity</span>
-              <span className="font-medium text-[var(--foreground)]">{detailOrder.qty}</span>
+            <div className="flex justify-between py-1.5 border-b border-border">
+              <span className="text-muted-foreground">Quantity</span>
+              <span className="font-medium text-foreground">{detailOrder.qty}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
-              <span className="text-[var(--muted-foreground)]">Amount</span>
-              <span className="font-bold text-[var(--foreground)]">{formatPrice(detailOrder.amount)}</span>
+            <div className="flex justify-between py-1.5 border-b border-border">
+              <span className="text-muted-foreground">Amount</span>
+              <span className="font-bold text-foreground">{formatPrice(detailOrder.amount)}</span>
             </div>
-            <div className="flex justify-between py-1.5 border-b border-[var(--border)]">
-              <span className="text-[var(--muted-foreground)]">Payment</span>
-              <span className="text-[var(--foreground)]">{detailOrder.payment}</span>
+            <div className="flex justify-between py-1.5 border-b border-border">
+              <span className="text-muted-foreground">Payment</span>
+              <span className="text-foreground">{detailOrder.payment}</span>
             </div>
             <Select
               label="Update status"

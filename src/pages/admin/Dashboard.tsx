@@ -50,7 +50,7 @@ export default function AdminDashboard() {
       key: 'buyer',
       header: 'Buyer',
       render: (order) => (
-        <span className="text-[var(--foreground)]">
+        <span className="text-foreground">
           {order.buyerName}
         </span>
       ),
@@ -59,7 +59,7 @@ export default function AdminDashboard() {
       key: 'amount',
       header: 'Amount',
       render: (order) => (
-        <span className="font-medium text-[var(--foreground)] whitespace-nowrap">
+        <span className="font-medium text-foreground whitespace-nowrap">
           {formatMillionAr(order.total)}
         </span>
       ),
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
             {index + 1}
           </span>
 
-          <span className="font-medium text-[var(--foreground)]">
+          <span className="font-medium text-foreground">
             {seller.name}
           </span>
         </div>
@@ -93,7 +93,7 @@ export default function AdminDashboard() {
       key: 'revenue',
       header: 'Revenue',
       render: (seller) => (
-        <span className="font-medium text-[var(--foreground)]">
+        <span className="font-medium text-foreground">
           {(seller.revenue / 1000000).toFixed(1)}M Ar
         </span>
       ),
@@ -102,7 +102,7 @@ export default function AdminDashboard() {
       key: 'orders',
       header: 'Orders',
       render: (seller) => (
-        <span className="text-[var(--muted-foreground)]">
+        <span className="text-muted-foreground">
           {seller.ordersCount.toLocaleString()}
         </span>
       ),
@@ -219,20 +219,20 @@ export default function AdminDashboard() {
         />
 
         {/* Pending applications */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Pending seller applications</h2>
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+            <h2 className="font-semibold font-display text-foreground">Pending seller applications</h2>
             <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} pending</Badge>
           </div>
-          <div className="divide-y divide-[var(--border)]">
+          <div className="divide-y divide-border">
             {dashBoardData?.sellerApplications.data.map(app => (
               <div key={app.id} className="px-5 py-4 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] font-bold text-sm flex-shrink-0">
                   {app.businessName[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm text-[var(--foreground)] truncate">{app.businessName}</div>
-                  <div className="text-xs text-[var(--muted-foreground)]">{app.owner} · {app.category} · {app.date}</div>
+                  <div className="font-medium text-sm text-foreground truncate">{app.businessName}</div>
+                  <div className="text-xs text-muted-foreground">{app.owner} · {app.category} · {app.date}</div>
                 </div>
                 <Link to="/admin/sellers/applications" className="text-xs text-[#0077B6] hover:underline flex-shrink-0">Review</Link>
               </div>

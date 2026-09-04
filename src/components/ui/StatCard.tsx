@@ -19,7 +19,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Zoom out"
         disabled={zoom === 1}
         onClick={() => onZoomChange(zoomSteps[Math.max(0, zoomSteps.indexOf(zoom) - 1)])}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <ZoomOut className="w-3.5 h-3.5" />
       </button>
@@ -29,7 +29,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Zoom in"
         disabled={zoom === zoomSteps[zoomSteps.length - 1]}
         onClick={() => onZoomChange(zoomSteps[Math.min(zoomSteps.length - 1, zoomSteps.indexOf(zoom) + 1)])}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <ZoomIn className="w-3.5 h-3.5" />
       </button>
@@ -39,7 +39,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Reset zoom"
         disabled={zoom === 1}
         onClick={() => onZoomChange(1)}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <RotateCcw className="w-3.5 h-3.5" />
       </button>
@@ -59,9 +59,9 @@ const BarStat = ({title,data}: BarStatProp) => {
   const chartData = getZoomedData(data, zoom);
   const maxRevenue = Math.max(...chartData.map((point) => Number(point.revenue ?? 0)), 0);
     return (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-      <h2 className="font-semibold font-display text-[var(--foreground)]">{title}</h2>
+      <h2 className="font-semibold font-display text-foreground">{title}</h2>
       <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
       </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -82,9 +82,9 @@ const LineStat = ({title,data}: BarStatProp) => {
     const chartData = getZoomedData(data, zoom);
     const maxUsers = Math.max(...chartData.flatMap((point) => [Number(point.buyers ?? 0), Number(point.sellers ?? 0)]), 0);
     return (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">{title}</h2>
+            <h2 className="font-semibold font-display text-foreground">{title}</h2>
             <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
           </div>
           <ResponsiveContainer width="100%" height={200}>

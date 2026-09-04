@@ -28,8 +28,8 @@ export default function AddProduct() {
   };
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">{title}</h2>
+    <div className="bg-card border border-border rounded-xl p-5 mb-4">
+      <h2 className="font-semibold font-display text-foreground mb-4">{title}</h2>
       {children}
     </div>
   );
@@ -37,7 +37,7 @@ export default function AddProduct() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-[var(--foreground)]">Add product</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">Add product</h1>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
@@ -46,15 +46,15 @@ export default function AddProduct() {
             <div className="space-y-3">
               <Input label="Product name" placeholder="Samsung Galaxy A56" />
               <div>
-                <label className="text-sm font-medium text-[var(--foreground)] mb-1 block">Description</label>
-                <textarea rows={4} placeholder="Describe your product..." className="w-full bg-[var(--card)] border border-[var(--border)] rounded-[var(--radius)] px-3 py-2 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none transition-all" />
+                <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
+                <textarea rows={4} placeholder="Describe your product..." className="w-full bg-card border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none transition-all" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Input label="Brand" placeholder="Samsung" />
                 <Select label="Category" options={[{ value: '', label: 'Select category' }, { value: '1', label: 'Electronics' }, { value: '2', label: 'Fashion' }]} />
               </div>
               <div>
-                <label className="text-sm font-medium text-[var(--foreground)] mb-1 block">Tags</label>
+                <label className="text-sm font-medium text-foreground mb-1 block">Tags</label>
                 <div className="flex flex-wrap gap-1.5 mb-2">
                   {tags.map(tag => (
                     <span key={tag} className="flex items-center gap-1 text-xs bg-[#0077B6]/10 text-[#0077B6] px-2 py-1 rounded-full">
@@ -64,7 +64,7 @@ export default function AddProduct() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder="Add a tag..." className="flex-1 px-3 py-1.5 text-sm bg-[var(--secondary)] border border-[var(--border)] rounded-lg text-[var(--foreground)] focus:outline-none focus:border-[#0077B6]" />
+                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder="Add a tag..." className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
                   <Button size="xs" onClick={addTag}>Add</Button>
                 </div>
               </div>
@@ -73,13 +73,13 @@ export default function AddProduct() {
 
           <Section title="Images">
             <div className="grid grid-cols-4 gap-2">
-              <label className="col-span-4 sm:col-span-2 h-28 border-2 border-dashed border-[var(--border)] rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#0077B6] transition-colors">
-                <Upload className="w-5 h-5 text-[var(--muted-foreground)]" />
-                <span className="text-xs text-[var(--muted-foreground)]">Upload images</span>
+              <label className="col-span-4 sm:col-span-2 h-28 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#0077B6] transition-colors">
+                <Upload className="w-5 h-5 text-muted-foreground" />
+                <span className="text-xs text-muted-foreground">Upload images</span>
                 <input type="file" multiple accept="image/*" className="sr-only" />
               </label>
               {[0, 1, 2].map(i => (
-                <div key={i} className="h-28 bg-[var(--secondary)] border border-[var(--border)] rounded-xl overflow-hidden">
+                <div key={i} className="h-28 bg-secondary border border-border rounded-xl overflow-hidden">
                   <img src={`https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=120&h=120&fit=crop`} alt="" className="w-full h-full object-cover" />
                 </div>
               ))}
@@ -103,16 +103,16 @@ export default function AddProduct() {
 
           <Section title="Variants">
             {variants.map((v, i) => (
-              <div key={i} className="flex items-center gap-3 mb-3 p-3 bg-[var(--secondary)] rounded-xl">
+              <div key={i} className="flex items-center gap-3 mb-3 p-3 bg-secondary rounded-xl">
                 <div className="flex-1">
-                  <div className="text-sm font-medium text-[var(--foreground)] mb-1">{v.name}</div>
+                  <div className="text-sm font-medium text-foreground mb-1">{v.name}</div>
                   <div className="flex gap-1.5 flex-wrap">
                     {v.values.map(val => (
-                      <span key={val} className="text-xs px-2 py-0.5 bg-[var(--card)] border border-[var(--border)] rounded-full text-[var(--foreground)]">{val}</span>
+                      <span key={val} className="text-xs px-2 py-0.5 bg-card border border-border rounded-full text-foreground">{val}</span>
                     ))}
                   </div>
                 </div>
-                <button className="text-[var(--muted-foreground)] hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
+                <button className="text-muted-foreground hover:text-red-500 transition-colors"><X className="w-4 h-4" /></button>
               </div>
             ))}
             <Button variant="outline" size="sm">
@@ -131,8 +131,8 @@ export default function AddProduct() {
 
         {/* Sidebar */}
         <div>
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 sticky top-6 space-y-3">
-            <h3 className="font-semibold text-sm font-display text-[var(--foreground)]">Publish</h3>
+          <div className="bg-card border border-border rounded-xl p-4 sticky top-6 space-y-3">
+            <h3 className="font-semibold text-sm font-display text-foreground">Publish</h3>
             <Select label="Status" options={[{ value: 'active', label: 'Active' }, { value: 'draft', label: 'Draft' }, { value: 'inactive', label: 'Inactive' }]} />
             <Button className="w-full" loading={loading} onClick={handleSave}>Save product</Button>
             <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/seller/products')}>Cancel</Button>

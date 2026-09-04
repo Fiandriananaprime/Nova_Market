@@ -48,7 +48,7 @@ export default function AdminUsers() {
             )}
           </div>
 
-          <span className="font-medium text-[var(--foreground)]">
+          <span className="font-medium text-foreground">
             {user.name}
           </span>
         </div>
@@ -58,7 +58,7 @@ export default function AdminUsers() {
     {
       key: 'email',
       header: 'Email',
-      className: 'text-[var(--muted-foreground)]',
+      className: 'text-muted-foreground',
     },
 
     {
@@ -71,7 +71,7 @@ export default function AdminUsers() {
               ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]'
               : user.role === 'seller'
                 ? 'bg-[#0077B6]/10 text-[#0077B6]'
-                : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'
+                : 'bg-secondary text-muted-foreground'
           }`}
         >
           {user.role}
@@ -90,13 +90,13 @@ export default function AdminUsers() {
     {
       key: 'joinedAt',
       header: 'Joined',
-      className: 'text-[var(--muted-foreground)]',
+      className: 'text-muted-foreground',
     },
 
     {
       key: 'ordersCount',
       header: 'Orders',
-      className: 'text-[var(--foreground)]',
+      className: 'text-foreground',
       render: (user) => String(user.ordersCount ?? 0),
     },
 
@@ -197,7 +197,7 @@ export default function AdminUsers() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-[var(--foreground)] mb-5">
+      <h1 className="text-xl font-bold font-display text-foreground mb-5">
         User Management
       </h1>
 
@@ -209,8 +209,8 @@ export default function AdminUsers() {
         />
       </div>
 
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-        <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="p-4 border-b border-border flex items-center justify-between">
           <form
             onSubmit={handleSearch}
             className="flex items-center max-w-xs w-[300px]"
@@ -219,7 +219,7 @@ export default function AdminUsers() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search users..."
-              className=" pl-9 pr-4 py-2 text-sm bg-[var(--secondary)] border border-border rounded-l-lg text-[var(--foreground)] focus:outline-none focus:border-[#0077B6]"
+              className=" pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
             />
             <button
               type="submit"
@@ -236,7 +236,7 @@ export default function AdminUsers() {
             >
               −
             </button>
-            <span className="text-sm text-[var(--muted-foreground)]">
+            <span className="text-sm text-muted-foreground">
               Page {page} of {totalPages}
             </span>
             <button

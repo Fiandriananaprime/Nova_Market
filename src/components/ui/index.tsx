@@ -8,20 +8,20 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export function Button({ variant = 'primary', size = 'md', loading, children, className = '', disabled, ...props }: ButtonProps) {
-  const base = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none';
+  const base = 'inline-flex items-center justify-center gap-2 font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer select-none';
   const variants = {
     primary: 'bg-[#0077B6] text-white hover:bg-[#005f92] active:bg-[#004d77]',
-    secondary: 'bg-[var(--secondary)] text-[var(--secondary-foreground)] hover:bg-[var(--border)]',
-    outline: 'border border-[var(--border)] bg-transparent text-[var(--foreground)] hover:bg-[var(--secondary)]',
-    ghost: 'bg-transparent text-[var(--foreground)] hover:bg-[var(--secondary)]',
+    secondary: 'bg-secondary text-secondary-foreground hover:bg-border',
+    outline: 'border border-border bg-transparent text-foreground hover:bg-secondary',
+    ghost: 'bg-transparent text-foreground hover:bg-secondary',
     danger: 'bg-red-600 text-white hover:bg-red-700',
     accent: 'bg-[#5ABCB9] text-white hover:bg-[#4aa8a5]',
   };
   const sizes = {
     xs: 'text-xs px-2.5 py-1 rounded-md',
     sm: 'text-sm px-3 py-1.5 rounded-lg',
-    md: 'text-sm px-4 py-2 rounded-[var(--radius)]',
-    lg: 'text-base px-6 py-3 rounded-[var(--radius)]',
+    md: 'text-sm px-4 py-2 rounded-md',
+    lg: 'text-base px-6 py-3 rounded-md',
   };
   return (
     <button className={`${base} ${variants[variant]} ${sizes[size]} ${className}`} disabled={disabled || loading} {...props}>
@@ -40,12 +40,12 @@ interface BadgeProps {
 
 export function Badge({ variant = 'default', children, className = '' }: BadgeProps) {
   const variants = {
-    default: 'bg-[var(--secondary)] text-[var(--secondary-foreground)]',
+    default: 'bg-secondary text-secondary-foreground',
     success: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400',
     warning: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400',
     danger: 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-400',
     info: 'bg-blue-50 text-[#0077B6] dark:bg-blue-900/30 dark:text-blue-400',
-    outline: 'border border-[var(--border)] text-[var(--muted-foreground)]',
+    outline: 'border border-border text-muted-foreground',
   };
   return <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${variants[variant]} ${className}`}>{children}</span>;
 }
@@ -61,14 +61,14 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 export function Input({ label, error, icon, iconRight, className = '', ...props }: InputProps) {
   return (
     <div className="flex flex-col gap-1 w-full">
-      {label && <label className="text-sm font-medium text-[var(--foreground)]">{label}</label>}
+      {label && <label className="text-sm font-medium text-foreground">{label}</label>}
       <div className="relative">
-        {icon && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]">{icon}</span>}
+        {icon && <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">{icon}</span>}
         <input
-          className={`w-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] rounded-[var(--radius)] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all ${icon ? 'pl-9' : ''} ${iconRight ? 'pr-9' : ''} ${error ? 'border-red-400 focus:border-red-400' : ''} ${className}`}
+          className={`w-full bg-card border border-border text-foreground placeholder:text-muted-foreground rounded-md px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all ${icon ? 'pl-9' : ''} ${iconRight ? 'pr-9' : ''} ${error ? 'border-red-400 focus:border-red-400' : ''} ${className}`}
           {...props}
         />
-        {iconRight && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--muted-foreground)]">{iconRight}</span>}
+        {iconRight && <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">{iconRight}</span>}
       </div>
       {error && <p className="text-xs text-red-500">{error}</p>}
     </div>
@@ -87,7 +87,7 @@ export function Card({ children, className = '', onClick, hover }: CardProps) {
   return (
     <div
       onClick={onClick}
-      className={`bg-[var(--card)] border border-[var(--border)] rounded-xl shadow-sm ${hover ? 'hover:shadow-md hover:border-[#5ABCB9]/40 transition-all duration-200 cursor-pointer' : ''} ${className}`}
+      className={`bg-card border border-border rounded-xl shadow-sm ${hover ? 'hover:shadow-md hover:border-[#5ABCB9]/40 transition-all duration-200 cursor-pointer' : ''} ${className}`}
     >
       {children}
     </div>
@@ -100,8 +100,8 @@ export function Rating({ value, count, showCount = true, size = 'sm' }: { value:
   return (
     <div className="flex items-center gap-1">
       <Star className={`${sizes[size]} fill-amber-400 text-amber-400`} />
-      <span className={`font-medium ${size === 'xs' ? 'text-xs' : 'text-sm'} text-[var(--foreground)]`}>{value.toFixed(1)}</span>
-      {showCount && count !== undefined && <span className={`text-[var(--muted-foreground)] ${size === 'xs' ? 'text-xs' : 'text-sm'}`}>({count.toLocaleString()})</span>}
+      <span className={`font-medium ${size === 'xs' ? 'text-xs' : 'text-sm'} text-foreground`}>{value.toFixed(1)}</span>
+      {showCount && count !== undefined && <span className={`text-muted-foreground ${size === 'xs' ? 'text-xs' : 'text-sm'}`}>({count.toLocaleString()})</span>}
     </div>
   );
 }
@@ -139,8 +139,8 @@ export function StatCard({ title, value, change, icon, color = '#0077B6' }: Stat
           </div>
         )}
       </div>
-      <div className="text-2xl font-bold font-display text-[var(--foreground)] mb-0.5">{value}</div>
-      <div className="text-sm text-[var(--muted-foreground)]">{title}</div>
+      <div className="text-2xl font-bold font-display text-foreground mb-0.5">{value}</div>
+      <div className="text-sm text-muted-foreground">{title}</div>
     </Card>
   );
 }
@@ -152,7 +152,7 @@ export function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: 
       role="switch"
       aria-checked={checked}
       onClick={() => onChange(!checked)}
-      className={`relative w-10 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/40 ${checked ? 'bg-[#0077B6]' : 'bg-[var(--border)]'}`}
+      className={`relative w-10 h-6 rounded-full transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-[#0077B6]/40 ${checked ? 'bg-[#0077B6]' : 'bg-border'}`}
     >
       <span className={`absolute top-0.5 left-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-200 ${checked ? 'translate-x-4' : 'translate-x-0'}`} />
     </button>
@@ -168,9 +168,9 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
 export function Select({ label, options, className = '', ...props }: SelectProps) {
   return (
     <div className="flex flex-col gap-1 w-full">
-      {label && <label className="text-sm font-medium text-[var(--foreground)]">{label}</label>}
+      {label && <label className="text-sm font-medium text-foreground">{label}</label>}
       <select
-        className={`w-full bg-[var(--card)] border border-[var(--border)] text-[var(--foreground)] rounded-[var(--radius)] px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all ${className}`}
+        className={`w-full bg-card border border-border text-foreground rounded-md px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all ${className}`}
         {...props}
       >
         {options.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -217,10 +217,10 @@ export function Modal({ open, onClose, title, children, footer }: ModalProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-[var(--card)] border border-[var(--border)] rounded-2xl shadow-2xl w-full max-w-md z-10">
-        <div className="flex items-center justify-between p-5 border-b border-[var(--border)]">
-          <h3 className="font-semibold font-display text-[var(--foreground)]">{title}</h3>
-          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--secondary)] transition-colors">✕</button>
+      <div className="relative bg-card border border-border rounded-2xl shadow-2xl w-full max-w-md z-10">
+        <div className="flex items-center justify-between p-5 border-b border-border">
+          <h3 className="font-semibold font-display text-foreground">{title}</h3>
+          <button onClick={onClose} className="w-7 h-7 flex items-center justify-center rounded-lg text-muted-foreground hover:bg-secondary transition-colors">✕</button>
         </div>
         <div className="p-5">{children}</div>
         {footer && <div className="flex gap-2 p-5 pt-0">{footer}</div>}
@@ -244,11 +244,11 @@ export function Toast({ message, type = 'success', onClose }: { message: string;
 export function EmptyState({ icon, title, description, action }: { icon: React.ReactNode; title: string; description: string; action?: React.ReactNode }) {
   return (
     <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      <div className="w-16 h-16 rounded-2xl bg-[var(--secondary)] flex items-center justify-center text-[var(--muted-foreground)] mb-4">
+      <div className="w-16 h-16 rounded-2xl bg-secondary flex items-center justify-center text-muted-foreground mb-4">
         {icon}
       </div>
-      <h3 className="font-semibold font-display text-[var(--foreground)] mb-1">{title}</h3>
-      <p className="text-sm text-[var(--muted-foreground)] max-w-sm mb-5">{description}</p>
+      <h3 className="font-semibold font-display text-foreground mb-1">{title}</h3>
+      <p className="text-sm text-muted-foreground max-w-sm mb-5">{description}</p>
       {action}
     </div>
   );
@@ -263,16 +263,16 @@ interface TabsProps {
 
 export function Tabs({ tabs, active, onChange }: TabsProps) {
   return (
-    <div className="flex gap-1 border-b border-[var(--border)]">
+    <div className="flex gap-1 border-b border-border">
       {tabs.map(tab => (
         <button
           key={tab.id}
           onClick={() => onChange(tab.id)}
-          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${active === tab.id ? 'border-[#0077B6] text-[#0077B6]' : 'border-transparent text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+          className={`px-4 py-2.5 text-sm font-medium border-b-2 transition-colors -mb-px ${active === tab.id ? 'border-[#0077B6] text-[#0077B6]' : 'border-transparent text-muted-foreground hover:text-foreground'}`}
         >
           {tab.label}
           {tab.count !== undefined && (
-            <span className={`ml-1.5 px-1.5 py-0.5 text-xs rounded-full ${active === tab.id ? 'bg-[#0077B6]/10 text-[#0077B6]' : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'}`}>
+            <span className={`ml-1.5 px-1.5 py-0.5 text-xs rounded-full ${active === tab.id ? 'bg-[#0077B6]/10 text-[#0077B6]' : 'bg-secondary text-muted-foreground'}`}>
               {tab.count}
             </span>
           )}
@@ -285,11 +285,11 @@ export function Tabs({ tabs, active, onChange }: TabsProps) {
 // Breadcrumb
 export function Breadcrumb({ items }: { items: { label: string; href?: string }[] }) {
   return (
-    <nav className="flex items-center gap-1.5 text-sm text-[var(--muted-foreground)]">
+    <nav className="flex items-center gap-1.5 text-sm text-muted-foreground">
       {items.map((item, i) => (
         <span key={i} className="flex items-center gap-1.5">
           {i > 0 && <span>/</span>}
-          {item.href ? <a href={item.href} className="hover:text-[var(--foreground)] transition-colors">{item.label}</a> : <span className="text-[var(--foreground)] font-medium">{item.label}</span>}
+          {item.href ? <a href={item.href} className="hover:text-foreground transition-colors">{item.label}</a> : <span className="text-foreground font-medium">{item.label}</span>}
         </span>
       ))}
     </nav>
@@ -298,7 +298,7 @@ export function Breadcrumb({ items }: { items: { label: string; href?: string }[
 
 // Skeleton loader
 export function Skeleton({ className = '' }: { className?: string }) {
-  return <div className={`bg-[var(--border)] rounded animate-pulse ${className}`} />;
+  return <div className={`bg-border rounded animate-pulse ${className}`} />;
 }
 
 // Pagination
@@ -312,11 +312,11 @@ export function Pagination({ current, total, onChange }: PaginationProps) {
   const pages = Array.from({ length: Math.min(total, 5) }, (_, i) => i + 1);
   return (
     <div className="flex items-center gap-1">
-      <button onClick={() => onChange(current - 1)} disabled={current <= 1} className="px-3 py-1.5 text-sm rounded-lg border border-[var(--border)] disabled:opacity-40 hover:bg-[var(--secondary)] transition-colors">Prev</button>
+      <button onClick={() => onChange(current - 1)} disabled={current <= 1} className="px-3 py-1.5 text-sm rounded-lg border border-border disabled:opacity-40 hover:bg-secondary transition-colors">Prev</button>
       {pages.map(p => (
-        <button key={p} onClick={() => onChange(p)} className={`w-8 h-8 text-sm rounded-lg border transition-colors ${p === current ? 'bg-[#0077B6] text-white border-[#0077B6]' : 'border-[var(--border)] hover:bg-[var(--secondary)]'}`}>{p}</button>
+        <button key={p} onClick={() => onChange(p)} className={`w-8 h-8 text-sm rounded-lg border transition-colors ${p === current ? 'bg-[#0077B6] text-white border-[#0077B6]' : 'border-border hover:bg-secondary'}`}>{p}</button>
       ))}
-      <button onClick={() => onChange(current + 1)} disabled={current >= total} className="px-3 py-1.5 text-sm rounded-lg border border-[var(--border)] disabled:opacity-40 hover:bg-[var(--secondary)] transition-colors">Next</button>
+      <button onClick={() => onChange(current + 1)} disabled={current >= total} className="px-3 py-1.5 text-sm rounded-lg border border-border disabled:opacity-40 hover:bg-secondary transition-colors">Next</button>
     </div>
   );
 }

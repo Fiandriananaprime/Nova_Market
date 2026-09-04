@@ -29,18 +29,18 @@ export default function SellerCustomers() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-[var(--foreground)]">Customers</h1>
+      <h1 className="text-xl font-bold font-display text-foreground">Customers</h1>
 
       {/* Top metrics */}
       <div className="grid grid-cols-3 gap-4">
         {topMetrics.map((m, i) => (
-          <div key={i} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 flex items-center gap-3">
+          <div key={i} className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
             <div className="w-9 h-9 rounded-lg bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] flex-shrink-0">
               {m.icon}
             </div>
             <div>
-              <div className="text-xs text-[var(--muted-foreground)]">{m.label}</div>
-              <div className="font-bold font-display text-[var(--foreground)]">{m.value}</div>
+              <div className="text-xs text-muted-foreground">{m.label}</div>
+              <div className="font-bold font-display text-foreground">{m.value}</div>
             </div>
             <div className={`ml-auto text-xs font-medium ${m.change > 0 ? 'text-emerald-600' : 'text-red-500'}`}>
               {m.change > 0 ? '+' : ''}{m.change}%
@@ -49,21 +49,21 @@ export default function SellerCustomers() {
         ))}
       </div>
 
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-        <div className="flex items-center gap-3 p-4 border-b border-[var(--border)]">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
+        <div className="flex items-center gap-3 p-4 border-b border-border">
           <div className="relative flex-1 max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-foreground)]" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder="Search customers..."
-              className="w-full pl-9 pr-4 py-2 text-sm bg-[var(--secondary)] border border-[var(--border)] rounded-lg text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] focus:outline-none focus:border-[#0077B6]"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#0077B6]"
             />
           </div>
           <select
             value={sort}
             onChange={e => setSort(e.target.value)}
-            className="text-sm bg-[var(--secondary)] border border-[var(--border)] rounded-lg px-3 py-2 text-[var(--foreground)] focus:outline-none hidden sm:block"
+            className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block"
           >
             <option value="totalSpent">Sort: Top spenders</option>
             <option value="orders">Sort: Most orders</option>
@@ -73,27 +73,27 @@ export default function SellerCustomers() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
+              <tr className="border-b border-border bg-secondary">
                 {['Customer', 'Email', 'Orders', 'Total spent', 'Last order', 'Status'].map(h => (
-                  <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide whitespace-nowrap">{h}</th>
+                  <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-[var(--border)]">
+            <tbody className="divide-y divide-border">
               {filtered.map(customer => (
-                <tr key={customer.id} className="hover:bg-[var(--secondary)] transition-colors">
+                <tr key={customer.id} className="hover:bg-secondary transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
                       <div className="w-8 h-8 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                         {customer.avatar}
                       </div>
-                      <span className="font-medium text-[var(--foreground)]">{customer.name}</span>
+                      <span className="font-medium text-foreground">{customer.name}</span>
                     </div>
                   </td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{customer.email}</td>
-                  <td className="px-4 py-3 font-medium text-[var(--foreground)]">{customer.orders}</td>
-                  <td className="px-4 py-3 font-bold text-[var(--foreground)]">{formatPrice(customer.totalSpent)}</td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{customer.lastOrder}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{customer.email}</td>
+                  <td className="px-4 py-3 font-medium text-foreground">{customer.orders}</td>
+                  <td className="px-4 py-3 font-bold text-foreground">{formatPrice(customer.totalSpent)}</td>
+                  <td className="px-4 py-3 text-muted-foreground">{customer.lastOrder}</td>
                   <td className="px-4 py-3">
                     <Badge variant={customer.status === 'active' ? 'success' : 'outline'}>{customer.status}</Badge>
                   </td>
@@ -103,7 +103,7 @@ export default function SellerCustomers() {
           </table>
         </div>
 
-        <div className="flex justify-center p-4 border-t border-[var(--border)]">
+        <div className="flex justify-center p-4 border-t border-border">
           <Pagination current={page} total={4} onChange={setPage} />
         </div>
       </div>

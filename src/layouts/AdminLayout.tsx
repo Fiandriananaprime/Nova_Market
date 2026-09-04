@@ -78,7 +78,7 @@ export default function AdminLayout() {
   );
 
   return (
-    <div className="h-screen flex overflow-hidden bg-[var(--background)]">
+    <div className="h-screen flex overflow-hidden bg-background">
       <aside className="hidden md:flex flex-col flex-shrink-0">
         <Sidebar />
       </aside>
@@ -93,29 +93,29 @@ export default function AdminLayout() {
       )}
 
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="h-16 bg-[var(--card)] border-b border-[var(--border)] flex items-center gap-3 px-4 sm:px-6 flex-shrink-0">
-          <button className="md:hidden p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg" onClick={() => setSidebarOpen(true)}>
+        <header className="h-16 bg-card border-b border-border flex items-center gap-3 px-4 sm:px-6 flex-shrink-0">
+          <button className="md:hidden p-2 text-muted-foreground hover:bg-secondary rounded-lg" onClick={() => setSidebarOpen(true)}>
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1">
-            <h1 className="font-semibold text-sm font-display text-[var(--foreground)] hidden sm:block">
+            <h1 className="font-semibold text-sm font-display text-foreground hidden sm:block">
               {navItems.find(i => i.to === location.pathname || (i.to !== '/admin' && location.pathname.startsWith(i.to)))?.label || 'Admin Dashboard'}
             </h1>
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors">
+            <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               <Globe className="w-4 h-4" />
             </button>
-            <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors">
+            <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               {resolvedTheme === 'dark' ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
             </button>
-            <button className="relative p-2 text-[var(--muted-foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors">
+            <button className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               <Bell className="w-4.5 h-4.5" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full" />
             </button>
-            <div className="flex items-center gap-2 pl-2 ml-1 border-l border-[var(--border)]">
+            <div className="flex items-center gap-2 pl-2 ml-1 border-l border-border">
               <div className="w-7 h-7 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">A</div>
-              <span className="hidden sm:block text-sm font-medium text-[var(--foreground)]">Admin</span>
+              <span className="hidden sm:block text-sm font-medium text-foreground">Admin</span>
             </div>
           </div>
         </header>

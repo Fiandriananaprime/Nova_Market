@@ -48,7 +48,7 @@ export default function LandingPage() {
     fetchCategories();
   }, []);
   return (
-    <div className="bg-[var(--background)]">
+    <div className="bg-background">
       {/* Hero */}
       <section id="Home" className="relative overflow-hidden bg-[#16262E]">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_#0077B620,_transparent_60%)]" />
@@ -164,10 +164,10 @@ export default function LandingPage() {
       <section className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-[var(--foreground)] mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
               {t('One marketplace. Many sellers.', 'Une marketplace. De nombreux vendeurs.')}
             </h2>
-            <p className="text-[var(--muted-foreground)] max-w-xl mx-auto">
+            <p className="text-muted-foreground max-w-xl mx-auto">
               {t('We connect customers with companies, official distributors, supermarkets, local businesses and independent sellers.', 'Nous connectons les clients aux entreprises, distributeurs officiels, supermarchés et vendeurs indépendants.')}
             </p>
           </div>
@@ -179,19 +179,19 @@ export default function LandingPage() {
               { icon: <ShoppingCart className="w-5 h-5" />, title: t('Simple shopping', 'Shopping simple'), desc: t('Add products to your cart and place orders easily.', 'Ajoutez au panier et commandez facilement.'), color: '#0077B6' },
               { icon: <Shield className="w-5 h-5" />, title: t('Trusted sellers', 'Vendeurs de confiance'), desc: t('Identify verified sellers and view ratings.', 'Identifiez les vendeurs vérifiés et leurs avis.'), color: '#5ABCB9' },
             ].map((f, i) => (
-              <div key={i} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 hover:shadow-md hover:border-[#5ABCB9]/30 transition-all">
+              <div key={i} className="bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-[#5ABCB9]/30 transition-all">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: `${f.color}15`, color: f.color }}>
                   {f.icon}
                 </div>
-                <h3 className="font-semibold font-display text-[var(--foreground)] mb-1.5">{f.title}</h3>
-                <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">{f.desc}</p>
+                <h3 className="font-semibold font-display text-foreground mb-1.5">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             ))}
           </div>
 
           {/* Seller types */}
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 sm:p-8">
-            <h3 className="font-semibold font-display text-[var(--foreground)] mb-5 text-center">{t('Who sells on MasoMarket?', 'Qui vend sur MasoMarket ?')}</h3>
+          <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
+            <h3 className="font-semibold font-display text-foreground mb-5 text-center">{t('Who sells on MasoMarket?', 'Qui vend sur MasoMarket ?')}</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {[
                 { icon: '🏢', label: t('Companies', 'Entreprises') },
@@ -200,9 +200,9 @@ export default function LandingPage() {
                 { icon: '🏪', label: t('Local businesses', 'Commerces locaux') },
                 { icon: '👤', label: t('Independent sellers', 'Vendeurs indépendants') },
               ].map((s, i) => (
-                <div key={i} className="flex items-center gap-2.5 px-4 py-2.5 bg-[var(--secondary)] rounded-full">
+                <div key={i} className="flex items-center gap-2.5 px-4 py-2.5 bg-secondary rounded-full">
                   <span className="text-lg">{s.icon}</span>
-                  <span className="text-sm font-medium text-[var(--foreground)]">{s.label}</span>
+                  <span className="text-sm font-medium text-foreground">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -244,8 +244,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-[var(--foreground)]">{t('Popular categories', 'Catégories populaires')}</h2>
-              <p className="text-[var(--muted-foreground)] mt-1">{t('Browse by category', 'Parcourir par catégorie')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Popular categories', 'Catégories populaires')}</h2>
+              <p className="text-muted-foreground mt-1">{t('Browse by category', 'Parcourir par catégorie')}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/categories')}>
               {t('View all', 'Voir tout')}
@@ -261,7 +261,7 @@ export default function LandingPage() {
               <button
                 key={cat.id}
                 onClick={() => navigate(`/products?category=${cat.id}`)}
-                className="flex flex-col items-center gap-2 p-3 bg-[var(--card)] border border-[var(--border)] rounded-xl hover:border-[#0077B6]/40 hover:shadow-md transition-all group text-center"
+                className="flex flex-col items-center gap-2 p-3 bg-card border border-border rounded-xl hover:border-[#0077B6]/40 hover:shadow-md transition-all group text-center"
               >
                 <div className="w-10 h-10 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] group-hover:bg-[#0077B6] group-hover:text-white transition-colors">
                   <DynamicIcon
@@ -271,11 +271,11 @@ export default function LandingPage() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-medium text-[var(--foreground)] leading-tight">
+                  <div className="text-xs font-medium text-foreground leading-tight">
                     {cat.name}
                   </div>
 
-                  <div className="text-[10px] text-[var(--muted-foreground)]">
+                  <div className="text-[10px] text-muted-foreground">
                     {cat.count.toLocaleString()}
                   </div>
                 </div>
@@ -286,12 +286,12 @@ export default function LandingPage() {
       </section>
 
       {/* Featured Sellers */}
-      <section id="FeaturedSellers" className="py-16 bg-[var(--secondary)]">
+      <section id="FeaturedSellers" className="py-16 bg-secondary">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-[var(--foreground)]">{t('Featured Sellers', 'Vendeurs en vedette')}</h2>
-              <p className="text-[var(--muted-foreground)] mt-1">{t('Top verified stores', 'Boutiques vérifiées top')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Featured Sellers', 'Vendeurs en vedette')}</h2>
+              <p className="text-muted-foreground mt-1">{t('Top verified stores', 'Boutiques vérifiées top')}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/sellers')}>
               {t('View all', 'Voir tout')}
@@ -300,11 +300,11 @@ export default function LandingPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {homeData?.featuredSellers.map(seller => (
-              <div key={seller.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md transition-all">
+              <div key={seller.id} className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md transition-all">
                 <div className="h-24 bg-[#16262E] relative">
                   <img src={seller.cover} alt="" className="w-full h-full object-cover opacity-60" />
                   <div className="absolute bottom-3 left-3">
-                    <div className="w-12 h-12 rounded-xl bg-white border-2 border-[var(--border)] overflow-hidden">
+                    <div className="w-12 h-12 rounded-xl bg-white border-2 border-border overflow-hidden">
                       <img src={seller.logo} alt={seller.name} className="w-full h-full object-cover" />
                     </div>
                   </div>
@@ -312,12 +312,12 @@ export default function LandingPage() {
                 <div className="p-4 pt-3">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold font-display text-[var(--foreground)]">{seller.name}</h3>
+                      <h3 className="font-semibold font-display text-foreground">{seller.name}</h3>
                       {seller.verified && <VerifiedBadge small />}
                     </div>
                     <Rating value={seller.rating} showCount={false} />
                   </div>
-                  <div className="flex items-center gap-3 text-xs text-[var(--muted-foreground)] mb-3">
+                  <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
                     <span>{seller.productsCount.toLocaleString()} products</span>
                     <span>·</span>
                     <span>{seller.location}</span>
@@ -337,8 +337,8 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-[var(--foreground)]">{t('Featured Products', 'Produits en vedette')}</h2>
-              <p className="text-[var(--muted-foreground)] mt-1">{t('Handpicked for you', 'Sélectionnés pour vous')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Featured Products', 'Produits en vedette')}</h2>
+              <p className="text-muted-foreground mt-1">{t('Handpicked for you', 'Sélectionnés pour vous')}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/products')}>
               {t('View all', 'Voir tout')}
@@ -347,18 +347,18 @@ export default function LandingPage() {
           </div>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {homeData?.featuredProducts.slice(0, 8).map(product => (
-              <div key={product.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/30 transition-all group cursor-pointer" onClick={() => navigate(`/products/${product.id}`)}>
-                <div className="relative overflow-hidden bg-[var(--secondary)]">
+              <div key={product.id} className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/30 transition-all group cursor-pointer" onClick={() => navigate(`/products/${product.id}`)}>
+                <div className="relative overflow-hidden bg-secondary">
                   <img src={product.image} alt={product.name} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300" />
                   {product.discount && product.discount > 0 && <Badge variant="danger" className="absolute top-2 left-2">-{product.discount}%</Badge>}
                 </div>
                 <div className="p-3">
-                  <p className="text-xs text-[var(--muted-foreground)]">{product.brand}</p>
-                  <h3 className="font-medium text-sm text-[var(--foreground)] truncate mt-0.5">{product.name}</h3>
+                  <p className="text-xs text-muted-foreground">{product.brand}</p>
+                  <h3 className="font-medium text-sm text-foreground truncate mt-0.5">{product.name}</h3>
                   <div className="flex items-center justify-between mt-2">
                     <div>
-                      <div className="font-bold text-[var(--foreground)] text-sm">{formatPrice(product.price)}</div>
-                      {product.originalPrice && <div className="text-xs text-[var(--muted-foreground)] line-through">{formatPrice(product.originalPrice)}</div>}
+                      <div className="font-bold text-foreground text-sm">{formatPrice(product.price)}</div>
+                      {product.originalPrice && <div className="text-xs text-muted-foreground line-through">{formatPrice(product.originalPrice)}</div>}
                     </div>
                     <Rating value={product.rating} showCount={false} size="xs" />
                   </div>
@@ -407,10 +407,10 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section className="py-16 sm:py-20 text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-bold font-display text-[var(--foreground)] mb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
             {t('Ready to start shopping?', 'Prêt à commencer vos achats ?')}
           </h2>
-          <p className="text-[var(--muted-foreground)] mb-8">
+          <p className="text-muted-foreground mb-8">
             {t('Create an account and discover products from trusted sellers.', 'Créez un compte et découvrez des produits de vendeurs de confiance.')}
           </p>
           <div className="flex flex-wrap justify-center gap-3">

@@ -24,7 +24,7 @@ export function OrdersList() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-5">{t('My orders', 'Mes commandes')}</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t('My orders', 'Mes commandes')}</h1>
 
       <div className="overflow-x-auto mb-5">
         <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
@@ -39,26 +39,26 @@ export function OrdersList() {
       ) : (
         <div className="space-y-3">
           {filtered.map(order => (
-            <div key={order.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 hover:shadow-sm transition-all">
+            <div key={order.id} className="bg-card border border-border rounded-xl p-4 hover:shadow-sm transition-all">
               <div className="flex items-start justify-between mb-3">
                 <div>
                   <div className="font-mono text-sm font-bold text-[#0077B6]">{order.id}</div>
-                  <div className="text-xs text-[var(--muted-foreground)] mt-0.5">{order.date}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{order.date}</div>
                 </div>
                 <StatusBadge status={order.status} />
               </div>
               <div className="flex gap-2 mb-3">
                 {order.items.slice(0, 3).map(({ product }, i) => (
-                  <div key={i} className="w-12 h-12 rounded-lg overflow-hidden bg-[var(--secondary)]">
+                  <div key={i} className="w-12 h-12 rounded-lg overflow-hidden bg-secondary">
                     <img src={`https://images.unsplash.com/${product.image}?w=60&h=60&fit=crop&auto=format`} alt="" className="w-full h-full object-cover" />
                   </div>
                 ))}
-                {order.items.length > 3 && <div className="w-12 h-12 rounded-lg bg-[var(--secondary)] flex items-center justify-center text-xs font-medium text-[var(--muted-foreground)]">+{order.items.length - 3}</div>}
+                {order.items.length > 3 && <div className="w-12 h-12 rounded-lg bg-secondary flex items-center justify-center text-xs font-medium text-muted-foreground">+{order.items.length - 3}</div>}
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-xs text-[var(--muted-foreground)]">{order.items.length} {t('items', 'articles')} · {order.seller}</div>
-                  <div className="font-bold text-[var(--foreground)] mt-0.5">{formatPrice(order.total)}</div>
+                  <div className="text-xs text-muted-foreground">{order.items.length} {t('items', 'articles')} · {order.seller}</div>
+                  <div className="font-bold text-foreground mt-0.5">{formatPrice(order.total)}</div>
                 </div>
                 <div className="flex gap-2">
                   <Button variant="outline" size="sm" onClick={() => navigate(`/orders/${order.id}`)}>{t('View', 'Voir')}</Button>
@@ -97,12 +97,12 @@ export function OrderDetail() {
         <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
           <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-2">{t('Order placed successfully!', 'Commande passée avec succès !')}</h1>
-        <p className="text-[var(--muted-foreground)] mb-6">{t('Thank you for your order. We\'ll notify you when it ships.', 'Merci pour votre commande. Nous vous notifierons dès l\'expédition.')}</p>
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 mb-6 text-sm text-left space-y-2">
-          <div className="flex justify-between"><span className="text-[var(--muted-foreground)]">{t('Order number', 'N° commande')}</span><span className="font-mono font-bold text-[#0077B6]">ORD-2026-004</span></div>
-          <div className="flex justify-between"><span className="text-[var(--muted-foreground)]">Total</span><span className="font-bold">3,500 Ar</span></div>
-          <div className="flex justify-between"><span className="text-[var(--muted-foreground)]">{t('Estimated delivery', 'Livraison estimée')}</span><span>5 Sep 2026</span></div>
+        <h1 className="text-2xl font-bold font-display text-foreground mb-2">{t('Order placed successfully!', 'Commande passée avec succès !')}</h1>
+        <p className="text-muted-foreground mb-6">{t('Thank you for your order. We\'ll notify you when it ships.', 'Merci pour votre commande. Nous vous notifierons dès l\'expédition.')}</p>
+        <div className="bg-card border border-border rounded-xl p-4 mb-6 text-sm text-left space-y-2">
+          <div className="flex justify-between"><span className="text-muted-foreground">{t('Order number', 'N° commande')}</span><span className="font-mono font-bold text-[#0077B6]">ORD-2026-004</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="font-bold">3,500 Ar</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">{t('Estimated delivery', 'Livraison estimée')}</span><span>5 Sep 2026</span></div>
         </div>
         <div className="flex gap-2 justify-center">
           <Button onClick={() => navigate('/orders')}>{t('View orders', 'Voir les commandes')}</Button>
@@ -114,15 +114,15 @@ export function OrderDetail() {
 
   return (
     <div className="max-w-2xl">
-      <button onClick={() => navigate('/orders')} className="flex items-center gap-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-4 transition-colors">
+      <button onClick={() => navigate('/orders')} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
         <ArrowLeft className="w-4 h-4" />
         {t('Back to orders', 'Retour aux commandes')}
       </button>
 
       <div className="flex items-start justify-between mb-5">
         <div>
-          <h1 className="text-xl font-bold font-display text-[var(--foreground)]">{order.id}</h1>
-          <p className="text-sm text-[var(--muted-foreground)]">{order.date}</p>
+          <h1 className="text-xl font-bold font-display text-foreground">{order.id}</h1>
+          <p className="text-sm text-muted-foreground">{order.date}</p>
         </div>
         <StatusBadge status={order.status} />
       </div>
@@ -132,31 +132,31 @@ export function OrderDetail() {
       <div className="mt-5">
         {activeTab === 'details' && (
           <div className="space-y-4">
-            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
-              <h3 className="font-semibold text-sm font-display text-[var(--foreground)] mb-3">{t('Items', 'Articles')}</h3>
+            <div className="bg-card border border-border rounded-xl p-4">
+              <h3 className="font-semibold text-sm font-display text-foreground mb-3">{t('Items', 'Articles')}</h3>
               <div className="space-y-3">
                 {order.items.map(({ product, qty }, i) => (
                   <div key={i} className="flex gap-3">
-                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-[var(--secondary)] flex-shrink-0">
+                    <div className="w-12 h-12 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
                       <img src={`https://images.unsplash.com/${product.image}?w=60&h=60&fit=crop&auto=format`} alt="" className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1">
-                      <div className="text-sm font-medium text-[var(--foreground)]">{product.name}</div>
-                      <div className="text-xs text-[var(--muted-foreground)]">x{qty}</div>
+                      <div className="text-sm font-medium text-foreground">{product.name}</div>
+                      <div className="text-xs text-muted-foreground">x{qty}</div>
                     </div>
-                    <span className="text-sm font-bold text-[var(--foreground)]">{formatPrice(product.price * qty)}</span>
+                    <span className="text-sm font-bold text-foreground">{formatPrice(product.price * qty)}</span>
                   </div>
                 ))}
               </div>
-              <div className="border-t border-[var(--border)] mt-3 pt-3 flex justify-between">
-                <span className="font-semibold text-[var(--foreground)]">Total</span>
-                <span className="font-bold text-lg text-[var(--foreground)]">{formatPrice(order.total)}</span>
+              <div className="border-t border-border mt-3 pt-3 flex justify-between">
+                <span className="font-semibold text-foreground">Total</span>
+                <span className="font-bold text-lg text-foreground">{formatPrice(order.total)}</span>
               </div>
             </div>
 
-            <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
-              <h3 className="font-semibold text-sm font-display text-[var(--foreground)] mb-2">{t('Delivery address', 'Adresse de livraison')}</h3>
-              <div className="flex items-start gap-2 text-sm text-[var(--muted-foreground)]">
+            <div className="bg-card border border-border rounded-xl p-4">
+              <h3 className="font-semibold text-sm font-display text-foreground mb-2">{t('Delivery address', 'Adresse de livraison')}</h3>
+              <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#0077B6]" />
                 {order.address}
               </div>
@@ -165,25 +165,25 @@ export function OrderDetail() {
         )}
 
         {activeTab === 'tracking' && (
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div className="bg-card border border-border rounded-xl p-5">
             {order.tracking && (
-              <div className="flex items-center gap-2 mb-5 p-3 bg-[var(--secondary)] rounded-lg">
+              <div className="flex items-center gap-2 mb-5 p-3 bg-secondary rounded-lg">
                 <Truck className="w-4 h-4 text-[#0077B6]" />
-                <span className="text-sm"><span className="text-[var(--muted-foreground)]">{t('Tracking number', 'N° de suivi')}:</span> <span className="font-mono font-bold text-[var(--foreground)]">{order.tracking}</span></span>
+                <span className="text-sm"><span className="text-muted-foreground">{t('Tracking number', 'N° de suivi')}:</span> <span className="font-mono font-bold text-foreground">{order.tracking}</span></span>
               </div>
             )}
             <div className="space-y-0">
               {timeline.map((step, i) => (
                 <div key={i} className="flex gap-4">
                   <div className="flex flex-col items-center">
-                    <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${step.done ? 'bg-[#0077B6] text-white' : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'}`}>
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 ${step.done ? 'bg-[#0077B6] text-white' : 'bg-secondary text-muted-foreground'}`}>
                       {step.done ? <CheckCircle2 className="w-4 h-4" /> : <Clock className="w-4 h-4" />}
                     </div>
-                    {i < timeline.length - 1 && <div className={`w-0.5 flex-1 my-1 ${step.done ? 'bg-[#0077B6]' : 'bg-[var(--border)]'}`} style={{ minHeight: '24px' }} />}
+                    {i < timeline.length - 1 && <div className={`w-0.5 flex-1 my-1 ${step.done ? 'bg-[#0077B6]' : 'bg-border'}`} style={{ minHeight: '24px' }} />}
                   </div>
                   <div className="pb-5">
-                    <div className={`text-sm font-medium ${step.done ? 'text-[var(--foreground)]' : 'text-[var(--muted-foreground)]'}`}>{step.label}</div>
-                    {step.time && <div className="text-xs text-[var(--muted-foreground)]">{step.time}</div>}
+                    <div className={`text-sm font-medium ${step.done ? 'text-foreground' : 'text-muted-foreground'}`}>{step.label}</div>
+                    {step.time && <div className="text-xs text-muted-foreground">{step.time}</div>}
                   </div>
                 </div>
               ))}

@@ -82,7 +82,7 @@ export default function UserDetails() {
   if (!user) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-lg font-semibold text-[var(--foreground)]">
+        <h2 className="text-lg font-semibold text-foreground">
           User not found
         </h2>
 
@@ -103,14 +103,14 @@ export default function UserDetails() {
       {/* Back */}
       <Link
         to="/admin/users"
-        className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)]"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="w-4 h-4" />
         Back to users
       </Link>
 
       {/* Profile header */}
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+      <div className="bg-card border border-border rounded-xl p-5">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
 
           <div className="flex items-center gap-4">
@@ -138,11 +138,11 @@ export default function UserDetails() {
             )}
 
             <div>
-              <h1 className="text-xl font-bold font-display text-[var(--foreground)]">
+              <h1 className="text-xl font-bold font-display text-foreground">
                 {user.name}
               </h1>
 
-              <p className="text-sm text-[var(--muted-foreground)]">
+              <p className="text-sm text-muted-foreground">
                 {user.email}
               </p>
 
@@ -153,7 +153,7 @@ export default function UserDetails() {
                       ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]'
                       : user.role === 'seller'
                         ? 'bg-[#0077B6]/10 text-[#0077B6]'
-                        : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'
+                        : 'bg-secondary text-muted-foreground'
                   }`}
                 >
                   {user.role}
@@ -195,10 +195,10 @@ export default function UserDetails() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
         {/* Account information */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
 
-          <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">
+          <div className="px-5 py-4 border-b border-border">
+            <h2 className="font-semibold font-display text-foreground">
               Account information
             </h2>
           </div>
@@ -242,10 +242,10 @@ export default function UserDetails() {
         </div>
 
         {/* Activity */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
 
-          <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">
+          <div className="px-5 py-4 border-b border-border">
+            <h2 className="font-semibold font-display text-foreground">
               Activity
             </h2>
           </div>
@@ -258,27 +258,27 @@ export default function UserDetails() {
               </div>
 
               <div>
-                <p className="text-xs text-[var(--muted-foreground)]">
+                <p className="text-xs text-muted-foreground">
                   Orders
                 </p>
 
-                <p className="font-semibold text-[var(--foreground)]">
+                <p className="font-semibold text-foreground">
                   {user.ordersCount}
                 </p>
               </div>
             </div>
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[var(--secondary)] flex items-center justify-center">
-                <Calendar className="w-5 h-5 text-[var(--muted-foreground)]" />
+              <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
+                <Calendar className="w-5 h-5 text-muted-foreground" />
               </div>
 
               <div>
-                <p className="text-xs text-[var(--muted-foreground)]">
+                <p className="text-xs text-muted-foreground">
                   Member since
                 </p>
 
-                <p className="font-semibold text-[var(--foreground)]">
+                <p className="font-semibold text-foreground">
                   {formatDate(user.joinedAt)}
                 </p>
               </div>
@@ -289,16 +289,16 @@ export default function UserDetails() {
       </div>
 
       {/* Addresses */}
-      <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-hidden">
 
-        <div className="px-5 py-4 border-b border-[var(--border)]">
-          <h2 className="font-semibold font-display text-[var(--foreground)]">
+        <div className="px-5 py-4 border-b border-border">
+          <h2 className="font-semibold font-display text-foreground">
             Addresses
           </h2>
         </div>
 
         {user.addresses?.length > 0 ? (
-          <div className="divide-y divide-[var(--border)]">
+          <div className="divide-y divide-border">
             {user.addresses.map((address) => (
               <div
                 key={address.id}
@@ -306,13 +306,13 @@ export default function UserDetails() {
               >
                 <div className="flex gap-3">
 
-                  <div className="w-9 h-9 rounded-lg bg-[var(--secondary)] flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-4 h-4 text-[var(--muted-foreground)]" />
+                  <div className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-4 h-4 text-muted-foreground" />
                   </div>
 
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-medium text-[var(--foreground)]">
+                      <p className="font-medium text-foreground">
                         {address.label}
                       </p>
 
@@ -323,16 +323,16 @@ export default function UserDetails() {
                       )}
                     </div>
 
-                    <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                    <p className="text-sm text-muted-foreground mt-1">
                       {address.fullAddress}
                     </p>
 
-                    <p className="text-sm text-[var(--muted-foreground)]">
+                    <p className="text-sm text-muted-foreground">
                       {address.city}
                     </p>
 
                     {address.phone && (
-                      <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                      <p className="text-sm text-muted-foreground mt-1">
                         {address.phone}
                       </p>
                     )}
@@ -342,7 +342,7 @@ export default function UserDetails() {
             ))}
           </div>
         ) : (
-          <div className="p-5 text-sm text-[var(--muted-foreground)]">
+          <div className="p-5 text-sm text-muted-foreground">
             No address registered.
           </div>
         )}
@@ -364,12 +364,12 @@ function InfoRow({
 }: InfoRowProps) {
   return (
     <div className="flex items-center justify-between gap-4">
-      <div className="flex items-center gap-2 text-sm text-[var(--muted-foreground)]">
+      <div className="flex items-center gap-2 text-sm text-muted-foreground">
         {icon}
         {label}
       </div>
 
-      <div className="text-sm font-medium text-[var(--foreground)] text-right">
+      <div className="text-sm font-medium text-foreground text-right">
         {value}
       </div>
     </div>

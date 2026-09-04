@@ -57,18 +57,18 @@ export default function Shop() {
       {/* Categories */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-display text-[var(--foreground)]">{t('Popular categories', 'Catégories populaires')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t('Popular categories', 'Catégories populaires')}</h2>
           <button onClick={() => navigate('/products')} className="text-sm text-[#0077B6] font-medium hover:underline flex items-center gap-1">
             {t('View all', 'Voir tout')} <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
           {categories.map(cat => (
-            <button key={cat.id} onClick={() => navigate(`/products?category=${cat.id}`)} className="flex flex-col items-center gap-1.5 p-2.5 bg-[var(--card)] border border-[var(--border)] rounded-xl hover:border-[#0077B6]/40 hover:shadow-sm transition-all group">
+            <button key={cat.id} onClick={() => navigate(`/products?category=${cat.id}`)} className="flex flex-col items-center gap-1.5 p-2.5 bg-card border border-border rounded-xl hover:border-[#0077B6]/40 hover:shadow-sm transition-all group">
               <div className="w-9 h-9 rounded-lg bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] group-hover:bg-[#0077B6] group-hover:text-white transition-colors">
                 {categoryIcons[cat.icon]}
               </div>
-              <span className="text-[10px] font-medium text-[var(--foreground)] text-center leading-tight">{cat.name}</span>
+              <span className="text-[10px] font-medium text-foreground text-center leading-tight">{cat.name}</span>
             </button>
           ))}
         </div>
@@ -77,7 +77,7 @@ export default function Shop() {
       {/* Recommended */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-display text-[var(--foreground)]">{t('Recommended for you', 'Recommandés pour vous')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t('Recommended for you', 'Recommandés pour vous')}</h2>
           <button onClick={() => navigate('/products')} className="text-sm text-[#0077B6] font-medium hover:underline flex items-center gap-1">
             {t('See all', 'Voir tout')} <ArrowRight className="w-3.5 h-3.5" />
           </button>
@@ -91,7 +91,7 @@ export default function Shop() {
       <section>
         <div className="flex items-center gap-2 mb-4">
           <Tag className="w-5 h-5 text-red-500" />
-          <h2 className="text-lg font-bold font-display text-[var(--foreground)]">{t('Promotions', 'Promotions')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t('Promotions', 'Promotions')}</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {promotions.map(p => <ProductCard key={p.id} product={p} />)}
@@ -103,32 +103,32 @@ export default function Shop() {
         <div className="lg:col-span-2">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-[#0077B6]" />
-            <h2 className="text-lg font-bold font-display text-[var(--foreground)]">{t('Best sellers', 'Meilleures ventes')}</h2>
+            <h2 className="text-lg font-bold font-display text-foreground">{t('Best sellers', 'Meilleures ventes')}</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {bestSellers.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
         <div>
-          <h2 className="text-lg font-bold font-display text-[var(--foreground)] mb-4">{t('Stores you may like', 'Boutiques à découvrir')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground mb-4">{t('Stores you may like', 'Boutiques à découvrir')}</h2>
           <div className="space-y-3">
             {sellers.slice(0, 4).map(seller => (
-              <div key={seller.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-3 flex items-center gap-3 hover:shadow-sm hover:border-[#5ABCB9]/30 transition-all cursor-pointer" onClick={() => navigate(`/stores/${seller.id}`)}>
-                <div className="w-10 h-10 rounded-lg overflow-hidden bg-[var(--secondary)] flex-shrink-0">
+              <div key={seller.id} className="bg-card border border-border rounded-xl p-3 flex items-center gap-3 hover:shadow-sm hover:border-[#5ABCB9]/30 transition-all cursor-pointer" onClick={() => navigate(`/stores/${seller.id}`)}>
+                <div className="w-10 h-10 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
                   <img src={`https://images.unsplash.com/${seller.logo}?w=80&h=80&fit=crop&auto=format`} alt={seller.name} className="w-full h-full object-cover" />
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-1">
-                    <span className="font-medium text-sm text-[var(--foreground)] truncate">{seller.name}</span>
+                    <span className="font-medium text-sm text-foreground truncate">{seller.name}</span>
                     {seller.verified && <span className="text-[#0077B6] flex-shrink-0">✓</span>}
                   </div>
-                  <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <Rating value={seller.rating} showCount={false} size="xs" />
                     <span>·</span>
                     <span>{seller.products} items</span>
                   </div>
                 </div>
-                <ArrowRight className="w-4 h-4 text-[var(--muted-foreground)]" />
+                <ArrowRight className="w-4 h-4 text-muted-foreground" />
               </div>
             ))}
           </div>
@@ -139,7 +139,7 @@ export default function Shop() {
       <section>
         <div className="flex items-center gap-2 mb-4">
           <Clock className="w-5 h-5 text-[#5ABCB9]" />
-          <h2 className="text-lg font-bold font-display text-[var(--foreground)]">{t('Recently added', 'Récemment ajoutés')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t('Recently added', 'Récemment ajoutés')}</h2>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {recent.map(p => <ProductCard key={p.id} product={p} />)}

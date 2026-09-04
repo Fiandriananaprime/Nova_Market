@@ -41,16 +41,16 @@ export default function Profile() {
           <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0077B6] to-[#5ABCB9] flex items-center justify-center text-white text-3xl font-bold shadow-lg">
             A
           </div>
-          <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-[var(--card)] border-2 border-[var(--background)] flex items-center justify-center text-[var(--muted-foreground)] hover:text-[#0077B6] transition-colors shadow-sm">
+          <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-card border-2 border-background flex items-center justify-center text-muted-foreground hover:text-[#0077B6] transition-colors shadow-sm">
             <Edit className="w-3.5 h-3.5" />
           </button>
         </div>
         <div>
-          <h1 className="text-2xl font-bold font-display text-[var(--foreground)]">Andry Rakoto</h1>
-          <p className="text-sm text-[var(--muted-foreground)]">andry@email.com</p>
+          <h1 className="text-2xl font-bold font-display text-foreground">Andry Rakoto</h1>
+          <p className="text-sm text-muted-foreground">andry@email.com</p>
           <div className="flex items-center gap-3 mt-2">
-            <span className="flex items-center gap-1 text-xs text-[var(--muted-foreground)]"><Package className="w-3.5 h-3.5" /> {orders.length} orders</span>
-            <span className="flex items-center gap-1 text-xs text-[var(--muted-foreground)]"><Heart className="w-3.5 h-3.5" /> 2 favorites</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} orders</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Heart className="w-3.5 h-3.5" /> 2 favorites</span>
           </div>
         </div>
         <div className="ml-auto flex gap-2">
@@ -65,9 +65,9 @@ export default function Profile() {
 
       <div className="mt-5">
         {activeTab === 'info' && (
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold font-display text-[var(--foreground)]">{t('Personal information', 'Informations personnelles')}</h2>
+              <h2 className="font-semibold font-display text-foreground">{t('Personal information', 'Informations personnelles')}</h2>
               <Button variant="outline" size="sm" onClick={() => setEditing(!editing)}>
                 <Edit className="w-3.5 h-3.5" />
                 {editing ? t('Cancel', 'Annuler') : t('Edit', 'Modifier')}
@@ -99,8 +99,8 @@ export default function Profile() {
                   { label: t('Member since', 'Membre depuis'), value: 'March 2025' },
                 ].map(f => (
                   <div key={f.label}>
-                    <div className="text-xs font-medium text-[var(--muted-foreground)] mb-0.5">{f.label}</div>
-                    <div className="font-medium text-[var(--foreground)]">{f.value}</div>
+                    <div className="text-xs font-medium text-muted-foreground mb-0.5">{f.label}</div>
+                    <div className="font-medium text-foreground">{f.value}</div>
                   </div>
                 ))}
               </div>
@@ -111,25 +111,25 @@ export default function Profile() {
         {activeTab === 'addresses' && (
           <div className="space-y-3">
             {addresses.map(addr => (
-              <div key={addr.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 flex items-start gap-3">
+              <div key={addr.id} className="bg-card border border-border rounded-xl p-4 flex items-start gap-3">
                 <div className="w-9 h-9 rounded-lg bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] flex-shrink-0 mt-0.5">
                   <MapPin className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-semibold text-[var(--foreground)]">{addr.label}</span>
+                    <span className="font-semibold text-foreground">{addr.label}</span>
                     {addr.default && (
                       <span className="text-xs bg-[#0077B6]/10 text-[#0077B6] px-1.5 py-0.5 rounded-full font-medium flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" /> {t('Default', 'Par défaut')}
                       </span>
                     )}
                   </div>
-                  <p className="text-sm text-[var(--muted-foreground)]">{addr.address}</p>
-                  <p className="text-sm text-[var(--muted-foreground)]">{addr.phone}</p>
+                  <p className="text-sm text-muted-foreground">{addr.address}</p>
+                  <p className="text-sm text-muted-foreground">{addr.phone}</p>
                 </div>
                 <div className="flex gap-1">
-                  <button className="p-1.5 rounded-lg hover:bg-[var(--secondary)] text-[var(--muted-foreground)] hover:text-[var(--foreground)] transition-colors"><Edit className="w-3.5 h-3.5" /></button>
-                  {!addr.default && <button className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-[var(--muted-foreground)] hover:text-red-500 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>}
+                  <button className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"><Edit className="w-3.5 h-3.5" /></button>
+                  {!addr.default && <button className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>}
                 </div>
               </div>
             ))}
@@ -145,7 +145,7 @@ export default function Profile() {
             {orders.map(order => (
               <div
                 key={order.id}
-                className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4 cursor-pointer hover:shadow-sm transition-all"
+                className="bg-card border border-border rounded-xl p-4 cursor-pointer hover:shadow-sm transition-all"
                 onClick={() => navigate(`/orders/${order.id}`)}
               >
                 <div className="flex items-center justify-between mb-2">
@@ -156,14 +156,14 @@ export default function Profile() {
                 </div>
                 <div className="flex gap-2 mb-2">
                   {order.items.slice(0, 4).map(({ product }, i) => (
-                    <div key={i} className="w-10 h-10 rounded-lg overflow-hidden bg-[var(--secondary)]">
+                    <div key={i} className="w-10 h-10 rounded-lg overflow-hidden bg-secondary">
                       <img src={`https://images.unsplash.com/${product.image}?w=50&h=50&fit=crop`} alt="" className="w-full h-full object-cover" />
                     </div>
                   ))}
                 </div>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="text-[var(--muted-foreground)]">{order.date}</span>
-                  <span className="font-bold text-[var(--foreground)]">{formatPrice(order.total)}</span>
+                  <span className="text-muted-foreground">{order.date}</span>
+                  <span className="font-bold text-foreground">{formatPrice(order.total)}</span>
                 </div>
               </div>
             ))}

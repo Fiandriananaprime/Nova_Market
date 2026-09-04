@@ -31,9 +31,9 @@ export default function SellerDashboard() {
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-5">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Revenue</h2>
+            <h2 className="font-semibold font-display text-foreground">Revenue</h2>
             <TrendingUp className="w-4 h-4 text-[#5ABCB9]" />
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -47,9 +47,9 @@ export default function SellerDashboard() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Orders</h2>
+            <h2 className="font-semibold font-display text-foreground">Orders</h2>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={revenueData}>
@@ -65,28 +65,28 @@ export default function SellerDashboard() {
 
       {/* Tables */}
       <div className="grid lg:grid-cols-3 gap-5">
-        <div className="lg:col-span-2 bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Recent orders</h2>
+        <div className="lg:col-span-2 bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h2 className="font-semibold font-display text-foreground">Recent orders</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
+                <tr className="border-b border-border bg-secondary">
                   {['Order', 'Customer', 'Product', 'Amount', 'Status', 'Date'].map(h => (
-                    <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide">{h}</th>
+                    <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[var(--border)]">
+              <tbody className="divide-y divide-border">
                 {recentOrders.map(order => (
-                  <tr key={order.id} className="hover:bg-[var(--secondary)] transition-colors">
+                  <tr key={order.id} className="hover:bg-secondary transition-colors">
                     <td className="px-4 py-3 font-mono text-xs text-[#0077B6] font-bold">{order.id}</td>
-                    <td className="px-4 py-3 text-[var(--foreground)]">{order.customer}</td>
-                    <td className="px-4 py-3 text-[var(--foreground)] truncate max-w-32">{order.product}</td>
-                    <td className="px-4 py-3 font-medium text-[var(--foreground)]">{formatPrice(order.amount)}</td>
+                    <td className="px-4 py-3 text-foreground">{order.customer}</td>
+                    <td className="px-4 py-3 text-foreground truncate max-w-32">{order.product}</td>
+                    <td className="px-4 py-3 font-medium text-foreground">{formatPrice(order.amount)}</td>
                     <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
-                    <td className="px-4 py-3 text-[var(--muted-foreground)]">{order.date}</td>
+                    <td className="px-4 py-3 text-muted-foreground">{order.date}</td>
                   </tr>
                 ))}
               </tbody>
@@ -94,19 +94,19 @@ export default function SellerDashboard() {
           </div>
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[var(--border)]">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Top products</h2>
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h2 className="font-semibold font-display text-foreground">Top products</h2>
           </div>
           <div className="p-4 space-y-3">
             {topProducts.map((p, i) => (
               <div key={i} className="flex items-center gap-3">
                 <div className="w-6 h-6 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">{i + 1}</div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-[var(--foreground)] truncate">{p.name}</div>
-                  <div className="text-xs text-[var(--muted-foreground)]">{p.sales} sold</div>
+                  <div className="text-sm font-medium text-foreground truncate">{p.name}</div>
+                  <div className="text-xs text-muted-foreground">{p.sales} sold</div>
                 </div>
-                <div className="text-xs font-bold text-[var(--foreground)]">{(p.revenue / 1000000).toFixed(1)}M Ar</div>
+                <div className="text-xs font-bold text-foreground">{(p.revenue / 1000000).toFixed(1)}M Ar</div>
               </div>
             ))}
           </div>

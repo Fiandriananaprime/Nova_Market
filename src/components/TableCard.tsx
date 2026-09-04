@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export interface Column<T> {
   key: string;
@@ -15,6 +15,7 @@ interface AdminTableCardProps<T> {
   viewAllHref?: string;
   className?: string;
   rowKey: (item: T, index: number) => string | number;
+  rowHref?: (item: T) => string;
 }
 
  const TableCard = <T,>({
@@ -24,7 +25,9 @@ interface AdminTableCardProps<T> {
   viewAllHref,
   className = '',
   rowKey,
+  rowHref,
 }: AdminTableCardProps<T>) => {
+  const navigate = useNavigate();
   return (
     <div
       className={`bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden ${className}`}
@@ -66,8 +69,13 @@ interface AdminTableCardProps<T> {
           <tbody className="divide-y divide-[var(--border)]">
             {data.map((item, index) => (
               <tr
+              onClick={() => {
+                if (rowHref) {
+                    navigate(rowHref(item));
+                  }
+                }}
                 key={rowKey(item, index)}
-                className="hover:bg-[var(--secondary)] transition-colors"
+                className={`hover:bg-[var(--secondary)] transition-colors ${rowHref ? 'cursor-pointer' : ''}`}
               >
                 {columns.map((column) => (
                   <td

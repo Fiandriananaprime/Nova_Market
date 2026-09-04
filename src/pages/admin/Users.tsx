@@ -1,106 +1,265 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Search, UserX, UserCheck } from 'lucide-react';
 import { Tabs, StatusBadge, Button } from '../../components/ui';
-
-const users = [
-  { id: '1', name: 'Rakoto Andry', email: 'andry@email.com', role: 'buyer', status: 'active', joined: '2025-03-15', orders: 12 },
-  { id: '2', name: 'Marie Ravelo', email: 'marie@email.com', role: 'buyer', status: 'active', joined: '2025-05-22', orders: 8 },
-  { id: '3', name: 'TechStore MG', email: 'contact@techstore.mg', role: 'seller', status: 'active', joined: '2023-01-10', orders: 1240 },
-  { id: '4', name: 'Jean Rabe', email: 'jean@email.com', role: 'buyer', status: 'suspended', joined: '2025-08-01', orders: 2 },
-  { id: '5', name: 'Lewis Store', email: 'info@lewisstore.mg', role: 'seller', status: 'active', joined: '2022-06-15', orders: 860 },
-  { id: '6', name: 'Admin User', email: 'admin@masomarket.mg', role: 'admin', status: 'active', joined: '2021-01-01', orders: 0 },
-];
+import TableCard, { type Column } from '@/components/TableCard';
+import { getAllUser, updateUserStatus } from '@/api/admin/user.api';
+import { User, type status } from '@/type/user';
 
 export default function AdminUsers() {
   const [activeTab, setActiveTab] = useState('all');
+  const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
-  const [statuses, setStatuses] = useState<Record<string, string>>({});
+  const [users, setUsers] = useState<User[]>([]);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchRequest, setSearchRequest] = useState(0);
 
-  const tabs = [
-    { id: 'all', label: 'All users', count: users.length },
-    { id: 'buyer', label: 'Buyers', count: users.filter(u => u.role === 'buyer').length },
-    { id: 'seller', label: 'Sellers', count: users.filter(u => u.role === 'seller').length },
-    { id: 'admin', label: 'Admins', count: users.filter(u => u.role === 'admin').length },
+  const [counts, setCounts] = useState({
+    all: 0,
+    buyer: 0,
+    seller: 0,
+    admin: 0,
+  });
+  const columns: Column<User>[] = [
+    {
+      key: 'name',
+      header: 'User',
+      render: (user) => (
+        <div className="flex items-center gap-2.5">
+          <div
+            className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0"
+            style={{
+              background:
+                user.role === 'admin'
+                  ? '#5ABCB9'
+                  : user.role === 'seller'
+                    ? '#0077B6'
+                    : '#8da8b5',
+            }}
+          >
+            {user.avatarUrl ? (
+              <img
+                src={user.avatarUrl}
+                alt={user.name}
+                className="w-full h-full object-cover rounded-full"
+              />
+            ) : (
+              user.name[0]
+            )}
+          </div>
+
+          <span className="font-medium text-[var(--foreground)]">
+            {user.name}
+          </span>
+        </div>
+      ),
+    },
+
+    {
+      key: 'email',
+      header: 'Email',
+      className: 'text-[var(--muted-foreground)]',
+    },
+
+    {
+      key: 'role',
+      header: 'Role',
+      render: (user) => (
+        <span
+          className={`text-xs font-medium px-2 py-0.5 rounded-full ${
+            user.role === 'admin'
+              ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]'
+              : user.role === 'seller'
+                ? 'bg-[#0077B6]/10 text-[#0077B6]'
+                : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'
+          }`}
+        >
+          {user.role}
+        </span>
+      ),
+    },
+
+    {
+      key: 'status',
+      header: 'Status',
+      render: (user) => (
+        <StatusBadge status={user.status} />
+      ),
+    },
+
+    {
+      key: 'joinedAt',
+      header: 'Joined',
+      className: 'text-[var(--muted-foreground)]',
+    },
+
+    {
+      key: 'ordersCount',
+      header: 'Orders',
+      className: 'text-[var(--foreground)]',
+      render: (user) => String(user.ordersCount ?? 0),
+    },
+
+    {
+      key: 'actions',
+      header: 'Actions',
+      render: (user) => (
+        <div className="flex gap-1">
+          {user.status === 'active' ? (
+            <Button
+              size="xs"
+              variant="outline"
+              onClick={() => handleStatusChange(user)}
+            >
+              <UserX className="w-3 h-3" />
+              Suspend
+            </Button>
+          ) : (
+            <Button
+              size="xs"
+              variant="accent"
+              onClick={() => handleStatusChange(user)}
+            >
+              <UserCheck className="w-3 h-3" />
+              Activate
+            </Button>
+          )}
+        </div>
+      ),
+    },
   ];
 
-  const filtered = users.filter(u => {
-    if (activeTab !== 'all' && u.role !== activeTab) return false;
-    if (search && !u.name.toLowerCase().includes(search.toLowerCase()) && !u.email.toLowerCase().includes(search.toLowerCase())) return false;
-    return true;
-  });
+  const tabs = [
+    {
+      id: 'all',
+      label: 'All users',
+      count: counts.all,
+    },
+    {
+      id: 'buyer',
+      label: 'Buyers',
+      count: counts.buyer,
+    },
+    {
+      id: 'seller',
+      label: 'Sellers',
+      count: counts.seller,
+    },
+    {
+      id: 'admin',
+      label: 'Admins',
+      count: counts.admin,
+    },
+  ];
 
-  const getStatus = (user: typeof users[0]) => statuses[user.id] || user.status;
+  const handleStatusChange = async (user: User) => {
+    const newStatus: status = user.status === 'active' ? 'suspended' : 'active';
+
+    try {
+      const updatedUser = await updateUserStatus(user.id, newStatus);
+      setUsers((currentUsers) =>
+        currentUsers.map((currentUser) =>
+          currentUser.id === user.id
+            ? { ...currentUser, status: updatedUser.status }
+            : currentUser,
+        ),
+      );
+    } catch (error) {
+      console.error('Error updating user status:', error);
+    }
+  };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await getAllUser({
+          page,
+          limit: 20,
+          role: activeTab !== 'all' ? (activeTab as User['role']) : undefined,
+          search: search || undefined,
+        });
+        setCounts(response.counts);
+        setUsers(response.data);
+        setTotalPages(response.meta.totalPages?? 1);
+      } catch (error) {
+        console.error('Error fetching users:', error);
+      }
+    };
+
+    fetchUsers();
+  }, [page, activeTab, search, searchRequest]);
+
+  const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setPage(1);
+    setSearch(searchInput.trim());
+    setSearchRequest((request) => request + 1);
+  };
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-[var(--foreground)] mb-5">User Management</h1>
+      <h1 className="text-xl font-bold font-display text-[var(--foreground)] mb-5">
+        User Management
+      </h1>
 
       <div className="overflow-x-auto mb-4">
-        <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
+        <Tabs
+          tabs={tabs}
+          active={activeTab}
+          onChange={setActiveTab}
+        />
       </div>
 
       <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-        <div className="p-4 border-b border-[var(--border)]">
-          <div className="relative max-w-xs">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--muted-foreground)]" />
+        <div className="p-4 border-b border-[var(--border)] flex items-center justify-between">
+          <form
+            onSubmit={handleSearch}
+            className="flex items-center max-w-xs w-[300px]"
+          >
             <input
-              value={search}
-              onChange={e => setSearch(e.target.value)}
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
               placeholder="Search users..."
-              className="w-full pl-9 pr-4 py-2 text-sm bg-[var(--secondary)] border border-[var(--border)] rounded-lg text-[var(--foreground)] focus:outline-none focus:border-[#0077B6]"
+              className=" pl-9 pr-4 py-2 text-sm bg-[var(--secondary)] border border-border rounded-l-lg text-[var(--foreground)] focus:outline-none focus:border-[#0077B6]"
             />
+            <button
+              type="submit"
+              className="h-9 w-9 flex items-center justify-center bg-foreground rounded-r-lg border border-foreground">
+              <Search className="w-4 h-4 text-white" />
+            </button>
+          </form>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+              disabled={page === 1}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Page précédente"
+            >
+              −
+            </button>
+            <span className="text-sm text-[var(--muted-foreground)]">
+              Page {page} of {totalPages}
+            </span>
+            <button
+              onClick={() => setPage((prev) => prev + 1)}
+              disabled={page >= totalPages}
+              className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
+              aria-label="Page suivante"
+            >
+              +
+            </button>
           </div>
         </div>
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
-                {['User', 'Email', 'Role', 'Status', 'Joined', 'Orders', 'Actions'].map(h => (
-                  <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide whitespace-nowrap">{h}</th>
-                ))}
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-[var(--border)]">
-              {filtered.map(user => (
-                <tr key={user.id} className="hover:bg-[var(--secondary)] transition-colors">
-                  <td className="px-4 py-3">
-                    <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0" style={{ background: user.role === 'admin' ? '#5ABCB9' : user.role === 'seller' ? '#0077B6' : '#8da8b5' }}>
-                        {user.name[0]}
-                      </div>
-                      <span className="font-medium text-[var(--foreground)]">{user.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{user.email}</td>
-                  <td className="px-4 py-3">
-                    <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${user.role === 'admin' ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]' : user.role === 'seller' ? 'bg-[#0077B6]/10 text-[#0077B6]' : 'bg-[var(--secondary)] text-[var(--muted-foreground)]'}`}>
-                      {user.role}
-                    </span>
-                  </td>
-                  <td className="px-4 py-3"><StatusBadge status={getStatus(user)} /></td>
-                  <td className="px-4 py-3 text-[var(--muted-foreground)]">{user.joined}</td>
-                  <td className="px-4 py-3 text-[var(--foreground)]">{user.orders}</td>
-                  <td className="px-4 py-3">
-                    <div className="flex gap-1">
-                      {getStatus(user) === 'active' ? (
-                        <Button size="xs" variant="outline" onClick={() => setStatuses(s => ({ ...s, [user.id]: 'suspended' }))}>
-                          <UserX className="w-3 h-3" />
-                          Suspend
-                        </Button>
-                      ) : (
-                        <Button size="xs" variant="accent" onClick={() => setStatuses(s => ({ ...s, [user.id]: 'active' }))}>
-                          <UserCheck className="w-3 h-3" />
-                          Activate
-                        </Button>
-                      )}
-                    </div>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+
+        <TableCard
+          title=""
+          data={users}
+          columns={columns}
+          rowKey={(user) => user.id}
+          rowHref={(user) => `/admin/users/${user.id}`}
+          className="border-0 rounded-none"
+        />
       </div>
     </div>
   );
 }
+

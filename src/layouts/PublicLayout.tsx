@@ -5,10 +5,11 @@ import { useApp } from '../contexts/AppContext';
 import { Button } from '../components/ui';
 import Logo from '../assets/NovaLogo.png';
 function PublicNavbar() {
-  const { lang, setLang, t } = useApp();
+  const { lang, setLang, t, userRole } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('#Home');
   const navigate = useNavigate();
+  const accountPath = userRole === 'admin' ? '/admin' : userRole === 'seller' ? '/seller' : '/shop';
 
   useEffect(() => {
     const sectionIds = ['#Home', '#HowItWorks', '#Categories', '#FeaturedSellers', '#FeaturedProducts'];
@@ -73,8 +74,16 @@ function PublicNavbar() {
               <Globe className="w-4 h-4" />
               {lang.toUpperCase()}
             </button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>{t('Sign in', 'Connexion')}</Button>
-            <Button variant="primary" size="sm" onClick={() => navigate('/register')}>{t('Create account', 'Créer un compte')}</Button>
+            {userRole ? (
+              <Button variant="primary" size="sm" onClick={() => navigate(accountPath)}>
+                {t('My account', 'Mon espace')}
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>{t('Sign in', 'Connexion')}</Button>
+                <Button variant="primary" size="sm" onClick={() => navigate('/register')}>{t('Create account', 'Créer un compte')}</Button>
+              </>
+            )}
           </div>
 
           <button className="md:hidden p-2 rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--secondary)]" onClick={() => setMobileOpen(!mobileOpen)}>
@@ -89,8 +98,16 @@ function PublicNavbar() {
             <Link key={href} to={href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors">{label}</Link>
           ))}
           <div className="flex gap-2 pt-2">
-            <Button variant="outline" size="sm" className="flex-1" onClick={() => { navigate('/login'); setMobileOpen(false); }}>{t('Sign in', 'Connexion')}</Button>
-            <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate('/register'); setMobileOpen(false); }}>{t('Create account', 'Créer')}</Button>
+            {userRole ? (
+              <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate(accountPath); setMobileOpen(false); }}>
+                {t('My account', 'Mon espace')}
+              </Button>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => { navigate('/login'); setMobileOpen(false); }}>{t('Sign in', 'Connexion')}</Button>
+                <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate('/register'); setMobileOpen(false); }}>{t('Create account', 'Créer')}</Button>
+              </>
+            )}
           </div>
         </div>
       )}

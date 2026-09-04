@@ -10,6 +10,7 @@ import AdminPayments from '../pages/admin/Payments';
 import SellerPromotions from '../pages/seller/Promotions';
 import SellerReviews from '../pages/seller/Reviews';
 import SellerAnalytics from '../pages/seller/Analytics';
+import UserDetails from '@/pages/admin/UserDetail';
 
 export const adminRoutes = {
   path: '/admin',
@@ -17,6 +18,7 @@ export const adminRoutes = {
   children: [
     { index: true, Component: AdminDashboard },
     { path: 'users', Component: AdminUsers },
+    { path: 'users/:id', Component: UserDetails },
     { path: 'buyers', Component: AdminUsers },
     { path: 'sellers', Component: AdminUsers },
     { path: 'sellers/applications', Component: SellerApplications },

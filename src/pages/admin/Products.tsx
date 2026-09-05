@@ -1,18 +1,18 @@
 import { useEffect, useState } from 'react';
 import { Search } from 'lucide-react';
-import { Tabs, StatusBadge, Button } from '../../components/ui';
+import { Tabs, StatusBadge } from '../../components/ui';
 import TableCard, { type Column } from '@/components/TableCard';
 import { getAdminProducts } from '@/api/admin/product.api';
 import { Product, productStatusDto } from '@/type/catalog/product';
 import { useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { formatPrice } from '@/hook/format';
 import { Link } from 'react-router';
+import { useTranslation } from 'react-i18next';
 
 
 export default function AdminProducts() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<productStatusDto | 'all'>('all');
   const [searchInput, setSearchInput] = useState('');
@@ -39,7 +39,7 @@ export default function AdminProducts() {
   const columns: Column<Product>[] = [
     {
       key: 'name',
-      header: t('PRODUCT', 'PRODUIT'),
+      header: t("PRODUCT"),
       render: (p) => (
         <div className="flex items-center gap-2.5">
           <div className="w-10 h-10 flex items-center justify-center text-white text-sm font-bold flex-shrink-0 bg-secondary overflow-hidden">
@@ -57,7 +57,7 @@ export default function AdminProducts() {
     },
     {
       key: 'sellerName',
-      header: t('SELLER', 'VENDEUR'),
+      header: t("SELLER"),
       render: (p) => (
         <Link
           className="text-muted-foreground hover:underline"
@@ -70,7 +70,7 @@ export default function AdminProducts() {
     },
     {
       key: 'price',
-      header: t('PRICE', 'PRIX'),
+      header: t("PRICE"),
       render: (p) => (
         <span className="font-medium text-foreground whitespace-nowrap">
           {formatPrice ? formatPrice(p.price) : `${p.price} Ar`}
@@ -79,7 +79,7 @@ export default function AdminProducts() {
     },
     {
       key: 'category',
-      header: t('CATEGORY', 'CATÉGORIE'),
+      header: t("CATEGORY"),
       render: (p) => (
         <Link
           to={`/admin/categories/${p.categoryId}`}
@@ -92,12 +92,12 @@ export default function AdminProducts() {
     },
     {
       key: 'status',
-      header: t('STATUS', 'STATUT'),
+      header: t("STATUS"),
       render: (p) => <StatusBadge status={p.status} />,
     },
     {
       key: 'submittedAt',
-      header: t('SUBMITTED', 'SOUMIS'),
+      header: t("SUBMITTED"),
       render: (p) => (
         <span className="text-muted-foreground whitespace-nowrap">
           {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '-'}
@@ -138,15 +138,15 @@ export default function AdminProducts() {
   return (
     <div>
       <h1 className="text-xl font-bold font-display text-foreground mb-5">
-        {t('Product Moderation', 'Modération des produits')}
+        {t("Product Moderation")}
       </h1>
 
       <div className="overflow-x-auto mb-4">
         <Tabs tabs = {[
-          { id: 'all', label: t('All', 'Tout'), count: counts.all },
-          { id: 'approved', label: t('Approved', 'Approuvé'), count: counts.approved },
-          { id: 'pending', label: t('Pending', 'En attente'), count: counts.pending },
-          { id: 'rejected', label: t('Rejected', 'Rejeté'), count: counts.rejected },
+          { id: 'all', label: t("All"), count: counts.all },
+          { id: 'approved', label: t("Approved"), count: counts.approved },
+          { id: 'pending', label: t("Pending"), count: counts.pending },
+          { id: 'rejected', label: t("Rejected"), count: counts.rejected },
         ]} 
       active={activeTab} 
       onChange={handleTabChange} />
@@ -161,7 +161,7 @@ export default function AdminProducts() {
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder={t('Search products...', 'Rechercher des produits...')}
+              placeholder={t("Search products...")}
               className="w-full pl-3 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
             />
             <button
@@ -177,7 +177,7 @@ export default function AdminProducts() {
               onClick={() => setPage((prev) => Math.max(1, prev - 1))}
               disabled={page === 1}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label={t('Previous page', 'Page précédente')}
+              aria-label={t("Previous page")}
             >
               −
             </button>
@@ -188,7 +188,7 @@ export default function AdminProducts() {
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page >= totalPages}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label={t('Next page', 'Page suivante')}
+              aria-label={t("Next page")}
             >
               +
             </button>

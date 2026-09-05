@@ -1,8 +1,8 @@
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { DollarSign, ShoppingCart, Package, AlertTriangle, TrendingUp } from 'lucide-react';
 import { StatCard, StatusBadge } from '../../components/ui';
-import { sellerMetrics, revenueData, products, orders, formatPrice } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { revenueData, formatPrice } from '../../data/mock';
+import { useTranslation } from 'react-i18next';
 
 const recentOrders = [
   { id: 'ORD-001', customer: 'Rakoto A.', product: 'Samsung Galaxy A56', amount: 1299000, status: 'processing', date: '2026-09-01' },
@@ -20,22 +20,22 @@ const topProducts = [
 ];
 
 export default function SellerDashboard() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   return (
     <div className="space-y-6">
       {/* Metrics */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title={t('Total Revenue', 'Revenus totaux')} value="12,580,000 Ar" change={12.4} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title={t('Orders', 'Commandes')} value="183" change={8.1} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title={t('Products', 'Produits')} value="426" change={5.2} icon={<Package className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title={t('Low stock items', 'Produits bientôt épuisés')} value="8" change={-2} icon={<AlertTriangle className="w-5 h-5" />} color="#f59e0b" />
+        <StatCard title={t("Total Revenue")} value="12,580,000 Ar" change={12.4} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t("Orders")} value="183" change={8.1} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t("Products")} value="426" change={5.2} icon={<Package className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t("Low stock items")} value="8" change={-2} icon={<AlertTriangle className="w-5 h-5" />} color="#f59e0b" />
       </div>
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-foreground">{t('Revenue', 'Revenus')}</h2>
+            <h2 className="font-semibold font-display text-foreground">{t("Revenue")}</h2>
             <TrendingUp className="w-4 h-4 text-[#5ABCB9]" />
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -51,7 +51,7 @@ export default function SellerDashboard() {
 
         <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-foreground">{t('Orders', 'Commandes')}</h2>
+            <h2 className="font-semibold font-display text-foreground">{t("Orders")}</h2>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={revenueData}>
@@ -69,13 +69,13 @@ export default function SellerDashboard() {
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">{t('Recent orders', 'Commandes récentes')}</h2>
+            <h2 className="font-semibold font-display text-foreground">{t("Recent orders")}</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-border bg-secondary">
-                  {[t('Order', 'Commande'), t('Customer', 'Client'), t('Product', 'Produit'), t('Amount', 'Montant'), t('Status', 'Statut'), t('Date', 'Date')].map(h => (
+                  {[t("Order"), t("Customer"), t("Product"), t("Amount"), t("Status"), t("Date")].map(h => (
                     <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide">{h}</th>
                   ))}
                 </tr>
@@ -98,7 +98,7 @@ export default function SellerDashboard() {
 
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">{t('Top products', 'Meilleurs produits')}</h2>
+            <h2 className="font-semibold font-display text-foreground">{t("Top products")}</h2>
           </div>
           <div className="p-4 space-y-3">
             {topProducts.map((p, i) => (
@@ -106,7 +106,7 @@ export default function SellerDashboard() {
                 <div className="w-6 h-6 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">{i + 1}</div>
                 <div className="flex-1 min-w-0">
                   <div className="text-sm font-medium text-foreground truncate">{p.name}</div>
-                  <div className="text-xs text-muted-foreground">{p.sales} {t('sold', 'vendus')}</div>
+                  <div className="text-xs text-muted-foreground">{p.sales} {t("sold")}</div>
                 </div>
                 <div className="text-xs font-bold text-foreground">{(p.revenue / 1000000).toFixed(1)}M Ar</div>
               </div>

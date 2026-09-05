@@ -3,7 +3,7 @@ import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, Trendi
 import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
 import { formatPrice } from '@/hook/format';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { getCategories, getFeaturedSellers } from '../../api/public/catalog.api';
 import { Category } from '@/type/catalog/category';
 import { Seller } from '@/type/user';
@@ -21,7 +21,7 @@ type HomeData = {
 
 export default function LandingPage() {
   const navigate = useNavigate();
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [homeData, setHomeData] = useState<HomeData | null>({
     categories: [],
@@ -70,27 +70,27 @@ export default function LandingPage() {
             <div>
               <Badge variant="info" className="mb-5 !text-[#5ABCB9] !bg-[#5ABCB9]/15">
                 <TrendingUp className="w-3 h-3" />
-                {t('Multi-vendor marketplace', 'Marketplace multi-vendeurs')}
+                {t("Multi-vendor marketplace")}
               </Badge>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold font-display text-white leading-tight mb-5">
-                {t('Everything you need,', 'Tout ce dont vous avez besoin,')}
-                <span className="text-[#5ABCB9]"> {t('in one marketplace.', 'en un seul endroit.')}</span>
+                {t("Everything you need,")}
+                <span className="text-[#5ABCB9]"> {t("in one marketplace.")}</span>
               </h1>
               <p className="text-lg text-[#8da8b5] mb-8 leading-relaxed max-w-lg">
-                {t('Discover products from trusted companies, official brands and local sellers, all in one place. Search, compare and shop easily from a single platform.', 'Découvrez des produits de sociétés de confiance, de marques officielles et de vendeurs locaux, le tout en un seul endroit.')}
+                {t("Discover products from trusted companies, official brands and local sellers, all in one place. Search, compare and shop easily from a single platform.")}
               </p>
               <div className="flex flex-wrap gap-3">
                 <Button size="lg" onClick={() => navigate('/shop')}>
-                  {t('Explore products', 'Explorer les produits')}
+                  {t("Explore products")}
                   <ArrowRight className="w-4 h-4" />
                 </Button>
                 <Button size="lg" variant="outline" className="!text-white !border-white/20 hover:!bg-white/10" onClick={() => navigate('/register')}>
-                  {t('Become a seller', 'Devenir vendeur')}
+                  {t("Become a seller")}
                 </Button>
               </div>
 
               <div className="grid grid-cols-3 gap-6 mt-12 pt-8 border-t border-white/10">
-                {[['18,000+', t('Products', 'Produits')], ['340+', t('Sellers', 'Vendeurs')], ['24,000+', t('Customers', 'Clients')]].map(([n, l]) => (
+                {[['18,000+', t("Products")], ['340+', t("Sellers")], ['24,000+', t("Customers")]].map(([n, l]) => (
                   <div key={n}>
                     <div className="text-2xl font-bold text-white font-display">{n}</div>
                     <div className="text-sm text-[#8da8b5]">{l}</div>
@@ -161,8 +161,8 @@ export default function LandingPage() {
                   <Truck className="w-5 h-5 text-[#16262E]" />
                 </div>
                 <div>
-                  <div className="text-sm font-medium text-white">{t('Fast delivery', 'Livraison rapide')}</div>
-                  <div className="text-xs text-[#8da8b5]">{t('From multiple sellers in one order', 'De plusieurs vendeurs en une commande')}</div>
+                  <div className="text-sm font-medium text-white">{t("Fast delivery")}</div>
+                  <div className="text-xs text-[#8da8b5]">{t("From multiple sellers in one order")}</div>
                 </div>
                 <div className="ml-auto">
                   <Badge variant="success">Active</Badge>
@@ -178,19 +178,19 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
-              {t('One marketplace. Many sellers.', 'Une marketplace. De nombreux vendeurs.')}
+              {t("One marketplace. Many sellers.")}
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
-              {t('We connect customers with companies, official distributors, supermarkets, local businesses and independent sellers.', 'Nous connectons les clients aux entreprises, distributeurs officiels, supermarchés et vendeurs indépendants.')}
+              {t("We connect customers with companies, official distributors, supermarkets, local businesses and independent sellers.")}
             </p>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-12">
             {[
-              { icon: <Building2 className="w-5 h-5" />, title: t('Multiple sellers', 'Plusieurs vendeurs'), desc: t('Discover products from many stores on one platform.', 'Découvrez des produits de nombreuses boutiques.'), color: '#0077B6' },
-              { icon: <Search className="w-5 h-5" />, title: t('Easy discovery', 'Découverte facile'), desc: t('Search using categories, filters and tags.', 'Recherchez par catégories, filtres et tags.'), color: '#5ABCB9' },
-              { icon: <ShoppingCart className="w-5 h-5" />, title: t('Simple shopping', 'Shopping simple'), desc: t('Add products to your cart and place orders easily.', 'Ajoutez au panier et commandez facilement.'), color: '#0077B6' },
-              { icon: <Shield className="w-5 h-5" />, title: t('Trusted sellers', 'Vendeurs de confiance'), desc: t('Identify verified sellers and view ratings.', 'Identifiez les vendeurs vérifiés et leurs avis.'), color: '#5ABCB9' },
+              { icon: <Building2 className="w-5 h-5" />, title: t("Multiple sellers"), desc: t("Discover products from many stores on one platform."), color: '#0077B6' },
+              { icon: <Search className="w-5 h-5" />, title: t("Easy discovery"), desc: t("Search using categories, filters and tags."), color: '#5ABCB9' },
+              { icon: <ShoppingCart className="w-5 h-5" />, title: t("Simple shopping"), desc: t("Add products to your cart and place orders easily."), color: '#0077B6' },
+              { icon: <Shield className="w-5 h-5" />, title: t("Trusted sellers"), desc: t("Identify verified sellers and view ratings."), color: '#5ABCB9' },
             ].map((f, i) => (
               <div key={i} className="bg-card border border-border rounded-xl p-5 hover:shadow-md hover:border-[#5ABCB9]/30 transition-all">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: `${f.color}15`, color: f.color }}>
@@ -204,14 +204,14 @@ export default function LandingPage() {
 
           {/* Seller types */}
           <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
-            <h3 className="font-semibold font-display text-foreground mb-5 text-center">{t('Who sells on MasoMarket?', 'Qui vend sur MasoMarket ?')}</h3>
+            <h3 className="font-semibold font-display text-foreground mb-5 text-center">{t("Who sells on MasoMarket?")}</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {[
-                { icon: '🏢', label: t('Companies', 'Entreprises') },
-                { icon: '🏷️', label: t('Official brands', 'Marques officielles') },
-                { icon: '🛒', label: t('Supermarkets', 'Supermarchés') },
-                { icon: '🏪', label: t('Local businesses', 'Commerces locaux') },
-                { icon: '👤', label: t('Independent sellers', 'Vendeurs indépendants') },
+                { icon: '🏢', label: t("Companies") },
+                { icon: '🏷️', label: t("Official brands") },
+                { icon: '🛒', label: t("Supermarkets") },
+                { icon: '🏪', label: t("Local businesses") },
+                { icon: '👤', label: t("Independent sellers") },
               ].map((s, i) => (
                 <div key={i} className="flex items-center gap-2.5 px-4 py-2.5 bg-secondary rounded-full">
                   <span className="text-lg">{s.icon}</span>
@@ -227,14 +227,14 @@ export default function LandingPage() {
       <section id="HowItWorks" className="py-16 bg-[#16262E]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3">{t('How it works', 'Comment ça marche')}</h2>
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3">{t("How it works")}</h2>
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', icon: <Store className="w-5 h-5" />, title: t('Discover', 'Découvrir'), desc: t('Explore stores, categories and products.', 'Explorez boutiques, catégories et produits.') },
-              { step: '02', icon: <Search className="w-5 h-5" />, title: t('Search', 'Rechercher'), desc: t('Find exactly what you need using search and filters.', 'Trouvez ce qu\'il vous faut grâce aux filtres.') },
-              { step: '03', icon: <ShoppingCart className="w-5 h-5" />, title: t('Add to cart', 'Ajouter au panier'), desc: t('Add products from one or multiple sellers.', 'Ajoutez des produits de un ou plusieurs vendeurs.') },
-              { step: '04', icon: <Package className="w-5 h-5" />, title: t('Order', 'Commander'), desc: t('Complete your purchase and track your order.', 'Finalisez votre achat et suivez votre commande.') },
+              { step: '01', icon: <Store className="w-5 h-5" />, title: t("Discover"), desc: t("Explore stores, categories and products.") },
+              { step: '02', icon: <Search className="w-5 h-5" />, title: t("Search"), desc: t("Find exactly what you need using search and filters.") },
+              { step: '03', icon: <ShoppingCart className="w-5 h-5" />, title: t("Add-to-cart-Ajouter-au-panier"), desc: t("Add products from one or multiple sellers.") },
+              { step: '04', icon: <Package className="w-5 h-5" />, title: t("Order-Commander"), desc: t("Complete your purchase and track your order.") },
             ].map((s, i) => (
               <div key={i} className="relative">
                 <div className="bg-white/5 border border-white/10 rounded-xl p-5 hover:bg-white/8 transition-colors">
@@ -257,11 +257,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Popular categories', 'Catégories populaires')}</h2>
-              <p className="text-muted-foreground mt-1">{t('Browse by category', 'Parcourir par catégorie')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Popular categories")}</h2>
+              <p className="text-muted-foreground mt-1">{t("Browse by category")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/categories')}>
-              {t('View all', 'Voir tout')}
+              {t("View all")}
               <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -303,11 +303,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Featured Sellers', 'Vendeurs en vedette')}</h2>
-              <p className="text-muted-foreground mt-1">{t('Top verified stores', 'Boutiques vérifiées top')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Featured Sellers")}</h2>
+              <p className="text-muted-foreground mt-1">{t("Top verified stores")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/sellers')}>
-              {t('View all', 'Voir tout')}
+              {t("View all")}
               <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -336,7 +336,7 @@ export default function LandingPage() {
                     <span>{seller.location}</span>
                   </div>
                   <Button variant="outline" size="sm" className="w-full" onClick={() => navigate(`/stores/${seller.id}`)}>
-                    {t('Visit store', 'Visiter la boutique')}
+                    {t("Visit store")}
                   </Button>
                 </div>
               </div>
@@ -350,11 +350,11 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t('Featured Products', 'Produits en vedette')}</h2>
-              <p className="text-muted-foreground mt-1">{t('Handpicked for you', 'Sélectionnés pour vous')}</p>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Featured Products")}</h2>
+              <p className="text-muted-foreground mt-1">{t("Handpicked for you")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/products')}>
-              {t('View all', 'Voir tout')}
+              {t("View all")}
               <ArrowRight className="w-3.5 h-3.5" />
             </Button>
           </div>
@@ -388,24 +388,24 @@ export default function LandingPage() {
           <div className="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <h2 className="text-3xl sm:text-4xl font-bold font-display text-white mb-3">
-                {t('Grow your business with our marketplace.', 'Développez votre activité avec notre marketplace.')}
+                {t("Grow your business with our marketplace.")}
               </h2>
               <p className="text-blue-100 mb-6 leading-relaxed">
-                {t('Create your online store, showcase your products, manage your inventory and reach new customers.', 'Créez votre boutique, gérez vos produits et atteignez de nouveaux clients.')}
+                {t("Create your online store, showcase your products, manage your inventory and reach new customers.")}
               </p>
               <Button size="lg" variant="accent" onClick={() => navigate('/register')}>
-                {t('Become a seller', 'Devenir vendeur')}
+                {t("Become a seller")}
                 <ArrowRight className="w-4 h-4" />
               </Button>
             </div>
             <div className="grid grid-cols-2 gap-3">
               {[
-                t('Create your store', 'Créer votre boutique'),
-                t('Manage products', 'Gérer vos produits'),
-                t('Manage inventory', 'Gérer votre stock'),
-                t('Receive orders', 'Recevoir des commandes'),
-                t('Track sales', 'Suivre les ventes'),
-                t('View analytics', 'Voir les analyses'),
+                t("Create your store"),
+                t("Manage products"),
+                t("Manage inventory"),
+                t("Receive orders"),
+                t("Track sales"),
+                t("View analytics"),
               ].map((f, i) => (
                 <div key={i} className="flex items-center gap-2.5 bg-white/10 rounded-xl px-3 py-2.5">
                   <CheckCircle2 className="w-4 h-4 text-[#5ABCB9] flex-shrink-0" />
@@ -421,17 +421,17 @@ export default function LandingPage() {
       <section className="py-16 sm:py-20 text-center">
         <div className="max-w-2xl mx-auto px-4">
           <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
-            {t('Ready to start shopping?', 'Prêt à commencer vos achats ?')}
+            {t("Ready to start shopping?")}
           </h2>
           <p className="text-muted-foreground mb-8">
-            {t('Create an account and discover products from trusted sellers.', 'Créez un compte et découvrez des produits de vendeurs de confiance.')}
+            {t("Create an account and discover products from trusted sellers.")}
           </p>
           <div className="flex flex-wrap justify-center gap-3">
             <Button size="lg" onClick={() => navigate('/register')}>
-              {t('Create account', 'Créer un compte')}
+              {t("Create account")}
             </Button>
             <Button size="lg" variant="outline" onClick={() => navigate('/products')}>
-              {t('Explore marketplace', 'Explorer la marketplace')}
+              {t("Explore marketplace")}
               <ArrowRight className="w-4 h-4" />
             </Button>
           </div>

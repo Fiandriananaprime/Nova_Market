@@ -4,7 +4,7 @@ import { Button, Badge } from '../../components/ui';
 import { categories, sellers, products } from '../../data/mock';
 import { formatPrice } from '../../hook/format';
 import ProductCard from '../../components/ProductCard';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { Rating } from '../../components/ui';
 
 const categoryIcons: Record<string, React.ReactNode> = {
@@ -21,7 +21,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
 
 export default function Shop() {
   const navigate = useNavigate();
-  const { t } = useApp();
+  const { t } = useTranslation();
   const recommended = products.slice(0, 4);
   const bestSellers = products.slice(2, 6);
   const promotions = products.filter(p => p.discount > 0);
@@ -35,12 +35,12 @@ export default function Shop() {
         <div className="flex-1 relative z-10">
           <Badge variant="info" className="mb-3 !text-[#5ABCB9] !bg-[#5ABCB9]/20">
             <TrendingUp className="w-3 h-3" />
-            {t('Top deals today', 'Meilleures offres du jour')}
+            {t("Top deals today")}
           </Badge>
-          <h2 className="text-2xl font-bold font-display text-white mb-2">{t('Shop from 340+ stores', 'Achetez dans 340+ boutiques')}</h2>
-          <p className="text-[#8da8b5] text-sm mb-4">{t('Products from verified sellers across Madagascar', 'Produits de vendeurs vérifiés à travers Madagascar')}</p>
+          <h2 className="text-2xl font-bold font-display text-white mb-2">{t("Shop from 340+ stores")}</h2>
+          <p className="text-[#8da8b5] text-sm mb-4">{t("Products from verified sellers across Madagascar")}</p>
           <Button onClick={() => navigate('/products')}>
-            {t('Browse products', 'Parcourir les produits')}
+            {t("Browse products")}
             <ArrowRight className="w-4 h-4" />
           </Button>
         </div>
@@ -58,9 +58,9 @@ export default function Shop() {
       {/* Categories */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-display text-foreground">{t('Popular categories', 'Catégories populaires')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t("Popular categories")}</h2>
           <button onClick={() => navigate('/products')} className="text-sm text-[#0077B6] font-medium hover:underline flex items-center gap-1">
-            {t('View all', 'Voir tout')} <ArrowRight className="w-3.5 h-3.5" />
+            {t("View all")} <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
         <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
@@ -78,9 +78,9 @@ export default function Shop() {
       {/* Recommended */}
       <section>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-bold font-display text-foreground">{t('Recommended for you', 'Recommandés pour vous')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t("Recommended for you")}</h2>
           <button onClick={() => navigate('/products')} className="text-sm text-[#0077B6] font-medium hover:underline flex items-center gap-1">
-            {t('See all', 'Voir tout')} <ArrowRight className="w-3.5 h-3.5" />
+            {t("See all")} <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -92,7 +92,7 @@ export default function Shop() {
       <section>
         <div className="flex items-center gap-2 mb-4">
           <Tag className="w-5 h-5 text-red-500" />
-          <h2 className="text-lg font-bold font-display text-foreground">{t('Promotions', 'Promotions')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t("Promotions")}</h2>
         </div>
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {promotions.map(p => <ProductCard key={p.id} product={p} />)}
@@ -104,14 +104,14 @@ export default function Shop() {
         <div className="lg:col-span-2">
           <div className="flex items-center gap-2 mb-4">
             <TrendingUp className="w-5 h-5 text-[#0077B6]" />
-            <h2 className="text-lg font-bold font-display text-foreground">{t('Best sellers', 'Meilleures ventes')}</h2>
+            <h2 className="text-lg font-bold font-display text-foreground">{t("Best sellers")}</h2>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             {bestSellers.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
         </div>
         <div>
-          <h2 className="text-lg font-bold font-display text-foreground mb-4">{t('Stores you may like', 'Boutiques à découvrir')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground mb-4">{t("Stores you may like")}</h2>
           <div className="space-y-3">
             {sellers.slice(0, 4).map(seller => (
               <div key={seller.id} className="bg-card border border-border rounded-xl p-3 flex items-center gap-3 hover:shadow-sm hover:border-[#5ABCB9]/30 transition-all cursor-pointer" onClick={() => navigate(`/stores/${seller.id}`)}>
@@ -140,7 +140,7 @@ export default function Shop() {
       <section>
         <div className="flex items-center gap-2 mb-4">
           <Clock className="w-5 h-5 text-[#5ABCB9]" />
-          <h2 className="text-lg font-bold font-display text-foreground">{t('Recently added', 'Récemment ajoutés')}</h2>
+          <h2 className="text-lg font-bold font-display text-foreground">{t("Recently added")}</h2>
         </div>
         <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {recent.map(p => <ProductCard key={p.id} product={p} />)}

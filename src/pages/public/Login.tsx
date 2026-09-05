@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { ShoppingBag, Mail, Lock, Eye, EyeOff } from 'lucide-react';
 import { Button, Input } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { LoginRequest } from '../../type/auth';
 import { login } from '../../api/auth.api';
 import { getApiErrorMessage } from '../../api/errorMessage';
@@ -10,7 +11,8 @@ import { useToast } from '../../contexts/ToastContext';
 
 export default function Login() {
   const navigate = useNavigate();
-  const { setUserRole, t } = useApp();
+  const { setUserRole } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   const [form, setForm] = useState<LoginRequest>({
@@ -101,15 +103,15 @@ const handleSubmit = async (
             </div>
             <span className="font-bold text-xl font-display text-foreground">MasoMarket</span>
           </div>
-          <h1 className="text-2xl font-bold font-display text-foreground mb-1">{t('Sign in', 'Connexion')}</h1>
-          <p className="text-sm text-muted-foreground">{t('Welcome back! Please sign in to continue.', 'Bienvenue ! Veuillez vous connecter pour continuer.')}</p>
+          <h1 className="text-2xl font-bold font-display text-foreground mb-1">{t("Sign in")}</h1>
+          <p className="text-sm text-muted-foreground">{t("Welcome back! Please sign in to continue.")}</p>
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="bg-card border border-border rounded-2xl p-6 shadow-sm">
             <div className="space-y-4">
               <Input
-                label={t('Email', 'Adresse email')}
+                label={t("Email-Adresse-email")}
                 type="email"
                 name="email"
                 placeholder="andry@email.com"
@@ -118,7 +120,7 @@ const handleSubmit = async (
                 icon={<Mail className="w-4 h-4" />}
             />
             <Input
-              label={t('Password', 'Mot de passe')}
+              label={t("Password")}
               type={showPassword ? 'text' : 'password'}
               name="password"
               placeholder="••••••••"
@@ -136,9 +138,9 @@ const handleSubmit = async (
           <div className="flex items-center justify-between mt-3 mb-5">
             <label className="flex items-center gap-2 cursor-pointer">
               <input type="checkbox" checked={form.remember} onChange={handleChange} name="remember" className="w-3.5 h-3.5 rounded border-border text-[#0077B6]" />
-              <span className="text-sm text-muted-foreground">{t('Remember me', 'Se souvenir de moi')}</span>
+              <span className="text-sm text-muted-foreground">{t("Remember me")}</span>
             </label>
-            <a href="#" className="text-sm text-[#0077B6] hover:underline">{t('Forgot password?', 'Mot de passe oublié ?')}</a>
+            <a href="#" className="text-sm text-[#0077B6] hover:underline">{t("Forgot password?")}</a>
           </div>
 
           {error && (
@@ -146,15 +148,15 @@ const handleSubmit = async (
           )}
 
           <Button className="w-full" size="lg" type="submit" loading={loading}>
-            {t('Sign in', 'Se connecter')}
+            {t("Sign-in-Se-connecter")}
           </Button>
           </div>
         </form>
 
         <p className="text-center text-sm text-muted-foreground mt-5">
-          {t("Don't have an account?", "Pas encore de compte ?")}
+          {t("Don't have an account?")}
           {' '}
-          <Link to="/register" className="text-[#0077B6] font-medium hover:underline">{t('Create one', 'Créer un compte')}</Link>
+          <Link to="/register" className="text-[#0077B6] font-medium hover:underline">{t("Create one")}</Link>
         </p>
       </div>
     </div>

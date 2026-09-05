@@ -1,15 +1,15 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { MapPin, Package, Heart, Star, ChevronLeft } from 'lucide-react';
+import { MapPin, Package, Heart } from 'lucide-react';
 import { Button, Rating, VerifiedBadge, Tabs } from '../../components/ui';
 import { sellers, products } from '../../data/mock';
 import ProductCard from '../../components/ProductCard';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function StoreDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { t } = useApp();
+  const { t } = useTranslation();
   const seller = sellers.find(s => s.id === id) || sellers[0];
   const sellerProducts = products.filter(p => p.sellerId === seller.id);
   const [activeTab, setActiveTab] = useState('products');
@@ -33,7 +33,7 @@ export default function StoreDetail() {
             <div className="flex flex-wrap items-center gap-3 text-sm text-[#8da8b5] mt-1">
               <Rating value={seller.rating} showCount={false} />
               <span>·</span>
-              <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5" /> {seller.products} {t('products', 'produits')}</span>
+              <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5" /> {seller.products} {t("products")}</span>
               <span>·</span>
               <span className="flex items-center gap-1"><MapPin className="w-3.5 h-3.5" /> {seller.location}</span>
             </div>
@@ -44,7 +44,7 @@ export default function StoreDetail() {
             onClick={() => setFollowing(!following)}
           >
             <Heart className="w-3.5 h-3.5" fill={following ? 'currentColor' : 'none'} />
-            {following ? t('Following', 'Abonné') : t('Follow store', 'Suivre')}
+            {following ? t("Following") : t("Follow store")}
           </Button>
         </div>
       </div>
@@ -53,9 +53,9 @@ export default function StoreDetail() {
       <div className="mb-5">
         <Tabs
           tabs={[
-            { id: 'products', label: t('Products', 'Produits'), count: sellerProducts.length || products.length },
-            { id: 'about', label: t('About', 'À propos') },
-            { id: 'reviews', label: t('Reviews', 'Avis'), count: 89 },
+            { id: 'products', label: t("Products"), count: sellerProducts.length || products.length },
+            { id: 'about', label: t("About") },
+            { id: 'reviews', label: t("Reviews"), count: 89 },
           ]}
           active={activeTab}
           onChange={setActiveTab}
@@ -76,9 +76,9 @@ export default function StoreDetail() {
         <div className="bg-card border border-border rounded-xl p-5 max-w-2xl">
           <p className="text-foreground leading-relaxed mb-4">{seller.description}</p>
           <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Location', 'Localisation')}</span><div className="font-medium text-foreground">{seller.location}</div></div>
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Member since', 'Membre depuis')}</span><div className="font-medium text-foreground">{seller.joined}</div></div>
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Followers', 'Abonnés')}</span><div className="font-medium text-foreground">{seller.followers.toLocaleString()}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Location-Localisation")}</span><div className="font-medium text-foreground">{seller.location}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Member since")}</span><div className="font-medium text-foreground">{seller.joined}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Followers")}</span><div className="font-medium text-foreground">{seller.followers.toLocaleString()}</div></div>
             <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">Rating</span><div className="font-medium text-foreground">⭐ {seller.rating}/5</div></div>
           </div>
         </div>

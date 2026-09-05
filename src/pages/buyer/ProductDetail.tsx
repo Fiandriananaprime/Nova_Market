@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Heart, ShoppingCart, Zap, Star, ChevronRight, Truck, RotateCcw, Shield, Minus, Plus, Store, CheckCircle2 } from 'lucide-react';
+import { Heart, ShoppingCart, Zap, Star, ChevronRight, Truck, RotateCcw, Shield, Minus, Plus, Store } from 'lucide-react';
 import { Button, Badge, Rating, VerifiedBadge, Breadcrumb, Tabs } from '../../components/ui';
 import { products, sellers } from '../../data/mock';
 import { formatPrice } from '../../hook/format';
 import ProductCard from '../../components/ProductCard';
 import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function ProductDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { addToCart, favorites, toggleFavorite, t } = useApp();
+  const { addToCart, favorites, toggleFavorite } = useApp();
+  const { t } = useTranslation();
   const product = products.find(p => p.id === id) || products[0];
   const seller = sellers.find(s => s.id === product.sellerId) || sellers[0];
   const [qty, setQty] = useState(1);
@@ -82,7 +84,7 @@ export default function ProductDetail() {
 
           {/* Qty */}
           <div>
-            <label className="text-sm font-medium text-foreground mb-2 block">{t('Quantity', 'Quantité')}</label>
+            <label className="text-sm font-medium text-foreground mb-2 block">{t("Quantity")}</label>
             <div className="flex items-center gap-3">
               <div className="flex items-center border border-border rounded-xl overflow-hidden">
                 <button onClick={() => setQty(Math.max(1, qty - 1))} className="w-10 h-10 flex items-center justify-center hover:bg-secondary transition-colors"><Minus className="w-4 h-4" /></button>
@@ -96,11 +98,11 @@ export default function ProductDetail() {
           <div className="flex gap-2">
             <Button className="flex-1" size="lg" onClick={() => addToCart(product.id, qty)}>
               <ShoppingCart className="w-4 h-4" />
-              {t('Add to cart', 'Ajouter au panier')}
+              {t("Add-to-cart-Ajouter-au-panier")}
             </Button>
             <Button variant="accent" size="lg" className="flex-1" onClick={() => { addToCart(product.id, qty); navigate('/cart'); }}>
               <Zap className="w-4 h-4" />
-              {t('Buy now', 'Acheter')}
+              {t("Buy now")}
             </Button>
             <button onClick={() => toggleFavorite(product.id)} className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center transition-colors ${isFav ? 'border-red-200 bg-red-50 text-red-500 dark:bg-red-900/20' : 'border-border text-muted-foreground hover:border-red-200 hover:text-red-500'}`}>
               <Heart className="w-5 h-5" fill={isFav ? 'currentColor' : 'none'} />
@@ -109,9 +111,9 @@ export default function ProductDetail() {
 
           <div className="grid grid-cols-3 gap-2">
             {[
-              { icon: <Truck className="w-4 h-4" />, text: t('Fast delivery', 'Livraison rapide') },
-              { icon: <RotateCcw className="w-4 h-4" />, text: t('30-day returns', 'Retours 30j') },
-              { icon: <Shield className="w-4 h-4" />, text: t('Secure payment', 'Paiement sécurisé') },
+              { icon: <Truck className="w-4 h-4" />, text: t("Fast delivery") },
+              { icon: <RotateCcw className="w-4 h-4" />, text: t("30-day returns") },
+              { icon: <Shield className="w-4 h-4" />, text: t("Secure payment") },
             ].map((i, idx) => (
               <div key={idx} className="flex flex-col items-center gap-1 p-2.5 bg-secondary rounded-xl text-center">
                 <span className="text-[#0077B6]">{i.icon}</span>
@@ -126,10 +128,10 @@ export default function ProductDetail() {
       <div className="mt-8">
         <Tabs
           tabs={[
-            { id: 'description', label: t('Description', 'Description') },
-            { id: 'specs', label: t('Specifications', 'Spécifications') },
-            { id: 'reviews', label: t('Reviews', 'Avis'), count: product.reviews },
-            { id: 'shipping', label: t('Shipping', 'Livraison') },
+            { id: 'description', label: t("Description") },
+            { id: 'specs', label: t("Specifications") },
+            { id: 'reviews', label: t("Reviews"), count: product.reviews },
+            { id: 'shipping', label: t("Shipping") },
           ]}
           active={activeTab}
           onChange={setActiveTab}
@@ -192,7 +194,7 @@ export default function ProductDetail() {
 
       {related.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xl font-bold font-display text-foreground mb-4">{t('Related products', 'Produits similaires')}</h2>
+          <h2 className="text-xl font-bold font-display text-foreground mb-4">{t("Related products")}</h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {related.map(p => <ProductCard key={p.id} product={p} />)}
           </div>
@@ -201,7 +203,7 @@ export default function ProductDetail() {
 
       {sellerMore.length > 0 && (
         <div className="mt-10">
-          <h2 className="text-xl font-bold font-display text-foreground mb-4">{t('More from', 'Plus de')} {seller.name}</h2>
+          <h2 className="text-xl font-bold font-display text-foreground mb-4">{t("More from")} {seller.name}</h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {sellerMore.map(p => <ProductCard key={p.id} product={p} />)}
           </div>

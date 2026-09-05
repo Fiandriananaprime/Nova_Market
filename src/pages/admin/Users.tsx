@@ -5,11 +5,11 @@ import TableCard, { type Column } from '@/components/TableCard';
 import { getAllUser, updateUserStatus } from '@/api/admin/user.api';
 import { User, type status } from '@/type/user';
 import { useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
+import { useTranslation } from 'react-i18next';
 
 export default function AdminUsers() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [searchInput, setSearchInput] = useState('');
@@ -28,7 +28,7 @@ export default function AdminUsers() {
   const columns: Column<User>[] = [
     {
       key: 'name',
-      header: t('User', 'Utilisateur'),
+      header: t("User"),
       render: (user) => (
         <div className="flex items-center gap-2.5">
           <div
@@ -86,7 +86,7 @@ export default function AdminUsers() {
 
     {
       key: 'status',
-      header: t('Status', 'Statut'),
+      header: t("Status"),
       render: (user) => (
         <StatusBadge status={user.status} />
       ),
@@ -94,13 +94,13 @@ export default function AdminUsers() {
 
     {
       key: 'joinedAt',
-      header: t('Joined', 'Rejoint'),
+      header: t("Joined-Rejoint"),
       className: 'text-muted-foreground',
     },
 
     {
       key: 'ordersCount',
-      header: t('Orders', 'Commandes'),
+      header: t("Orders"),
       className: 'text-foreground',
       render: (user) => String(user.ordersCount ?? 0),
     },
@@ -143,22 +143,22 @@ export default function AdminUsers() {
   const tabs = [
     {
       id: 'all',
-      label: t('All users','Tous les utilisateurs'),
+      label: t("All users"),
       count: counts.all,
     },
     {
       id: 'buyer',
-      label: t('Buyers','Acheteurs'),
+      label: t("Buyers"),
       count: counts.buyer,
     },
     {
       id: 'seller',
-      label: t('Sellers','Vendeurs'),
+      label: t("Sellers"),
       count: counts.seller,
     },
     {
       id: 'admin',
-      label: t('Admins','Administrateurs'),
+      label: t("Admins"),
       count: counts.admin,
     },
   ];
@@ -213,7 +213,7 @@ export default function AdminUsers() {
   return (
     <div>
       <h1 className="text-xl font-bold font-display text-foreground mb-5">
-        {t('User Management', 'Gestion des utilisateurs')}
+        {t("User Management")}
       </h1>
 
       <div className="overflow-x-auto mb-4">
@@ -233,7 +233,7 @@ export default function AdminUsers() {
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder={t('Search users...', 'Rechercher des utilisateurs...')}
+              placeholder={t("Search users...")}
               className=" pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
             />
             <button
@@ -247,7 +247,7 @@ export default function AdminUsers() {
               onClick={() => setPage((prev) => Math.max(1, prev - 1))}
               disabled={page === 1}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label={t('Previous page', 'Page précédente')}
+              aria-label={t("Previous page")}
             >
               −
             </button>
@@ -258,7 +258,7 @@ export default function AdminUsers() {
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page >= totalPages}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label={t('Next page', 'Page suivante')}
+              aria-label={t("Next page")}
             >
               +
             </button>

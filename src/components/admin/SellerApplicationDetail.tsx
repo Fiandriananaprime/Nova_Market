@@ -16,7 +16,7 @@ import { getSellerApplicationById, updateSellerApplicationStatus,
 } from '@/api/admin/sellerApplication';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { formatDate } from '@/hook/format';
 import type { SellerApplication, SellerApplicationStatus} from '@/type/admin/seller';
 
@@ -26,7 +26,7 @@ const SellerApplicationDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { t } = useApp();
+  const { t } = useTranslation();
 
   const [application, setApplication] =
     useState<SellerApplication | null>(null);
@@ -111,7 +111,7 @@ const SellerApplicationDetails = () => {
       <div className="p-6">
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 text-center">
           <p className="text-[var(--foreground)] font-medium">
-            {t('Seller application not found', 'Demande de vendeur non trouvée')}
+            {t("Seller application not found")}
           </p>
 
           <Button
@@ -121,7 +121,7 @@ const SellerApplicationDetails = () => {
               navigate('/admin/sellers/applications')
             }
           >
-            {t('Back to applications', 'Retour aux demandes')}
+            {t("Back to applications")}
           </Button>
         </div>
       </div>
@@ -140,12 +140,12 @@ const SellerApplicationDetails = () => {
             className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
-            {t('Back to applications', 'Retour aux demandes')}
+            {t("Back to applications")}
           </Link>
 
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold font-display text-[var(--foreground)]">
-              {t('Seller Application', 'Demande de vendeur')}
+              {t("Seller Application")}
             </h1>
 
             <StatusBadge status={application.status} />
@@ -164,7 +164,7 @@ const SellerApplicationDetails = () => {
               className="flex items-center gap-2"
             >
               <X className="w-4 h-4" />
-              {t('Reject', 'Rejeter')}
+              {t("Reject")}
             </Button>
 
             <Button
@@ -173,7 +173,7 @@ const SellerApplicationDetails = () => {
               className="flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
-              {t('Approve', 'Approuver')}
+              {t("Approve")}
             </Button>
           </div>
         )}
@@ -207,13 +207,13 @@ const SellerApplicationDetails = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem
                 icon={<User />}
-                label={t('Owner', 'Propriétaire')}
+                label={t("Owner")}
                 value={application.owner}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label={t('Business name', 'Nom de l’entreprise')}
+                label={t("Business name")}
                 value={application.businessName}
               />
 
@@ -225,19 +225,19 @@ const SellerApplicationDetails = () => {
 
               <InfoItem
                 icon={<Phone />}
-                label={t('Phone', 'Téléphone')}
+                label={t("Phone")}
                 value={application.phone}
               />
 
               <InfoItem
                 icon={<MapPin />}
-                label={t('Location', 'Emplacement')}
+                label={t("Location")}
                 value={application.location}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label={t('Category', 'Catégorie')}
+                label={t("Category")}
                 value={application.category}
               />
             </div>
@@ -245,31 +245,31 @@ const SellerApplicationDetails = () => {
 
           {/* Application information */}
           <Section
-            title={t('Application information', 'Informations sur la demande')}
-            description={t('Details about this seller application', 'Détails sur cette demande de vendeur')}
+            title={t("Application information")}
+            description={t("Details about this seller application")}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem
                 icon={<Calendar />}
-                label={t('Application date', 'Date de la demande')}
+                label={t("Application date")}
                 value={formatDate(application.date)}
               />
 
               <InfoItem
                 icon={<Check />}
-                label={t('Status', 'Statut')}
+                label={t("Status")}
                 value={getStatusLabel(application.status)}
               />
 
               <InfoItem
                 icon={<User />}
-                label={t('Applicant', 'Candidat')}
+                label={t("Applicant")}
                 value={application.owner}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label={t('Business', 'Entreprise')}
+                label={t("Business")}
                 value={application.businessName}
               />
             </div>
@@ -282,11 +282,11 @@ const SellerApplicationDetails = () => {
             <section className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden sticky top-6">
               <div className="px-6 py-5 border-b border-[var(--border)]">
                 <h2 className="font-semibold text-[var(--foreground)]">
-                  {t('Review application', 'Revoir la demande')}
+                  {t("Review application")}
                 </h2>
 
                 <p className="text-sm text-[var(--muted-foreground)] mt-1">
-                  {t('Decide whether to approve or reject this seller.', 'Décider si vous souhaitez approuver ou rejeter ce vendeur.')}
+                  {t("Decide whether to approve or reject this seller.")}
                 </p>
               </div>
 
@@ -317,11 +317,11 @@ const SellerApplicationDetails = () => {
                     />
 
                     <p className="font-medium text-sm text-[var(--foreground)]">
-                      {t('Approve', 'Approuver')}
+                      {t("Approve")}
                     </p>
 
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                      {t('Accept seller', 'Accepter le vendeur')}
+                      {t("Accept seller")}
                     </p>
                   </button>
 
@@ -343,11 +343,11 @@ const SellerApplicationDetails = () => {
                     />
 
                     <p className="font-medium text-sm text-[var(--foreground)]">
-                      {t('Reject', 'Rejeter')}
+                      {t("Reject")}
                     </p>
 
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                      {t('Decline seller', 'Refuser le vendeur')}
+                      {t("Decline seller")}
                     </p>
                   </button>
                 </div>
@@ -359,12 +359,12 @@ const SellerApplicationDetails = () => {
                       htmlFor="reason"
                       className="block text-sm font-medium text-[var(--foreground)] mb-2"
                     >
-                      {t('Reason', 'Raison')}
+                      {t("Reason")}
                       {decision === 'reject' ? (
                         <span className="text-red-500 ml-1">*</span>
                       ) : (
                         <span className="text-xs font-normal text-[var(--muted-foreground)] ml-2">
-                          {t('Optional', 'Facultatif')}
+                          {t("Optional")}
                         </span>
                       )}
                     </label>
@@ -376,15 +376,15 @@ const SellerApplicationDetails = () => {
                       rows={6}
                       placeholder={
                         decision === 'reject'
-                          ? t('Explain why this application is being rejected...', 'Expliquez pourquoi cette demande est en cours de rejet...')
-                          : t('Add an optional note...', 'Ajoutez un commentaire facultatif...')
+                          ? t("Explain why this application is being rejected...")
+                          : t("Add an optional note...")
                       }
                       className="w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] resize-none focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30"
                     />
 
                     {decision === 'reject' && (
                       <p className="text-xs text-[var(--muted-foreground)] mt-2">
-                        {t('A reason is required when rejecting an application.', 'Une raison est requise lorsqu\'on rejette une demande.')}
+                        {t("A reason is required when rejecting an application.")}
                       </p>
                     )}
                   </div>
@@ -413,16 +413,16 @@ const SellerApplicationDetails = () => {
                     )}
 
                     {actionLoading
-                      ? t('Processing...', 'Traitement en cours...')
+                      ? t("Processing...")
                       : decision === 'approve'
-                        ? t('Approve application', 'Approuver la demande')
-                        : t('Reject application', 'Rejeter la demande')}
+                        ? t("Approve application")
+                        : t("Reject application")}
                   </Button>
                 )}
 
                 {!decision && (
                   <p className="text-xs text-center text-[var(--muted-foreground)]">
-                    {t('Select a decision to continue.', 'Sélectionnez une décision pour continuer.')}
+                    {t("Select a decision to continue.")}
                   </p>
                 )}
               </div>
@@ -434,11 +434,11 @@ const SellerApplicationDetails = () => {
 
                 <div>
                   <p className="font-medium text-[var(--foreground)]">
-                    {t('Application reviewed', 'Demande examinée')}
+                    {t("Application reviewed")}
                   </p>
 
                   <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                    {t('This application is no longer pending.', 'Cette demande n\'est plus en attente.')}
+                    {t("This application is no longer pending.")}
                   </p>
                 </div>
               </div>

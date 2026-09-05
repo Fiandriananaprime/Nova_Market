@@ -4,11 +4,13 @@ import { Heart, Store, Trash2, ShoppingCart } from 'lucide-react';
 import { Button, Tabs, EmptyState } from '../../components/ui';
 import { products, sellers } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { Rating, VerifiedBadge } from '../../components/ui';
 import { formatPrice } from '../../hook/format';
 
 export default function Favorites() {
-  const { favorites, toggleFavorite, addToCart, t } = useApp();
+  const { favorites, toggleFavorite, addToCart } = useApp();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('products');
 
@@ -17,12 +19,12 @@ export default function Favorites() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t('My Favorites', 'Mes Favoris')}</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t("My Favorites")}</h1>
 
       <Tabs
         tabs={[
-          { id: 'products', label: t('Products', 'Produits'), count: favProducts.length },
-          { id: 'stores', label: t('Stores', 'Boutiques'), count: favStores.length },
+          { id: 'products', label: t("Products"), count: favProducts.length },
+          { id: 'stores', label: t("Stores"), count: favStores.length },
         ]}
         active={activeTab}
         onChange={setActiveTab}
@@ -33,9 +35,9 @@ export default function Favorites() {
           favProducts.length === 0 ? (
             <EmptyState
               icon={<Heart className="w-8 h-8" />}
-              title={t("You haven't added any favorites yet.", "Vous n'avez pas encore de favoris.")}
-              description={t('Browse products and tap the heart icon to save them.', 'Parcourez les produits et cliquez sur le cœur pour les sauvegarder.')}
-              action={<Button onClick={() => navigate('/products')}>{t('Browse products', 'Parcourir les produits')}</Button>}
+              title={t("You haven't added any favorites yet.")}
+              description={t("Browse products and tap the heart icon to save them.")}
+              action={<Button onClick={() => navigate('/products')}>{t("Browse products")}</Button>}
             />
           ) : (
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -56,7 +58,7 @@ export default function Favorites() {
                     </div>
                     <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => addToCart(product.id)}>
                       <ShoppingCart className="w-3.5 h-3.5" />
-                      {t('Add to cart', 'Ajouter')}
+                      {t("Add to cart")}
                     </Button>
                   </div>
                 </div>
@@ -81,7 +83,7 @@ export default function Favorites() {
                   <div className="flex gap-2 mt-3">
                     <Button size="sm" className="flex-1" onClick={() => navigate(`/stores/${seller.id}`)}>
                       <Store className="w-3.5 h-3.5" />
-                      {t('Visit', 'Visiter')}
+                      {t("Visit")}
                     </Button>
                     <Button variant="ghost" size="sm" onClick={() => {}}>
                       <Trash2 className="w-3.5 h-3.5 text-muted-foreground" />

@@ -1,30 +1,30 @@
 import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
-import { Package, MapPin, Truck, CheckCircle2, Clock, XCircle, ChevronRight, ArrowLeft } from 'lucide-react';
+import { Package, MapPin, Truck, CheckCircle2, Clock, ArrowLeft } from 'lucide-react';
 import { Button, Tabs, StatusBadge, EmptyState } from '../../components/ui';
 import { orders } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { formatPrice } from '@/hook/format';
 export function OrdersList() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('all');
   const allOrders = [...orders];
 
   const tabs = [
-    { id: 'all', label: t('All', 'Tous'), count: allOrders.length },
-    { id: 'pending', label: t('Pending', 'En attente') },
-    { id: 'processing', label: t('Processing', 'En cours') },
-    { id: 'shipped', label: t('Shipped', 'Expédié') },
-    { id: 'delivered', label: t('Delivered', 'Livré') },
-    { id: 'cancelled', label: t('Cancelled', 'Annulé') },
+    { id: 'all', label: t("All-Tous"), count: allOrders.length },
+    { id: 'pending', label: t("Pending") },
+    { id: 'processing', label: t("Processing-En-cours") },
+    { id: 'shipped', label: t("Shipped-Expédié") },
+    { id: 'delivered', label: t("Delivered-Livré") },
+    { id: 'cancelled', label: t("Cancelled-Annulé") },
   ];
 
   const filtered = activeTab === 'all' ? allOrders : allOrders.filter(o => o.status === activeTab);
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t('My orders', 'Mes commandes')}</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t("My orders")}</h1>
 
       <div className="overflow-x-auto mb-5">
         <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
@@ -33,8 +33,8 @@ export function OrdersList() {
       {filtered.length === 0 ? (
         <EmptyState
           icon={<Package className="w-8 h-8" />}
-          title={t('No orders here', 'Aucune commande ici')}
-          description={t('You have no orders in this category.', 'Vous n\'avez aucune commande dans cette catégorie.')}
+          title={t("No orders here")}
+          description={t("You have no orders in this category.")}
         />
       ) : (
         <div className="space-y-3">
@@ -57,12 +57,12 @@ export function OrdersList() {
               </div>
               <div className="flex items-center justify-between">
                 <div>
-                  <div className="text-xs text-muted-foreground">{order.items.length} {t('items', 'articles')} · {order.seller}</div>
+                  <div className="text-xs text-muted-foreground">{order.items.length} {t("items")} · {order.seller}</div>
                   <div className="font-bold text-foreground mt-0.5">{formatPrice(order.total)}</div>
                 </div>
                 <div className="flex gap-2">
-                  <Button variant="outline" size="sm" onClick={() => navigate(`/orders/${order.id}`)}>{t('View', 'Voir')}</Button>
-                  {order.tracking && <Button size="sm" onClick={() => navigate(`/orders/${order.id}?tab=tracking`)}>{t('Track', 'Suivre')}</Button>}
+                  <Button variant="outline" size="sm" onClick={() => navigate(`/orders/${order.id}`)}>{t("View")}</Button>
+                  {order.tracking && <Button size="sm" onClick={() => navigate(`/orders/${order.id}?tab=tracking`)}>{t("Track")}</Button>}
                 </div>
               </div>
             </div>
@@ -77,18 +77,18 @@ export function OrderDetail() {
   const { id } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
-  const { t } = useApp();
+  const { t } = useTranslation();
   const isNew = location.search.includes('new=1');
   const order = orders.find(o => o.id === id) || orders[0];
   const [activeTab, setActiveTab] = useState(location.search.includes('tab=tracking') ? 'tracking' : isNew ? 'tracking' : 'details');
 
   const timeline = [
-    { label: t('Order placed', 'Commande passée'), done: true, time: order.date + ' 09:12' },
-    { label: t('Confirmed', 'Confirmée'), done: true, time: order.date + ' 09:45' },
-    { label: t('Preparing', 'En préparation'), done: order.status !== 'pending', time: order.status !== 'pending' ? order.date + ' 14:00' : null },
-    { label: t('Shipped', 'Expédiée'), done: ['shipped', 'delivered'].includes(order.status), time: order.status === 'shipped' || order.status === 'delivered' ? '2026-08-31 10:00' : null },
-    { label: t('Out for delivery', 'En cours de livraison'), done: order.status === 'delivered', time: order.status === 'delivered' ? '2026-09-01 08:30' : null },
-    { label: t('Delivered', 'Livrée'), done: order.status === 'delivered', time: order.status === 'delivered' ? '2026-09-01 14:22' : null },
+    { label: t("Order placed"), done: true, time: order.date + ' 09:12' },
+    { label: t("Confirmed"), done: true, time: order.date + ' 09:45' },
+    { label: t("Preparing"), done: order.status !== 'pending', time: order.status !== 'pending' ? order.date + ' 14:00' : null },
+    { label: t("Shipped"), done: ['shipped', 'delivered'].includes(order.status), time: order.status === 'shipped' || order.status === 'delivered' ? '2026-08-31 10:00' : null },
+    { label: t("Out for delivery"), done: order.status === 'delivered', time: order.status === 'delivered' ? '2026-09-01 08:30' : null },
+    { label: t("Delivered"), done: order.status === 'delivered', time: order.status === 'delivered' ? '2026-09-01 14:22' : null },
   ];
 
   if (isNew) {
@@ -97,16 +97,16 @@ export function OrderDetail() {
         <div className="w-20 h-20 rounded-full bg-emerald-100 flex items-center justify-center mx-auto mb-5">
           <CheckCircle2 className="w-10 h-10 text-emerald-600" />
         </div>
-        <h1 className="text-2xl font-bold font-display text-foreground mb-2">{t('Order placed successfully!', 'Commande passée avec succès !')}</h1>
-        <p className="text-muted-foreground mb-6">{t('Thank you for your order. We\'ll notify you when it ships.', 'Merci pour votre commande. Nous vous notifierons dès l\'expédition.')}</p>
+        <h1 className="text-2xl font-bold font-display text-foreground mb-2">{t("Order placed successfully!")}</h1>
+        <p className="text-muted-foreground mb-6">{t("Thank you for your order. We\\'ll notify you when it ships.")}</p>
         <div className="bg-card border border-border rounded-xl p-4 mb-6 text-sm text-left space-y-2">
-          <div className="flex justify-between"><span className="text-muted-foreground">{t('Order number', 'N° commande')}</span><span className="font-mono font-bold text-[#0077B6]">ORD-2026-004</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">{t("Order number")}</span><span className="font-mono font-bold text-[#0077B6]">ORD-2026-004</span></div>
           <div className="flex justify-between"><span className="text-muted-foreground">Total</span><span className="font-bold">3,500 Ar</span></div>
-          <div className="flex justify-between"><span className="text-muted-foreground">{t('Estimated delivery', 'Livraison estimée')}</span><span>5 Sep 2026</span></div>
+          <div className="flex justify-between"><span className="text-muted-foreground">{t("Estimated delivery")}</span><span>5 Sep 2026</span></div>
         </div>
         <div className="flex gap-2 justify-center">
-          <Button onClick={() => navigate('/orders')}>{t('View orders', 'Voir les commandes')}</Button>
-          <Button variant="outline" onClick={() => navigate('/shop')}>{t('Continue shopping', 'Continuer')}</Button>
+          <Button onClick={() => navigate('/orders')}>{t("View orders")}</Button>
+          <Button variant="outline" onClick={() => navigate('/shop')}>{t("Continue-shopping-Continuer")}</Button>
         </div>
       </div>
     );
@@ -116,7 +116,7 @@ export function OrderDetail() {
     <div className="max-w-2xl">
       <button onClick={() => navigate('/orders')} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground mb-4 transition-colors">
         <ArrowLeft className="w-4 h-4" />
-        {t('Back to orders', 'Retour aux commandes')}
+        {t("Back to orders")}
       </button>
 
       <div className="flex items-start justify-between mb-5">
@@ -127,13 +127,13 @@ export function OrderDetail() {
         <StatusBadge status={order.status} />
       </div>
 
-      <Tabs tabs={[{ id: 'details', label: t('Details', 'Détails') }, { id: 'tracking', label: t('Tracking', 'Suivi') }]} active={activeTab} onChange={setActiveTab} />
+      <Tabs tabs={[{ id: 'details', label: t("Details") }, { id: 'tracking', label: t("Tracking") }]} active={activeTab} onChange={setActiveTab} />
 
       <div className="mt-5">
         {activeTab === 'details' && (
           <div className="space-y-4">
             <div className="bg-card border border-border rounded-xl p-4">
-              <h3 className="font-semibold text-sm font-display text-foreground mb-3">{t('Items', 'Articles')}</h3>
+              <h3 className="font-semibold text-sm font-display text-foreground mb-3">{t("Items")}</h3>
               <div className="space-y-3">
                 {order.items.map(({ product, qty }, i) => (
                   <div key={i} className="flex gap-3">
@@ -155,7 +155,7 @@ export function OrderDetail() {
             </div>
 
             <div className="bg-card border border-border rounded-xl p-4">
-              <h3 className="font-semibold text-sm font-display text-foreground mb-2">{t('Delivery address', 'Adresse de livraison')}</h3>
+              <h3 className="font-semibold text-sm font-display text-foreground mb-2">{t("Delivery address")}</h3>
               <div className="flex items-start gap-2 text-sm text-muted-foreground">
                 <MapPin className="w-4 h-4 mt-0.5 flex-shrink-0 text-[#0077B6]" />
                 {order.address}
@@ -169,7 +169,7 @@ export function OrderDetail() {
             {order.tracking && (
               <div className="flex items-center gap-2 mb-5 p-3 bg-secondary rounded-lg">
                 <Truck className="w-4 h-4 text-[#0077B6]" />
-                <span className="text-sm"><span className="text-muted-foreground">{t('Tracking number', 'N° de suivi')}:</span> <span className="font-mono font-bold text-foreground">{order.tracking}</span></span>
+                <span className="text-sm"><span className="text-muted-foreground">{t("Tracking number")}:</span> <span className="font-mono font-bold text-foreground">{order.tracking}</span></span>
               </div>
             )}
             <div className="space-y-0">

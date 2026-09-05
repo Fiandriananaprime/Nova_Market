@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, Outlet, useNavigate, useLocation } from 'react-router';
-import { ShoppingBag, Search, Heart, Bell, ShoppingCart, Globe, Sun, Moon, LogOut, Settings, Package, ChevronDown, Home, Grid3x3, Store, X, ArrowRight } from 'lucide-react';
+import { ShoppingBag, Search, Heart, Bell, ShoppingCart, Globe, Sun, Moon, LogOut, Package, ChevronDown, Home, Grid3x3, X, ArrowRight } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { formatPrice } from '@/hook/format';
 import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function BuyerLayout() {
-  const { lang, setLang, cart, cartTotal, favorites, removeFromCart, t, setUserRole } = useApp();
+  const { cart, cartTotal, favorites, removeFromCart, setUserRole } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const { resolvedTheme, setTheme } = useTheme();
   const [search, setSearch] = useState('');
@@ -56,7 +59,7 @@ export default function BuyerLayout() {
                 <input
                   value={search}
                   onChange={e => setSearch(e.target.value)}
-                  placeholder={t('Search products, brands or stores...', 'Rechercher produits, marques ou boutiques...')}
+                  placeholder={t("Search products, brands or stores...")}
                   className="w-full pl-10 pr-4 py-2 text-sm bg-secondary border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/25 focus:border-[#0077B6] transition-all"
                 />
               </div>
@@ -65,12 +68,12 @@ export default function BuyerLayout() {
             <div className="flex items-center gap-0.5 ml-auto">
               {/* Language */}
               <button
-                onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
+                onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')}
                 className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-xs font-medium text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
                 title="Switch language"
               >
                 <Globe className="w-4 h-4" />
-                {lang.toUpperCase()}
+                {i18n.language.toUpperCase()}
               </button>
 
               {/* Theme toggle */}
@@ -86,7 +89,7 @@ export default function BuyerLayout() {
               <Link
                 to="/favorites"
                 className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
-                title={t('Favorites', 'Favoris')}
+                title={t("Favorites")}
               >
                 <Heart className="w-4 h-4" />
                 {favorites.length > 0 && (
@@ -106,7 +109,7 @@ export default function BuyerLayout() {
                 <button
                   onClick={() => setCartOpen(!cartOpen)}
                   className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors"
-                  title={t('Cart', 'Panier')}
+                  title={t("Cart")}
                 >
                   <ShoppingCart className="w-4 h-4" />
                   {cartCount > 0 && (
@@ -119,13 +122,13 @@ export default function BuyerLayout() {
                 {cartOpen && (
                   <div className="absolute right-0 top-full mt-2 w-80 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden">
                     <div className="flex items-center justify-between px-4 py-3 border-b border-border">
-                      <span className="font-semibold text-sm font-display text-foreground">{t('Cart', 'Panier')} ({cartCount})</span>
+                      <span className="font-semibold text-sm font-display text-foreground">{t("Cart")} ({cartCount})</span>
                       <button onClick={() => setCartOpen(false)} className="text-muted-foreground hover:text-foreground"><X className="w-4 h-4" /></button>
                     </div>
                     {cart.length === 0 ? (
                       <div className="py-8 text-center text-sm text-muted-foreground">
                         <ShoppingCart className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                        {t('Your cart is empty', 'Votre panier est vide')}
+                        {t("Your cart is empty")}
                       </div>
                     ) : (
                       <>
@@ -155,13 +158,13 @@ export default function BuyerLayout() {
                               onClick={() => { navigate('/cart'); setCartOpen(false); }}
                               className="flex-1 py-2 text-sm font-medium border border-border rounded-xl text-foreground hover:bg-border transition-colors"
                             >
-                              {t('View cart', 'Voir le panier')}
+                              {t("View cart")}
                             </button>
                             <button
                               onClick={() => { navigate('/checkout'); setCartOpen(false); }}
                               className="flex-1 py-2 text-sm font-medium bg-[#0077B6] text-white rounded-xl hover:bg-[#005f92] transition-colors flex items-center justify-center gap-1"
                             >
-                              {t('Checkout', 'Commander')} <ArrowRight className="w-3.5 h-3.5" />
+                              {t("Checkout")} <ArrowRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
                         </div>
@@ -193,10 +196,10 @@ export default function BuyerLayout() {
                       </div>
                       <div className="border-t border-border my-1" />
                       {[
-                        { icon: '👤', label: t('My profile', 'Mon profil'), to: '/profile' },
-                        { icon: '📦', label: t('My orders', 'Mes commandes'), to: '/orders' },
-                        { icon: '❤️', label: t('Favorites', 'Favoris'), to: '/favorites' },
-                        { icon: '⚙️', label: t('Settings', 'Paramètres'), to: '/settings' },
+                        { icon: '👤', label: t("My profile"), to: '/profile' },
+                        { icon: '📦', label: t("My orders"), to: '/orders' },
+                        { icon: '❤️', label: t("Favorites"), to: '/favorites' },
+                        { icon: '⚙️', label: t("Settings"), to: '/settings' },
                       ].map(item => (
                         <Link
                           key={item.to}
@@ -214,7 +217,7 @@ export default function BuyerLayout() {
                         className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-xl transition-colors"
                       >
                         <LogOut className="w-4 h-4" />
-                        {t('Logout', 'Déconnexion')}
+                        {t("Logout")}
                       </button>
                     </div>
                   </div>
@@ -233,16 +236,16 @@ export default function BuyerLayout() {
       <nav className="sm:hidden fixed bottom-0 left-0 right-0 bg-card border-t border-border z-40 safe-area-pb">
         <div className="grid grid-cols-5 h-16">
           {[
-            { icon: <Home className="w-5 h-5" />, label: t('Home', 'Accueil'), to: '/shop' },
-            { icon: <Grid3x3 className="w-5 h-5" />, label: t('Browse', 'Parcourir'), to: '/products' },
+            { icon: <Home className="w-5 h-5" />, label: t("Home"), to: '/shop' },
+            { icon: <Grid3x3 className="w-5 h-5" />, label: t("Browse"), to: '/products' },
             { icon: (
               <div className="relative">
                 <ShoppingCart className="w-5 h-5" />
                 {cartCount > 0 && <span className="absolute -top-1.5 -right-1.5 w-3.5 h-3.5 text-[9px] bg-[#0077B6] text-white rounded-full flex items-center justify-center font-bold">{cartCount}</span>}
               </div>
-            ), label: t('Cart', 'Panier'), to: '/cart' },
-            { icon: <Heart className="w-5 h-5" />, label: t('Saved', 'Favoris'), to: '/favorites' },
-            { icon: <Package className="w-5 h-5" />, label: t('Orders', 'Commandes'), to: '/orders' },
+            ), label: t("Cart"), to: '/cart' },
+            { icon: <Heart className="w-5 h-5" />, label: t("Saved"), to: '/favorites' },
+            { icon: <Package className="w-5 h-5" />, label: t("Orders"), to: '/orders' },
           ].map(item => {
             const active = location.pathname === item.to;
             return (

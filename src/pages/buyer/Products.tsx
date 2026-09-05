@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
+import { Search, SlidersHorizontal, X } from 'lucide-react';
 import { Button, Badge, Select, Pagination } from '../../components/ui';
 import ProductCard from '../../components/ProductCard';
-import { products, categories, sellers } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { products, categories } from '../../data/mock';
+import { useTranslation } from 'react-i18next';
 
 export default function Products() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const [search, setSearch] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
   const [minPrice, setMinPrice] = useState('');
@@ -41,10 +41,10 @@ export default function Products() {
   const Filters = () => (
     <div className="space-y-5">
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t('Category', 'Catégorie')}</h3>
+        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Category")}</h3>
         <div className="space-y-1">
           <button onClick={() => setSelectedCategory('')} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${!selectedCategory ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
-            {t('All categories', 'Toutes les catégories')}
+            {t("All categories")}
           </button>
           {categories.map(c => (
             <button key={c.id} onClick={() => setSelectedCategory(c.id)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${selectedCategory === c.id ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
@@ -55,7 +55,7 @@ export default function Products() {
       </div>
 
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t('Price range', 'Fourchette de prix')}</h3>
+        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Price range")}</h3>
         <div className="flex gap-2 items-center">
           <input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} className="w-full px-2 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
           <span className="text-muted-foreground text-sm flex-shrink-0">—</span>
@@ -64,16 +64,16 @@ export default function Products() {
       </div>
 
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t('Minimum rating', 'Note minimale')}</h3>
+        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Minimum rating")}</h3>
         {[0, 3, 4, 4.5].map(r => (
           <button key={r} onClick={() => setMinRating(r)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${minRating === r ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
-            {r === 0 ? t('All ratings', 'Toutes les notes') : `${r}+ ⭐`}
+            {r === 0 ? t("All ratings") : `${r}+ ⭐`}
           </button>
         ))}
       </div>
 
       <Button variant="outline" size="sm" className="w-full" onClick={() => { setSelectedCategory(''); setMinPrice(''); setMaxPrice(''); setMinRating(0); }}>
-        {t('Clear filters', 'Effacer les filtres')}
+        {t("Clear filters")}
       </Button>
     </div>
   );
@@ -87,16 +87,16 @@ export default function Products() {
           <input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder={t('Search products, brands...', 'Rechercher produits, marques...')}
+            placeholder={t("Search products, brands...")}
             className="w-full pl-10 pr-4 py-2.5 text-sm bg-card border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all"
           />
         </div>
         <Select
           options={[
-            { value: 'relevance', label: t('Relevance', 'Pertinence') },
-            { value: 'price-asc', label: t('Price: Low to High', 'Prix croissant') },
-            { value: 'price-desc', label: t('Price: High to Low', 'Prix décroissant') },
-            { value: 'rating', label: t('Best rated', 'Mieux notés') },
+            { value: 'relevance', label: t("Relevance") },
+            { value: 'price-asc', label: t("Price: Low to High") },
+            { value: 'price-desc', label: t("Price: High to Low") },
+            { value: 'rating', label: t("Best rated") },
           ]}
           value={sort}
           onChange={e => setSort(e.target.value)}
@@ -133,7 +133,7 @@ export default function Products() {
             <div className="absolute inset-0 bg-black/40" onClick={() => setShowFilters(false)} />
             <div className="mt-auto bg-card rounded-t-2xl p-5 relative max-h-[80vh] overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="font-semibold font-display">{t('Filters', 'Filtres')}</h2>
+                <h2 className="font-semibold font-display">{t("Filters")}</h2>
                 <button onClick={() => setShowFilters(false)}><X className="w-5 h-5" /></button>
               </div>
               <Filters />
@@ -145,14 +145,14 @@ export default function Products() {
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{sorted.length}</span> {t('results', 'résultats')}
+              <span className="font-medium text-foreground">{sorted.length}</span> {t("results")}
             </p>
             <Select
               options={[
-                { value: 'relevance', label: t('Relevance', 'Pertinence') },
-                { value: 'price-asc', label: t('Price ↑', 'Prix ↑') },
-                { value: 'price-desc', label: t('Price ↓', 'Prix ↓') },
-                { value: 'rating', label: t('Best rated', 'Mieux notés') },
+                { value: 'relevance', label: t("Relevance") },
+                { value: 'price-asc', label: t("Price ↑") },
+                { value: 'price-desc', label: t("Price ↓") },
+                { value: 'rating', label: t("Best rated") },
               ]}
               value={sort}
               onChange={e => setSort(e.target.value)}
@@ -163,8 +163,8 @@ export default function Products() {
           {sorted.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-4xl mb-3">🔍</div>
-              <h3 className="font-semibold text-foreground mb-1">{t('No products found', 'Aucun produit trouvé')}</h3>
-              <p className="text-sm text-muted-foreground">{t('Try adjusting your search or filters', 'Essayez de modifier votre recherche')}</p>
+              <h3 className="font-semibold text-foreground mb-1">{t("No products found")}</h3>
+              <p className="text-sm text-muted-foreground">{t("Try adjusting your search or filters")}</p>
             </div>
           ) : (
             <>

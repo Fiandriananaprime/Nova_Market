@@ -17,13 +17,13 @@ import {
   getUserById,
   updateUserStatus,
 } from '@/api/admin/user.api';
-import { User, Address } from '@/type/user';
+import { User } from '@/type/user';
 import { useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function UserDetails() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -91,7 +91,7 @@ export default function UserDetails() {
     return (
       <div className="text-center py-20">
         <h2 className="text-lg font-semibold text-foreground">
-          {t('User not found', 'Utilisateur non trouvé')}
+          {t("User not found")}
         </h2>
 
         <Button
@@ -99,7 +99,7 @@ export default function UserDetails() {
           className="mt-4"
           onClick={() => navigate('/admin/users')}
         >
-          {t('Back to users', 'Retour aux utilisateurs')}
+          {t("Back to users")}
         </Button>
       </div>
     );
@@ -114,7 +114,7 @@ export default function UserDetails() {
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="w-4 h-4" />
-        {t('Back to users', 'Retour aux utilisateurs')}
+        {t("Back to users")}
       </Link>
 
       {/* Profile header */}
@@ -187,12 +187,12 @@ export default function UserDetails() {
             ) : user.status === 'active' ? (
               <>
                 <UserX className="w-4 h-4" />
-                {t('Suspend user', 'Suspendre l’utilisateur')}
+                {t("Suspend user")}
               </>
             ) : (
               <>
                 <UserCheck className="w-4 h-4" />
-                {t('Activate user', 'Activer l’utilisateur')}
+                {t("Activate user")}
               </>
             )}
           </Button>
@@ -207,19 +207,19 @@ export default function UserDetails() {
 
           <div className="px-5 py-4 border-b border-border">
             <h2 className="font-semibold font-display text-foreground">
-              {t('Account information', 'Informations sur le compte')}
+              {t("Account information")}
             </h2>
           </div>
 
           <div className="p-5 space-y-4">
 
             <InfoRow
-              label={t('First name', 'Prénom')}
+              label={t("First name")}
               value={user.firstName}
             />
 
             <InfoRow
-              label={t('Last name', 'Nom de famille')}
+              label={t("Last name")}
               value={user.lastName}
             />
 
@@ -230,18 +230,18 @@ export default function UserDetails() {
             />
 
             <InfoRow
-              label={t('Phone', 'Téléphone')}
+              label={t("Phone")}
               value={user.phone || 'Not provided'}
               icon={<Phone className="w-4 h-4" />}
             />
 
             <InfoRow
-              label={t('Role', 'Rôle')}
+              label={t("Role")}
               value={user.role}
             />
 
             <InfoRow
-              label={t('Status', 'Statut')}
+              label={t("Status")}
               value={
                 <StatusBadge status={user.status} />
               }
@@ -254,7 +254,7 @@ export default function UserDetails() {
 
           <div className="px-5 py-4 border-b border-border">
             <h2 className="font-semibold font-display text-foreground">
-              {t('Activity', 'Activité')}
+              {t("Activity")}
             </h2>
           </div>
 
@@ -267,7 +267,7 @@ export default function UserDetails() {
 
               <div>
                 <p className="text-xs text-muted-foreground">
-                  {t('Orders', 'Commandes')}
+                  {t("Orders")}
                 </p>
 
                 <p className="font-semibold text-foreground">
@@ -283,7 +283,7 @@ export default function UserDetails() {
 
               <div>
                 <p className="text-xs text-muted-foreground">
-                  {t('Member since', 'Membre depuis')}
+                  {t("Member since")}
                 </p>
 
                 <p className="font-semibold text-foreground">
@@ -351,7 +351,7 @@ export default function UserDetails() {
           </div>
         ) : (
           <div className="p-5 text-sm text-muted-foreground">
-            ({t('No address registered.', 'Aucune adresse enregistrée.')})
+            ({t("No address registered.")})
           </div>
         )}
       </div>

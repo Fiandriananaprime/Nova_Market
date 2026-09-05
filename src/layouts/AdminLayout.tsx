@@ -1,33 +1,34 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router';
-import { ShoppingBag, LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck, Shield } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck, Shield } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
+import Logo from '../assets/NovaLogo.png';
 
-const navItems = [
-  { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: 'Dashboard', to: '/admin' },
-  { icon: <Users className="w-4.5 h-4.5" />, label: 'Users', to: '/admin/users' },
-  { icon: <UserCheck className="w-4.5 h-4.5" />, label: 'Seller Applications', to: '/admin/sellers/applications' },
-  { icon: <Package className="w-4.5 h-4.5" />, label: 'Products', to: '/admin/products' },
-  { icon: <Grid3x3 className="w-4.5 h-4.5" />, label: 'Categories', to: '/admin/categories' },
-  { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: 'Orders', to: '/admin/orders' },
-  { icon: <CreditCard className="w-4.5 h-4.5" />, label: 'Payments', to: '/admin/payments' },
-  { icon: <Tag className="w-4.5 h-4.5" />, label: 'Promotions', to: '/admin/promotions' },
-  { icon: <Star className="w-4.5 h-4.5" />, label: 'Reviews', to: '/admin/reviews' },
-  { icon: <BarChart3 className="w-4.5 h-4.5" />, label: 'Reports', to: '/admin/reports' },
-  { icon: <Settings className="w-4.5 h-4.5" />, label: 'Settings', to: '/admin/settings' },
-];
 
 export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
-  const { lang, setLang, setUserRole } = useApp();
+  const { lang, setLang, setUserRole, t } = useApp();
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
+  const navItems = [
+    { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: t('Dashboard', 'Tableau de bord'), to: '/admin' },
+    { icon: <Users className="w-4.5 h-4.5" />, label: t('Users', 'Utilisateurs'), to: '/admin/users' },
+    { icon: <UserCheck className="w-4.5 h-4.5" />, label: t('Seller Applications', 'Demandes'), to: '/admin/sellers/applications' },
+    { icon: <Package className="w-4.5 h-4.5" />, label: t('Products', 'Produits'), to: '/admin/products' },
+    { icon: <Grid3x3 className="w-4.5 h-4.5" />, label: t('Categories', 'Catégories'), to: '/admin/categories' },
+    { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t('Orders', 'Commandes'), to: '/admin/orders' },
+    { icon: <CreditCard className="w-4.5 h-4.5" />, label: t('Payments', 'Paiements'), to: '/admin/payments' },
+    { icon: <Tag className="w-4.5 h-4.5" />, label: t('Promotions', 'Promotions'), to: '/admin/promotions' },
+    { icon: <Star className="w-4.5 h-4.5" />, label: t('Reviews', 'Avis'), to: '/admin/reviews' },
+    { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t('Reports', 'Rapports'), to: '/admin/reports' },
+    { icon: <Settings className="w-4.5 h-4.5" />, label: t('Settings', 'Paramètres'), to: '/admin/settings' },
+  ];
   const handleLogout = async () => {
     setUserRole(null);
     await logout();
@@ -38,12 +39,12 @@ export default function AdminLayout() {
   const Sidebar = ({ mobile = false }) => (
     <div className={`flex flex-col h-full bg-[#16262E] text-[#F5EFFF] ${mobile ? '' : 'w-56'}`}>
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-white/10">
-        <div className="w-8 h-8 rounded-lg bg-[#5ABCB9] flex items-center justify-center">
-          <Shield className="w-4.5 h-4.5 text-white" />
+        <div className="w-8 h-8 rounded-full bg-primary-foreground flex items-center justify-center overflow-hidden">
+          <img src={Logo} alt="Nova Market" />
         </div>
         <div>
-          <div className="font-bold text-sm font-display">MasoMarket</div>
-          <div className="text-[10px] text-[#8da8b5]">Admin Panel</div>
+          <div className="font-bold text-sm font-display">Nova Market</div>
+          <div className="text-[10px] text-[#8da8b5]">{t('Admin Panel', 'Panneau d\'administration')}</div>
         </div>
       </div>
 
@@ -68,13 +69,13 @@ export default function AdminLayout() {
         <div className="flex items-center gap-2.5 px-3 py-2.5 mb-1">
           <div className="w-8 h-8 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">A</div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate">Administrator</div>
+            <div className="text-sm font-medium truncate">{t('Administrator', 'Administrateur')}</div>
             <div className="text-xs text-[#8da8b5]">Super Admin</div>
           </div>
         </div>
         <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-[#8da8b5] hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
           <LogOut className="w-4 h-4" />
-          Logout
+          {t('Logout', 'Déconnexion')}
         </button>
       </div>
     </div>

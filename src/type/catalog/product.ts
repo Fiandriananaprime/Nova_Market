@@ -1,7 +1,17 @@
 export interface ProductSpecs {
   [key: string]: string;
 }
+export type RatingCount = {
+  all: number;
+  "1": number;
+  "2": number;
+  "3": number;
+  "4": number;
+  "5": number;
+};
 
+export type productStatus = 'draft' | 'active' | 'inactive' | 'pending' | 'approved' | 'rejected';
+export type productStatusDto = 'pending' | 'approved' | 'rejected';
 export interface ProductVariant {
   name?: string;
   values?: string[];
@@ -9,29 +19,30 @@ export interface ProductVariant {
 
 export interface Product {
   id: string;
-  name?: string;
+  name: string;
   nameF?: string;
-  brand?: string;
-  description?: string;
+  brand: string;
+  description: string;
   price: number;
-  originalPrice?: number | null;
+  originalPrice: number;
   discount?: number;
   rating: number;
-  reviewsCount?: number;
-  sellerId?: string;
-  sellerName?: string;
-  categoryId?: string;
-  image?: string;
-  images?: string[];
-  stock?: number;
-  sku?: string;
-  tags?: string[];
-  specs?: ProductSpecs;
-  variants?: ProductVariant[];
+  reviewsCount: number;
+  sellerId: string;
+  sellerName: string;
+  categoryId: string;
+  categoryName:string;
+  image: string;
+  images: string[];
+  stock: number;
+  sku: string;
+  tags: string[];
+  specs: ProductSpecs;
+  variants: ProductVariant[];
   weightGrams?: number;
   dimensions?: string;
-  status?: 'draft' | 'active' | 'inactive' | 'pending' | 'approved' | 'rejected';
-  createdAt?: string;
+  status: productStatus;
+  createdAt: string;
 }
 
 export interface PaginationMeta {
@@ -42,8 +53,8 @@ export interface PaginationMeta {
 }
 
 export interface GetProductsResponse {
-  data?: Product[];
-  meta?: PaginationMeta;
+  data: Product[];
+  meta: PaginationMeta;
 }
 
 export interface GetProductsQueryParams {

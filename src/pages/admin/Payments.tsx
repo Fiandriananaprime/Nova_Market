@@ -3,6 +3,7 @@ import { DollarSign, TrendingUp, CreditCard, Smartphone } from 'lucide-react';
 import { StatCard, Tabs, Badge, Select } from '../../components/ui';
 import { formatPrice } from '../../data/mock';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { useApp } from '../../contexts/AppContext';
 
 const paymentData = [
   { month: 'Mar', mvola: 18000000, orange: 9000000, card: 7000000, cod: 4000000 },
@@ -36,6 +37,7 @@ const statusColors: Record<string, string> = {
 };
 
 export default function AdminPayments() {
+  const { t } = useApp();
   const [activeTab, setActiveTab] = useState('transactions');
   const [methodFilter, setMethodFilter] = useState('all');
 
@@ -45,19 +47,19 @@ export default function AdminPayments() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-foreground">Payments</h1>
+      <h1 className="text-xl font-bold font-display text-foreground">{t('Payments', 'Paiements')}</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total volume" value="284.5M Ar" change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Platform commission" value="28.4M Ar" change={14.2} icon={<TrendingUp className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title="Transactions" value="8,432" change={9.3} icon={<CreditCard className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Mobile money" value="79%" change={2.1} icon={<Smartphone className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t('Total volume', 'Volume total')} value="284.5M Ar" change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t('Platform commission', 'Commission plateforme')} value="28.4M Ar" change={14.2} icon={<TrendingUp className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t('Transactions', 'Transactions')} value="8,432" change={9.3} icon={<CreditCard className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t('Mobile money', 'Mobile money')} value="79%" change={2.1} icon={<Smartphone className="w-5 h-5" />} color="#5ABCB9" />
       </div>
 
       {/* Payment methods breakdown */}
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">Revenue by payment method</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t('Revenue by payment method', 'Revenus par moyen de paiement')}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={paymentData} barSize={10}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -73,7 +75,7 @@ export default function AdminPayments() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">Payment method share</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t('Payment method share', 'Répartition des paiements')}</h2>
           <div className="space-y-3">
             {[
               { name: 'MVola', pct: 44, color: '#5ABCB9', amount: 125060000 },
@@ -104,10 +106,10 @@ export default function AdminPayments() {
       {/* Transactions table */}
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <h2 className="font-semibold font-display text-foreground">Transactions</h2>
+          <h2 className="font-semibold font-display text-foreground">{t('Transactions', 'Transactions')}</h2>
           <Select
             options={[
-              { value: 'all', label: 'All methods' },
+              { value: 'all', label: t('All methods', 'Tous les moyens') },
               { value: 'MVola', label: 'MVola' },
               { value: 'Orange Money', label: 'Orange Money' },
               { value: 'Card', label: 'Card' },

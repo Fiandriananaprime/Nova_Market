@@ -5,9 +5,11 @@ import { getSellerApplications } from '@/api/admin/sellerApplication';
 import type { SellerApplication } from '@/type/admin/seller';
 import { Link } from 'react-router';
 import { useToast } from '@/contexts/ToastContext';
+import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function SellerApplications() {
+  const { t } = useApp();
   const { toast } = useToast();
   const [apps, setApps] = useState<SellerApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -30,12 +32,12 @@ export default function SellerApplications() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">Seller Applications</h1>
-        <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} pending</Badge>
+        <h1 className="text-xl font-bold font-display text-foreground">{t('Seller Applications', 'Demandes de vendeurs')}</h1>
+        <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} {t('pending', 'en attente')}</Badge>
       </div>
 
       {loading ? (
-        <div className="text-sm text-muted-foreground">Loading applications...</div>
+        <div className="text-sm text-muted-foreground">{t('Loading applications...', 'Chargement des demandes...')}</div>
       ) : (
       <div className="grid gap-4">
         {apps.map(app => (
@@ -72,7 +74,7 @@ export default function SellerApplications() {
                       <Button variant="primary" size="sm" className="flex items-center gap-1">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <MessageSquare className="w-3.5 h-3.5" />
-                        Request info
+                        {t('Request info', 'Demander des informations')}
                       </Button>
                     </Link>
                   </div>

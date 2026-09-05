@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Search, TrendingUp, ShoppingBag, Calendar } from 'lucide-react';
 import { Badge, Pagination } from '../../components/ui';
 import { formatPrice } from '../../data/mock';
+import { useApp } from '../../contexts/AppContext';
 
 const customers = [
   { id: '1', name: 'Rakoto Andry', email: 'andry@email.com', orders: 7, totalSpent: 9100000, lastOrder: '2026-09-01', status: 'active', avatar: 'R' },
@@ -19,6 +20,7 @@ const topMetrics = [
 ];
 
 export default function SellerCustomers() {
+  const { t } = useApp();
   const [search, setSearch] = useState('');
   const [page, setPage] = useState(1);
   const [sort, setSort] = useState('totalSpent');
@@ -29,7 +31,7 @@ export default function SellerCustomers() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-foreground">Customers</h1>
+      <h1 className="text-xl font-bold font-display text-foreground">{t('Customers', 'Clients')}</h1>
 
       {/* Top metrics */}
       <div className="grid grid-cols-3 gap-4">
@@ -56,7 +58,7 @@ export default function SellerCustomers() {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder="Search customers..."
+              placeholder={t('Search customers...', 'Rechercher des clients...')}
               className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#0077B6]"
             />
           </div>
@@ -65,8 +67,8 @@ export default function SellerCustomers() {
             onChange={e => setSort(e.target.value)}
             className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block"
           >
-            <option value="totalSpent">Sort: Top spenders</option>
-            <option value="orders">Sort: Most orders</option>
+            <option value="totalSpent">{t('Sort: Top spenders', 'Trier : plus gros dépensiers')}</option>
+            <option value="orders">{t('Sort: Most orders', 'Trier : plus de commandes')}</option>
           </select>
         </div>
 
@@ -74,7 +76,7 @@ export default function SellerCustomers() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-secondary">
-                {['Customer', 'Email', 'Orders', 'Total spent', 'Last order', 'Status'].map(h => (
+                {[t('Customer', 'Client'), t('Email', 'Email'), t('Orders', 'Commandes'), t('Total spent', 'Total dépensé'), t('Last order', 'Dernière commande'), t('Status', 'Statut')].map(h => (
                   <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>

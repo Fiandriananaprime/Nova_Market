@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { Upload, ExternalLink } from 'lucide-react';
 import { Button, Input, Toggle } from '../../components/ui';
 import { useNavigate } from 'react-router';
+import { useApp } from '../../contexts/AppContext';
 
 export default function SellerStoreSettings() {
+  const { t } = useApp();
   const navigate = useNavigate();
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -24,23 +26,23 @@ export default function SellerStoreSettings() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">Store settings</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t('Store settings', 'Paramètres de la boutique')}</h1>
         <Button variant="outline" size="sm" onClick={() => navigate('/stores/1')}>
           <ExternalLink className="w-3.5 h-3.5" />
-          View my store
+          {t('View my store', 'Voir ma boutique')}
         </Button>
       </div>
 
-      <Section title="Store identity">
+      <Section title={t('Store identity', 'Identité de la boutique')}>
         {/* Cover */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-foreground mb-2 block">Cover image</label>
+          <label className="text-sm font-medium text-foreground mb-2 block">{t('Cover image', 'Image de couverture')}</label>
           <div className="h-32 bg-[#16262E] rounded-xl overflow-hidden relative">
             <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=200&fit=crop" alt="" className="w-full h-full object-cover opacity-60" />
             <label className="absolute inset-0 flex items-center justify-center cursor-pointer hover:bg-black/20 transition-colors">
               <div className="flex items-center gap-2 bg-white/90 text-[#16262E] px-3 py-1.5 rounded-lg text-sm font-medium">
                 <Upload className="w-3.5 h-3.5" />
-                Change cover
+                {t('Change cover', 'Changer la couverture')}
               </div>
               <input type="file" className="sr-only" />
             </label>
@@ -56,25 +58,25 @@ export default function SellerStoreSettings() {
             </label>
           </div>
           <div className="flex-1 space-y-2">
-            <Input label="Store name" defaultValue="TechStore MG" />
+            <Input label={t('Store name', 'Nom de la boutique')} defaultValue="TechStore MG" />
           </div>
         </div>
         <div>
-          <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
+          <label className="text-sm font-medium text-foreground mb-1 block">{t('Description', 'Description')}</label>
           <textarea rows={3} defaultValue="Official distributor of electronics and technology products in Madagascar." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
         </div>
       </Section>
 
-      <Section title="Contact information">
+      <Section title={t('Contact information', 'Coordonnées')}>
         <div className="grid grid-cols-2 gap-3">
-          <Input label="Email" type="email" defaultValue="contact@techstore.mg" />
-          <Input label="Phone" defaultValue="+261 20 222 1234" />
-          <Input label="Location" defaultValue="Antananarivo" />
-          <Input label="Address" defaultValue="Immeuble Andraharo, Antananarivo" />
+          <Input label={t('Email', 'Email')} type="email" defaultValue="contact@techstore.mg" />
+          <Input label={t('Phone', 'Téléphone')} defaultValue="+261 20 222 1234" />
+          <Input label={t('Location', 'Localisation')} defaultValue="Antananarivo" />
+          <Input label={t('Address', 'Adresse')} defaultValue="Immeuble Andraharo, Antananarivo" />
         </div>
       </Section>
 
-      <Section title="Opening hours">
+      <Section title={t('Opening hours', 'Horaires d’ouverture')}>
         <div className="space-y-2">
           {['Monday - Friday', 'Saturday', 'Sunday'].map((day, i) => (
             <div key={day} className="flex items-center gap-3">
@@ -87,21 +89,21 @@ export default function SellerStoreSettings() {
         </div>
       </Section>
 
-      <Section title="Store status">
+      <Section title={t('Store status', 'Statut de la boutique')}>
         <div className="flex items-center justify-between">
           <div>
-            <div className="font-medium text-sm text-foreground">Store is open</div>
-            <div className="text-xs text-muted-foreground">Customers can browse and purchase products</div>
+            <div className="font-medium text-sm text-foreground">{t('Store is open', 'La boutique est ouverte')}</div>
+            <div className="text-xs text-muted-foreground">{t('Customers can browse and purchase products', 'Les clients peuvent parcourir et acheter les produits')}</div>
           </div>
           <Toggle checked={open} onChange={setOpen} />
         </div>
       </Section>
 
-      <Section title="Return policy">
+      <Section title={t('Return policy', 'Politique de retour')}>
         <textarea rows={3} defaultValue="We accept returns within 30 days of purchase. Products must be in original condition." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
       </Section>
 
-      <Button size="lg" loading={loading} onClick={handleSave}>Save changes</Button>
+      <Button size="lg" loading={loading} onClick={handleSave}>{t('Save changes', 'Enregistrer les modifications')}</Button>
     </div>
   );
 }

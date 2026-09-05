@@ -16,6 +16,7 @@ import { getSellerApplicationById, updateSellerApplicationStatus,
 } from '@/api/admin/sellerApplication';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { useToast } from '@/contexts/ToastContext';
+import { useApp } from '@/contexts/AppContext';
 import { formatDate } from '@/hook/format';
 import type { SellerApplication, SellerApplicationStatus} from '@/type/admin/seller';
 
@@ -25,6 +26,7 @@ const SellerApplicationDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useApp();
 
   const [application, setApplication] =
     useState<SellerApplication | null>(null);
@@ -109,7 +111,7 @@ const SellerApplicationDetails = () => {
       <div className="p-6">
         <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 text-center">
           <p className="text-[var(--foreground)] font-medium">
-            Seller application not found
+            {t('Seller application not found', 'Demande de vendeur non trouvée')}
           </p>
 
           <Button
@@ -119,7 +121,7 @@ const SellerApplicationDetails = () => {
               navigate('/admin/sellers/applications')
             }
           >
-            Back to applications
+            {t('Back to applications', 'Retour aux demandes')}
           </Button>
         </div>
       </div>
@@ -138,12 +140,12 @@ const SellerApplicationDetails = () => {
             className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
-            Back to applications
+            {t('Back to applications', 'Retour aux demandes')}
           </Link>
 
           <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold font-display text-[var(--foreground)]">
-              Seller Application
+              {t('Seller Application', 'Demande de vendeur')}
             </h1>
 
             <StatusBadge status={application.status} />
@@ -162,7 +164,7 @@ const SellerApplicationDetails = () => {
               className="flex items-center gap-2"
             >
               <X className="w-4 h-4" />
-              Reject
+              {t('Reject', 'Rejeter')}
             </Button>
 
             <Button
@@ -171,7 +173,7 @@ const SellerApplicationDetails = () => {
               className="flex items-center gap-2"
             >
               <Check className="w-4 h-4" />
-              Approve
+              {t('Approve', 'Approuver')}
             </Button>
           </div>
         )}
@@ -205,13 +207,13 @@ const SellerApplicationDetails = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem
                 icon={<User />}
-                label="Owner"
+                label={t('Owner', 'Propriétaire')}
                 value={application.owner}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label="Business name"
+                label={t('Business name', 'Nom de l’entreprise')}
                 value={application.businessName}
               />
 
@@ -223,19 +225,19 @@ const SellerApplicationDetails = () => {
 
               <InfoItem
                 icon={<Phone />}
-                label="Phone"
+                label={t('Phone', 'Téléphone')}
                 value={application.phone}
               />
 
               <InfoItem
                 icon={<MapPin />}
-                label="Location"
+                label={t('Location', 'Emplacement')}
                 value={application.location}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label="Category"
+                label={t('Category', 'Catégorie')}
                 value={application.category}
               />
             </div>
@@ -243,31 +245,31 @@ const SellerApplicationDetails = () => {
 
           {/* Application information */}
           <Section
-            title="Application information"
-            description="Details about this seller application"
+            title={t('Application information', 'Informations sur la demande')}
+            description={t('Details about this seller application', 'Détails sur cette demande de vendeur')}
           >
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <InfoItem
                 icon={<Calendar />}
-                label="Application date"
+                label={t('Application date', 'Date de la demande')}
                 value={formatDate(application.date)}
               />
 
               <InfoItem
                 icon={<Check />}
-                label="Status"
+                label={t('Status', 'Statut')}
                 value={getStatusLabel(application.status)}
               />
 
               <InfoItem
                 icon={<User />}
-                label="Applicant"
+                label={t('Applicant', 'Candidat')}
                 value={application.owner}
               />
 
               <InfoItem
                 icon={<Building2 />}
-                label="Business"
+                label={t('Business', 'Entreprise')}
                 value={application.businessName}
               />
             </div>
@@ -280,11 +282,11 @@ const SellerApplicationDetails = () => {
             <section className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden sticky top-6">
               <div className="px-6 py-5 border-b border-[var(--border)]">
                 <h2 className="font-semibold text-[var(--foreground)]">
-                  Review application
+                  {t('Review application', 'Revoir la demande')}
                 </h2>
 
                 <p className="text-sm text-[var(--muted-foreground)] mt-1">
-                  Decide whether to approve or reject this seller.
+                  {t('Decide whether to approve or reject this seller.', 'Décider si vous souhaitez approuver ou rejeter ce vendeur.')}
                 </p>
               </div>
 
@@ -315,11 +317,11 @@ const SellerApplicationDetails = () => {
                     />
 
                     <p className="font-medium text-sm text-[var(--foreground)]">
-                      Approve
+                      {t('Approve', 'Approuver')}
                     </p>
 
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                      Accept seller
+                      {t('Accept seller', 'Accepter le vendeur')}
                     </p>
                   </button>
 
@@ -341,11 +343,11 @@ const SellerApplicationDetails = () => {
                     />
 
                     <p className="font-medium text-sm text-[var(--foreground)]">
-                      Reject
+                      {t('Reject', 'Rejeter')}
                     </p>
 
                     <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                      Decline seller
+                      {t('Decline seller', 'Refuser le vendeur')}
                     </p>
                   </button>
                 </div>
@@ -357,12 +359,12 @@ const SellerApplicationDetails = () => {
                       htmlFor="reason"
                       className="block text-sm font-medium text-[var(--foreground)] mb-2"
                     >
-                      Reason
+                      {t('Reason', 'Raison')}
                       {decision === 'reject' ? (
                         <span className="text-red-500 ml-1">*</span>
                       ) : (
                         <span className="text-xs font-normal text-[var(--muted-foreground)] ml-2">
-                          Optional
+                          {t('Optional', 'Facultatif')}
                         </span>
                       )}
                     </label>
@@ -374,15 +376,15 @@ const SellerApplicationDetails = () => {
                       rows={6}
                       placeholder={
                         decision === 'reject'
-                          ? 'Explain why this application is being rejected...'
-                          : 'Add an optional note...'
+                          ? t('Explain why this application is being rejected...', 'Expliquez pourquoi cette demande est en cours de rejet...')
+                          : t('Add an optional note...', 'Ajoutez un commentaire facultatif...')
                       }
                       className="w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] resize-none focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30"
                     />
 
                     {decision === 'reject' && (
                       <p className="text-xs text-[var(--muted-foreground)] mt-2">
-                        A reason is required when rejecting an application.
+                        {t('A reason is required when rejecting an application.', 'Une raison est requise lorsqu\'on rejette une demande.')}
                       </p>
                     )}
                   </div>
@@ -411,16 +413,16 @@ const SellerApplicationDetails = () => {
                     )}
 
                     {actionLoading
-                      ? 'Processing...'
+                      ? t('Processing...', 'Traitement en cours...')
                       : decision === 'approve'
-                        ? 'Approve application'
-                        : 'Reject application'}
+                        ? t('Approve application', 'Approuver la demande')
+                        : t('Reject application', 'Rejeter la demande')}
                   </Button>
                 )}
 
                 {!decision && (
                   <p className="text-xs text-center text-[var(--muted-foreground)]">
-                    Select a decision to continue.
+                    {t('Select a decision to continue.', 'Sélectionnez une décision pour continuer.')}
                   </p>
                 )}
               </div>
@@ -432,11 +434,11 @@ const SellerApplicationDetails = () => {
 
                 <div>
                   <p className="font-medium text-[var(--foreground)]">
-                    Application reviewed
+                    {t('Application reviewed', 'Demande examinée')}
                   </p>
 
                   <p className="text-xs text-[var(--muted-foreground)] mt-1">
-                    This application is no longer pending.
+                    {t('This application is no longer pending.', 'Cette demande n\'est plus en attente.')}
                   </p>
                 </div>
               </div>

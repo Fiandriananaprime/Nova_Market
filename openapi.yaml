@@ -266,6 +266,7 @@ components:
         sellerId: { type: string, example: "1" }
         sellerName: { type: string, example: "TechStore MG" }
         categoryId: { type: string, example: "7" }
+        categoryName: { type: string, example: "Electronics" }
         image: { type: string }
         images:
           type: array
@@ -1097,6 +1098,13 @@ paths:
         - { $ref: '#/components/parameters/IdParam' }
         - { $ref: '#/components/parameters/PageParam' }
         - { $ref: '#/components/parameters/LimitParam' }
+        - name: rating
+          in: query
+          required: false
+          schema:
+            type: string
+            enum: [all, '1', '2', '3', '4', '5']
+            default: all
       responses:
         '200':
           description: Product reviews
@@ -1109,6 +1117,16 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/Review' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  counts:
+                    type: object
+                    required: [all, '1', '2', '3', '4', '5']
+                    properties:
+                      all: { type: integer }
+                      '1': { type: integer }
+                      '2': { type: integer }
+                      '3': { type: integer }
+                      '4': { type: integer }
+                      '5': { type: integer }
     post:
       tags: [Buyer - Reviews]
       summary: Leave a review for a product (buyer)
@@ -2153,6 +2171,14 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/Product' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  counts:
+                    type: object
+                    required: [all, approved, pending, rejected]
+                    properties:
+                      all: { type: integer }
+                      approved: { type: integer }
+                      pending: { type: integer }
+                      rejected: { type: integer }
 
   /admin/products/{id}/status:
     patch:

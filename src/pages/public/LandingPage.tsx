@@ -4,12 +4,12 @@ import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
 import { formatPrice } from '@/hook/format';
 import { useApp } from '../../contexts/AppContext';
-import { getCategories, getFeaturedSellers } from '../../api/catalog/catalog.api';
+import { getCategories, getFeaturedSellers } from '../../api/public/catalog.api';
 import { Category } from '@/type/catalog/category';
 import { Seller } from '@/type/user';
 import { useEffect, useState } from 'react';
 import { Product } from '@/type/catalog/product';
-import { getFeaturedProducts } from '@/api/catalog/product.api';
+import { getFeaturedProducts } from '@/api/public/product.api';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { useToast } from '@/contexts/ToastContext';
 

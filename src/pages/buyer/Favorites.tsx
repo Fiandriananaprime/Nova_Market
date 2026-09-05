@@ -2,9 +2,10 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Heart, Store, Trash2, ShoppingCart } from 'lucide-react';
 import { Button, Tabs, EmptyState } from '../../components/ui';
-import { products, sellers, formatPrice } from '../../data/mock';
+import { products, sellers } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
 import { Rating, VerifiedBadge } from '../../components/ui';
+import { formatPrice } from '../../hook/format';
 
 export default function Favorites() {
   const { favorites, toggleFavorite, addToCart, t } = useApp();

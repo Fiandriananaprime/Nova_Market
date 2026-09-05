@@ -4,7 +4,8 @@ import { User, MapPin, Plus, Edit, Trash2, CheckCircle2, Package, Heart, Setting
 import { Button, Input, Tabs } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import { useToast } from '../../contexts/ToastContext';
-import { orders, formatPrice } from '../../data/mock';
+import { orders } from '../../data/mock';
+import { formatPrice } from '@/hook/format';
 
 const addresses = [
   { id: '1', label: 'Home', address: '12 Rue Rainitovo, Antananarivo 101', phone: '+261 34 123 4567', default: true },

@@ -4,10 +4,8 @@ import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
 import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 
-import { StatCard, StatusBadge, Badge } from '../../components/ui';
+import { StatCard, StatusBadge, Badge, BarStat, LineStat } from '../../components/ui';
 import  TableCard, { Column }  from '@/components/TableCard';
-import { BarStat, LineStat } from '@/components/ui/StatCard';
-
 import { AdminMetrics, AdminRevenue} from '@/type/admin/dashboard';
 import { OrderResponse } from '@/type/order/order';
 import { SellerApplicationResponse, TopSeller } from '@/type/admin/seller';

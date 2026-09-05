@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router';
 import { MapPin, Truck, CreditCard, CheckCircle2, ChevronRight, Smartphone } from 'lucide-react';
 import { Button, Input } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
-import { formatPrice } from '../../data/mock';
+import { formatPrice } from '@/hook/format';
 
 type Step = 'delivery' | 'method' | 'payment' | 'review';
 

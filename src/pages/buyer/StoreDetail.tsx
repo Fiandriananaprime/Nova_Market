@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { MapPin, Package, Heart, Star, ChevronLeft } from 'lucide-react';
 import { Button, Rating, VerifiedBadge, Tabs } from '../../components/ui';
-import { sellers, products, formatPrice } from '../../data/mock';
+import { sellers, products } from '../../data/mock';
 import ProductCard from '../../components/ProductCard';
 import { useApp } from '../../contexts/AppContext';
 

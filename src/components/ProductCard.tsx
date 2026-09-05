@@ -2,7 +2,7 @@ import { Heart, ShoppingCart, Store } from 'lucide-react';
 import { Button, Badge, Rating } from './ui';
 import { useApp } from '../contexts/AppContext';
 import { useToast } from '../contexts/ToastContext';
-import { formatPrice } from '../data/mock';
+import { formatPrice } from '@/hook/format';
 import { useNavigate } from 'react-router';
 
 interface Product {

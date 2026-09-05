@@ -2,9 +2,9 @@ import { useState } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router';
 import { Package, MapPin, Truck, CheckCircle2, Clock, XCircle, ChevronRight, ArrowLeft } from 'lucide-react';
 import { Button, Tabs, StatusBadge, EmptyState } from '../../components/ui';
-import { orders, formatPrice } from '../../data/mock';
+import { orders } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
-
+import { formatPrice } from '@/hook/format';
 export function OrdersList() {
   const { t } = useApp();
   const navigate = useNavigate();

@@ -3,7 +3,7 @@ import { Link, Outlet, useNavigate, useLocation } from 'react-router';
 import { ShoppingBag, Search, Heart, Bell, ShoppingCart, Globe, Sun, Moon, LogOut, Settings, Package, ChevronDown, Home, Grid3x3, Store, X, ArrowRight } from 'lucide-react';
 import { useApp } from '../contexts/AppContext';
 import { useTheme } from '../contexts/ThemeContext';
-import { formatPrice } from '../data/mock';
+import { formatPrice } from '@/hook/format';
 import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
 

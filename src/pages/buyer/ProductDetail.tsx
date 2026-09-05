@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { Heart, ShoppingCart, Zap, Star, ChevronRight, Truck, RotateCcw, Shield, Minus, Plus, Store, CheckCircle2 } from 'lucide-react';
 import { Button, Badge, Rating, VerifiedBadge, Breadcrumb, Tabs } from '../../components/ui';
-import { products, sellers, formatPrice } from '../../data/mock';
+import { products, sellers } from '../../data/mock';
+import { formatPrice } from '../../hook/format';
 import ProductCard from '../../components/ProductCard';
 import { useApp } from '../../contexts/AppContext';
 

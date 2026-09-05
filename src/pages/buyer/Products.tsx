@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Search, SlidersHorizontal, X, ChevronDown } from 'lucide-react';
 import { Button, Badge, Select, Pagination } from '../../components/ui';
 import ProductCard from '../../components/ProductCard';
-import { products, categories, sellers, formatPrice } from '../../data/mock';
+import { products, categories, sellers } from '../../data/mock';
 import { useApp } from '../../contexts/AppContext';
 
 export default function Products() {

@@ -47,6 +47,8 @@ export const sellerMetrics = {
   lowStockChange: -2,
 };
 
+export const formatPrice = (price: number) => `${price.toLocaleString('fr-MG')} Ar`;
+
 export const revenueData = [
   { month: 'Mar', revenue: 7200000, orders: 98 },
   { month: 'Apr', revenue: 8100000, orders: 112 },

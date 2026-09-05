@@ -3,7 +3,7 @@ import { ShoppingCart, Trash2, Minus, Plus, ArrowRight, Store, AlertTriangle } f
 import { Button, EmptyState } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import { useToast } from '../../contexts/ToastContext';
-import { formatPrice } from '../../data/mock';
+import { formatPrice } from '@/hook/format';
 
 export default function Cart() {
   const navigate = useNavigate();

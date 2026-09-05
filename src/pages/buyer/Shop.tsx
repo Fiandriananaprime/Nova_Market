@@ -1,10 +1,11 @@
 import { useNavigate } from 'react-router';
 import { ArrowRight, Cpu, Shirt, ShoppingBasket, Home, Sparkles, Dumbbell, Smartphone, Watch, MapPin, TrendingUp, Clock, Tag } from 'lucide-react';
 import { Button, Badge } from '../../components/ui';
-import { categories, sellers, products, formatPrice } from '../../data/mock';
+import { categories, sellers, products } from '../../data/mock';
+import { formatPrice } from '../../hook/format';
 import ProductCard from '../../components/ProductCard';
 import { useApp } from '../../contexts/AppContext';
-import { Rating, VerifiedBadge } from '../../components/ui';
+import { Rating } from '../../components/ui';
 
 const categoryIcons: Record<string, React.ReactNode> = {
   Cpu: <Cpu className="w-5 h-5" />,

@@ -179,6 +179,7 @@ export default function AdminUsers() {
       toast(getApiErrorMessage(error, 'Unable to update user status.'), 'error');
     }
   };
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {

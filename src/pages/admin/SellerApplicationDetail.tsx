@@ -11,7 +11,7 @@ import {
   User,
   X,
 } from 'lucide-react';
-import {Button} from '@/components/ui/index';
+import { Button } from '@/components/ui';
 import { getSellerApplicationById, updateSellerApplicationStatus,
 } from '@/api/admin/sellerApplication';
 import { getApiErrorMessage } from '@/api/errorMessage';

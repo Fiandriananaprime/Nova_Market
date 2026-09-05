@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { ChevronDown, MapPin } from 'lucide-react';
 import { Tabs, StatusBadge, Button, Modal, Select } from '../../components/ui';
 import { orders, formatPrice } from '../../data/mock';
+import { useApp } from '../../contexts/AppContext';
 
 const sellerOrders = [
   { id: 'ORD-001', customer: 'Rakoto A.', product: 'Samsung Galaxy A56', qty: 1, amount: 1299000, status: 'processing', date: '2026-09-01', address: '12 Rue Rainitovo, Antananarivo', phone: '+261 34 123 4567', payment: 'MVola - Paid' },
@@ -11,25 +12,26 @@ const sellerOrders = [
 ];
 
 export default function SellerOrders() {
+  const { t } = useApp();
   const [activeTab, setActiveTab] = useState('all');
   const [detailOrder, setDetailOrder] = useState<typeof sellerOrders[0] | null>(null);
   const [newStatus, setNewStatus] = useState('');
 
   const tabs = [
-    { id: 'all', label: 'All', count: sellerOrders.length },
-    { id: 'pending', label: 'Pending' },
-    { id: 'confirmed', label: 'Confirmed' },
-    { id: 'preparing', label: 'Preparing' },
-    { id: 'shipped', label: 'Shipped' },
-    { id: 'delivered', label: 'Delivered' },
-    { id: 'cancelled', label: 'Cancelled' },
+    { id: 'all', label: t('All', 'Toutes'), count: sellerOrders.length },
+    { id: 'pending', label: t('Pending', 'En attente') },
+    { id: 'confirmed', label: t('Confirmed', 'Confirmée') },
+    { id: 'preparing', label: t('Preparing', 'En préparation') },
+    { id: 'shipped', label: t('Shipped', 'Expédiée') },
+    { id: 'delivered', label: t('Delivered', 'Livrée') },
+    { id: 'cancelled', label: t('Cancelled', 'Annulée') },
   ];
 
   const filtered = activeTab === 'all' ? sellerOrders : sellerOrders.filter(o => o.status === activeTab);
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">Orders</h1>
+      <h1 className="text-xl font-bold font-display text-foreground mb-5">{t('Orders', 'Commandes')}</h1>
 
       <div className="overflow-x-auto mb-5">
         <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
@@ -40,7 +42,7 @@ export default function SellerOrders() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-secondary">
-                {['Order', 'Customer', 'Product', 'Qty', 'Amount', 'Status', 'Date', 'Actions'].map(h => (
+                {[t('Order', 'Commande'), t('Customer', 'Client'), t('Product', 'Produit'), t('Qty', 'Qté'), t('Amount', 'Montant'), t('Status', 'Statut'), t('Date', 'Date'), t('Actions', 'Actions')].map(h => (
                   <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>
@@ -57,7 +59,7 @@ export default function SellerOrders() {
                   <td className="px-4 py-3 text-muted-foreground">{order.date}</td>
                   <td className="px-4 py-3">
                     <Button size="xs" variant="outline" onClick={() => { setDetailOrder(order); setNewStatus(order.status); }}>
-                      Details
+                      {t('Details', 'Détails')}
                     </Button>
                   </td>
                 </tr>
@@ -73,8 +75,8 @@ export default function SellerOrders() {
         title={`Order ${detailOrder?.id}`}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setDetailOrder(null)}>Close</Button>
-            <Button className="flex-1" onClick={() => setDetailOrder(null)}>Update status</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setDetailOrder(null)}>{t('Close', 'Fermer')}</Button>
+            <Button className="flex-1" onClick={() => setDetailOrder(null)}>{t('Update status', 'Mettre à jour le statut')}</Button>
           </>
         }
       >
@@ -86,32 +88,32 @@ export default function SellerOrders() {
               <div className="text-muted-foreground mt-0.5">{detailOrder.phone}</div>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
-              <span className="text-muted-foreground">Product</span>
+              <span className="text-muted-foreground">{t('Product', 'Produit')}</span>
               <span className="font-medium text-foreground">{detailOrder.product}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
-              <span className="text-muted-foreground">Quantity</span>
+              <span className="text-muted-foreground">{t('Quantity', 'Quantité')}</span>
               <span className="font-medium text-foreground">{detailOrder.qty}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
-              <span className="text-muted-foreground">Amount</span>
+              <span className="text-muted-foreground">{t('Amount', 'Montant')}</span>
               <span className="font-bold text-foreground">{formatPrice(detailOrder.amount)}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
-              <span className="text-muted-foreground">Payment</span>
+              <span className="text-muted-foreground">{t('Payment', 'Paiement')}</span>
               <span className="text-foreground">{detailOrder.payment}</span>
             </div>
             <Select
-              label="Update status"
+              label={t('Update status', 'Mettre à jour le statut')}
               value={newStatus}
               onChange={e => setNewStatus(e.target.value)}
               options={[
-                { value: 'pending', label: 'Pending' },
-                { value: 'confirmed', label: 'Confirmed' },
-                { value: 'preparing', label: 'Preparing' },
-                { value: 'shipped', label: 'Shipped' },
-                { value: 'delivered', label: 'Delivered' },
-                { value: 'cancelled', label: 'Cancelled' },
+                { value: 'pending', label: t('Pending', 'En attente') },
+                { value: 'confirmed', label: t('Confirmed', 'Confirmée') },
+                { value: 'preparing', label: t('Preparing', 'En préparation') },
+                { value: 'shipped', label: t('Shipped', 'Expédiée') },
+                { value: 'delivered', label: t('Delivered', 'Livrée') },
+                { value: 'cancelled', label: t('Cancelled', 'Annulée') },
               ]}
             />
           </div>

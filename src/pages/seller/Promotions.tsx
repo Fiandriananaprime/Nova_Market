@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Tag, Calendar } from 'lucide-react';
 import { Button, StatusBadge, Modal, Input, Select } from '../../components/ui';
 import { formatPrice } from '../../data/mock';
+import { useApp } from '../../contexts/AppContext';
 
 const promotions = [
   { id: '1', name: 'Back to School Sale', type: 'percentage', discount: 15, products: 12, start: '2026-08-25', end: '2026-09-10', status: 'active' },
@@ -10,6 +11,7 @@ const promotions = [
 ];
 
 export default function SellerPromotions() {
+  const { t } = useApp();
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -23,10 +25,10 @@ export default function SellerPromotions() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">Promotions</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t('Promotions', 'Promotions')}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
-          Create promotion
+          {t('Create promotion', 'Créer une promotion')}
         </Button>
       </div>
 
@@ -44,14 +46,14 @@ export default function SellerPromotions() {
               <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span>{promo.type === 'percentage' ? `${promo.discount}% off` : `${formatPrice(promo.discount)} off`}</span>
                 <span>·</span>
-                <span>{promo.products} product{promo.products > 1 ? 's' : ''}</span>
+                <span>{promo.products} {t(promo.products > 1 ? 'products' : 'product', promo.products > 1 ? 'produits' : 'produit')}</span>
                 <span>·</span>
                 <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" />{promo.start} — {promo.end}</span>
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">Edit</Button>
-              <Button variant="ghost" size="sm">Disable</Button>
+              <Button variant="outline" size="sm">{t('Edit', 'Modifier')}</Button>
+              <Button variant="ghost" size="sm">{t('Disable', 'Désactiver')}</Button>
             </div>
           </div>
         ))}
@@ -60,23 +62,23 @@ export default function SellerPromotions() {
       <Modal
         open={modal}
         onClose={() => setModal(false)}
-        title="Create promotion"
+        title={t('Create promotion', 'Créer une promotion')}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>Cancel</Button>
-            <Button className="flex-1" loading={loading} onClick={handleCreate}>Create</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t('Cancel', 'Annuler')}</Button>
+            <Button className="flex-1" loading={loading} onClick={handleCreate}>{t('Create', 'Créer')}</Button>
           </>
         }
       >
         <div className="space-y-3">
-          <Input label="Promotion name" placeholder="Summer Sale" />
-          <Select label="Discount type" options={[{ value: 'percentage', label: 'Percentage (%)' }, { value: 'fixed', label: 'Fixed amount (Ar)' }]} />
-          <Input label="Discount value" type="number" placeholder="15" />
+          <Input label={t('Promotion name', 'Nom de la promotion')} placeholder="Summer Sale" />
+          <Select label={t('Discount type', 'Type de réduction')} options={[{ value: 'percentage', label: t('Percentage (%)', 'Pourcentage (%)') }, { value: 'fixed', label: t('Fixed amount (Ar)', 'Montant fixe (Ar)') }]} />
+          <Input label={t('Discount value', 'Valeur de la réduction')} type="number" placeholder="15" />
           <div className="grid grid-cols-2 gap-2">
-            <Input label="Start date" type="date" />
-            <Input label="End date" type="date" />
+            <Input label={t('Start date', 'Date de début')} type="date" />
+            <Input label={t('End date', 'Date de fin')} type="date" />
           </div>
-          <p className="text-xs text-muted-foreground">You can select specific products after creating the promotion.</p>
+          <p className="text-xs text-muted-foreground">{t('You can select specific products after creating the promotion.', 'Vous pourrez sélectionner des produits après la création de la promotion.')}</p>
         </div>
       </Modal>
     </div>

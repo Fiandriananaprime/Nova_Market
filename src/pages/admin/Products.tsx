@@ -200,7 +200,7 @@ export default function AdminProducts() {
           data={products}
           columns={columns}
           rowKey={(product) => product.id}
-          rowHref={(product) => `/admin/products/${product.id}`}
+          rowHref={(product) => `/admin/products/${product.id}?status=${activeTab}`}
           className="border-0 rounded-none"
         />
       </div>

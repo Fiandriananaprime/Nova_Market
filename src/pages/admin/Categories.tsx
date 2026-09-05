@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit, Trash2, ChevronRight, GripVertical } from 'lucide-react';
 import { Button, Modal, Input, Badge } from '../../components/ui';
 import { categories } from '../../data/mock';
+import { useApp } from '../../contexts/AppContext';
 
 const categoryTree = [
   { id: '1', name: 'Electronics', count: 2450, children: [
@@ -19,16 +20,17 @@ const categoryTree = [
 ];
 
 export default function AdminCategories() {
+  const { t } = useApp();
   const [modal, setModal] = useState(false);
   const [expanded, setExpanded] = useState<string[]>(['1', '2']);
 
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">Category Management</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t('Category Management', 'Gestion des catégories')}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
-          Add category
+          {t('Add category', 'Ajouter une catégorie')}
         </Button>
       </div>
 
@@ -54,7 +56,7 @@ export default function AdminCategories() {
                 <button className="p-1 rounded hover:bg-red-100 text-muted-foreground hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
                 <Button size="xs" variant="ghost" onClick={() => setModal(true)}>
                   <Plus className="w-3 h-3" />
-                  Sub
+                  {t('Sub', 'Sous-catégorie')}
                 </Button>
               </div>
             </div>
@@ -77,26 +79,26 @@ export default function AdminCategories() {
       <Modal
         open={modal}
         onClose={() => setModal(false)}
-        title="Add category"
+        title={t('Add category', 'Ajouter une catégorie')}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>Cancel</Button>
-            <Button className="flex-1" onClick={() => setModal(false)}>Create</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t('Cancel', 'Annuler')}</Button>
+            <Button className="flex-1" onClick={() => setModal(false)}>{t('Create', 'Créer')}</Button>
           </>
         }
       >
         <div className="space-y-3">
-          <Input label="Category name" placeholder="Electronics" />
-          <Input label="Category name (French)" placeholder="Électronique" />
+          <Input label={t('Category name', 'Nom de la catégorie')} placeholder="Electronics" />
+          <Input label={t('Category name (French)', 'Nom de la catégorie (français)')} placeholder="Électronique" />
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">Parent category (optional)</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t('Parent category (optional)', 'Catégorie parente (facultatif)')}</label>
             <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
-              <option value="">No parent (top-level)</option>
+              <option value="">{t('No parent (top-level)', 'Aucune catégorie parente (niveau supérieur)')}</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">Icon</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t('Icon', 'Icône')}</label>
             <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
               <option>Cpu</option>
               <option>Shirt</option>

@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router';
 import { Upload, Plus, X } from 'lucide-react';
 import { Button, Input, Select } from '../../components/ui';
 import { useToast } from '../../contexts/ToastContext';
+import { useApp } from '../../contexts/AppContext';
 
 export default function AddProduct() {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { t } = useApp();
   const [tags, setTags] = useState<string[]>(['smartphone', '5G']);
   const [tagInput, setTagInput] = useState('');
   const [variants, setVariants] = useState([{ name: 'Size', values: ['S', 'M', 'L', 'XL'] }, { name: 'Color', values: ['Black', 'White'] }]);
@@ -23,7 +25,7 @@ export default function AddProduct() {
     setLoading(true);
     await new Promise(r => setTimeout(r, 1000));
     setLoading(false);
-    toast('Product saved successfully');
+    toast(t('Product saved successfully', 'Produit enregistré avec succès'));
     navigate('/seller/products');
   };
 
@@ -37,24 +39,24 @@ export default function AddProduct() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">Add product</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t('Add product', 'Ajouter un produit')}</h1>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
         <div className="md:col-span-2 space-y-4">
-          <Section title="Basic information">
+          <Section title={t('Basic information', 'Informations générales')}>
             <div className="space-y-3">
-              <Input label="Product name" placeholder="Samsung Galaxy A56" />
+              <Input label={t('Product name', 'Nom du produit')} placeholder="Samsung Galaxy A56" />
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Description</label>
-                <textarea rows={4} placeholder="Describe your product..." className="w-full bg-card border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none transition-all" />
+                <label className="text-sm font-medium text-foreground mb-1 block">{t('Description', 'Description')}</label>
+                <textarea rows={4} placeholder={t('Describe your product...', 'Décrivez votre produit...')} className="w-full bg-card border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none transition-all" />
               </div>
               <div className="grid grid-cols-2 gap-3">
-                <Input label="Brand" placeholder="Samsung" />
-                <Select label="Category" options={[{ value: '', label: 'Select category' }, { value: '1', label: 'Electronics' }, { value: '2', label: 'Fashion' }]} />
+                <Input label={t('Brand', 'Marque')} placeholder="Samsung" />
+                <Select label={t('Category', 'Catégorie')} options={[{ value: '', label: t('Select category', 'Sélectionner une catégorie') }, { value: '1', label: 'Electronics' }, { value: '2', label: 'Fashion' }]} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">Tags</label>
+                <label className="text-sm font-medium text-foreground mb-1 block">{t('Tags', 'Étiquettes')}</label>
                 <div className="flex flex-wrap gap-1.5 mb-2">
                   {tags.map(tag => (
                     <span key={tag} className="flex items-center gap-1 text-xs bg-[#0077B6]/10 text-[#0077B6] px-2 py-1 rounded-full">
@@ -64,18 +66,18 @@ export default function AddProduct() {
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder="Add a tag..." className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
-                  <Button size="xs" onClick={addTag}>Add</Button>
+                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder={t('Add a tag...', 'Ajouter une étiquette...')} className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+                  <Button size="xs" onClick={addTag}>{t('Add', 'Ajouter')}</Button>
                 </div>
               </div>
             </div>
           </Section>
 
-          <Section title="Images">
+          <Section title={t('Images', 'Images')}>
             <div className="grid grid-cols-4 gap-2">
               <label className="col-span-4 sm:col-span-2 h-28 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#0077B6] transition-colors">
                 <Upload className="w-5 h-5 text-muted-foreground" />
-                <span className="text-xs text-muted-foreground">Upload images</span>
+                <span className="text-xs text-muted-foreground">{t('Upload images', 'Téléverser des images')}</span>
                 <input type="file" multiple accept="image/*" className="sr-only" />
               </label>
               {[0, 1, 2].map(i => (
@@ -86,22 +88,22 @@ export default function AddProduct() {
             </div>
           </Section>
 
-          <Section title="Pricing">
+          <Section title={t('Pricing', 'Tarification')}>
             <div className="grid grid-cols-2 gap-3">
-              <Input label="Price (Ar)" type="number" placeholder="1299000" />
-              <Input label="Promotional price (Ar)" type="number" placeholder="Optional" />
+              <Input label={t('Price (Ar)', 'Prix (Ar)')} type="number" placeholder="1299000" />
+              <Input label={t('Promotional price (Ar)', 'Prix promotionnel (Ar)')} type="number" placeholder={t('Optional', 'Facultatif')} />
             </div>
           </Section>
 
-          <Section title="Inventory">
+          <Section title={t('Inventory', 'Inventaire')}>
             <div className="grid grid-cols-3 gap-3">
               <Input label="SKU" placeholder="SKU-001" />
-              <Input label="Stock" type="number" placeholder="100" />
-              <Input label="Low stock threshold" type="number" placeholder="10" />
+              <Input label={t('Stock', 'Stock')} type="number" placeholder="100" />
+              <Input label={t('Low stock threshold', 'Seuil de stock faible')} type="number" placeholder="10" />
             </div>
           </Section>
 
-          <Section title="Variants">
+          <Section title={t('Variants', 'Variantes')}>
             {variants.map((v, i) => (
               <div key={i} className="flex items-center gap-3 mb-3 p-3 bg-secondary rounded-xl">
                 <div className="flex-1">
@@ -117,14 +119,14 @@ export default function AddProduct() {
             ))}
             <Button variant="outline" size="sm">
               <Plus className="w-3.5 h-3.5" />
-              Add variant
+              {t('Add variant', 'Ajouter une variante')}
             </Button>
           </Section>
 
-          <Section title="Shipping">
+          <Section title={t('Shipping', 'Livraison')}>
             <div className="grid grid-cols-2 gap-3">
-              <Input label="Weight (g)" type="number" placeholder="200" />
-              <Input label="Dimensions (cm)" placeholder="15x10x5" />
+              <Input label={t('Weight (g)', 'Poids (g)')} type="number" placeholder="200" />
+              <Input label={t('Dimensions (cm)', 'Dimensions (cm)')} placeholder="15x10x5" />
             </div>
           </Section>
         </div>
@@ -132,10 +134,10 @@ export default function AddProduct() {
         {/* Sidebar */}
         <div>
           <div className="bg-card border border-border rounded-xl p-4 sticky top-6 space-y-3">
-            <h3 className="font-semibold text-sm font-display text-foreground">Publish</h3>
-            <Select label="Status" options={[{ value: 'active', label: 'Active' }, { value: 'draft', label: 'Draft' }, { value: 'inactive', label: 'Inactive' }]} />
-            <Button className="w-full" loading={loading} onClick={handleSave}>Save product</Button>
-            <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/seller/products')}>Cancel</Button>
+            <h3 className="font-semibold text-sm font-display text-foreground">{t('Publish', 'Publication')}</h3>
+            <Select label={t('Status', 'Statut')} options={[{ value: 'active', label: t('Active', 'Actif') }, { value: 'draft', label: t('Draft', 'Brouillon') }, { value: 'inactive', label: t('Inactive', 'Inactif') }]} />
+            <Button className="w-full" loading={loading} onClick={handleSave}>{t('Save product', 'Enregistrer le produit')}</Button>
+            <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/seller/products')}>{t('Cancel', 'Annuler')}</Button>
           </div>
         </div>
       </div>

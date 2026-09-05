@@ -50,8 +50,8 @@ export default function Profile() {
           <h1 className="text-2xl font-bold font-display text-foreground">Andry Rakoto</h1>
           <p className="text-sm text-muted-foreground">andry@email.com</p>
           <div className="flex items-center gap-3 mt-2">
-            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} orders</span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Heart className="w-3.5 h-3.5" /> 2 favorites</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} {t('orders', 'commandes')}</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Heart className="w-3.5 h-3.5" /> 2 {t('favorites', 'favoris')}</span>
           </div>
         </div>
         <div className="ml-auto flex gap-2">
@@ -81,7 +81,7 @@ export default function Profile() {
                   <Input label={t('First name', 'Prénom')} defaultValue="Andry" />
                   <Input label={t('Last name', 'Nom')} defaultValue="Rakoto" />
                 </div>
-                <Input label="Email" type="email" defaultValue="andry@email.com" />
+                  <Input label={t('Email', 'Email')} type="email" defaultValue="andry@email.com" />
                 <Input label={t('Phone', 'Téléphone')} defaultValue="+261 34 123 4567" />
                 <Input label={t('Date of birth', 'Date de naissance')} type="date" defaultValue="1995-06-15" />
                 <div className="flex gap-2 pt-1">

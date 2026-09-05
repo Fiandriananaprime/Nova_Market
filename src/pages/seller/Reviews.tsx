@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Star, MessageSquare } from 'lucide-react';
 import { Rating, Button } from '../../components/ui';
 import { products } from '../../data/mock';
+import { useApp } from '../../contexts/AppContext';
 
 const reviews = [
   { id: '1', customer: 'Rakoto A.', rating: 5, product: 'Samsung Galaxy A56', comment: 'Excellent product, exactly as described. Very fast shipping!', date: '2026-08-28', replied: false },
@@ -11,6 +12,7 @@ const reviews = [
 ];
 
 export default function SellerReviews() {
+  const { t } = useApp();
   const [replyModal, setReplyModal] = useState<string | null>(null);
   const [replyText, setReplyText] = useState('');
 
@@ -18,13 +20,13 @@ export default function SellerReviews() {
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">Reviews</h1>
+      <h1 className="text-xl font-bold font-display text-foreground mb-5">{t('Reviews', 'Avis')}</h1>
 
       <div className="bg-card border border-border rounded-xl p-5 mb-5 flex items-center gap-8">
         <div className="text-center">
           <div className="text-5xl font-bold font-display text-foreground">{avg.toFixed(1)}</div>
           <Rating value={avg} showCount={false} size="md" />
-          <div className="text-sm text-muted-foreground mt-1">{reviews.length} reviews</div>
+          <div className="text-sm text-muted-foreground mt-1">{reviews.length} {t('reviews', 'avis')}</div>
         </div>
         <div className="flex-1 space-y-1.5">
           {[5, 4, 3, 2, 1].map(r => {
@@ -63,22 +65,22 @@ export default function SellerReviews() {
 
             {review.replied ? (
               <div className="ml-4 p-3 bg-[#0077B6]/5 border border-[#0077B6]/20 rounded-xl">
-                <div className="text-xs font-medium text-[#0077B6] mb-1">Your reply</div>
+                <div className="text-xs font-medium text-[#0077B6] mb-1">{t('Your reply', 'Votre réponse')}</div>
                 <p className="text-sm text-foreground">{review.reply}</p>
               </div>
             ) : (
               replyModal === review.id ? (
                 <div className="ml-4 space-y-2">
-                  <textarea value={replyText} onChange={e => setReplyText(e.target.value)} rows={2} placeholder="Write your reply..." className="w-full px-3 py-2 text-sm bg-secondary border border-border rounded-xl text-foreground focus:outline-none focus:border-[#0077B6] resize-none" />
+                  <textarea value={replyText} onChange={e => setReplyText(e.target.value)} rows={2} placeholder={t('Write your reply...', 'Écrivez votre réponse...')} className="w-full px-3 py-2 text-sm bg-secondary border border-border rounded-xl text-foreground focus:outline-none focus:border-[#0077B6] resize-none" />
                   <div className="flex gap-2">
-                    <Button size="xs" onClick={() => { setReplyModal(null); setReplyText(''); }}>Send reply</Button>
-                    <Button size="xs" variant="ghost" onClick={() => setReplyModal(null)}>Cancel</Button>
+                    <Button size="xs" onClick={() => { setReplyModal(null); setReplyText(''); }}>{t('Send reply', 'Envoyer')}</Button>
+                    <Button size="xs" variant="ghost" onClick={() => setReplyModal(null)}>{t('Cancel', 'Annuler')}</Button>
                   </div>
                 </div>
               ) : (
                 <button onClick={() => setReplyModal(review.id)} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[#0077B6] transition-colors">
                   <MessageSquare className="w-3.5 h-3.5" />
-                  Reply
+                  {t('Reply', 'Répondre')}
                 </button>
               )
             )}

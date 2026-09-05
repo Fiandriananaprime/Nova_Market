@@ -16,7 +16,7 @@ import { getOrder } from '@/api/admin/order.api';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import { getTopSeller, getDashboardStats } from '@/api/admin/dashboard.api';
 
-import {  formatMillionAr } from '../../data/mock';
+import {  formatMillionAr } from '@/hook/format';
 
 type DashData = {
   metrics: AdminMetrics,

@@ -11,6 +11,7 @@ import SellerPromotions from '../pages/seller/Promotions';
 import SellerReviews from '../pages/seller/Reviews';
 import SellerAnalytics from '../pages/seller/Analytics';
 import UserDetails from '@/pages/admin/UserDetail';
+import SellerApplicationDetails from '@/pages/admin/SellerApplicationDetail';
 
 export const adminRoutes = {
   path: '/admin',
@@ -22,6 +23,7 @@ export const adminRoutes = {
     { path: 'buyers', Component: AdminUsers },
     { path: 'sellers', Component: AdminUsers },
     { path: 'sellers/applications', Component: SellerApplications },
+    { path: 'sellers/applications/:id', Component: SellerApplicationDetails },
     { path: 'products', Component: AdminProducts },
     { path: 'categories', Component: AdminCategories },
     { path: 'orders', Component: AdminOrders },

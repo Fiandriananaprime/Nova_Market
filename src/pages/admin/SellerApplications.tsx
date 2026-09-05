@@ -3,6 +3,7 @@ import { CheckCircle2, XCircle, MessageSquare, Building2 } from 'lucide-react';
 import { Button, StatusBadge, Badge, Modal } from '../../components/ui';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import type { SellerApplication } from '@/type/admin/seller';
+import { Link } from 'react-router';
 
 export default function SellerApplications() {
   const [apps, setApps] = useState<SellerApplication[]>([]);
@@ -63,18 +64,13 @@ export default function SellerApplications() {
                 <div className="text-xs text-muted-foreground mb-3">Applied: {app.date}</div>
                 {app.status === 'pending' && (
                   <div className="flex gap-2">
-                    <Button size="sm" variant="accent" onClick={() => handleAction(app.id, 'approved')}>
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      Approve
-                    </Button>
-                    <Button size="sm" variant="danger" onClick={() => handleAction(app.id, 'rejected')}>
-                      <XCircle className="w-3.5 h-3.5" />
-                      Reject
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      Request info
-                    </Button>
+                    <Link to={`/admin/sellers/applications/${app.id}`}>
+                      <Button variant="primary" size="sm" className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <MessageSquare className="w-3.5 h-3.5" />
+                        Request info
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>

@@ -81,8 +81,4 @@ export const sellerApplications = [
   { id: 'APP-003', businessName: 'FashionCity', owner: 'Rabe Paul', email: 'paul@fashioncity.mg', phone: '+261 33 456 7890', location: 'Toamasina', category: 'Fashion', date: '2026-09-01', status: 'pending' },
 ];
 
-export const formatPrice = (price: number) => `${price.toLocaleString('fr-MG')} Ar`;
-export const formatMillionAr = (amount: number) => {
-  const millions = amount / 1_000_000;
-  return `${millions.toFixed(1).replace(/\.0$/, '')}M Ar`;
-};
+

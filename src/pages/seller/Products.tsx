@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Plus, Search, Edit, Copy, EyeOff, Trash2, MoreHorizontal } from 'lucide-react';
-import { Button, Badge, StatusBadge, Modal } from '../../components/ui';
+import { Button, StatusBadge, Modal } from '../../components/ui';
 import { products, formatPrice } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function SellerProducts() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [search, setSearch] = useState('');
   const [deleteModal, setDeleteModal] = useState<string | null>(null);
@@ -17,10 +17,10 @@ export default function SellerProducts() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t('Products', 'Produits')}</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t("Products")}</h1>
         <Button onClick={() => navigate('/seller/products/new')}>
           <Plus className="w-4 h-4" />
-          {t('Add product', 'Ajouter un produit')}
+          {t("Add product")}
         </Button>
       </div>
 
@@ -31,12 +31,12 @@ export default function SellerProducts() {
             <input
               value={search}
               onChange={e => setSearch(e.target.value)}
-              placeholder={t('Search products...', 'Rechercher des produits...')}
+              placeholder={t("Search products...")}
               className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#0077B6]"
             />
           </div>
           <select className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block">
-            <option>{t('All categories', 'Toutes les catégories')}</option>
+            <option>{t("All categories")}</option>
             <option>Electronics</option>
             <option>Fashion</option>
           </select>
@@ -45,7 +45,7 @@ export default function SellerProducts() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-secondary">
-                {[t('Product', 'Produit'), t('Category', 'Catégorie'), t('Price', 'Prix'), t('Stock', 'Stock'), t('Status', 'Statut'), t('Sales', 'Ventes'), t('Actions', 'Actions')].map(h => (
+                {[t("Product"), t("Category"), t("Price"), t("Stock"), t("Status"), t("Sales"), t("Actions")].map(h => (
                   <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>
@@ -83,10 +83,10 @@ export default function SellerProducts() {
                         <div className="absolute right-0 top-full mt-1 w-36 bg-card border border-border rounded-xl shadow-lg z-10">
                           <div className="p-1">
                             {[
-                              { icon: <Edit className="w-3.5 h-3.5" />, label: t('Edit', 'Modifier'), action: () => navigate(`/seller/products/${product.id}/edit`) },
-                              { icon: <Copy className="w-3.5 h-3.5" />, label: t('Duplicate', 'Dupliquer'), action: () => {} },
-                              { icon: <EyeOff className="w-3.5 h-3.5" />, label: t('Disable', 'Désactiver'), action: () => {} },
-                              { icon: <Trash2 className="w-3.5 h-3.5" />, label: t('Delete', 'Supprimer'), action: () => { setDeleteModal(product.id); setOpenMenu(null); }, danger: true },
+                              { icon: <Edit className="w-3.5 h-3.5" />, label: t("Edit"), action: () => navigate(`/seller/products/${product.id}/edit`) },
+                              { icon: <Copy className="w-3.5 h-3.5" />, label: t("Duplicate"), action: () => {} },
+                              { icon: <EyeOff className="w-3.5 h-3.5" />, label: t("Disable"), action: () => {} },
+                              { icon: <Trash2 className="w-3.5 h-3.5" />, label: t("Delete"), action: () => { setDeleteModal(product.id); setOpenMenu(null); }, danger: true },
                             ].map((item, i) => (
                               <button key={i} onClick={() => { item.action(); setOpenMenu(null); }} className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors ${(item as any).danger ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-foreground hover:bg-secondary'}`}>
                                 {item.icon}
@@ -108,15 +108,15 @@ export default function SellerProducts() {
       <Modal
         open={!!deleteModal}
         onClose={() => setDeleteModal(null)}
-        title={t('Delete product?', 'Supprimer le produit ?')}
+        title={t("Delete product?")}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setDeleteModal(null)}>{t('Cancel', 'Annuler')}</Button>
-            <Button variant="danger" className="flex-1" onClick={() => setDeleteModal(null)}>{t('Delete', 'Supprimer')}</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setDeleteModal(null)}>{t("Cancel")}</Button>
+            <Button variant="danger" className="flex-1" onClick={() => setDeleteModal(null)}>{t("Delete")}</Button>
           </>
         }
       >
-        <p className="text-sm text-muted-foreground">{t('This action cannot be undone. The product will be permanently removed from your store.', 'Cette action est irréversible. Le produit sera définitivement supprimé de votre boutique.')}</p>
+        <p className="text-sm text-muted-foreground">{t("This action cannot be undone. The product will be permanently removed from your store.")}</p>
       </Modal>
     </div>
   );

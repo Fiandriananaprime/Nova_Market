@@ -1,33 +1,36 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck, Shield } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
 import Logo from '../assets/NovaLogo.png';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 
 export default function AdminLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
-  const { lang, setLang, setUserRole, t } = useApp();
+  const { setUserRole } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const navItems = [
-    { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: t('Dashboard', 'Tableau de bord'), to: '/admin' },
-    { icon: <Users className="w-4.5 h-4.5" />, label: t('Users', 'Utilisateurs'), to: '/admin/users' },
-    { icon: <UserCheck className="w-4.5 h-4.5" />, label: t('Seller Applications', 'Demandes'), to: '/admin/sellers/applications' },
-    { icon: <Package className="w-4.5 h-4.5" />, label: t('Products', 'Produits'), to: '/admin/products' },
-    { icon: <Grid3x3 className="w-4.5 h-4.5" />, label: t('Categories', 'Catégories'), to: '/admin/categories' },
-    { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t('Orders', 'Commandes'), to: '/admin/orders' },
-    { icon: <CreditCard className="w-4.5 h-4.5" />, label: t('Payments', 'Paiements'), to: '/admin/payments' },
-    { icon: <Tag className="w-4.5 h-4.5" />, label: t('Promotions', 'Promotions'), to: '/admin/promotions' },
-    { icon: <Star className="w-4.5 h-4.5" />, label: t('Reviews', 'Avis'), to: '/admin/reviews' },
-    { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t('Reports', 'Rapports'), to: '/admin/reports' },
-    { icon: <Settings className="w-4.5 h-4.5" />, label: t('Settings', 'Paramètres'), to: '/admin/settings' },
+    { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: t("Dashboard"), to: '/admin' },
+    { icon: <Users className="w-4.5 h-4.5" />, label: t("Users"), to: '/admin/users' },
+    { icon: <UserCheck className="w-4.5 h-4.5" />, label: t("Seller Applications"), to: '/admin/sellers/applications' },
+    { icon: <Package className="w-4.5 h-4.5" />, label: t("Products"), to: '/admin/products' },
+    { icon: <Grid3x3 className="w-4.5 h-4.5" />, label: t("Categories"), to: '/admin/categories' },
+    { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t("Orders"), to: '/admin/orders' },
+    { icon: <CreditCard className="w-4.5 h-4.5" />, label: t("Payments"), to: '/admin/payments' },
+    { icon: <Tag className="w-4.5 h-4.5" />, label: t("Promotions"), to: '/admin/promotions' },
+    { icon: <Star className="w-4.5 h-4.5" />, label: t("Reviews"), to: '/admin/reviews' },
+    { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t("Reports"), to: '/admin/reports' },
+    { icon: <Settings className="w-4.5 h-4.5" />, label: t("Settings"), to: '/admin/settings' },
   ];
   const handleLogout = async () => {
     setUserRole(null);
@@ -44,7 +47,7 @@ export default function AdminLayout() {
         </div>
         <div>
           <div className="font-bold text-sm font-display">Nova Market</div>
-          <div className="text-[10px] text-[#8da8b5]">{t('Admin Panel', 'Panneau d\'administration')}</div>
+          <div className="text-[10px] text-[#8da8b5]">{t("Admin Panel")}</div>
         </div>
       </div>
 
@@ -69,13 +72,13 @@ export default function AdminLayout() {
         <div className="flex items-center gap-2.5 px-3 py-2.5 mb-1">
           <div className="w-8 h-8 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">A</div>
           <div className="flex-1 min-w-0">
-            <div className="text-sm font-medium truncate">{t('Administrator', 'Administrateur')}</div>
+            <div className="text-sm font-medium truncate">{t("Administrator")}</div>
             <div className="text-xs text-[#8da8b5]">Super Admin</div>
           </div>
         </div>
         <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-[#8da8b5] hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
           <LogOut className="w-4 h-4" />
-          {t('Logout', 'Déconnexion')}
+          {t("Logout")}
         </button>
       </div>
     </div>
@@ -107,7 +110,7 @@ export default function AdminLayout() {
             </h1>
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
+            <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               <Globe className="w-4 h-4" />
             </button>
             <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">

@@ -4,19 +4,21 @@ import { Button, EmptyState } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import { useToast } from '../../contexts/ToastContext';
 import { formatPrice } from '@/hook/format';
+import { useTranslation } from 'react-i18next';
 
 export default function Cart() {
   const navigate = useNavigate();
-  const { cart, removeFromCart, updateQty, cartTotal, t } = useApp();
+  const { cart, removeFromCart, updateQty, cartTotal } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
 
   if (cart.length === 0) {
     return (
       <EmptyState
         icon={<ShoppingCart className="w-8 h-8" />}
-        title={t('Your cart is empty', 'Votre panier est vide')}
-        description={t('Browse our marketplace and add products to your cart.', 'Parcourez notre marketplace et ajoutez des produits.')}
-        action={<Button onClick={() => navigate('/products')}>{t('Browse products', 'Parcourir les produits')}</Button>}
+        title={t("Your cart is empty")}
+        description={t("Browse our marketplace and add products to your cart.")}
+        action={<Button onClick={() => navigate('/products')}>{t("Browse products")}</Button>}
       />
     );
   }
@@ -34,7 +36,7 @@ export default function Cart() {
   return (
     <div className="max-w-5xl mx-auto">
       <h1 className="text-2xl font-bold font-display text-foreground mb-6">
-        {t('Shopping cart', 'Panier d\'achat')}
+        {t("Shopping cart")}
         <span className="ml-2 text-base font-normal text-muted-foreground">({cart.reduce((s, i) => s + i.qty, 0)} items)</span>
       </h1>
 
@@ -67,7 +69,7 @@ export default function Cart() {
                         </button>
                       </div>
                       <div className="text-xs font-bold text-[#0077B6]">{formatPrice(item.price * item.qty)}</div>
-                      <button onClick={() => { removeFromCart(item.productId); toast(t('Item removed from cart', 'Article retiré du panier'), 'info'); }} className="text-muted-foreground hover:text-red-500 transition-colors">
+                      <button onClick={() => { removeFromCart(item.productId); toast(t("Item removed from cart"), 'info'); }} className="text-muted-foreground hover:text-red-500 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
@@ -84,7 +86,7 @@ export default function Cart() {
           {cartTotal < 50000 && (
             <div className="flex items-center gap-2 p-3 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl text-amber-700 dark:text-amber-400 text-sm">
               <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-              {t('Add 50,000 Ar more for free shipping.', 'Ajoutez 50 000 Ar de plus pour la livraison gratuite.')}
+              {t("Add 50,000 Ar more for free shipping.")}
             </div>
           )}
         </div>
@@ -92,14 +94,14 @@ export default function Cart() {
         {/* Order summary */}
         <div>
           <div className="bg-card border border-border rounded-xl p-5 sticky top-24">
-            <h2 className="font-bold font-display text-foreground mb-4">{t('Order summary', 'Récapitulatif')}</h2>
+            <h2 className="font-bold font-display text-foreground mb-4">{t("Order summary")}</h2>
             <div className="space-y-2.5 text-sm mb-4">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">{t('Subtotal', 'Sous-total')}</span>
+                <span className="text-muted-foreground">{t("Subtotal")}</span>
                 <span className="text-foreground">{formatPrice(cartTotal)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-muted-foreground">{t('Shipping', 'Livraison')}</span>
+                <span className="text-muted-foreground">{t("Shipping")}</span>
                 <span className="text-foreground">{formatPrice(shipping)}</span>
               </div>
               <div className="border-t border-border pt-2.5 flex justify-between">
@@ -108,11 +110,11 @@ export default function Cart() {
               </div>
             </div>
             <Button className="w-full" size="lg" onClick={() => navigate('/checkout')}>
-              {t('Proceed to checkout', 'Passer à la caisse')}
+              {t("Proceed to checkout")}
               <ArrowRight className="w-4 h-4" />
             </Button>
             <Button variant="ghost" size="sm" className="w-full mt-2" onClick={() => navigate('/products')}>
-              {t('Continue shopping', 'Continuer les achats')}
+              {t("Continue shopping")}
             </Button>
           </div>
         </div>

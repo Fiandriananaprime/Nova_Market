@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Button, Input, Toggle } from '../../components/ui';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function AdminSettings() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const [commissionRate, setCommissionRate] = useState(10);
   const [loading, setLoading] = useState(false);
 
@@ -33,20 +33,20 @@ export default function AdminSettings() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-xl font-bold font-display text-foreground mb-6">{t('Platform Settings', 'Paramètres de la plateforme')}</h1>
+      <h1 className="text-xl font-bold font-display text-foreground mb-6">{t("Platform Settings")}</h1>
 
-      <Section title={t('General', 'Général')}>
+      <Section title={t("General")}>
         <div className="space-y-3">
-          <Input label={t('Platform name', 'Nom de la plateforme')} defaultValue="MasoMarket" />
-          <Input label={t('Contact email', 'Email de contact')} type="email" defaultValue="admin@masomarket.mg" />
-          <Input label={t('Support phone', 'Téléphone du support')} defaultValue="+261 20 222 0000" />
+          <Input label={t("Platform name")} defaultValue="MasoMarket" />
+          <Input label={t("Contact email")} type="email" defaultValue="admin@masomarket.mg" />
+          <Input label={t("Support phone")} defaultValue="+261 20 222 0000" />
         </div>
       </Section>
 
-      <Section title={t('Commission settings', 'Paramètres de commission')}>
+      <Section title={t("Commission settings")}>
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t('Default commission rate (%)', 'Taux de commission par défaut (%)')}</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Default commission rate (%)")}</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -60,15 +60,15 @@ export default function AdminSettings() {
             </div>
           </div>
           <div className="bg-secondary rounded-xl p-4">
-            <div className="text-xs text-muted-foreground font-medium mb-2 uppercase tracking-wide">{t('Example calculation', 'Exemple de calcul')}</div>
-            <Row label={t('Seller sale', 'Vente du vendeur')} value="100,000 Ar" />
-            <Row label={`${t('Platform commission', 'Commission plateforme')} (${commissionRate}%)`} value={`${commission.toLocaleString('fr-MG')} Ar`} />
-            <Row label={t('Seller receives', 'Reçu par le vendeur')} value={`${sellerReceives.toLocaleString('fr-MG')} Ar`} />
+            <div className="text-xs text-muted-foreground font-medium mb-2 uppercase tracking-wide">{t("Example calculation")}</div>
+            <Row label={t("Seller sale")} value="100,000 Ar" />
+            <Row label={`${t("Platform commission")} (${commissionRate}%)`} value={`${commission.toLocaleString('fr-MG')} Ar`} />
+            <Row label={t("Seller receives")} value={`${sellerReceives.toLocaleString('fr-MG')} Ar`} />
           </div>
         </div>
       </Section>
 
-      <Section title={t('Payment methods', 'Moyens de paiement')}>
+      <Section title={t("Payment methods")}>
         <div className="space-y-2.5">
           {[
             { name: 'MVola', desc: 'Mobile money Madagascar', enabled: true },
@@ -88,7 +88,7 @@ export default function AdminSettings() {
         </div>
       </Section>
 
-      <Section title={t('Languages', 'Langues')}>
+      <Section title={t("Languages")}>
         <div className="space-y-2">
           {[{ lang: 'English', code: 'en', flag: '🇬🇧', default: true }, { lang: 'Français', code: 'fr', flag: '🇫🇷', default: false }].map(l => (
             <div key={l.code} className="flex items-center justify-between p-3 bg-secondary rounded-xl">
@@ -96,7 +96,7 @@ export default function AdminSettings() {
                 <span className="text-xl">{l.flag}</span>
                 <div>
                   <div className="font-medium text-sm text-foreground">{l.lang}</div>
-                  {l.default && <div className="text-xs text-[#5ABCB9]">{t('Default language', 'Langue par défaut')}</div>}
+                  {l.default && <div className="text-xs text-[#5ABCB9]">{t("Default language")}</div>}
                 </div>
               </div>
               <Toggle checked onChange={() => {}} />
@@ -105,7 +105,7 @@ export default function AdminSettings() {
         </div>
       </Section>
 
-      <Section title={t('Security', 'Sécurité')}>
+      <Section title={t("Security")}>
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
@@ -131,7 +131,7 @@ export default function AdminSettings() {
         </div>
       </Section>
 
-      <Button size="lg" loading={loading} onClick={handleSave}>{t('Save settings', 'Enregistrer les paramètres')}</Button>
+      <Button size="lg" loading={loading} onClick={handleSave}>{t("Save settings")}</Button>
     </div>
   );
 }

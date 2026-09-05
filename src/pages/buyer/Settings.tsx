@@ -1,12 +1,13 @@
 import { useState } from 'react';
-import { Sun, Moon, Monitor, Globe, Bell, Shield, Lock, Eye } from 'lucide-react';
+import { Sun, Moon, Monitor, Bell, Shield, Eye } from 'lucide-react';
 import { Toggle, Button, Input } from '../../components/ui';
 import { useTheme } from '../../contexts/ThemeContext';
-import { useApp } from '../../contexts/AppContext';
+import i18n from '../../i18n';
+import { useTranslation } from 'react-i18next';
 
 export default function Settings() {
   const { theme, setTheme } = useTheme();
-  const { lang, setLang, t } = useApp();
+  const { t } = useTranslation();
   const [notifications, setNotifications] = useState({ orders: true, promotions: true, sellers: false, recommendations: true, email: false });
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
@@ -18,15 +19,15 @@ export default function Settings() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold font-display text-foreground mb-6">{t('Settings', 'Paramètres')}</h1>
+      <h1 className="text-2xl font-bold font-display text-foreground mb-6">{t("Settings")}</h1>
 
-      <Section title={t('Appearance', 'Apparence')}>
-        <p className="text-sm text-muted-foreground mb-3">{t('Theme', 'Thème')}</p>
+      <Section title={t("Appearance")}>
+        <p className="text-sm text-muted-foreground mb-3">{t("Theme")}</p>
         <div className="grid grid-cols-3 gap-2">
           {[
-            { id: 'light', icon: <Sun className="w-4.5 h-4.5" />, label: t('Light', 'Clair') },
-            { id: 'dark', icon: <Moon className="w-4.5 h-4.5" />, label: t('Dark', 'Sombre') },
-            { id: 'system', icon: <Monitor className="w-4.5 h-4.5" />, label: t('System', 'Système') },
+            { id: 'light', icon: <Sun className="w-4.5 h-4.5" />, label: t("Light") },
+            { id: 'dark', icon: <Moon className="w-4.5 h-4.5" />, label: t("Dark") },
+            { id: 'system', icon: <Monitor className="w-4.5 h-4.5" />, label: t("System") },
           ].map(opt => (
             <button
               key={opt.id}
@@ -40,29 +41,29 @@ export default function Settings() {
         </div>
       </Section>
 
-      <Section title={t('Language', 'Langue')}>
+      <Section title={t("Language")}>
         <div className="grid grid-cols-2 gap-2">
           {[{ id: 'en', label: 'English', flag: '🇬🇧' }, { id: 'fr', label: 'Français', flag: '🇫🇷' }].map(l => (
             <button
               key={l.id}
-              onClick={() => setLang(l.id as 'en' | 'fr')}
-              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${lang === l.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-border hover:border-[#0077B6]/30'}`}
+              onClick={() => i18n.changeLanguage(l.id)}
+              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${i18n.language === l.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-border hover:border-[#0077B6]/30'}`}
             >
               <span className="text-xl">{l.flag}</span>
-              <span className={`text-sm font-medium ${lang === l.id ? 'text-[#0077B6]' : 'text-foreground'}`}>{l.label}</span>
+              <span className={`text-sm font-medium ${i18n.language === l.id ? 'text-[#0077B6]' : 'text-foreground'}`}>{l.label}</span>
             </button>
           ))}
         </div>
       </Section>
 
-      <Section title={t('Notifications', 'Notifications')}>
+      <Section title={t("Notifications")}>
         <div className="space-y-3">
           {[
-            { id: 'orders', label: t('Order updates', 'Mises à jour commandes'), desc: t('Shipping, delivery and status changes', 'Expédition, livraison et changements de statut') },
-            { id: 'promotions', label: t('Promotions', 'Promotions'), desc: t('Special offers and discounts', 'Offres spéciales et réductions') },
-            { id: 'sellers', label: t('Seller updates', 'Mises à jour vendeurs'), desc: t('New products from followed stores', 'Nouveaux produits des boutiques suivies') },
-            { id: 'recommendations', label: t('Recommendations', 'Recommandations'), desc: t('Personalized product suggestions', 'Suggestions de produits personnalisées') },
-            { id: 'email', label: t('Email notifications', 'Notifications email'), desc: t('Receive updates by email', 'Recevoir les mises à jour par email') },
+            { id: 'orders', label: t("Order updates"), desc: t("Shipping, delivery and status changes") },
+            { id: 'promotions', label: t("Promotions"), desc: t("Special offers and discounts") },
+            { id: 'sellers', label: t("Seller updates"), desc: t("New products from followed stores") },
+            { id: 'recommendations', label: t("Recommendations"), desc: t("Personalized product suggestions") },
+            { id: 'email', label: t("Email notifications"), desc: t("Receive updates by email") },
           ].map(item => (
             <div key={item.id} className="flex items-start justify-between gap-4 py-1">
               <div className="flex-1">
@@ -78,12 +79,12 @@ export default function Settings() {
         </div>
       </Section>
 
-      <Section title={t('Privacy', 'Confidentialité')}>
+      <Section title={t("Privacy")}>
         <div className="space-y-3">
           {[
-            { icon: <Eye className="w-4 h-4" />, label: t('Profile visibility', 'Visibilité du profil'), desc: t('Control who can see your profile', 'Contrôlez qui peut voir votre profil') },
-            { icon: <Bell className="w-4 h-4" />, label: t('Marketing preferences', 'Préférences marketing'), desc: t('Manage how we use your data for marketing', 'Gérez comment nous utilisons vos données') },
-            { icon: <Shield className="w-4 h-4" />, label: t('Data settings', 'Paramètres de données'), desc: t('Manage your personal data', 'Gérez vos données personnelles') },
+            { icon: <Eye className="w-4 h-4" />, label: t("Profile visibility"), desc: t("Control who can see your profile") },
+            { icon: <Bell className="w-4 h-4" />, label: t("Marketing preferences"), desc: t("Manage how we use your data for marketing") },
+            { icon: <Shield className="w-4 h-4" />, label: t("Data settings"), desc: t("Manage your personal data") },
           ].map((item, i) => (
             <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
               <span className="text-muted-foreground">{item.icon}</span>
@@ -97,23 +98,23 @@ export default function Settings() {
         </div>
       </Section>
 
-      <Section title={t('Security', 'Sécurité')}>
+      <Section title={t("Security")}>
         <div className="space-y-3">
           <div>
-            <h3 className="text-sm font-medium text-foreground mb-2">{t('Change password', 'Changer le mot de passe')}</h3>
+            <h3 className="text-sm font-medium text-foreground mb-2">{t("Change password")}</h3>
             <div className="space-y-2 mb-3">
-              <Input type="password" placeholder={t('Current password', 'Mot de passe actuel')} />
-              <Input type="password" placeholder={t('New password', 'Nouveau mot de passe')} />
-              <Input type="password" placeholder={t('Confirm new password', 'Confirmer le nouveau mot de passe')} />
+              <Input type="password" placeholder={t("Current password")} />
+              <Input type="password" placeholder={t("New password")} />
+              <Input type="password" placeholder={t("Confirm new password")} />
             </div>
-            <Button size="sm">{t('Update password', 'Mettre à jour')}</Button>
+            <Button size="sm">{t("Update password")}</Button>
           </div>
           <div className="border-t border-border pt-3 flex items-start justify-between">
             <div>
-              <div className="text-sm font-medium text-foreground">{t('Two-factor authentication', 'Authentification à deux facteurs')}</div>
-              <div className="text-xs text-muted-foreground">{t('Add an extra layer of security', 'Ajoutez une couche de sécurité supplémentaire')}</div>
+              <div className="text-sm font-medium text-foreground">{t("Two-factor authentication")}</div>
+              <div className="text-xs text-muted-foreground">{t("Add an extra layer of security")}</div>
             </div>
-            <Button size="sm" variant="outline">{t('Enable', 'Activer')}</Button>
+            <Button size="sm" variant="outline">{t("Enable")}</Button>
           </div>
         </div>
       </Section>

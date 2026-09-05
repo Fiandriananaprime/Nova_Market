@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
+import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { DollarSign, ShoppingCart, TrendingUp, Eye } from 'lucide-react';
 import { StatCard } from '../../components/ui';
 import { revenueData, formatPrice } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 const topProducts = [
   { name: 'Samsung Galaxy A56', value: 89 },
@@ -23,13 +23,13 @@ const categoryData = [
 const dateFilters = ['Today', '7 days', '30 days', '3 months', 'Custom'];
 
 export default function SellerAnalytics() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const [dateFilter, setDateFilter] = useState('30 days');
 
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold font-display text-foreground">{t('Analytics', 'Analyses')}</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t("Analytics")}</h1>
         <div className="flex gap-1 bg-secondary p-1 rounded-xl">
           {dateFilters.map(f => (
             <button
@@ -44,15 +44,15 @@ export default function SellerAnalytics() {
       </div>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title={t('Revenue', 'Revenus')} value="12,580,000 Ar" change={12.4} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title={t('Orders', 'Commandes')} value="183" change={8.1} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title={t('Avg. order value', 'Panier moyen')} value="68,800 Ar" change={3.2} icon={<TrendingUp className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title={t('Product views', 'Vues des produits')} value="12,450" change={18.5} icon={<Eye className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t("Revenue")} value="12,580,000 Ar" change={12.4} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t("Orders")} value="183" change={8.1} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t("Avg. order value")} value="68,800 Ar" change={3.2} icon={<TrendingUp className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t("Product views")} value="12,450" change={18.5} icon={<Eye className="w-5 h-5" />} color="#5ABCB9" />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t('Revenue over time', 'Revenus dans le temps')}</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t("Revenue over time")}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={revenueData} barSize={20}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -65,7 +65,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t('Orders over time', 'Commandes dans le temps')}</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t("Orders over time")}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -78,7 +78,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t('Top products by sales', 'Meilleurs produits par ventes')}</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t("Top products by sales")}</h2>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={topProducts} layout="vertical" barSize={14}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
@@ -91,7 +91,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t('Sales by category', 'Ventes par catégorie')}</h2>
+          <h2 className="font-semibold font-display text-foreground mb-4">{t("Sales by category")}</h2>
           <div className="flex items-center gap-4">
             <ResponsiveContainer width="60%" height={180}>
               <PieChart>

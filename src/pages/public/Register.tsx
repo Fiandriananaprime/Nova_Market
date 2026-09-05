@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { ShoppingBag, User, Mail, Lock, Building2, ChevronRight } from 'lucide-react';
 import { Button, Input } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import RegisterSeller from './RegisterSeller';
 import { RegisterRequest, AuthResponse } from '../../type/auth';
 import { register } from '../../api/auth.api';
@@ -11,7 +12,8 @@ import { useToast } from '../../contexts/ToastContext';
 
 export default function Register() {
   const navigate = useNavigate();
-  const { setUserRole, t } = useApp();
+  const { setUserRole } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [step, setStep] = useState<'choose' | 'buyer' | 'seller'>('choose');
   const [loading, setLoading] = useState(false);
@@ -72,33 +74,33 @@ export default function Register() {
         <div className="w-full max-w-sm">
           <div className="text-center mb-6">
             <h1 className="text-2xl font-bold font-display text-foreground mb-1">
-              {t('Create buyer account', 'Créer un compte acheteur')}
+              {t("Create buyer account")}
             </h1>
             <p className="text-sm text-muted-foreground">
-              {t('Start shopping in minutes.', 'Commencez à magasiner en quelques minutes.')}
+              {t("Start shopping in minutes.")}
             </p>
           </div>
 
           <form onSubmit={handleBuyerSubmit} className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
             <div className="grid grid-cols-2 gap-3">
-              <Input value={form.firstName} name="firstName" label={t('First name', 'Prénom')} placeholder="Andry" icon={<User className="w-4 h-4" />} onChange={handleChange} />
-              <Input value={form.lastName} name="lastName" label={t('Last name', 'Nom')} placeholder="Rakoto" icon={<User className="w-4 h-4" />} onChange={handleChange} />
+              <Input value={form.firstName} name="firstName" label={t("First name")} placeholder="Andry" icon={<User className="w-4 h-4" />} onChange={handleChange} />
+              <Input value={form.lastName} name="lastName" label={t("Last-name-Nom")} placeholder="Rakoto" icon={<User className="w-4 h-4" />} onChange={handleChange} />
             </div>
             <Input value={form.email} name="email" label="Email" type="email" placeholder="andry@email.com" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
-            <Input value={form.password} name="password" label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
+            <Input value={form.password} name="password" label={t("Password")} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
 
             {error && (
               <p className="text-sm text-red-500">{error}</p>
             )}
 
             <Button type="submit" className="w-full" size="lg" loading={loading}>
-              {t('Create account', 'Créer le compte')}
+              {t("Create-account-Créer-le-compte")}
             </Button>
           </form>
 
           <p className="text-center text-sm mt-4">
             <button type="button" onClick={() => setStep('choose')} className="text-muted-foreground hover:text-foreground">
-              ← {t('Back', 'Retour')}
+              ← {t("Back")}
             </button>
           </p>
         </div>
@@ -117,10 +119,10 @@ export default function Register() {
             <span className="font-bold text-xl font-display text-foreground">MasoMarket</span>
           </div>
           <h1 className="text-2xl font-bold font-display text-foreground mb-1">
-            {t('Create an account', 'Créer un compte')}
+            {t("Create an account")}
           </h1>
           <p className="text-sm text-muted-foreground">
-            {t('Choose how you want to join MasoMarket.', 'Choisissez comment rejoindre MasoMarket.')}
+            {t("Choose how you want to join MasoMarket.")}
           </p>
         </div>
 
@@ -132,12 +134,12 @@ export default function Register() {
             <div className="w-12 h-12 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] mb-4 group-hover:bg-[#0077B6] group-hover:text-white transition-colors">
               <User className="w-6 h-6" />
             </div>
-            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t('Buyer', 'Acheteur')}</h2>
+            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t("Buyer")}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              {t('Browse products, add to cart and place orders from multiple sellers.', 'Parcourez les produits et commandez auprès de plusieurs vendeurs.')}
+              {t("Browse products, add to cart and place orders from multiple sellers.")}
             </p>
             <div className="flex items-center gap-1 text-[#0077B6] text-sm font-medium mt-4">
-              {t('Create buyer account', 'Créer un compte acheteur')}
+              {t("Create buyer account")}
               <ChevronRight className="w-4 h-4" />
             </div>
           </button>
@@ -149,21 +151,21 @@ export default function Register() {
             <div className="w-12 h-12 rounded-xl bg-[#5ABCB9]/10 flex items-center justify-center text-[#5ABCB9] mb-4 group-hover:bg-[#5ABCB9] group-hover:text-white transition-colors">
               <Building2 className="w-6 h-6" />
             </div>
-            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t('Seller', 'Vendeur')}</h2>
+            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t("Seller")}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              {t('Create a store, list products and sell to thousands of customers.', 'Créez une boutique, listez des produits et vendez.')}
+              {t("Create a store, list products and sell to thousands of customers.")}
             </p>
             <div className="flex items-center gap-1 text-[#5ABCB9] text-sm font-medium mt-4">
-              {t('Apply as seller', "S'inscrire comme vendeur")}
+              {t("Apply as seller")}
               <ChevronRight className="w-4 h-4" />
             </div>
           </button>
         </div>
 
         <p className="text-center text-sm text-muted-foreground mt-6">
-          {t('Already have an account?', 'Déjà un compte ?')}{' '}
+          {t("Already have an account?")}{' '}
           <Link to="/login" className="text-[#0077B6] font-medium hover:underline">
-            {t('Sign in', 'Se connecter')}
+            {t("Sign-in-Se-connecter")}
           </Link>
         </p>
       </div>

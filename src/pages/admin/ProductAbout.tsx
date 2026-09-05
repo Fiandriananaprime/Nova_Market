@@ -9,8 +9,8 @@ import {Review, Seller} from '@/type/catalog/seller';
 import { getSellerById } from '@/api/public/seller.api';
 import { getProductReviews } from '@/api/public/product.api';
 import {useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
+import { useTranslation } from 'react-i18next';
 
 const ProductAbout = () => {
   const { id } = useParams<{ id: string }>();
@@ -24,7 +24,7 @@ const ProductAbout = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
-  const { t } = useApp();
+  const { t } = useTranslation();
   const statusFilter = searchParams.get('status');
 
   useEffect(() => {
@@ -90,7 +90,7 @@ const ProductAbout = () => {
       toast(
         getApiErrorMessage(
           error,
-          t('Unable to update product status.', 'Impossible de modifier le statut du produit.'),
+          t("Unable to update product status."),
         ),
         'error',
       );
@@ -113,7 +113,7 @@ const ProductAbout = () => {
         setRatingCount(reviewsData.counts)
       }
     } catch (error) {
-        toast(t('Error fetching product data','Erreur lors du recupération des données du produit'), 'error');
+        toast(t("Error fetching product data"), 'error');
     } finally {
         setLoading(false);
     }
@@ -124,7 +124,7 @@ const ProductAbout = () => {
   if (loading) {
     return (
       <div className="flex min-h-[400px] items-center justify-center text-sm text-muted-foreground">
-        {t('Loading product...', 'Chargement du produit...')}
+        {t("Loading product...")}
       </div>
     );
   }
@@ -132,13 +132,13 @@ const ProductAbout = () => {
   if (!product || !seller) {
     return (
       <div className="flex min-h-[400px] flex-col items-center justify-center gap-4 text-muted-foreground">
-        <p>{t('Product not found.', 'Produit introuvable.')}</p>
+        <p>{t("Product not found.")}</p>
         <button
           type="button"
           onClick={() => navigate(-1)}
           className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
         >
-          {t('Go back', 'Retour')}
+          {t("Go back")}
         </button>
       </div>
     );

@@ -18,7 +18,7 @@ import {  Product } from '@/type/catalog/product';
 import { Review, Seller } from '@/type/catalog/seller';
 import { StatusBadge } from '../ui';
 import { formatPrice } from '@/hook/format';
-import { useApp } from '@/contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 interface ProductDetailsProps {
   product: Product;
@@ -49,7 +49,7 @@ export default function ProductDetails({
   canGoPrevious = false,
   canGoNext = false,
 }: ProductDetailsProps) {
-    const { t } = useApp();
+  const { t } = useTranslation();
   const images =
     product.images?.length > 0
       ? product.images
@@ -96,11 +96,11 @@ export default function ProductDetails({
 
           <div>
             <p className="text-sm text-muted-foreground">
-              {t('Products / Details', 'Produits / Détails')}
+              {t("Products / Details")}
             </p>
 
             <h1 className="text-2xl font-semibold tracking-tight">
-              {t('Product Details', 'Détails du produit')}
+              {t("Product Details")}
             </h1>
           </div>
         </div>
@@ -110,8 +110,8 @@ export default function ProductDetails({
             <button
               onClick={onPrevious}
               disabled={!canGoPrevious}
-              aria-label={t('Previous product', 'Produit précédent')}
-              title={t('Previous product', 'Produit précédent')}
+              aria-label={t("Previous product")}
+              title={t("Previous product")}
               className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronLeft size={18} />
@@ -122,8 +122,8 @@ export default function ProductDetails({
             <button
               onClick={onNext}
               disabled={!canGoNext}
-              aria-label={t('Next product', 'Produit suivant')}
-              title={t('Next product', 'Produit suivant')}
+              aria-label={t("Next product")}
+              title={t("Next product")}
               className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card transition hover:bg-muted disabled:cursor-not-allowed disabled:opacity-40"
             >
               <ChevronRight size={18} />
@@ -136,7 +136,7 @@ export default function ProductDetails({
               className="flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-medium transition hover:bg-muted"
             >
               <Pencil size={16} />
-              {t('Edit product', 'Modifier le produit')}
+              {t("Edit product")}
             </button>
           )}
         </div>
@@ -247,7 +247,7 @@ export default function ProductDetails({
               </div>
 
               <span className="text-sm text-muted-foreground">
-                {product.reviewsCount} {t('reviews', 'avis')}
+                {product.reviewsCount} {t("reviews")}
               </span>
             </div>
 
@@ -277,26 +277,26 @@ export default function ProductDetails({
 
               <InfoItem
                 label="Stock"
-                value={`${product.stock} ${t('units', 'unités')}`}
+                value={`${product.stock} ${t("units")}`}
               />
 
               <InfoItem
-                label={t('Weight', 'Poids')}
+                label={t("Weight")}
                 value={`${product.weightGrams} g`}
               />
 
               <InfoItem
-                label={t('Dimensions', 'Dimensions')}
+                label={t("Dimensions")}
                 value={product.dimensions || 'N/A'}
               />
 
               <InfoItem
-                label={t('Category', 'Catégorie')}
+                label={t("Category")}
                 value={product.categoryName}
               />
 
               <InfoItem
-                label={t('Created', 'Créé')}
+                label={t("Created")}
                 value={formatDate(product.createdAt)}
               />
             </div>
@@ -306,7 +306,7 @@ export default function ProductDetails({
               <div className="mt-5">
                 <div className="mb-2 flex items-center gap-2 text-sm font-semibold">
                   <Tag size={15} />
-                  {t('Tags', 'Étiquettes')}
+                  {t("Tags")}
                 </div>
 
                 <div className="flex flex-wrap gap-2">
@@ -331,7 +331,7 @@ export default function ProductDetails({
                     className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2.5 text-sm font-medium text-primary-foreground transition hover:opacity-90"
                   >
                     <CheckCircle2 size={17} />
-                    {t('Approve', 'Approuver')}
+                    {t("Approve")}
                   </button>
                 )}
 
@@ -341,7 +341,7 @@ export default function ProductDetails({
                     className="flex items-center gap-2 rounded-lg border border-destructive px-4 py-2.5 text-sm font-medium text-destructive transition hover:bg-destructive/10"
                   >
                     <XCircle size={17} />
-                    {t('Reject', 'Rejeter')}
+                    {t("Reject")}
                   </button>
                 )}
 
@@ -350,7 +350,7 @@ export default function ProductDetails({
                     onClick={onDisable}
                     className="flex items-center gap-2 rounded-lg border border-border px-4 py-2.5 text-sm font-medium transition hover:bg-muted"
                   >
-                    {t('Disable', 'Désactiver')}
+                    {t("Disable")}
                   </button>
                 )}
               </div>
@@ -363,16 +363,16 @@ export default function ProductDetails({
       <div className="mt-6 grid gap-6 lg:grid-cols-2">
         {/* Description */}
         <section className="rounded-xl border border-border bg-card p-6">
-          <SectionTitle title={t('Description', 'Description')} />
+          <SectionTitle title={t("Description")} />
 
           <p className="mt-4 whitespace-pre-line text-sm leading-7 text-muted-foreground">
-            {product.description || t('No description available.', 'Aucune description disponible.')}
+            {product.description || t("No description available.")}
           </p>
         </section>
 
         {/* Specifications */}
         <section className="rounded-xl border border-border bg-card p-6">
-          <SectionTitle title={t('Specifications', 'Spécifications')} />
+          <SectionTitle title={t("Specifications")} />
 
           {Object.keys(product.specs ?? {}).length > 0 ? (
             <div className="mt-4 overflow-hidden rounded-lg border border-border">
@@ -394,7 +394,7 @@ export default function ProductDetails({
               )}
             </div>
           ) : (
-            <EmptyState text={t('No specifications available.', 'Aucune spécification disponible.')} />
+            <EmptyState text={t("No specifications available.")} />
           )}
         </section>
       </div>
@@ -402,7 +402,7 @@ export default function ProductDetails({
       {/* Variants */}
       {product.variants?.length > 0 && (
         <section className="mt-6 rounded-xl border border-border bg-card p-6">
-          <SectionTitle title={t('Variants', 'Variantes')} />
+          <SectionTitle title={t("Variants")} />
 
           <div className="mt-5 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {product.variants.map((variant) => (
@@ -432,7 +432,7 @@ export default function ProductDetails({
 
       {/* Seller */}
       <section className="mt-6 rounded-xl border border-border bg-card p-6">
-        <SectionTitle title={t('Seller', 'Vendeur')} />
+        <SectionTitle title={t("Seller")} />
 
         <div className="mt-5 flex flex-col gap-6 md:flex-row md:items-center">
           <div className="flex items-center gap-4">
@@ -465,7 +465,7 @@ export default function ProductDetails({
               </div>
 
               <p className="mt-1 text-sm text-muted-foreground">
-                {seller?.location ?? t('Location unavailable', 'Localisation indisponible')}
+                {seller?.location ?? t("Location unavailable")}
               </p>
             </div>
           </div>
@@ -473,22 +473,22 @@ export default function ProductDetails({
           {seller && (
             <div className="grid flex-1 grid-cols-2 gap-4 sm:grid-cols-4">
               <InfoItem
-                label={t('Rating', 'Note')}
+                label={t("Rating")}
                 value={`${seller.rating.toFixed(1)} / 5`}
               />
 
               <InfoItem
-                label={t('Products', 'Produits')}
+                label={t("Products")}
                 value={seller.productsCount.toString()}
               />
 
               <InfoItem
-                label={t('Followers', 'Abonnés')}
+                label={t("Followers")}
                 value={seller.followersCount.toString()}
               />
 
               <InfoItem
-                label={t('Joined', 'Inscrit depuis')}
+                label={t("Joined")}
                 value={seller.joinedYear.toString()}
               />
             </div>
@@ -505,7 +505,7 @@ export default function ProductDetails({
       {/* Reviews */}
       <section className="mt-6 rounded-xl border border-border bg-card p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <SectionTitle title={t('Customer Reviews', 'Avis clients')} />
+          <SectionTitle title={t("Customer Reviews")} />
 
           <div className="flex items-center gap-2">
             <Star
@@ -571,7 +571,7 @@ export default function ProductDetails({
                 {review.replied && review.reply && (
                   <div className="mt-4 rounded-lg bg-muted/60 p-4">
                     <p className="text-xs font-semibold">
-                      {t('Seller response', 'Réponse du vendeur')}
+                      {t("Seller response")}
                     </p>
 
                     <p className="mt-2 text-sm leading-6 text-muted-foreground">
@@ -583,36 +583,36 @@ export default function ProductDetails({
             ))}
           </div>
         ) : (
-          <EmptyState text={t('No reviews available.', 'Aucun avis disponible.')} />
+          <EmptyState text={t("No reviews available.")} />
         )}
       </section>
 
       {/* Metadata */}
       <section className="mt-6 rounded-xl border border-border bg-card p-6">
-        <SectionTitle title={t('Product Metadata', 'Métadonnées du produit')} />
+        <SectionTitle title={t("Product Metadata")} />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <MetadataItem
             icon={<Package size={17} />}
-            label={t('Product ID', 'ID du produit')}
+            label={t("Product ID")}
             value={product.id}
           />
 
           <MetadataItem
             icon={<UserRound size={17} />}
-            label={t('Seller ID', 'ID du vendeur')}
+            label={t("Seller ID")}
             value={product.sellerId}
           />
 
           <MetadataItem
             icon={<Tag size={17} />}
-            label={t('Category ID', 'ID de la catégorie')}
+            label={t("Category ID")}
             value={product.categoryId}
           />
 
           <MetadataItem
             icon={<Calendar size={17} />}
-            label={t('Created', 'Créé')}
+            label={t("Created")}
             value={formatDate(product.createdAt)}
           />
         </div>

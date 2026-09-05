@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import { User, MapPin, Plus, Edit, Trash2, CheckCircle2, Package, Heart, Settings } from 'lucide-react';
+import { MapPin, Plus, Edit, Trash2, CheckCircle2, Package, Heart, Settings } from 'lucide-react';
 import { Button, Input, Tabs } from '../../components/ui';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { useToast } from '../../contexts/ToastContext';
 import { orders } from '../../data/mock';
 import { formatPrice } from '@/hook/format';
@@ -13,7 +13,7 @@ const addresses = [
 ];
 
 export default function Profile() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('info');
@@ -25,13 +25,13 @@ export default function Profile() {
     await new Promise(r => setTimeout(r, 700));
     setLoading(false);
     setEditing(false);
-    toast(t('Profile updated successfully', 'Profil mis à jour avec succès'));
+    toast(t("Profile updated successfully"));
   };
 
   const tabs = [
-    { id: 'info', label: t('Personal info', 'Informations') },
-    { id: 'addresses', label: t('Addresses', 'Adresses') },
-    { id: 'orders', label: t('Recent orders', 'Commandes'), count: orders.length },
+    { id: 'info', label: t("Personal info") },
+    { id: 'addresses', label: t("Addresses") },
+    { id: 'orders', label: t("Recent-orders-Commandes"), count: orders.length },
   ];
 
   return (
@@ -50,14 +50,14 @@ export default function Profile() {
           <h1 className="text-2xl font-bold font-display text-foreground">Andry Rakoto</h1>
           <p className="text-sm text-muted-foreground">andry@email.com</p>
           <div className="flex items-center gap-3 mt-2">
-            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} {t('orders', 'commandes')}</span>
-            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Heart className="w-3.5 h-3.5" /> 2 {t('favorites', 'favoris')}</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} {t("orders")}</span>
+            <span className="flex items-center gap-1 text-xs text-muted-foreground"><Heart className="w-3.5 h-3.5" /> 2 {t("favorites")}</span>
           </div>
         </div>
         <div className="ml-auto flex gap-2">
           <Button variant="outline" size="sm" onClick={() => navigate('/settings')}>
             <Settings className="w-3.5 h-3.5" />
-            {t('Settings', 'Paramètres')}
+            {t("Settings")}
           </Button>
         </div>
       </div>
@@ -68,36 +68,36 @@ export default function Profile() {
         {activeTab === 'info' && (
           <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold font-display text-foreground">{t('Personal information', 'Informations personnelles')}</h2>
+              <h2 className="font-semibold font-display text-foreground">{t("Personal information")}</h2>
               <Button variant="outline" size="sm" onClick={() => setEditing(!editing)}>
                 <Edit className="w-3.5 h-3.5" />
-                {editing ? t('Cancel', 'Annuler') : t('Edit', 'Modifier')}
+                {editing ? t("Cancel") : t("Edit")}
               </Button>
             </div>
 
             {editing ? (
               <div className="space-y-3">
                 <div className="grid grid-cols-2 gap-3">
-                  <Input label={t('First name', 'Prénom')} defaultValue="Andry" />
-                  <Input label={t('Last name', 'Nom')} defaultValue="Rakoto" />
+                  <Input label={t("First name")} defaultValue="Andry" />
+                  <Input label={t("Last-name-Nom")} defaultValue="Rakoto" />
                 </div>
-                  <Input label={t('Email', 'Email')} type="email" defaultValue="andry@email.com" />
-                <Input label={t('Phone', 'Téléphone')} defaultValue="+261 34 123 4567" />
-                <Input label={t('Date of birth', 'Date de naissance')} type="date" defaultValue="1995-06-15" />
+                  <Input label={t("Email")} type="email" defaultValue="andry@email.com" />
+                <Input label={t("Phone")} defaultValue="+261 34 123 4567" />
+                <Input label={t("Date of birth")} type="date" defaultValue="1995-06-15" />
                 <div className="flex gap-2 pt-1">
-                  <Button loading={loading} onClick={handleSave}>{t('Save changes', 'Enregistrer')}</Button>
-                  <Button variant="outline" onClick={() => setEditing(false)}>{t('Cancel', 'Annuler')}</Button>
+                  <Button loading={loading} onClick={handleSave}>{t("Save changes")}</Button>
+                  <Button variant="outline" onClick={() => setEditing(false)}>{t("Cancel")}</Button>
                 </div>
               </div>
             ) : (
               <div className="grid grid-cols-2 gap-4">
                 {[
-                  { label: t('First name', 'Prénom'), value: 'Andry' },
-                  { label: t('Last name', 'Nom'), value: 'Rakoto' },
+                  { label: t("First name"), value: 'Andry' },
+                  { label: t("Last-name-Nom"), value: 'Rakoto' },
                   { label: 'Email', value: 'andry@email.com' },
-                  { label: t('Phone', 'Téléphone'), value: '+261 34 123 4567' },
-                  { label: t('Date of birth', 'Date de naissance'), value: '15 June 1995' },
-                  { label: t('Member since', 'Membre depuis'), value: 'March 2025' },
+                  { label: t("Phone"), value: '+261 34 123 4567' },
+                  { label: t("Date of birth"), value: '15 June 1995' },
+                  { label: t("Member since"), value: 'March 2025' },
                 ].map(f => (
                   <div key={f.label}>
                     <div className="text-xs font-medium text-muted-foreground mb-0.5">{f.label}</div>
@@ -121,7 +121,7 @@ export default function Profile() {
                     <span className="font-semibold text-foreground">{addr.label}</span>
                     {addr.default && (
                       <span className="text-xs bg-[#0077B6]/10 text-[#0077B6] px-1.5 py-0.5 rounded-full font-medium flex items-center gap-1">
-                        <CheckCircle2 className="w-3 h-3" /> {t('Default', 'Par défaut')}
+                        <CheckCircle2 className="w-3 h-3" /> {t("Default")}
                       </span>
                     )}
                   </div>
@@ -136,7 +136,7 @@ export default function Profile() {
             ))}
             <Button variant="outline" size="sm">
               <Plus className="w-3.5 h-3.5" />
-              {t('Add address', 'Ajouter une adresse')}
+              {t("Add address")}
             </Button>
           </div>
         )}

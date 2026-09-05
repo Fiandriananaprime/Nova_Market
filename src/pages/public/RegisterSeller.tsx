@@ -6,7 +6,7 @@ import { Button, Input } from '../../components/ui';
 
 import { RegisterSellerRequest, RegisterSellerResponse } from '../../type/auth';
 import { registerSeller } from '@/api/auth.api';
-import { useApp } from '@/contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { useToast } from '@/contexts/ToastContext';
 
@@ -15,7 +15,7 @@ interface RegisterSellerProps {
 }
 
 export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -79,37 +79,37 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold font-display text-foreground mb-1">
-            {t('Seller application', 'Candidature vendeur')}
+            {t("Seller application")}
           </h1>
           <p className="text-sm text-muted-foreground">
-            {t('Tell us about your business.', 'Parlez-nous de votre entreprise.')}
+            {t("Tell us about your business.")}
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
           <div className="pb-3 mb-1 border-b border-border">
             <h3 className="text-sm font-semibold text-foreground">
-              {t('Personal information', 'Informations personnelles')}
+              {t("Personal information")}
             </h3>
           </div>
           <div className="grid grid-cols-2 gap-3">
-            <Input value={form.firstName} name="firstName" label={t('First name', 'Prénom')} placeholder="Jean" icon={<User className="w-4 h-4" />} onChange={handleChange} />
-            <Input value={form.lastName} name="lastName" label={t('Last name', 'Nom')} placeholder="Rakoto" icon={<User className="w-4 h-4" />} onChange={handleChange} />
+            <Input value={form.firstName} name="firstName" label={t("First name")} placeholder="Jean" icon={<User className="w-4 h-4" />} onChange={handleChange} />
+            <Input value={form.lastName} name="lastName" label={t("Last-name-Nom")} placeholder="Rakoto" icon={<User className="w-4 h-4" />} onChange={handleChange} />
           </div>
           <Input value={form.email} name="email" label="Email" type="email" placeholder="jean@business.mg" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
 
           <div className="pb-3 mb-1 border-b border-border pt-2">
             <h3 className="text-sm font-semibold text-foreground">
-              {t('Business information', 'Informations commerciales')}
+              {t("Business information")}
             </h3>
           </div>
-          <Input value={form.businessName} name="businessName" label={t('Business name', 'Nom commercial')} placeholder="My Store MG" icon={<Building2 className="w-4 h-4" />} onChange={handleChange} />
-          <Input value={form.phone} name="phone" label={t('Phone', 'Téléphone')} type="tel" placeholder="+261 34 000 0000" icon={<Phone className="w-4 h-4" />} onChange={handleChange} />
-          <Input value={form.location} name="location" label={t('Location', 'Localisation')} placeholder="Antananarivo" icon={<MapPin className="w-4 h-4" />} onChange={handleChange} />
-          <Input value={form.password} name="password" label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
+          <Input value={form.businessName} name="businessName" label={t("Business-name-Nom-commercial")} placeholder="My Store MG" icon={<Building2 className="w-4 h-4" />} onChange={handleChange} />
+          <Input value={form.phone} name="phone" label={t("Phone")} type="tel" placeholder="+261 34 000 0000" icon={<Phone className="w-4 h-4" />} onChange={handleChange} />
+          <Input value={form.location} name="location" label={t("Location-Localisation")} placeholder="Antananarivo" icon={<MapPin className="w-4 h-4" />} onChange={handleChange} />
+          <Input value={form.password} name="password" label={t("Password")} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
 
           <p className="text-xs text-muted-foreground">
-            {t('Your application will be reviewed within 24-48 hours.', 'Votre candidature sera examinée sous 24-48 heures.')}
+            {t("Your application will be reviewed within 24-48 hours.")}
           </p>
 
           {error && (
@@ -117,14 +117,14 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
           )}
 
           <Button type="submit" className="w-full" size="lg" variant="accent" loading={loading}>
-            {t('Submit application', 'Soumettre la candidature')}
+            {t("Submit application")}
           </Button>
         </form>
 
         {onBack && (
           <p className="text-center text-sm mt-4">
             <button type="button" onClick={onBack} className="text-muted-foreground hover:text-foreground">
-              ← {t('Back', 'Retour')}
+              ← {t("Back")}
             </button>
           </p>
         )}

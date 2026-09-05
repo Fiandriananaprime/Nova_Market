@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Edit, Trash2, ChevronRight, GripVertical } from 'lucide-react';
 import { Button, Modal, Input, Badge } from '../../components/ui';
 import { categories } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 const categoryTree = [
   { id: '1', name: 'Electronics', count: 2450, children: [
@@ -20,17 +20,17 @@ const categoryTree = [
 ];
 
 export default function AdminCategories() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const [modal, setModal] = useState(false);
   const [expanded, setExpanded] = useState<string[]>(['1', '2']);
 
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t('Category Management', 'Gestion des catégories')}</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t("Category Management")}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
-          {t('Add category', 'Ajouter une catégorie')}
+          {t("Add category")}
         </Button>
       </div>
 
@@ -56,7 +56,7 @@ export default function AdminCategories() {
                 <button className="p-1 rounded hover:bg-red-100 text-muted-foreground hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
                 <Button size="xs" variant="ghost" onClick={() => setModal(true)}>
                   <Plus className="w-3 h-3" />
-                  {t('Sub', 'Sous-catégorie')}
+                  {t("Sub")}
                 </Button>
               </div>
             </div>
@@ -79,26 +79,26 @@ export default function AdminCategories() {
       <Modal
         open={modal}
         onClose={() => setModal(false)}
-        title={t('Add category', 'Ajouter une catégorie')}
+        title={t("Add category")}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t('Cancel', 'Annuler')}</Button>
-            <Button className="flex-1" onClick={() => setModal(false)}>{t('Create', 'Créer')}</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t("Cancel")}</Button>
+            <Button className="flex-1" onClick={() => setModal(false)}>{t("Create")}</Button>
           </>
         }
       >
         <div className="space-y-3">
-          <Input label={t('Category name', 'Nom de la catégorie')} placeholder="Electronics" />
-          <Input label={t('Category name (French)', 'Nom de la catégorie (français)')} placeholder="Électronique" />
+          <Input label={t("Category name")} placeholder="Electronics" />
+          <Input label={t("Category name (French)")} placeholder="Électronique" />
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t('Parent category (optional)', 'Catégorie parente (facultatif)')}</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Parent category (optional)")}</label>
             <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
-              <option value="">{t('No parent (top-level)', 'Aucune catégorie parente (niveau supérieur)')}</option>
+              <option value="">{t("No parent (top-level)")}</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t('Icon', 'Icône')}</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">{t("Icon")}</label>
             <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
               <option>Cpu</option>
               <option>Shirt</option>

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Plus, Tag, Calendar } from 'lucide-react';
 import { Button, StatusBadge, Modal, Input, Select } from '../../components/ui';
 import { formatPrice } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 const promotions = [
   { id: '1', name: 'Back to School Sale', type: 'percentage', discount: 15, products: 12, start: '2026-08-25', end: '2026-09-10', status: 'active' },
@@ -11,7 +11,7 @@ const promotions = [
 ];
 
 export default function SellerPromotions() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const [modal, setModal] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,10 +25,10 @@ export default function SellerPromotions() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t('Promotions', 'Promotions')}</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">{t("Promotions")}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
-          {t('Create promotion', 'Créer une promotion')}
+          {t("Create promotion")}
         </Button>
       </div>
 
@@ -52,8 +52,8 @@ export default function SellerPromotions() {
               </div>
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm">{t('Edit', 'Modifier')}</Button>
-              <Button variant="ghost" size="sm">{t('Disable', 'Désactiver')}</Button>
+              <Button variant="outline" size="sm">{t("Edit")}</Button>
+              <Button variant="ghost" size="sm">{t("Disable")}</Button>
             </div>
           </div>
         ))}
@@ -62,23 +62,23 @@ export default function SellerPromotions() {
       <Modal
         open={modal}
         onClose={() => setModal(false)}
-        title={t('Create promotion', 'Créer une promotion')}
+        title={t("Create promotion")}
         footer={
           <>
-            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t('Cancel', 'Annuler')}</Button>
-            <Button className="flex-1" loading={loading} onClick={handleCreate}>{t('Create', 'Créer')}</Button>
+            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t("Cancel")}</Button>
+            <Button className="flex-1" loading={loading} onClick={handleCreate}>{t("Create")}</Button>
           </>
         }
       >
         <div className="space-y-3">
-          <Input label={t('Promotion name', 'Nom de la promotion')} placeholder="Summer Sale" />
-          <Select label={t('Discount type', 'Type de réduction')} options={[{ value: 'percentage', label: t('Percentage (%)', 'Pourcentage (%)') }, { value: 'fixed', label: t('Fixed amount (Ar)', 'Montant fixe (Ar)') }]} />
-          <Input label={t('Discount value', 'Valeur de la réduction')} type="number" placeholder="15" />
+          <Input label={t("Promotion name")} placeholder="Summer Sale" />
+          <Select label={t("Discount type")} options={[{ value: 'percentage', label: t("Percentage (%)") }, { value: 'fixed', label: t("Fixed amount (Ar)") }]} />
+          <Input label={t("Discount value")} type="number" placeholder="15" />
           <div className="grid grid-cols-2 gap-2">
-            <Input label={t('Start date', 'Date de début')} type="date" />
-            <Input label={t('End date', 'Date de fin')} type="date" />
+            <Input label={t("Start date")} type="date" />
+            <Input label={t("End date")} type="date" />
           </div>
-          <p className="text-xs text-muted-foreground">{t('You can select specific products after creating the promotion.', 'Vous pourrez sélectionner des produits après la création de la promotion.')}</p>
+          <p className="text-xs text-muted-foreground">{t("You can select specific products after creating the promotion.")}</p>
         </div>
       </Modal>
     </div>

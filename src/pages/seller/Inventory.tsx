@@ -1,7 +1,7 @@
 import { AlertTriangle, Search } from 'lucide-react';
-import { StatusBadge, Badge } from '../../components/ui';
+import { StatusBadge } from '../../components/ui';
 import { products } from '../../data/mock';
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 const inventoryItems = products.map((p, i) => ({
   ...p,
@@ -13,18 +13,18 @@ const inventoryItems = products.map((p, i) => ({
 }));
 
 export default function Inventory() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const lowStock = inventoryItems.filter(i => i.status === 'low stock' || i.status === 'out of stock');
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-foreground">{t('Inventory', 'Inventaire')}</h1>
+      <h1 className="text-xl font-bold font-display text-foreground">{t("Inventory")}</h1>
 
       {lowStock.length > 0 && (
         <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl p-4 flex items-start gap-3">
           <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <div>
-            <div className="font-medium text-amber-800 dark:text-amber-300 text-sm">{lowStock.length} {t('products need attention', 'produits nécessitent votre attention')}</div>
+            <div className="font-medium text-amber-800 dark:text-amber-300 text-sm">{lowStock.length} {t("products need attention")}</div>
             <div className="text-xs text-amber-700 dark:text-amber-400">{lowStock.map(p => p.name).join(', ')}</div>
           </div>
         </div>
@@ -34,20 +34,20 @@ export default function Inventory() {
         <div className="p-4 border-b border-border flex items-center gap-3">
           <div className="relative flex-1">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-            <input placeholder={t('Search inventory...', 'Rechercher dans l’inventaire...')} className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+            <input placeholder={t("Search inventory...")} className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
           </div>
           <select className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block">
-            <option>{t('All statuses', 'Tous les statuts')}</option>
-            <option>{t('In stock', 'En stock')}</option>
-            <option>{t('Low stock', 'Stock faible')}</option>
-            <option>{t('Out of stock', 'Rupture de stock')}</option>
+            <option>{t("All statuses")}</option>
+            <option>{t("In stock")}</option>
+            <option>{t("Low stock")}</option>
+            <option>{t("Out of stock")}</option>
           </select>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b border-border bg-secondary">
-                {[t('Product', 'Produit'), 'SKU', t('Current stock', 'Stock actuel'), t('Reserved', 'Réservé'), t('Available', 'Disponible'), t('Threshold', 'Seuil'), t('Status', 'Statut')].map(h => (
+                {[t("Product"), 'SKU', t("Current stock"), t("Reserved"), t("Available"), t("Threshold"), t("Status")].map(h => (
                   <th key={h} className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap">{h}</th>
                 ))}
               </tr>

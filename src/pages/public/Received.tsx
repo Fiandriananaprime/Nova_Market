@@ -5,11 +5,11 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useNavigate } from "react-router";
-import { useApp } from '../../contexts/AppContext';
+import { useTranslation } from 'react-i18next';
 
 export default function ApplicationReceived() {
   const navigate = useNavigate();
-  const { t } = useApp();
+  const { t } = useTranslation();
 
   return (
     <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4 py-4">
@@ -42,11 +42,11 @@ export default function ApplicationReceived() {
           </div>
 
           <h1 className="font-display text-[25px] font-bold tracking-tight">
-            {t('Application received', 'Candidature reçue')}
+            {t("Application received")}
           </h1>
 
           <p className="text-muted-foreground text-[14px] mt-1">
-            {t('Your seller application has been successfully submitted.', 'Votre candidature vendeur a été envoyée avec succès.')}
+            {t("Your seller application has been successfully submitted.")}
           </p>
         </div>
 
@@ -65,11 +65,11 @@ export default function ApplicationReceived() {
 
             <div className="flex-1">
               <p className="text-[14px] font-semibold">
-                {t('Pending review', 'En attente de validation')}
+                {t("Pending review")}
               </p>
 
               <p className="text-[12px] text-muted-foreground mt-0.5">
-                {t('An administrator is reviewing your application.', 'Un administrateur examine votre candidature.')}
+                {t("An administrator is reviewing your application.")}
               </p>
             </div>
           </div>
@@ -90,11 +90,11 @@ export default function ApplicationReceived() {
 
               <div>
                 <p className="text-[13px] font-semibold">
-                  {t('Application submitted', 'Candidature envoyée')}
+                  {t("Application submitted")}
                 </p>
 
                 <p className="text-[12px] text-muted-foreground mt-0.5">
-                  {t('Your seller information has been received.', 'Vos informations vendeur ont été reçues.')}
+                  {t("Your seller information has been received.")}
                 </p>
               </div>
             </div>
@@ -111,11 +111,11 @@ export default function ApplicationReceived() {
 
               <div>
                 <p className="text-[13px] font-semibold">
-                  {t('Administrator review', 'Examen par un administrateur')}
+                  {t("Administrator review")}
                 </p>
 
                 <p className="text-[12px] text-muted-foreground mt-0.5">
-                  {t('You will be notified once a decision has been made.', 'Vous serez informé une fois la décision prise.')}
+                  {t("You will be notified once a decision has been made.")}
                 </p>
               </div>
             </div>

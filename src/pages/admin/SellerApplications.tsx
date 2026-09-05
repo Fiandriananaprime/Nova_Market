@@ -1,15 +1,15 @@
 import { useEffect, useState } from 'react';
-import { CheckCircle2, XCircle, MessageSquare, Building2 } from 'lucide-react';
-import { Button, StatusBadge, Badge, Modal } from '../../components/ui';
+import { CheckCircle2, MessageSquare } from 'lucide-react';
+import { Button, StatusBadge, Badge } from '../../components/ui';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import type { SellerApplication } from '@/type/admin/seller';
 import { Link } from 'react-router';
 import { useToast } from '@/contexts/ToastContext';
-import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
+import { useTranslation } from 'react-i18next';
 
 export default function SellerApplications() {
-  const { t } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [apps, setApps] = useState<SellerApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -32,12 +32,12 @@ export default function SellerApplications() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t('Seller Applications', 'Demandes de vendeurs')}</h1>
-        <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} {t('pending', 'en attente')}</Badge>
+        <h1 className="text-xl font-bold font-display text-foreground">{t("Seller-Applications-Demandes-de-vendeurs")}</h1>
+        <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} {t("pending")}</Badge>
       </div>
 
       {loading ? (
-        <div className="text-sm text-muted-foreground">{t('Loading applications...', 'Chargement des demandes...')}</div>
+        <div className="text-sm text-muted-foreground">{t("Loading applications...")}</div>
       ) : (
       <div className="grid gap-4">
         {apps.map(app => (
@@ -74,7 +74,7 @@ export default function SellerApplications() {
                       <Button variant="primary" size="sm" className="flex items-center gap-1">
                         <CheckCircle2 className="w-3.5 h-3.5" />
                         <MessageSquare className="w-3.5 h-3.5" />
-                        {t('Request info', 'Demander des informations')}
+                        {t("Request info")}
                       </Button>
                     </Link>
                   </div>

@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router';
-import { ShoppingBag, LayoutDashboard, Package, Warehouse, ShoppingCart, Users, Tag, Star, BarChart3, Store, Settings, Bell, Menu, X, Sun, Moon, Globe, LogOut, ChevronRight } from 'lucide-react';
+import { ShoppingBag, LayoutDashboard, Package, Warehouse, ShoppingCart, Users, Tag, Star, BarChart3, Store, Settings, Bell, Menu, Sun, Moon, Globe, LogOut } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 const navItems = [
   { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: 'Dashboard', to: '/seller' },
@@ -23,7 +25,8 @@ export default function SellerLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
-  const { lang, setLang, setUserRole } = useApp();
+  const { setUserRole } = useApp();
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
@@ -111,7 +114,7 @@ export default function SellerLayout() {
           </div>
 
           <div className="flex items-center gap-1">
-            <button onClick={() => setLang(lang === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
+            <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               <Globe className="w-4 h-4" />
             </button>
             <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">

@@ -28,7 +28,7 @@ export default function AdminUsers() {
   const columns: Column<User>[] = [
     {
       key: 'name',
-      header: 'User',
+      header: t('User', 'Utilisateur'),
       render: (user) => (
         <div className="flex items-center gap-2.5">
           <div
@@ -86,7 +86,7 @@ export default function AdminUsers() {
 
     {
       key: 'status',
-      header: 'Status',
+      header: t('Status', 'Statut'),
       render: (user) => (
         <StatusBadge status={user.status} />
       ),
@@ -94,13 +94,13 @@ export default function AdminUsers() {
 
     {
       key: 'joinedAt',
-      header: 'Joined',
+      header: t('Joined', 'Rejoint'),
       className: 'text-muted-foreground',
     },
 
     {
       key: 'ordersCount',
-      header: 'Orders',
+      header: t('Orders', 'Commandes'),
       className: 'text-foreground',
       render: (user) => String(user.ordersCount ?? 0),
     },

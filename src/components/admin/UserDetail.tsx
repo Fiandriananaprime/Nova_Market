@@ -19,9 +19,11 @@ import {
 } from '@/api/admin/user.api';
 import { User, Address } from '@/type/user';
 import { useToast } from '@/contexts/ToastContext';
+import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function UserDetails() {
+  const { t } = useApp();
   const { id } = useParams();
   const navigate = useNavigate();
   const { toast } = useToast();
@@ -89,7 +91,7 @@ export default function UserDetails() {
     return (
       <div className="text-center py-20">
         <h2 className="text-lg font-semibold text-foreground">
-          User not found
+          {t('User not found', 'Utilisateur non trouvé')}
         </h2>
 
         <Button
@@ -97,7 +99,7 @@ export default function UserDetails() {
           className="mt-4"
           onClick={() => navigate('/admin/users')}
         >
-          Back to users
+          {t('Back to users', 'Retour aux utilisateurs')}
         </Button>
       </div>
     );
@@ -112,7 +114,7 @@ export default function UserDetails() {
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
       >
         <ArrowLeft className="w-4 h-4" />
-        Back to users
+        {t('Back to users', 'Retour aux utilisateurs')}
       </Link>
 
       {/* Profile header */}
@@ -185,12 +187,12 @@ export default function UserDetails() {
             ) : user.status === 'active' ? (
               <>
                 <UserX className="w-4 h-4" />
-                Suspend user
+                {t('Suspend user', 'Suspendre l’utilisateur')}
               </>
             ) : (
               <>
                 <UserCheck className="w-4 h-4" />
-                Activate user
+                {t('Activate user', 'Activer l’utilisateur')}
               </>
             )}
           </Button>
@@ -205,19 +207,19 @@ export default function UserDetails() {
 
           <div className="px-5 py-4 border-b border-border">
             <h2 className="font-semibold font-display text-foreground">
-              Account information
+              {t('Account information', 'Informations sur le compte')}
             </h2>
           </div>
 
           <div className="p-5 space-y-4">
 
             <InfoRow
-              label="First name"
+              label={t('First name', 'Prénom')}
               value={user.firstName}
             />
 
             <InfoRow
-              label="Last name"
+              label={t('Last name', 'Nom de famille')}
               value={user.lastName}
             />
 
@@ -228,18 +230,18 @@ export default function UserDetails() {
             />
 
             <InfoRow
-              label="Phone"
+              label={t('Phone', 'Téléphone')}
               value={user.phone || 'Not provided'}
               icon={<Phone className="w-4 h-4" />}
             />
 
             <InfoRow
-              label="Role"
+              label={t('Role', 'Rôle')}
               value={user.role}
             />
 
             <InfoRow
-              label="Status"
+              label={t('Status', 'Statut')}
               value={
                 <StatusBadge status={user.status} />
               }
@@ -252,7 +254,7 @@ export default function UserDetails() {
 
           <div className="px-5 py-4 border-b border-border">
             <h2 className="font-semibold font-display text-foreground">
-              Activity
+              {t('Activity', 'Activité')}
             </h2>
           </div>
 
@@ -265,7 +267,7 @@ export default function UserDetails() {
 
               <div>
                 <p className="text-xs text-muted-foreground">
-                  Orders
+                  {t('Orders', 'Commandes')}
                 </p>
 
                 <p className="font-semibold text-foreground">
@@ -281,7 +283,7 @@ export default function UserDetails() {
 
               <div>
                 <p className="text-xs text-muted-foreground">
-                  Member since
+                  {t('Member since', 'Membre depuis')}
                 </p>
 
                 <p className="font-semibold text-foreground">
@@ -349,7 +351,7 @@ export default function UserDetails() {
           </div>
         ) : (
           <div className="p-5 text-sm text-muted-foreground">
-            No address registered.
+            ({t('No address registered.', 'Aucune adresse enregistrée.')})
           </div>
         )}
       </div>

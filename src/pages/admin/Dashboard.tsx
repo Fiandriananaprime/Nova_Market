@@ -16,6 +16,7 @@ import { getTopSeller, getDashboardStats } from '@/api/admin/dashboard.api';
 
 import {  formatMillionAr } from '@/hook/format';
 import { useToast } from '@/contexts/ToastContext';
+import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 
 type DashData = {
@@ -36,11 +37,12 @@ export default function AdminDashboard() {
   const [dashBoardData, setDashBoardData]= useState<DashData>();
   const [fetchError, setFetchError] = useState<string | null>(null);
   const { toast } = useToast();
+  const { t } = useApp();
 
   const recentOrderColumns: Column<RecentOrder>[] = [
     {
       key: 'id',
-      header: 'Order',
+      header: t('Order', 'Commande'),
       render: (order) => (
         <span className="font-mono text-xs text-[#0077B6] font-bold">
           {order.id}
@@ -49,7 +51,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'buyer',
-      header: 'Buyer',
+      header: t('Buyer', 'Acheteur'),
       render: (order) => (
         <span className="text-foreground">
           {order.buyerName}
@@ -58,7 +60,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'amount',
-      header: 'Amount',
+      header: t('Amount', 'Montant'),
       render: (order) => (
         <span className="font-medium text-foreground whitespace-nowrap">
           {formatMillionAr(order.total)}
@@ -67,7 +69,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: t('Status', 'Statut'),
       render: (order) => (
         <StatusBadge status={order.status} />
       ),
@@ -77,7 +79,7 @@ export default function AdminDashboard() {
   const topSellerColumns: Column<TopSeller>[] = [
     {
       key: 'name',
-      header: 'Seller',
+      header: t('Seller', 'Vendeur'),
       render: (seller, index) => (
         <div className="flex items-center gap-2">
           <span className="w-5 h-5 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">
@@ -101,7 +103,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'orders',
-      header: 'Orders',
+      header: t('Orders', 'Commandes'),
       render: (seller) => (
         <span className="text-muted-foreground">
           {seller.ordersCount.toLocaleString()}
@@ -110,7 +112,7 @@ export default function AdminDashboard() {
     },
     {
       key: 'status',
-      header: 'Status',
+      header: t('Status', 'Statut'),
       render: (seller) => (
         <StatusBadge status={seller.status} />
       ),
@@ -176,11 +178,11 @@ export default function AdminDashboard() {
 
           <div className="flex-1 text-sm">
             <span className="font-medium text-amber-800 dark:text-amber-300">
-              {dashBoardData?.metrics?.pendingApplications ?? 0} seller applications
+              {dashBoardData?.metrics?.pendingApplications ?? 0} {t('seller applications', 'applications de vendeurs')}
             </span>
 
             <span className="text-amber-700 dark:text-amber-400">
-              {' '}and {dashBoardData?.metrics?.pendingProducts ?? 0} products are awaiting review.
+              {' '}{t('and', 'et')} {dashBoardData?.metrics?.pendingProducts ?? 0} {t('products are awaiting review', 'produits en attente de révision')}
             </span>
           </div>
 
@@ -188,31 +190,31 @@ export default function AdminDashboard() {
             to="/admin/sellers/applications"
             className="text-sm font-medium text-amber-700 dark:text-amber-300 hover:underline"
           >
-            Review now →
+            {t('Review now →', 'Passer en revue →')}
           </Link>
         </div>
       )}
 
       {/* Metrics */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <StatCard title="Total Revenue" value={formatMillionAr(dashBoardData?.metrics?.totalRevenue ?? 0)} change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Total Orders" value={dashBoardData?.metrics?.totalOrders ?? 0} change={9.3} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title="Buyers" value={dashBoardData?.metrics?.totalBuyers ?? 0} change={11.8} icon={<Users className="w-5 h-5" />} color="#0077B6" />
-        <StatCard title="Sellers" value={dashBoardData?.metrics?.totalSellers ?? 0} change={6.4} icon={<Store className="w-5 h-5" />} color="#5ABCB9" />
-        <StatCard title="Products" value={dashBoardData?.metrics?.totalProducts ?? 0} change={7.1} icon={<Package className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t('Total Revenue', 'Revenus totaux')} value={formatMillionAr(dashBoardData?.metrics?.totalRevenue ?? 0)} change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t('Total Orders', 'Commandes totales')} value={dashBoardData?.metrics?.totalOrders ?? 0} change={9.3} icon={<ShoppingCart className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t('Buyers', 'Acheteurs')} value={dashBoardData?.metrics?.totalBuyers ?? 0} change={11.8} icon={<Users className="w-5 h-5" />} color="#0077B6" />
+        <StatCard title={t('Sellers', 'Vendeurs')} value={dashBoardData?.metrics?.totalSellers ?? 0} change={6.4} icon={<Store className="w-5 h-5" />} color="#5ABCB9" />
+        <StatCard title={t('Products', 'Produits')} value={dashBoardData?.metrics?.totalProducts ?? 0} change={7.1} icon={<Package className="w-5 h-5" />} color="#0077B6" />
       </div>
 
       {/* Charts */}
       <div className="grid lg:grid-cols-2 gap-5">
-        <BarStat title="MarketPlace Revenue" data={dashBoardData?.revenueSeries} />
-        <LineStat title="User Growth" data={dashBoardData?.revenueSeries} />
+        <BarStat title={t('MarketPlace Revenue', 'Revenus de la Place de Marché')} data={dashBoardData?.revenueSeries} />
+        <LineStat title={t('User Growth', 'Croissance des Utilisateurs')} data={dashBoardData?.revenueSeries} />
       </div>
 
       {/* Tables grid */}
       <div className="grid lg:grid-cols-2 gap-5">
         {/* Recent orders */}
         <TableCard
-          title="Recent orders"
+          title={t('Recent orders', 'Commandes récentes')}
           data={dashBoardData?.recentOrder ?? []}
           columns={recentOrderColumns}
           rowKey={(order) => order.id}
@@ -222,8 +224,8 @@ export default function AdminDashboard() {
         {/* Pending applications */}
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between">
-            <h2 className="font-semibold font-display text-foreground">Pending seller applications</h2>
-            <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} pending</Badge>
+            <h2 className="font-semibold font-display text-foreground">{t('Pending seller applications', 'Applications de vendeurs en attente')}</h2>
+            <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} {t('pending', 'en attente')}</Badge>
           </div>
           <div className="divide-y divide-border">
             {dashBoardData?.sellerApplications.data.map(app => (
@@ -243,7 +245,7 @@ export default function AdminDashboard() {
 
         {/* Top sellers */}
         <TableCard
-          title="Top sellers"
+          title={t('Top sellers', 'Meilleurs vendeurs')}
           data={dashBoardData?.topSellers ?? []}
           columns={topSellerColumns}
           rowKey={(seller) => seller.name}

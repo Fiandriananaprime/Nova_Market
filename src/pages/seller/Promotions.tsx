@@ -23,7 +23,7 @@ export default function SellerPromotions() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-[var(--foreground)]">Promotions</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">Promotions</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
           Create promotion
@@ -32,16 +32,16 @@ export default function SellerPromotions() {
 
       <div className="grid gap-4">
         {promotions.map(promo => (
-          <div key={promo.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+          <div key={promo.id} className="bg-card border border-border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
             <div className="w-10 h-10 rounded-xl bg-[#5ABCB9]/10 flex items-center justify-center text-[#5ABCB9] flex-shrink-0">
               <Tag className="w-5 h-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-semibold font-display text-[var(--foreground)]">{promo.name}</span>
+                <span className="font-semibold font-display text-foreground">{promo.name}</span>
                 <StatusBadge status={promo.status} />
               </div>
-              <div className="flex flex-wrap gap-3 text-sm text-[var(--muted-foreground)]">
+              <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">
                 <span>{promo.type === 'percentage' ? `${promo.discount}% off` : `${formatPrice(promo.discount)} off`}</span>
                 <span>·</span>
                 <span>{promo.products} product{promo.products > 1 ? 's' : ''}</span>
@@ -76,7 +76,7 @@ export default function SellerPromotions() {
             <Input label="Start date" type="date" />
             <Input label="End date" type="date" />
           </div>
-          <p className="text-xs text-[var(--muted-foreground)]">You can select specific products after creating the promotion.</p>
+          <p className="text-xs text-muted-foreground">You can select specific products after creating the promotion.</p>
         </div>
       </Modal>
     </div>

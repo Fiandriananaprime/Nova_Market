@@ -10,16 +10,16 @@ export default function AdminSettings() {
   const sellerReceives = exampleSale - commission;
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
-    <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">{title}</h2>
+    <div className="bg-card border border-border rounded-xl p-5 mb-4">
+      <h2 className="font-semibold font-display text-foreground mb-4">{title}</h2>
       {children}
     </div>
   );
 
   const Row = ({ label, value }: { label: string; value: string }) => (
-    <div className="flex justify-between items-center py-2 border-b border-[var(--border)] last:border-0">
-      <span className="text-sm text-[var(--muted-foreground)]">{label}</span>
-      <span className="font-medium text-[var(--foreground)]">{value}</span>
+    <div className="flex justify-between items-center py-2 border-b border-border last:border-0">
+      <span className="text-sm text-muted-foreground">{label}</span>
+      <span className="font-medium text-foreground">{value}</span>
     </div>
   );
 
@@ -31,7 +31,7 @@ export default function AdminSettings() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-xl font-bold font-display text-[var(--foreground)] mb-6">Platform Settings</h1>
+      <h1 className="text-xl font-bold font-display text-foreground mb-6">Platform Settings</h1>
 
       <Section title="General">
         <div className="space-y-3">
@@ -44,7 +44,7 @@ export default function AdminSettings() {
       <Section title="Commission settings">
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="text-sm font-medium text-[var(--foreground)] mb-1 block">Default commission rate (%)</label>
+            <label className="text-sm font-medium text-foreground mb-1 block">Default commission rate (%)</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -57,8 +57,8 @@ export default function AdminSettings() {
               <span className="w-12 text-center font-bold text-[#0077B6] text-lg font-display">{commissionRate}%</span>
             </div>
           </div>
-          <div className="bg-[var(--secondary)] rounded-xl p-4">
-            <div className="text-xs text-[var(--muted-foreground)] font-medium mb-2 uppercase tracking-wide">Example calculation</div>
+          <div className="bg-secondary rounded-xl p-4">
+            <div className="text-xs text-muted-foreground font-medium mb-2 uppercase tracking-wide">Example calculation</div>
             <Row label="Seller sale" value="100,000 Ar" />
             <Row label={`Platform commission (${commissionRate}%)`} value={`${commission.toLocaleString('fr-MG')} Ar`} />
             <Row label="Seller receives" value={`${sellerReceives.toLocaleString('fr-MG')} Ar`} />
@@ -77,8 +77,8 @@ export default function AdminSettings() {
           ].map((m, i) => (
             <div key={i} className="flex items-center justify-between py-2">
               <div>
-                <div className="text-sm font-medium text-[var(--foreground)]">{m.name}</div>
-                <div className="text-xs text-[var(--muted-foreground)]">{m.desc}</div>
+                <div className="text-sm font-medium text-foreground">{m.name}</div>
+                <div className="text-xs text-muted-foreground">{m.desc}</div>
               </div>
               <Toggle checked={m.enabled} onChange={() => {}} />
             </div>
@@ -89,11 +89,11 @@ export default function AdminSettings() {
       <Section title="Languages">
         <div className="space-y-2">
           {[{ lang: 'English', code: 'en', flag: '🇬🇧', default: true }, { lang: 'Français', code: 'fr', flag: '🇫🇷', default: false }].map(l => (
-            <div key={l.code} className="flex items-center justify-between p-3 bg-[var(--secondary)] rounded-xl">
+            <div key={l.code} className="flex items-center justify-between p-3 bg-secondary rounded-xl">
               <div className="flex items-center gap-3">
                 <span className="text-xl">{l.flag}</span>
                 <div>
-                  <div className="font-medium text-sm text-[var(--foreground)]">{l.lang}</div>
+                  <div className="font-medium text-sm text-foreground">{l.lang}</div>
                   {l.default && <div className="text-xs text-[#5ABCB9]">Default language</div>}
                 </div>
               </div>
@@ -107,22 +107,22 @@ export default function AdminSettings() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-[var(--foreground)]">Require email verification</div>
-              <div className="text-xs text-[var(--muted-foreground)]">New accounts must verify their email</div>
+              <div className="text-sm font-medium text-foreground">Require email verification</div>
+              <div className="text-xs text-muted-foreground">New accounts must verify their email</div>
             </div>
             <Toggle checked onChange={() => {}} />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-[var(--foreground)]">Manual seller approval</div>
-              <div className="text-xs text-[var(--muted-foreground)]">New sellers must be approved by admins</div>
+              <div className="text-sm font-medium text-foreground">Manual seller approval</div>
+              <div className="text-xs text-muted-foreground">New sellers must be approved by admins</div>
             </div>
             <Toggle checked onChange={() => {}} />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-[var(--foreground)]">Product moderation</div>
-              <div className="text-xs text-[var(--muted-foreground)]">New products must be approved before going live</div>
+              <div className="text-sm font-medium text-foreground">Product moderation</div>
+              <div className="text-xs text-muted-foreground">New products must be approved before going live</div>
             </div>
             <Toggle checked onChange={() => {}} />
           </div>

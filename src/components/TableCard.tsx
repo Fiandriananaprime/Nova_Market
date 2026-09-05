@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { Link } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 
 export interface Column<T> {
   key: string;
@@ -15,6 +15,7 @@ interface AdminTableCardProps<T> {
   viewAllHref?: string;
   className?: string;
   rowKey: (item: T, index: number) => string | number;
+  rowHref?: (item: T) => string;
 }
 
  const TableCard = <T,>({
@@ -24,14 +25,16 @@ interface AdminTableCardProps<T> {
   viewAllHref,
   className = '',
   rowKey,
+  rowHref,
 }: AdminTableCardProps<T>) => {
+  const navigate = useNavigate();
   return (
     <div
-      className={`bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden ${className}`}
+      className={`bg-card border border-border rounded-xl overflow-hidden ${className}`}
     >
       {/* Header */}
-      <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-        <h2 className="font-semibold font-display text-[var(--foreground)]">
+      <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+        <h2 className="font-semibold font-display text-foreground">
           {title}
         </h2>
 
@@ -49,11 +52,11 @@ interface AdminTableCardProps<T> {
       <div className="overflow-x-auto">
         <table className="w-full text-sm">
           <thead>
-            <tr className="border-b border-[var(--border)] bg-[var(--secondary)]">
+            <tr className="border-b border-border bg-secondary">
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`text-left px-4 py-2.5 text-xs font-semibold text-[var(--muted-foreground)] uppercase tracking-wide ${
+                  className={`text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide ${
                     column.className ?? ''
                   }`}
                 >
@@ -63,11 +66,16 @@ interface AdminTableCardProps<T> {
             </tr>
           </thead>
 
-          <tbody className="divide-y divide-[var(--border)]">
+          <tbody className="divide-y divide-border">
             {data.map((item, index) => (
               <tr
+              onClick={() => {
+                if (rowHref) {
+                    navigate(rowHref(item));
+                  }
+                }}
                 key={rowKey(item, index)}
-                className="hover:bg-[var(--secondary)] transition-colors"
+                className={`hover:bg-secondary transition-colors ${rowHref ? 'cursor-pointer' : ''}`}
               >
                 {columns.map((column) => (
                   <td

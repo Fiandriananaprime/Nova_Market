@@ -3,8 +3,12 @@ import { CheckCircle2, XCircle, MessageSquare, Building2 } from 'lucide-react';
 import { Button, StatusBadge, Badge, Modal } from '../../components/ui';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import type { SellerApplication } from '@/type/admin/seller';
+import { Link } from 'react-router';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function SellerApplications() {
+  const { toast } = useToast();
   const [apps, setApps] = useState<SellerApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewModal, setReviewModal] = useState<typeof apps[0] | null>(null);
@@ -13,6 +17,7 @@ export default function SellerApplications() {
   useEffect(() => {
     getSellerApplications({ page: 1, limit: 50, status: 'pending' })
       .then(({ data }) => setApps(data))
+      .catch((error) => toast(getApiErrorMessage(error, 'Unable to load seller applications.'), 'error'))
       .finally(() => setLoading(false));
   }, []);
 
@@ -25,16 +30,16 @@ export default function SellerApplications() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-[var(--foreground)]">Seller Applications</h1>
+        <h1 className="text-xl font-bold font-display text-foreground">Seller Applications</h1>
         <Badge variant="warning">{apps.filter(a => a.status === 'pending').length} pending</Badge>
       </div>
 
       {loading ? (
-        <div className="text-sm text-[var(--muted-foreground)]">Loading applications...</div>
+        <div className="text-sm text-muted-foreground">Loading applications...</div>
       ) : (
       <div className="grid gap-4">
         {apps.map(app => (
-          <div key={app.id} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+          <div key={app.id} className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-start gap-4">
               <div className="w-12 h-12 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] font-bold text-lg flex-shrink-0">
                 {app.businessName[0]}
@@ -42,8 +47,8 @@ export default function SellerApplications() {
               <div className="flex-1 min-w-0">
                 <div className="flex items-start justify-between flex-wrap gap-2 mb-2">
                   <div>
-                    <h3 className="font-semibold font-display text-[var(--foreground)]">{app.businessName}</h3>
-                    <div className="text-sm text-[var(--muted-foreground)]">{app.owner}</div>
+                    <h3 className="font-semibold font-display text-foreground">{app.businessName}</h3>
+                    <div className="text-sm text-muted-foreground">{app.owner}</div>
                   </div>
                   <StatusBadge status={app.status} />
                 </div>
@@ -55,26 +60,21 @@ export default function SellerApplications() {
                     { label: 'Category', value: app.category },
                   ].map(f => (
                     <div key={f.label}>
-                      <div className="text-xs text-[var(--muted-foreground)]">{f.label}</div>
-                      <div className="font-medium text-[var(--foreground)] truncate">{f.value}</div>
+                      <div className="text-xs text-muted-foreground">{f.label}</div>
+                      <div className="font-medium text-foreground truncate">{f.value}</div>
                     </div>
                   ))}
                 </div>
-                <div className="text-xs text-[var(--muted-foreground)] mb-3">Applied: {app.date}</div>
+                <div className="text-xs text-muted-foreground mb-3">Applied: {app.date}</div>
                 {app.status === 'pending' && (
                   <div className="flex gap-2">
-                    <Button size="sm" variant="accent" onClick={() => handleAction(app.id, 'approved')}>
-                      <CheckCircle2 className="w-3.5 h-3.5" />
-                      Approve
-                    </Button>
-                    <Button size="sm" variant="danger" onClick={() => handleAction(app.id, 'rejected')}>
-                      <XCircle className="w-3.5 h-3.5" />
-                      Reject
-                    </Button>
-                    <Button size="sm" variant="outline">
-                      <MessageSquare className="w-3.5 h-3.5" />
-                      Request info
-                    </Button>
+                    <Link to={`/admin/sellers/applications/${app.id}`}>
+                      <Button variant="primary" size="sm" className="flex items-center gap-1">
+                        <CheckCircle2 className="w-3.5 h-3.5" />
+                        <MessageSquare className="w-3.5 h-3.5" />
+                        Request info
+                      </Button>
+                    </Link>
                   </div>
                 )}
               </div>

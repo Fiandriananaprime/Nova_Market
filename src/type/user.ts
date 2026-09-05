@@ -17,22 +17,25 @@ export type UserRole = "admin" | "seller" | "buyer";
 export type status = "active" | "suspended";
 
 export interface Address{
-    id: String;
-    label: String;
-    fullAddress: String;
-    city: String;
-    phone: String;
-    isDefault: Boolean;
+    id: string;
+    label: string;
+    fullAddress: string;
+    city: string;
+    phone: string;
+    isDefault: boolean;
 }
 
 export interface User {
-    id: String;
-    firstName: String;
-    lastName: String;
-    name: String;
-    email: String;
-    phone: String;
+    id: string;
+    firstName: string;
+    lastName: string;
+    name: string;
+    email: string;
+    phone: string;
     role: UserRole;
     status: status;
+    avatarUrl?: string;
+    joinedAt: string;
+    ordersCount: number;
     addresses: Address[];
 }

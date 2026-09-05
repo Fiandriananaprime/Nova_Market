@@ -2,7 +2,7 @@ import { Heart, ShoppingCart, Store } from 'lucide-react';
 import { Button, Badge, Rating } from './ui';
 import { useApp } from '../contexts/AppContext';
 import { useToast } from '../contexts/ToastContext';
-import { formatPrice } from '../data/mock';
+import { formatPrice } from '@/hook/format';
 import { useNavigate } from 'react-router';
 
 interface Product {
@@ -40,10 +40,10 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/40 transition-all duration-200 group flex flex-col cursor-pointer"
+      className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/40 transition-all duration-200 group flex flex-col cursor-pointer"
       onClick={() => navigate(`/products/${product.id}`)}
     >
-      <div className="relative overflow-hidden bg-[var(--secondary)]">
+      <div className="relative overflow-hidden bg-secondary">
         <img
           src={`https://images.unsplash.com/${product.image}?w=400&h=300&fit=crop&auto=format`}
           alt={product.name}
@@ -54,7 +54,7 @@ export default function ProductCard({ product }: { product: Product }) {
         )}
         <button
           onClick={handleToggleFav}
-          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all ${isFav ? 'bg-red-500 text-white shadow-md' : 'bg-white/80 text-[var(--muted-foreground)] hover:bg-white hover:text-red-500'}`}
+          className={`absolute top-2 right-2 w-8 h-8 rounded-full flex items-center justify-center transition-all ${isFav ? 'bg-red-500 text-white shadow-md' : 'bg-white/80 text-muted-foreground hover:bg-white hover:text-red-500'}`}
           aria-label={isFav ? 'Remove from favorites' : 'Add to favorites'}
         >
           <Heart className="w-4 h-4" fill={isFav ? 'currentColor' : 'none'} />
@@ -70,17 +70,17 @@ export default function ProductCard({ product }: { product: Product }) {
       </div>
       <div className="p-3 flex flex-col gap-2 flex-1">
         <div>
-          <p className="text-xs text-[var(--muted-foreground)] mb-0.5">{product.brand}</p>
-          <h3 className="font-medium text-sm text-[var(--foreground)] leading-snug line-clamp-2 hover:text-[#0077B6] transition-colors">{product.name}</h3>
+          <p className="text-xs text-muted-foreground mb-0.5">{product.brand}</p>
+          <h3 className="font-medium text-sm text-foreground leading-snug line-clamp-2 hover:text-[#0077B6] transition-colors">{product.name}</h3>
         </div>
         <Rating value={product.rating} count={product.reviews} size="xs" />
         <div className="flex items-center gap-2">
-          <span className="font-bold text-[var(--foreground)]">{formatPrice(product.price)}</span>
+          <span className="font-bold text-foreground">{formatPrice(product.price)}</span>
           {product.originalPrice && (
-            <span className="text-xs text-[var(--muted-foreground)] line-through">{formatPrice(product.originalPrice)}</span>
+            <span className="text-xs text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>
           )}
         </div>
-        <div className="flex items-center gap-1 text-xs text-[var(--muted-foreground)]">
+        <div className="flex items-center gap-1 text-xs text-muted-foreground">
           <Store className="w-3 h-3" />
           <span className="truncate">{product.sellerName}</span>
         </div>

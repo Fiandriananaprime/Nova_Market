@@ -7,6 +7,8 @@ import { Button, Input } from '../../components/ui';
 import { RegisterSellerRequest, RegisterSellerResponse } from '../../type/auth';
 import { registerSeller } from '@/api/auth.api';
 import { useApp } from '@/contexts/AppContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
+import { useToast } from '@/contexts/ToastContext';
 
 interface RegisterSellerProps {
   onBack?: () => void;
@@ -14,6 +16,7 @@ interface RegisterSellerProps {
 
 export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
   const { t } = useApp();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -50,11 +53,14 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
     try {
       const data: RegisterSellerResponse = await registerSeller(payload);
       if (data.status === 'pending') {
+        toast('Votre candidature a été envoyée.');
         navigate('/received');
       }
     } catch (error) {
       console.error('Error registering seller:', error);
-      setError('Impossible de soumettre la candidature. Vérifiez vos informations et réessayez.');
+      const message = getApiErrorMessage(error, 'Impossible de soumettre la candidature. Vérifiez vos informations et réessayez.');
+      setError(message);
+      toast(message, 'error');
     } finally {
       setLoading(false);
     }
@@ -69,20 +75,20 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--background)] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-1">
+          <h1 className="text-2xl font-bold font-display text-foreground mb-1">
             {t('Seller application', 'Candidature vendeur')}
           </h1>
-          <p className="text-sm text-[var(--muted-foreground)]">
+          <p className="text-sm text-muted-foreground">
             {t('Tell us about your business.', 'Parlez-nous de votre entreprise.')}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="bg-[var(--card)] border border-[var(--border)] rounded-2xl p-6 shadow-sm space-y-4">
-          <div className="pb-3 mb-1 border-b border-[var(--border)]">
-            <h3 className="text-sm font-semibold text-[var(--foreground)]">
+        <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="pb-3 mb-1 border-b border-border">
+            <h3 className="text-sm font-semibold text-foreground">
               {t('Personal information', 'Informations personnelles')}
             </h3>
           </div>
@@ -92,8 +98,8 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
           </div>
           <Input value={form.email} name="email" label="Email" type="email" placeholder="jean@business.mg" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
 
-          <div className="pb-3 mb-1 border-b border-[var(--border)] pt-2">
-            <h3 className="text-sm font-semibold text-[var(--foreground)]">
+          <div className="pb-3 mb-1 border-b border-border pt-2">
+            <h3 className="text-sm font-semibold text-foreground">
               {t('Business information', 'Informations commerciales')}
             </h3>
           </div>
@@ -102,7 +108,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
           <Input value={form.location} name="location" label={t('Location', 'Localisation')} placeholder="Antananarivo" icon={<MapPin className="w-4 h-4" />} onChange={handleChange} />
           <Input value={form.password} name="password" label={t('Password', 'Mot de passe')} type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} onChange={handleChange} />
 
-          <p className="text-xs text-[var(--muted-foreground)]">
+          <p className="text-xs text-muted-foreground">
             {t('Your application will be reviewed within 24-48 hours.', 'Votre candidature sera examinée sous 24-48 heures.')}
           </p>
 
@@ -117,7 +123,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
 
         {onBack && (
           <p className="text-center text-sm mt-4">
-            <button type="button" onClick={onBack} className="text-[var(--muted-foreground)] hover:text-[var(--foreground)]">
+            <button type="button" onClick={onBack} className="text-muted-foreground hover:text-foreground">
               ← {t('Back', 'Retour')}
             </button>
           </p>

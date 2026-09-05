@@ -4,10 +4,8 @@ import { Link } from 'react-router';
 import { useState, useEffect } from 'react';
 import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 
-import { StatCard, StatusBadge, Badge } from '../../components/ui';
+import { StatCard, StatusBadge, Badge, BarStat, LineStat } from '../../components/ui';
 import  TableCard, { Column }  from '@/components/TableCard';
-import { BarStat, LineStat } from '@/components/ui/StatCard';
-
 import { AdminMetrics, AdminRevenue} from '@/type/admin/dashboard';
 import { OrderResponse } from '@/type/order/order';
 import { SellerApplicationResponse, TopSeller } from '@/type/admin/seller';
@@ -16,7 +14,9 @@ import { getOrder } from '@/api/admin/order.api';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import { getTopSeller, getDashboardStats } from '@/api/admin/dashboard.api';
 
-import {  formatMillionAr } from '../../data/mock';
+import {  formatMillionAr } from '@/hook/format';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 type DashData = {
   metrics: AdminMetrics,
@@ -35,6 +35,7 @@ interface RecentOrder {
 export default function AdminDashboard() {
   const [dashBoardData, setDashBoardData]= useState<DashData>();
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const recentOrderColumns: Column<RecentOrder>[] = [
     {
@@ -50,7 +51,7 @@ export default function AdminDashboard() {
       key: 'buyer',
       header: 'Buyer',
       render: (order) => (
-        <span className="text-[var(--foreground)]">
+        <span className="text-foreground">
           {order.buyerName}
         </span>
       ),
@@ -59,7 +60,7 @@ export default function AdminDashboard() {
       key: 'amount',
       header: 'Amount',
       render: (order) => (
-        <span className="font-medium text-[var(--foreground)] whitespace-nowrap">
+        <span className="font-medium text-foreground whitespace-nowrap">
           {formatMillionAr(order.total)}
         </span>
       ),
@@ -83,7 +84,7 @@ export default function AdminDashboard() {
             {index + 1}
           </span>
 
-          <span className="font-medium text-[var(--foreground)]">
+          <span className="font-medium text-foreground">
             {seller.name}
           </span>
         </div>
@@ -93,7 +94,7 @@ export default function AdminDashboard() {
       key: 'revenue',
       header: 'Revenue',
       render: (seller) => (
-        <span className="font-medium text-[var(--foreground)]">
+        <span className="font-medium text-foreground">
           {(seller.revenue / 1000000).toFixed(1)}M Ar
         </span>
       ),
@@ -102,7 +103,7 @@ export default function AdminDashboard() {
       key: 'orders',
       header: 'Orders',
       render: (seller) => (
-        <span className="text-[var(--muted-foreground)]">
+        <span className="text-muted-foreground">
           {seller.ordersCount.toLocaleString()}
         </span>
       ),
@@ -149,11 +150,11 @@ export default function AdminDashboard() {
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
-        setFetchError(
-          isAxiosError(error) && error.response?.status === 403
-            ? 'Your account is not authorized to view the admin dashboard.'
-            : 'Unable to load dashboard data. Please try again.'
-        );
+        const message = isAxiosError(error) && error.response?.status === 403
+          ? 'Your account is not authorized to view the admin dashboard.'
+          : getApiErrorMessage(error, 'Unable to load dashboard data. Please try again.');
+        setFetchError(message);
+        toast(message, 'error');
       }
     };
 
@@ -219,20 +220,20 @@ export default function AdminDashboard() {
         />
 
         {/* Pending applications */}
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-          <div className="px-5 py-4 border-b border-[var(--border)] flex items-center justify-between">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">Pending seller applications</h2>
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border flex items-center justify-between">
+            <h2 className="font-semibold font-display text-foreground">Pending seller applications</h2>
             <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} pending</Badge>
           </div>
-          <div className="divide-y divide-[var(--border)]">
+          <div className="divide-y divide-border">
             {dashBoardData?.sellerApplications.data.map(app => (
               <div key={app.id} className="px-5 py-4 flex items-center gap-3">
                 <div className="w-9 h-9 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] font-bold text-sm flex-shrink-0">
                   {app.businessName[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm text-[var(--foreground)] truncate">{app.businessName}</div>
-                  <div className="text-xs text-[var(--muted-foreground)]">{app.owner} · {app.category} · {app.date}</div>
+                  <div className="font-medium text-sm text-foreground truncate">{app.businessName}</div>
+                  <div className="text-xs text-muted-foreground">{app.owner} · {app.category} · {app.date}</div>
                 </div>
                 <Link to="/admin/sellers/applications" className="text-xs text-[#0077B6] hover:underline flex-shrink-0">Review</Link>
               </div>

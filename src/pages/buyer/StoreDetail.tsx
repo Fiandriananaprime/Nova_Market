@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { MapPin, Package, Heart, Star, ChevronLeft } from 'lucide-react';
 import { Button, Rating, VerifiedBadge, Tabs } from '../../components/ui';
-import { sellers, products, formatPrice } from '../../data/mock';
+import { sellers, products } from '../../data/mock';
 import ProductCard from '../../components/ProductCard';
 import { useApp } from '../../contexts/AppContext';
 
@@ -73,13 +73,13 @@ export default function StoreDetail() {
       )}
 
       {activeTab === 'about' && (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 max-w-2xl">
-          <p className="text-[var(--foreground)] leading-relaxed mb-4">{seller.description}</p>
+        <div className="bg-card border border-border rounded-xl p-5 max-w-2xl">
+          <p className="text-foreground leading-relaxed mb-4">{seller.description}</p>
           <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="p-3 bg-[var(--secondary)] rounded-lg"><span className="text-[var(--muted-foreground)]">{t('Location', 'Localisation')}</span><div className="font-medium text-[var(--foreground)]">{seller.location}</div></div>
-            <div className="p-3 bg-[var(--secondary)] rounded-lg"><span className="text-[var(--muted-foreground)]">{t('Member since', 'Membre depuis')}</span><div className="font-medium text-[var(--foreground)]">{seller.joined}</div></div>
-            <div className="p-3 bg-[var(--secondary)] rounded-lg"><span className="text-[var(--muted-foreground)]">{t('Followers', 'Abonnés')}</span><div className="font-medium text-[var(--foreground)]">{seller.followers.toLocaleString()}</div></div>
-            <div className="p-3 bg-[var(--secondary)] rounded-lg"><span className="text-[var(--muted-foreground)]">Rating</span><div className="font-medium text-[var(--foreground)]">⭐ {seller.rating}/5</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Location', 'Localisation')}</span><div className="font-medium text-foreground">{seller.location}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Member since', 'Membre depuis')}</span><div className="font-medium text-foreground">{seller.joined}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t('Followers', 'Abonnés')}</span><div className="font-medium text-foreground">{seller.followers.toLocaleString()}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">Rating</span><div className="font-medium text-foreground">⭐ {seller.rating}/5</div></div>
           </div>
         </div>
       )}
@@ -91,13 +91,13 @@ export default function StoreDetail() {
             { name: 'Rabe M.', rating: 4, comment: 'Good communication, fast shipping. Will buy again!', date: '2026-08-15' },
             { name: 'Ravelo F.', rating: 5, comment: 'Top seller! Quality products and very responsive.', date: '2026-07-30' },
           ].map((review, i) => (
-            <div key={i} className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-4">
+            <div key={i} className="bg-card border border-border rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-sm text-[var(--foreground)]">{review.name}</span>
-                <span className="text-xs text-[var(--muted-foreground)]">{review.date}</span>
+                <span className="font-medium text-sm text-foreground">{review.name}</span>
+                <span className="text-xs text-muted-foreground">{review.date}</span>
               </div>
               <Rating value={review.rating} showCount={false} size="xs" />
-              <p className="text-sm text-[var(--foreground)] mt-2">{review.comment}</p>
+              <p className="text-sm text-foreground mt-2">{review.comment}</p>
             </div>
           ))}
         </div>

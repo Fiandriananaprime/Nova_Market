@@ -5,10 +5,11 @@ import { useApp } from '../contexts/AppContext';
 import { Button } from '../components/ui';
 import Logo from '../assets/NovaLogo.png';
 function PublicNavbar() {
-  const { lang, setLang, t } = useApp();
+  const { lang, setLang, t, userRole } = useApp();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeHash, setActiveHash] = useState('#Home');
   const navigate = useNavigate();
+  const accountPath = userRole === 'admin' ? '/admin' : userRole === 'seller' ? '/seller' : '/shop';
 
   useEffect(() => {
     const sectionIds = ['#Home', '#HowItWorks', '#Categories', '#FeaturedSellers', '#FeaturedProducts'];
@@ -36,14 +37,14 @@ function PublicNavbar() {
   }, []);
 
   return (
-    <nav className="sticky top-0 z-40 bg-[var(--card)] border-b border-[var(--border)] shadow-sm">
+    <nav className="sticky top-0 z-40 bg-card border-b border-border shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-lg  flex items-center justify-center">
               <img src={Logo} alt="NovaMarket Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-bold text-lg font-display text-[var(--foreground)]">NovaMarket</span>
+            <span className="font-bold text-lg font-display text-foreground">NovaMarket</span>
           </Link>
 
          <div className="hidden md:flex items-center gap-1">
@@ -58,7 +59,7 @@ function PublicNavbar() {
                 key={href}
                 href={href}
                 onClick={() => setActiveHash(href)}
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-[var(--secondary)] transition-colors ${activeHash === href ? "text-[var(--primary)] after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-[var(--foreground)] after:content-['']" : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-secondary transition-colors ${activeHash === href ? "text-primary after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-foreground after:content-['']" : 'text-muted-foreground hover:text-foreground'}`}
               >
                 {label}
               </a>
@@ -68,29 +69,45 @@ function PublicNavbar() {
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => setLang(lang === 'en' ? 'fr' : 'en')}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
             >
               <Globe className="w-4 h-4" />
               {lang.toUpperCase()}
             </button>
-            <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>{t('Sign in', 'Connexion')}</Button>
-            <Button variant="primary" size="sm" onClick={() => navigate('/register')}>{t('Create account', 'Créer un compte')}</Button>
+            {userRole ? (
+              <Button variant="primary" size="sm" onClick={() => navigate(accountPath)}>
+                {t('My account', 'Mon espace')}
+              </Button>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" onClick={() => navigate('/login')}>{t('Sign in', 'Connexion')}</Button>
+                <Button variant="primary" size="sm" onClick={() => navigate('/register')}>{t('Create account', 'Créer un compte')}</Button>
+              </>
+            )}
           </div>
 
-          <button className="md:hidden p-2 rounded-lg text-[var(--muted-foreground)] hover:bg-[var(--secondary)]" onClick={() => setMobileOpen(!mobileOpen)}>
+          <button className="md:hidden p-2 rounded-lg text-muted-foreground hover:bg-secondary" onClick={() => setMobileOpen(!mobileOpen)}>
             {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
       {mobileOpen && (
-        <div className="md:hidden border-t border-[var(--border)] bg-[var(--card)] px-4 py-3 space-y-1">
+        <div className="md:hidden border-t border-border bg-card px-4 py-3 space-y-1">
           {[['/', t('Home', 'Accueil')], ['/how-it-works', t('How it works', 'Comment ça marche')], ['/categories', t('Categories', 'Catégories')], ['/sellers', t('Sellers', 'Vendeurs')]].map(([href, label]) => (
-            <Link key={href} to={href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-[var(--foreground)] hover:bg-[var(--secondary)] rounded-lg transition-colors">{label}</Link>
+            <Link key={href} to={href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors">{label}</Link>
           ))}
           <div className="flex gap-2 pt-2">
-            <Button variant="outline" size="sm" className="flex-1" onClick={() => { navigate('/login'); setMobileOpen(false); }}>{t('Sign in', 'Connexion')}</Button>
-            <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate('/register'); setMobileOpen(false); }}>{t('Create account', 'Créer')}</Button>
+            {userRole ? (
+              <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate(accountPath); setMobileOpen(false); }}>
+                {t('My account', 'Mon espace')}
+              </Button>
+            ) : (
+              <>
+                <Button variant="outline" size="sm" className="flex-1" onClick={() => { navigate('/login'); setMobileOpen(false); }}>{t('Sign in', 'Connexion')}</Button>
+                <Button variant="primary" size="sm" className="flex-1" onClick={() => { navigate('/register'); setMobileOpen(false); }}>{t('Create account', 'Créer')}</Button>
+              </>
+            )}
           </div>
         </div>
       )}
@@ -146,7 +163,7 @@ function PublicFooter() {
 
 export default function PublicLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-[var(--background)]">
+    <div className="min-h-screen flex flex-col bg-background">
       <PublicNavbar />
       <main className="flex-1">
         <Outlet />

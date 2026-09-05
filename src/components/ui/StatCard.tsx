@@ -1,8 +1,9 @@
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import { formatMillionAr } from '@/data/mock';
-import { RotateCcw, ZoomIn, ZoomOut } from 'lucide-react';
+import { formatMillionAr } from '@/hook/format';
+import { RotateCcw, ZoomIn, ZoomOut, TrendingUp, TrendingDown,Minus } from 'lucide-react';
 import { useState } from 'react';
 
+import { Card } from './Card';
 type BarStatProp={
     title:string,
   data:any[] | undefined
@@ -19,7 +20,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Zoom out"
         disabled={zoom === 1}
         onClick={() => onZoomChange(zoomSteps[Math.max(0, zoomSteps.indexOf(zoom) - 1)])}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <ZoomOut className="w-3.5 h-3.5" />
       </button>
@@ -29,7 +30,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Zoom in"
         disabled={zoom === zoomSteps[zoomSteps.length - 1]}
         onClick={() => onZoomChange(zoomSteps[Math.min(zoomSteps.length - 1, zoomSteps.indexOf(zoom) + 1)])}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <ZoomIn className="w-3.5 h-3.5" />
       </button>
@@ -39,7 +40,7 @@ function ChartZoomControls({ zoom, onZoomChange }: { zoom: number; onZoomChange:
         title="Reset zoom"
         disabled={zoom === 1}
         onClick={() => onZoomChange(1)}
-        className="w-7 h-7 flex items-center justify-center rounded-md text-[var(--muted-foreground)] hover:bg-[var(--secondary)] disabled:opacity-40 disabled:cursor-not-allowed"
+        className="w-7 h-7 flex items-center justify-center rounded-md text-muted-foreground hover:bg-secondary disabled:opacity-40 disabled:cursor-not-allowed"
       >
         <RotateCcw className="w-3.5 h-3.5" />
       </button>
@@ -59,9 +60,9 @@ const BarStat = ({title,data}: BarStatProp) => {
   const chartData = getZoomedData(data, zoom);
   const maxRevenue = Math.max(...chartData.map((point) => Number(point.revenue ?? 0)), 0);
     return (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-      <h2 className="font-semibold font-display text-[var(--foreground)]">{title}</h2>
+      <h2 className="font-semibold font-display text-foreground">{title}</h2>
       <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
       </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -82,9 +83,9 @@ const LineStat = ({title,data}: BarStatProp) => {
     const chartData = getZoomedData(data, zoom);
     const maxUsers = Math.max(...chartData.flatMap((point) => [Number(point.buyers ?? 0), Number(point.sellers ?? 0)]), 0);
     return (
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
+        <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold font-display text-[var(--foreground)]">{title}</h2>
+            <h2 className="font-semibold font-display text-foreground">{title}</h2>
             <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -101,4 +102,34 @@ const LineStat = ({title,data}: BarStatProp) => {
     )
 }
 
-export { BarStat, LineStat }
+interface StatCardProps {
+  title: string;
+  value: number | string;
+  change?: number;
+  icon: React.ReactNode;
+  color?: string;
+}
+
+export function StatCard({ title, value, change, icon, color = '#0077B6' }: StatCardProps) {
+  return (
+    <Card className="p-5">
+      <div className="flex items-start justify-between mb-3">
+        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${color}18`, color }}>
+          {icon}
+        </div>
+        {change !== undefined && (
+          <div className={`flex items-center gap-0.5 text-xs font-medium ${change >= 0 ? 'text-emerald-600' : 'text-red-500'}`}>
+            {change > 0 ? <TrendingUp className="w-3 h-3" /> : change < 0 ? <TrendingDown className="w-3 h-3" /> : <Minus className="w-3 h-3" />}
+            {Math.abs(change)}%
+          </div>
+        )}
+      </div>
+      <div className="text-2xl font-bold font-display text-[var(--foreground)] mb-0.5">{value}</div>
+      <div className="text-sm text-[var(--muted-foreground)]">{title}</div>
+    </Card>
+  );
+}
+
+export { BarStat, LineStat };
+
+

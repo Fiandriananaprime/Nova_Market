@@ -3,7 +3,7 @@ import { ShoppingCart, Trash2, Minus, Plus, ArrowRight, Store, AlertTriangle } f
 import { Button, EmptyState } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import { useToast } from '../../contexts/ToastContext';
-import { formatPrice } from '../../data/mock';
+import { formatPrice } from '@/hook/format';
 
 export default function Cart() {
   const navigate = useNavigate();
@@ -33,50 +33,50 @@ export default function Cart() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold font-display text-[var(--foreground)] mb-6">
+      <h1 className="text-2xl font-bold font-display text-foreground mb-6">
         {t('Shopping cart', 'Panier d\'achat')}
-        <span className="ml-2 text-base font-normal text-[var(--muted-foreground)]">({cart.reduce((s, i) => s + i.qty, 0)} items)</span>
+        <span className="ml-2 text-base font-normal text-muted-foreground">({cart.reduce((s, i) => s + i.qty, 0)} items)</span>
       </h1>
 
       <div className="grid lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-4">
           {Object.entries(bySeller).map(([sellerId, items]) => (
-            <div key={sellerId} className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-              <div className="flex items-center gap-2 px-4 py-3 border-b border-[var(--border)] bg-[var(--secondary)]">
+            <div key={sellerId} className="bg-card border border-border rounded-xl overflow-hidden">
+              <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-secondary">
                 <Store className="w-4 h-4 text-[#0077B6]" />
-                <span className="font-medium text-sm text-[var(--foreground)]">{items[0].sellerName}</span>
+                <span className="font-medium text-sm text-foreground">{items[0].sellerName}</span>
               </div>
-              <div className="divide-y divide-[var(--border)]">
+              <div className="divide-y divide-border">
                 {items.map(item => (
                   <div key={item.productId} className="flex gap-3 p-4">
-                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-[var(--secondary)] flex-shrink-0">
+                    <div className="w-16 h-16 rounded-lg overflow-hidden bg-secondary flex-shrink-0">
                       <img src={`https://images.unsplash.com/${item.image}?w=80&h=80&fit=crop&auto=format`} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-sm text-[var(--foreground)] mb-1 truncate">{item.name}</h3>
-                      <div className="text-sm font-bold text-[var(--foreground)]">{formatPrice(item.price)}</div>
+                      <h3 className="font-medium text-sm text-foreground mb-1 truncate">{item.name}</h3>
+                      <div className="text-sm font-bold text-foreground">{formatPrice(item.price)}</div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <div className="flex items-center border border-[var(--border)] rounded-lg overflow-hidden">
-                        <button onClick={() => updateQty(item.productId, item.qty - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-[var(--secondary)] transition-colors">
+                      <div className="flex items-center border border-border rounded-lg overflow-hidden">
+                        <button onClick={() => updateQty(item.productId, item.qty - 1)} className="w-8 h-8 flex items-center justify-center hover:bg-secondary transition-colors">
                           <Minus className="w-3.5 h-3.5" />
                         </button>
                         <span className="w-8 text-center text-sm font-medium">{item.qty}</span>
-                        <button onClick={() => updateQty(item.productId, item.qty + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-[var(--secondary)] transition-colors">
+                        <button onClick={() => updateQty(item.productId, item.qty + 1)} className="w-8 h-8 flex items-center justify-center hover:bg-secondary transition-colors">
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
                       <div className="text-xs font-bold text-[#0077B6]">{formatPrice(item.price * item.qty)}</div>
-                      <button onClick={() => { removeFromCart(item.productId); toast(t('Item removed from cart', 'Article retiré du panier'), 'info'); }} className="text-[var(--muted-foreground)] hover:text-red-500 transition-colors">
+                      <button onClick={() => { removeFromCart(item.productId); toast(t('Item removed from cart', 'Article retiré du panier'), 'info'); }} className="text-muted-foreground hover:text-red-500 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
                     </div>
                   </div>
                 ))}
               </div>
-              <div className="px-4 py-2.5 border-t border-[var(--border)] bg-[var(--secondary)] text-sm flex items-center justify-between">
-                <span className="text-[var(--muted-foreground)]">{items[0].sellerName} subtotal</span>
-                <span className="font-semibold text-[var(--foreground)]">{formatPrice(items.reduce((s, i) => s + i.price * i.qty, 0))}</span>
+              <div className="px-4 py-2.5 border-t border-border bg-secondary text-sm flex items-center justify-between">
+                <span className="text-muted-foreground">{items[0].sellerName} subtotal</span>
+                <span className="font-semibold text-foreground">{formatPrice(items.reduce((s, i) => s + i.price * i.qty, 0))}</span>
               </div>
             </div>
           ))}
@@ -91,20 +91,20 @@ export default function Cart() {
 
         {/* Order summary */}
         <div>
-          <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5 sticky top-24">
-            <h2 className="font-bold font-display text-[var(--foreground)] mb-4">{t('Order summary', 'Récapitulatif')}</h2>
+          <div className="bg-card border border-border rounded-xl p-5 sticky top-24">
+            <h2 className="font-bold font-display text-foreground mb-4">{t('Order summary', 'Récapitulatif')}</h2>
             <div className="space-y-2.5 text-sm mb-4">
               <div className="flex justify-between">
-                <span className="text-[var(--muted-foreground)]">{t('Subtotal', 'Sous-total')}</span>
-                <span className="text-[var(--foreground)]">{formatPrice(cartTotal)}</span>
+                <span className="text-muted-foreground">{t('Subtotal', 'Sous-total')}</span>
+                <span className="text-foreground">{formatPrice(cartTotal)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[var(--muted-foreground)]">{t('Shipping', 'Livraison')}</span>
-                <span className="text-[var(--foreground)]">{formatPrice(shipping)}</span>
+                <span className="text-muted-foreground">{t('Shipping', 'Livraison')}</span>
+                <span className="text-foreground">{formatPrice(shipping)}</span>
               </div>
-              <div className="border-t border-[var(--border)] pt-2.5 flex justify-between">
-                <span className="font-semibold text-[var(--foreground)]">Total</span>
-                <span className="font-bold text-lg text-[var(--foreground)]">{formatPrice(total)}</span>
+              <div className="border-t border-border pt-2.5 flex justify-between">
+                <span className="font-semibold text-foreground">Total</span>
+                <span className="font-bold text-lg text-foreground">{formatPrice(total)}</span>
               </div>
             </div>
             <Button className="w-full" size="lg" onClick={() => navigate('/checkout')}>

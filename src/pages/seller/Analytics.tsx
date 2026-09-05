@@ -27,13 +27,13 @@ export default function SellerAnalytics() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold font-display text-[var(--foreground)]">Analytics</h1>
-        <div className="flex gap-1 bg-[var(--secondary)] p-1 rounded-xl">
+        <h1 className="text-xl font-bold font-display text-foreground">Analytics</h1>
+        <div className="flex gap-1 bg-secondary p-1 rounded-xl">
           {dateFilters.map(f => (
             <button
               key={f}
               onClick={() => setDateFilter(f)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${dateFilter === f ? 'bg-[var(--card)] text-[var(--foreground)] shadow-sm' : 'text-[var(--muted-foreground)] hover:text-[var(--foreground)]'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${dateFilter === f ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
             >
               {f}
             </button>
@@ -49,8 +49,8 @@ export default function SellerAnalytics() {
       </div>
 
       <div className="grid lg:grid-cols-2 gap-5">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">Revenue over time</h2>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h2 className="font-semibold font-display text-foreground mb-4">Revenue over time</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={revenueData} barSize={20}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -62,8 +62,8 @@ export default function SellerAnalytics() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">Orders over time</h2>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h2 className="font-semibold font-display text-foreground mb-4">Orders over time</h2>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -75,8 +75,8 @@ export default function SellerAnalytics() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">Top products by sales</h2>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h2 className="font-semibold font-display text-foreground mb-4">Top products by sales</h2>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={topProducts} layout="vertical" barSize={14}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
@@ -88,8 +88,8 @@ export default function SellerAnalytics() {
           </ResponsiveContainer>
         </div>
 
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-5">
-          <h2 className="font-semibold font-display text-[var(--foreground)] mb-4">Sales by category</h2>
+        <div className="bg-card border border-border rounded-xl p-5">
+          <h2 className="font-semibold font-display text-foreground mb-4">Sales by category</h2>
           <div className="flex items-center gap-4">
             <ResponsiveContainer width="60%" height={180}>
               <PieChart>
@@ -102,8 +102,8 @@ export default function SellerAnalytics() {
               {categoryData.map(c => (
                 <div key={c.name} className="flex items-center gap-2 text-sm">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
-                  <span className="text-[var(--muted-foreground)]">{c.name}</span>
-                  <span className="font-bold text-[var(--foreground)] ml-auto">{c.value}%</span>
+                  <span className="text-muted-foreground">{c.name}</span>
+                  <span className="font-bold text-foreground ml-auto">{c.value}%</span>
                 </div>
               ))}
             </div>

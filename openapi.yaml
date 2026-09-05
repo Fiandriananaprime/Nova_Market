@@ -266,6 +266,7 @@ components:
         sellerId: { type: string, example: "1" }
         sellerName: { type: string, example: "TechStore MG" }
         categoryId: { type: string, example: "7" }
+        categoryName: { type: string, example: "Electronics" }
         image: { type: string }
         images:
           type: array
@@ -2153,6 +2154,14 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/Product' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  counts:
+                    type: object
+                    required: [all, approved, pending, rejected]
+                    properties:
+                      all: { type: integer }
+                      approved: { type: integer }
+                      pending: { type: integer }
+                      rejected: { type: integer }
 
   /admin/products/{id}/status:
     patch:

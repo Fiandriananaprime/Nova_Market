@@ -2,6 +2,8 @@ export interface ProductSpecs {
   [key: string]: string;
 }
 
+export type productStatus = 'draft' | 'active' | 'inactive' | 'pending' | 'approved' | 'rejected';
+export type productStatusDto = 'pending' | 'approved' | 'rejected';
 export interface ProductVariant {
   name?: string;
   values?: string[];
@@ -21,6 +23,7 @@ export interface Product {
   sellerId?: string;
   sellerName?: string;
   categoryId?: string;
+  categoryName:string;
   image?: string;
   images?: string[];
   stock?: number;
@@ -30,8 +33,8 @@ export interface Product {
   variants?: ProductVariant[];
   weightGrams?: number;
   dimensions?: string;
-  status?: 'draft' | 'active' | 'inactive' | 'pending' | 'approved' | 'rejected';
-  createdAt?: string;
+  status: productStatus;
+  createdAt: string;
 }
 
 export interface PaginationMeta {
@@ -42,8 +45,8 @@ export interface PaginationMeta {
 }
 
 export interface GetProductsResponse {
-  data?: Product[];
-  meta?: PaginationMeta;
+  data: Product[];
+  meta: PaginationMeta;
 }
 
 export interface GetProductsQueryParams {

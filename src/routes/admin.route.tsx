@@ -10,8 +10,8 @@ import AdminPayments from '../pages/admin/Payments';
 import SellerPromotions from '../pages/seller/Promotions';
 import SellerReviews from '../pages/seller/Reviews';
 import SellerAnalytics from '../pages/seller/Analytics';
-import UserDetails from '@/pages/admin/UserDetail';
-import SellerApplicationDetails from '@/pages/admin/SellerApplicationDetail';
+import UserDetails from '@/components/admin/UserDetail';
+import SellerApplicationDetails from '@/components/admin/SellerApplicationDetail';
 
 export const adminRoutes = {
   path: '/admin',

@@ -5,9 +5,11 @@ import TableCard, { type Column } from '@/components/TableCard';
 import { getAllUser, updateUserStatus } from '@/api/admin/user.api';
 import { User, type status } from '@/type/user';
 import { useToast } from '@/contexts/ToastContext';
+import { useApp } from '@/contexts/AppContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function AdminUsers() {
+  const { t } = useApp();
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [searchInput, setSearchInput] = useState('');
@@ -141,22 +143,22 @@ export default function AdminUsers() {
   const tabs = [
     {
       id: 'all',
-      label: 'All users',
+      label: t('All users','Tous les utilisateurs'),
       count: counts.all,
     },
     {
       id: 'buyer',
-      label: 'Buyers',
+      label: t('Buyers','Acheteurs'),
       count: counts.buyer,
     },
     {
       id: 'seller',
-      label: 'Sellers',
+      label: t('Sellers','Vendeurs'),
       count: counts.seller,
     },
     {
       id: 'admin',
-      label: 'Admins',
+      label: t('Admins','Administrateurs'),
       count: counts.admin,
     },
   ];
@@ -211,7 +213,7 @@ export default function AdminUsers() {
   return (
     <div>
       <h1 className="text-xl font-bold font-display text-foreground mb-5">
-        User Management
+        {t('User Management', 'Gestion des utilisateurs')}
       </h1>
 
       <div className="overflow-x-auto mb-4">
@@ -231,7 +233,7 @@ export default function AdminUsers() {
             <input
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              placeholder="Search users..."
+              placeholder={t('Search users...', 'Rechercher des utilisateurs...')}
               className=" pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
             />
             <button
@@ -245,18 +247,18 @@ export default function AdminUsers() {
               onClick={() => setPage((prev) => Math.max(1, prev - 1))}
               disabled={page === 1}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="Page précédente"
+              aria-label={t('Previous page', 'Page précédente')}
             >
               −
             </button>
             <span className="text-sm text-muted-foreground">
-              Page {page} of {totalPages}
+              Page {page} / {totalPages}
             </span>
             <button
               onClick={() => setPage((prev) => prev + 1)}
               disabled={page >= totalPages}
               className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white font-semibold text-slate-700 shadow-sm transition-all hover:bg-slate-50 active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
-              aria-label="Page suivante"
+              aria-label={t('Next page', 'Page suivante')}
             >
               +
             </button>

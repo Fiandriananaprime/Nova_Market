@@ -12,9 +12,10 @@ import {
   X,
 } from 'lucide-react';
 import {Button} from '@/components/ui/index';
-import { isAxiosError } from 'axios';
 import { getSellerApplicationById, updateSellerApplicationStatus,
 } from '@/api/admin/sellerApplication';
+import { getApiErrorMessage } from '@/api/errorMessage';
+import { useToast } from '@/contexts/ToastContext';
 import { formatDate } from '@/hook/format';
 import type { SellerApplication, SellerApplicationStatus} from '@/type/admin/seller';
 
@@ -23,6 +24,7 @@ import type { SellerApplication, SellerApplicationStatus} from '@/type/admin/sel
 const SellerApplicationDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [application, setApplication] =
     useState<SellerApplication | null>(null);
@@ -52,6 +54,7 @@ const SellerApplicationDetails = () => {
           'Failed to fetch seller application:',
           error
         );
+        toast(getApiErrorMessage(error, 'Unable to load this seller application.'), 'error');
       } finally {
         setLoading(false);
       }
@@ -80,13 +83,12 @@ const SellerApplicationDetails = () => {
       setApplication(updatedApplication);
       setDecision(null);
       setReason('');
+      toast(`Application ${decision === 'approve' ? 'approved' : 'rejected'} successfully.`);
     } catch (error) {
       console.error('Failed to update seller application:', error);
-      setActionError(
-        isAxiosError(error) && error.response?.status === 403
-          ? 'You are not authorized to update seller applications. Please sign in with an admin account.'
-          : 'Unable to update this seller application. Please try again.'
-      );
+      const message = getApiErrorMessage(error, 'Unable to update this seller application. Please try again.');
+      setActionError(message);
+      toast(message, 'error');
     } finally {
       setActionLoading(false);
     }

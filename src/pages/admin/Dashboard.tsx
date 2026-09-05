@@ -17,6 +17,8 @@ import { getSellerApplications } from '@/api/admin/sellerApplication';
 import { getTopSeller, getDashboardStats } from '@/api/admin/dashboard.api';
 
 import {  formatMillionAr } from '@/hook/format';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 type DashData = {
   metrics: AdminMetrics,
@@ -35,6 +37,7 @@ interface RecentOrder {
 export default function AdminDashboard() {
   const [dashBoardData, setDashBoardData]= useState<DashData>();
   const [fetchError, setFetchError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const recentOrderColumns: Column<RecentOrder>[] = [
     {
@@ -149,11 +152,11 @@ export default function AdminDashboard() {
         });
       } catch (error) {
         console.error('Error fetching dashboard stats:', error);
-        setFetchError(
-          isAxiosError(error) && error.response?.status === 403
-            ? 'Your account is not authorized to view the admin dashboard.'
-            : 'Unable to load dashboard data. Please try again.'
-        );
+        const message = isAxiosError(error) && error.response?.status === 403
+          ? 'Your account is not authorized to view the admin dashboard.'
+          : getApiErrorMessage(error, 'Unable to load dashboard data. Please try again.');
+        setFetchError(message);
+        toast(message, 'error');
       }
     };
 

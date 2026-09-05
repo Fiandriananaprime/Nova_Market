@@ -6,10 +6,13 @@ import { useApp } from '../../contexts/AppContext';
 import RegisterSeller from './RegisterSeller';
 import { RegisterRequest, AuthResponse } from '../../type/auth';
 import { register } from '../../api/auth.api';
+import { getApiErrorMessage } from '../../api/errorMessage';
+import { useToast } from '../../contexts/ToastContext';
 
 export default function Register() {
   const navigate = useNavigate();
   const { setUserRole, t } = useApp();
+  const { toast } = useToast();
   const [step, setStep] = useState<'choose' | 'buyer' | 'seller'>('choose');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -46,10 +49,13 @@ export default function Register() {
       localStorage.setItem('refreshToken', data.tokens.refreshToken);
       localStorage.setItem('user', JSON.stringify(data.user));
       setUserRole(data.user.role);
+      toast('Compte créé avec succès.');
       navigate('/shop');
     } catch (error) {
       console.error('Error registering user:', error);
-      setError('Impossible de créer le compte. Vérifiez vos informations.');
+      const message = getApiErrorMessage(error, 'Impossible de créer le compte. Vérifiez vos informations.');
+      setError(message);
+      toast(message, 'error');
     }
     finally {
       setLoading(false);

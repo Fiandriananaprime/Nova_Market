@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router';
 import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store, Truck } from 'lucide-react';
 import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
-import { formatPrice } from '../../data/mock';
+import { formatPrice } from '@/hook/format';
 import { useApp } from '../../contexts/AppContext';
 import { getCategories, getFeaturedSellers } from '../../api/catalog/catalog.api';
 import { Category } from '@/type/catalog/category';
@@ -10,6 +10,8 @@ import { Seller } from '@/type/user';
 import { useEffect, useState } from 'react';
 import { Product } from '@/type/catalog/product';
 import { getFeaturedProducts } from '@/api/catalog/product.api';
+import { getApiErrorMessage } from '@/api/errorMessage';
+import { useToast } from '@/contexts/ToastContext';
 
 type HomeData = {
   categories: Category[];
@@ -20,6 +22,7 @@ type HomeData = {
 export default function LandingPage() {
   const navigate = useNavigate();
   const { t } = useApp();
+  const { toast } = useToast();
   const [homeData, setHomeData] = useState<HomeData | null>({
     categories: [],
     featuredProducts: [],
@@ -30,9 +33,18 @@ export default function LandingPage() {
     const fetchCategories = async () => {
       try {
         const [categories, featuredProducts, featuredSellers] = await Promise.all([
-          getCategories().catch(() => ( [] )),
-          getFeaturedProducts().catch(() => ({ data: [] })),
-          getFeaturedSellers().catch(() => ({ data: [] })),
+          getCategories().catch((error) => {
+            toast(getApiErrorMessage(error, 'Impossible de charger les catégories.'), 'error');
+            return [];
+          }),
+          getFeaturedProducts().catch((error) => {
+            toast(getApiErrorMessage(error, 'Impossible de charger les produits.'), 'error');
+            return { data: [] };
+          }),
+          getFeaturedSellers().catch((error) => {
+            toast(getApiErrorMessage(error, 'Impossible de charger les vendeurs.'), 'error');
+            return { data: [] };
+          }),
         ]);
 
         setHomeData({
@@ -42,6 +54,7 @@ export default function LandingPage() {
         });
       } catch (error) {
         console.error('Error fetching categories:', error);
+        toast(getApiErrorMessage(error, 'Impossible de charger la page d’accueil.'), 'error');
       }
     };
 

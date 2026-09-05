@@ -7,6 +7,8 @@ import { Button, Input } from '../../components/ui';
 import { RegisterSellerRequest, RegisterSellerResponse } from '../../type/auth';
 import { registerSeller } from '@/api/auth.api';
 import { useApp } from '@/contexts/AppContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
+import { useToast } from '@/contexts/ToastContext';
 
 interface RegisterSellerProps {
   onBack?: () => void;
@@ -14,6 +16,7 @@ interface RegisterSellerProps {
 
 export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
   const { t } = useApp();
+  const { toast } = useToast();
   const navigate = useNavigate();
 
   const [loading, setLoading] = useState(false);
@@ -50,11 +53,14 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
     try {
       const data: RegisterSellerResponse = await registerSeller(payload);
       if (data.status === 'pending') {
+        toast('Votre candidature a été envoyée.');
         navigate('/received');
       }
     } catch (error) {
       console.error('Error registering seller:', error);
-      setError('Impossible de soumettre la candidature. Vérifiez vos informations et réessayez.');
+      const message = getApiErrorMessage(error, 'Impossible de soumettre la candidature. Vérifiez vos informations et réessayez.');
+      setError(message);
+      toast(message, 'error');
     } finally {
       setLoading(false);
     }

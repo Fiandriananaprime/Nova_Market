@@ -4,6 +4,7 @@ import { ShoppingBag, LayoutDashboard, Package, Warehouse, ShoppingCart, Users, 
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';
+import { useToast } from '../contexts/ToastContext';
 
 const navItems = [
   { icon: <LayoutDashboard className="w-4.5 h-4.5" />, label: 'Dashboard', to: '/seller' },
@@ -23,11 +24,13 @@ export default function SellerLayout() {
   const navigate = useNavigate();
   const { resolvedTheme, setTheme } = useTheme();
   const { lang, setLang, setUserRole } = useApp();
+  const { toast } = useToast();
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const handleLogout = async () => {
     setUserRole(null);
     await logout();
+    toast('You have been signed out.');
     navigate('/');
   };
 

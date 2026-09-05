@@ -4,8 +4,11 @@ import { Tabs, StatusBadge, Button } from '../../components/ui';
 import TableCard, { type Column } from '@/components/TableCard';
 import { getAllUser, updateUserStatus } from '@/api/admin/user.api';
 import { User, type status } from '@/type/user';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function AdminUsers() {
+  const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('all');
   const [searchInput, setSearchInput] = useState('');
   const [search, setSearch] = useState('');
@@ -109,7 +112,10 @@ export default function AdminUsers() {
             <Button
               size="xs"
               variant="outline"
-              onClick={() => handleStatusChange(user)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleStatusChange(user);
+              }}
             >
               <UserX className="w-3 h-3" />
               Suspend
@@ -118,7 +124,10 @@ export default function AdminUsers() {
             <Button
               size="xs"
               variant="accent"
-              onClick={() => handleStatusChange(user)}
+              onClick={(e) => {
+                e.stopPropagation(); 
+                handleStatusChange(user);
+              }}
             >
               <UserCheck className="w-3 h-3" />
               Activate
@@ -164,8 +173,10 @@ export default function AdminUsers() {
             : currentUser,
         ),
       );
+      toast(`User ${newStatus === 'active' ? 'activated' : 'suspended'} successfully.`);
     } catch (error) {
       console.error('Error updating user status:', error);
+      toast(getApiErrorMessage(error, 'Unable to update user status.'), 'error');
     }
   };
   useEffect(() => {
@@ -182,6 +193,7 @@ export default function AdminUsers() {
         setTotalPages(response.meta.totalPages?? 1);
       } catch (error) {
         console.error('Error fetching users:', error);
+        toast(getApiErrorMessage(error, 'Unable to load users.'), 'error');
       }
     };
 

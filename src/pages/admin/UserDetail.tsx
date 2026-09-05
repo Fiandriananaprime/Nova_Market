@@ -18,10 +18,13 @@ import {
   updateUserStatus,
 } from '@/api/admin/user.api';
 import { User, Address } from '@/type/user';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function UserDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -39,6 +42,7 @@ export default function UserDetails() {
         setUser(data);
       } catch (error) {
         console.error('Error fetching user:', error);
+        toast(getApiErrorMessage(error, 'Unable to load user details.'), 'error');
       } finally {
         setLoading(false);
       }
@@ -64,8 +68,10 @@ export default function UserDetails() {
       );
 
       setUser(updatedUser);
+      toast(`User ${newStatus === 'active' ? 'activated' : 'suspended'} successfully.`);
     } catch (error) {
       console.error('Error updating user status:', error);
+      toast(getApiErrorMessage(error, 'Unable to update user status.'), 'error');
     } finally {
       setUpdatingStatus(false);
     }

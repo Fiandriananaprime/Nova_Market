@@ -5,9 +5,11 @@ import { useApp } from '../contexts/AppContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { formatPrice } from '../data/mock';
 import { logout } from '@/api/auth.api';
+import { useToast } from '../contexts/ToastContext';
 
 export default function BuyerLayout() {
   const { lang, setLang, cart, cartTotal, favorites, removeFromCart, t, setUserRole } = useApp();
+  const { toast } = useToast();
   const { resolvedTheme, setTheme } = useTheme();
   const [search, setSearch] = useState('');
   const [profileOpen, setProfileOpen] = useState(false);
@@ -20,6 +22,7 @@ export default function BuyerLayout() {
   const handleLogout = async () => {
     setUserRole(null);
     await logout();
+    toast('You have been signed out.');
     navigate('/');
   };
 

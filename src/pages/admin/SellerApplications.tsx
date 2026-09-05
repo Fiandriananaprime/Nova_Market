@@ -4,8 +4,11 @@ import { Button, StatusBadge, Badge, Modal } from '../../components/ui';
 import { getSellerApplications } from '@/api/admin/sellerApplication';
 import type { SellerApplication } from '@/type/admin/seller';
 import { Link } from 'react-router';
+import { useToast } from '@/contexts/ToastContext';
+import { getApiErrorMessage } from '@/api/errorMessage';
 
 export default function SellerApplications() {
+  const { toast } = useToast();
   const [apps, setApps] = useState<SellerApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [reviewModal, setReviewModal] = useState<typeof apps[0] | null>(null);
@@ -14,6 +17,7 @@ export default function SellerApplications() {
   useEffect(() => {
     getSellerApplications({ page: 1, limit: 50, status: 'pending' })
       .then(({ data }) => setApps(data))
+      .catch((error) => toast(getApiErrorMessage(error, 'Unable to load seller applications.'), 'error'))
       .finally(() => setLoading(false));
   }, []);
 

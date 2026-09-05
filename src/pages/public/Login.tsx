@@ -5,10 +5,13 @@ import { Button, Input } from '../../components/ui';
 import { useApp } from '../../contexts/AppContext';
 import { LoginRequest } from '../../type/auth';
 import { login } from '../../api/auth.api';
+import { getApiErrorMessage } from '../../api/errorMessage';
+import { useToast } from '../../contexts/ToastContext';
 
 export default function Login() {
   const navigate = useNavigate();
   const { setUserRole, t } = useApp();
+  const { toast } = useToast();
 
   const [form, setForm] = useState<LoginRequest>({
     email: '',
@@ -52,6 +55,7 @@ const handleSubmit = async (
     );
 
     setUserRole(data.user.role);
+    toast('Connexion réussie.');
 
     switch (data.user.role) {
       case "admin":
@@ -72,7 +76,9 @@ const handleSubmit = async (
 
   } catch (error) {
     console.error("Login failed:", error);
-    setError('Email ou mot de passe invalide.');
+    const message = getApiErrorMessage(error, 'Email ou mot de passe invalide.');
+    setError(message);
+    toast(message, 'error');
   } finally {
     setLoading(false);
   }

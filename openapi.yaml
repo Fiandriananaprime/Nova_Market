@@ -425,14 +425,18 @@ components:
       type: object
       properties:
         id: { type: string, example: "ORD-2026-001" }
-        buyerId: { type: string }
+        buyerId: { type: string, format: uuid }
         buyerName: { type: string }
         items:
           type: array
           items: { $ref: '#/components/schemas/OrderItem' }
-        sellerNames:
+        sellers:
           type: array
-          items: { type: string }
+          items:
+            type: object
+            properties:
+              id: { type: string, format: uuid }
+              name: { type: string }
         subtotal: { type: number }
         shippingFee: { type: number }
         total: { type: number }
@@ -442,8 +446,22 @@ components:
         paymentStatus: { type: string, enum: [pending, paid, failed, refunded] }
         address: { $ref: '#/components/schemas/Address' }
         tracking: { type: string, nullable: true, example: "TRK892345MG" }
-        estimatedDelivery: { type: string, format: date, nullable: true }
-        date: { type: string, format: date-time }
+        estimatedDelivery: { type: string, format: date-time, nullable: true }
+        note: { type: string, nullable: true }
+        createdAt: { type: string, format: date-time }
+
+    AdminOrderCounts:
+      type: object
+      properties:
+        all: { type: integer }
+        pending: { type: integer }
+        confirmed: { type: integer }
+        processing: { type: integer }
+        preparing: { type: integer }
+        shipped: { type: integer }
+        delivered: { type: integer }
+        cancelled: { type: integer }
+        totalPrice: { type: number }
 
     CheckoutRequest:
       type: object
@@ -2269,6 +2287,18 @@ paths:
         - name: status
           in: query
           schema: { type: string, enum: [all, pending, confirmed, processing, shipped, delivered, cancelled] }
+        - name: paymentMethod
+          in: query
+          description: Filter by payment method.
+          schema: { type: string, enum: [all, mvola, orange_money, card, cod] }
+        - name: sortAmount
+          in: query
+          description: Sort by total amount.
+          schema: { type: string, enum: [asc, desc], default: desc }
+        - name: sortDate
+          in: query
+          description: Sort by creation date, newest or oldest first.
+          schema: { type: string, enum: [asc, desc], default: desc }
       responses:
         '200':
           description: Orders
@@ -2281,6 +2311,7 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/Order' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
+                  counts: { $ref: '#/components/schemas/AdminOrderCounts' }
 
   /admin/orders/{id}:
     get:

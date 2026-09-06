@@ -1,6 +1,6 @@
 import { Address } from "../user"
 import { PaginationMeta } from "../catalog/product";
-import { paymentMethod, paymentStatus } from "./payment"
+import { paymentMethod, PaymentStatus } from "./payment"
 export type OrderStatus = 'pending' | 'confirmed' | 'processing' | 'preparing' | 'shipped' | 'delivered' | 'cancelled';
 export type deliveryMethod = 'standard' | 'express' | 'pickup';
 
@@ -8,7 +8,10 @@ export type OrderQueryParam = {
     search?: string,
     page?: number,
     limit?: number,
-    status?: OrderStatus
+    status?: OrderStatus,
+    paymentMethod?: paymentMethod,
+    sortAmount?: 'asc' | 'desc',
+    sortDate?: 'asc' | 'desc'
 }
 export interface OrderItem {
     productId: string,
@@ -19,26 +22,42 @@ export interface OrderItem {
     sellerId: string,
     sellerName: string
 }
+export interface OrderSeller {
+    id: string,
+    name: string
+}
 export interface Order {
     id: string,
     buyerId: string,
     buyerName: string,
-    items: OrderItem[],
-    sellerNames: string[],
+    items?: OrderItem[],
+    sellers: OrderSeller[],
     subtotal: number,
     shippingFee: number,
     total: number,
     status: OrderStatus,
     deliveryMethod: deliveryMethod,
     paymentMethod: paymentMethod,
-    paymentStatus: paymentStatus,
-    address: Address,
-    tracking: string,
-    estimatedDelivery: string,
-    date: string
+    paymentStatus: PaymentStatus,
+    address?: Pick<Address, 'label' | 'fullAddress' | 'city' | 'phone'>,
+    tracking: string | null,
+    estimatedDelivery: string | null,
+    note?: string | null,
+    createdAt: string
 }
 
 export interface OrderResponse {
     data : Order[],
-    meta: PaginationMeta
+    meta: PaginationMeta,
+    counts: {
+        all: number,
+        pending: number,
+        confirmed: number,
+        processing: number,
+        preparing: number,
+        shipped: number,
+        delivered: number,
+        cancelled: number,
+        totalPrice: number
+    }
 }

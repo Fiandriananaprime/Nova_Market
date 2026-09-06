@@ -38,7 +38,7 @@ export const createAppRouter = () => {
       ),
       children: [adminRoutes],
     },
-    { path: '*', Component: NotFound },
+    { path: '*', element: <NotFound prop={"page"} /> },
   ]);
 };
 

@@ -27,7 +27,7 @@ const formatDate = (dateString?: string): string => {
   return dateString.split('T')[0];
 };
 
-const AdminOrdersList: React.FC<AdminOrdersListProps> = () => {
+const AdminOrdersList = () => {
   const { toast } = useToast()
   const { t } = useTranslation();
   const [search, setSearch] = useState('');
@@ -235,7 +235,7 @@ const AdminOrdersList: React.FC<AdminOrdersListProps> = () => {
           data={orders}
           columns={columns}
           rowKey={(item) => item.id}
-          rowHref={(item) => `#${item.id}`}
+          rowHref={(item) => `/admin/orders/${item.id}`}
         />
 
         <div className="flex justify-center pt-2">

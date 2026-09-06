@@ -39,3 +39,25 @@ export const formatTime = (date: string) =>
     hour: '2-digit',
     minute: '2-digit',
   }).format(new Date(date));
+
+export const formatDateDigit = (dateString?: string | null) => {
+  if (!dateString) return '—';
+
+  return new Date(dateString).toLocaleDateString('fr-FR', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  });
+};
+
+export const formatDateTime = (dateString?: string | null) => {
+  if (!dateString) return '—';
+
+  return new Date(dateString).toLocaleString('fr-FR', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+};

@@ -30,7 +30,7 @@ export interface Order {
     id: string,
     buyerId: string,
     buyerName: string,
-    items?: OrderItem[],
+    items: OrderItem[],
     sellers: OrderSeller[],
     subtotal: number,
     shippingFee: number,
@@ -39,7 +39,7 @@ export interface Order {
     deliveryMethod: deliveryMethod,
     paymentMethod: paymentMethod,
     paymentStatus: PaymentStatus,
-    address?: Pick<Address, 'label' | 'fullAddress' | 'city' | 'phone'>,
+    address: Address
     tracking: string | null,
     estimatedDelivery: string | null,
     note?: string | null,
@@ -60,4 +60,15 @@ export interface OrderResponse {
         cancelled: number,
         totalPrice: number
     }
+}
+
+export interface OrderSellerDetails extends OrderSeller {
+    avatarUrl: string;
+}
+
+export interface OrderDetails extends Order {
+    buyerAvatarUrl?: string;
+    buyerPhone?: string,
+    buyerEmail: string,
+    sellers: OrderSellerDetails[];
 }

@@ -512,5 +512,17 @@
   "Store is open": "Store is open",
   "Customers can browse and purchase products": "Customers can browse and purchase products",
   "Return policy": "Return policy",
-  "Save-changes-Enregistrer-les-modifications": "Save changes"
+  "Save-changes-Enregistrer-les-modifications": "Save changes",
+  "All payments": "All payments",
+  "Card": "Card",
+  "Default amount": "Default amount",
+  "Highest amount": "Highest amount",
+  "Lowest amount": "Lowest amount",
+  "Newest first": "Newest first",
+  "Oldest first": "Oldest first",
+  "Filter ${label}": "Filter ${label}",
+  "Total Volume": "Total Volume",
+  "Orders List": "Orders List",
+  "Refresh orders": "Refresh orders",
+  "Thank you for your order. We\\\\'ll notify you when it ships.": "Thank you for your order. We\\\\'ll notify you when it ships."
 }

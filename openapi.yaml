@@ -2033,6 +2033,34 @@ paths:
     get:
       tags: [Admin - Users]
       summary: List all stores with orders and annual revenue
+      parameters:
+        - { $ref: '#/components/parameters/PageParam' }
+        - { $ref: '#/components/parameters/LimitParam' }
+        - name: search
+          in: query
+          schema: { type: string }
+          description: Search by store ID or name
+        - name: rating
+          in: query
+          schema: { type: string, enum: [all, '5', '4', '3'] }
+        - name: products
+          in: query
+          schema: { type: string, enum: [all, small, medium, large] }
+        - name: followers
+          in: query
+          schema: { type: string, enum: [all, small, medium, large] }
+        - name: revenue
+          in: query
+          schema: { type: string, enum: [all, low, medium, high] }
+        - name: location
+          in: query
+          schema: { type: string }
+        - name: verified
+          in: query
+          schema: { type: string, enum: [all, verified, unverified] }
+        - name: year
+          in: query
+          schema: { type: string }
       responses:
         '200':
           description: Store administration details
@@ -2044,6 +2072,7 @@ paths:
                   data:
                     type: array
                     items: { $ref: '#/components/schemas/StoreAdmin' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
 
   /admin/stores/{id}:
     get:

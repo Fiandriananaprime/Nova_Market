@@ -14,7 +14,7 @@ import UserDetails from '@/components/admin/UserDetail';
 import SellerApplicationDetails from '@/components/admin/SellerApplicationDetail';
 import ProductAbout from '@/pages/admin/ProductAbout';
 import OrderDetail from '../components/admin/OrderDetail';
-import SellerManagement from '../pages/admin/SellerManagement';
+import SellerManagement from '../pages/admin/Stores';
 import StoreDetail from '@/pages/buyer/StoreDetail';
 
 export const adminRoutes = {

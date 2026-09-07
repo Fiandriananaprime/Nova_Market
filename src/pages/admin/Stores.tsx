@@ -96,7 +96,6 @@ export default function SellerManagement() {
             <select value={verified} onChange={(event) => setVerified(event.target.value as AdminStoreFilters['verified'])} className={selectClass}><option value="all">{t('All stores')}</option><option value="verified">{t('Verified')}</option><option value="unverified">{t('Unverified')}</option></select>
             <select value={year} onChange={(event) => setYear(event.target.value)} className={selectClass}><option value="all">{t('All years')}</option>{years.map((value) => <option key={value} value={value}>{t('Joined')} {value}</option>)}</select>
           </div>
-          <p className="border-t border-border pt-3 text-sm text-muted-foreground">{t('Showing')} <span className="font-semibold text-foreground">{stores.length}</span> {t('stores')}</p>
         </div>
       </div>
       {loading && page === 1 ? <div className="p-10 text-center text-muted-foreground">{t('Loading stores...')}</div> : stores.length ? <>

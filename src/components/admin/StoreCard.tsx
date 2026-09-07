@@ -8,7 +8,7 @@ import {
     Star,
     Users,
 } from 'lucide-react';
-
+import { useNavigate } from 'react-router';
 import { formatDate, formatPrice,formatMillionAr as formatCount } from '@/hook/format';
 import  { StoreAdmin } from '@/type/admin/seller';
 import { OrderStatus } from '@/type/order/order';
@@ -40,7 +40,7 @@ const statusLabels: Record<OrderStatus, string> = {
 
 const StoreCard = ({ store }: StoreCardProps) => {
     const orders = store.orders ?? [];
-
+    const navigate = useNavigate();
     return (
         <article className="group overflow-hidden rounded-2xl border border-border bg-card shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
             {/* Cover */}
@@ -65,8 +65,12 @@ const StoreCard = ({ store }: StoreCardProps) => {
                     </div>
                 )}
 
+            </div>
+
+            {/* Content */}
+            <div className="relative px-5 pb-5 pt-10">
                 {/* Logo */}
-                <div className="absolute bottom-0 left-5 translate-y-1/2">
+                <div className="absolute z-1 top-[-48px] left-5">
                     <div className="h-16 w-16 overflow-hidden rounded-2xl border-4 border-card bg-card shadow-lg">
                         {store.logo ? (
                             <img
@@ -81,10 +85,6 @@ const StoreCard = ({ store }: StoreCardProps) => {
                         )}
                     </div>
                 </div>
-            </div>
-
-            {/* Content */}
-            <div className="px-5 pb-5 pt-10">
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
@@ -214,6 +214,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                     <button
                         type="button"
                         className="flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:underline"
+                        onClick={() => navigate(`/admin/sellers/${store.id}`)}
                     >
                         View store
                         <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />

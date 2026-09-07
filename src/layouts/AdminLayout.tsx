@@ -28,7 +28,6 @@ export default function AdminLayout() {
     { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t("Orders"), to: '/admin/orders' },
     { icon: <CreditCard className="w-4.5 h-4.5" />, label: t("Payments"), to: '/admin/payments' },
     { icon: <Tag className="w-4.5 h-4.5" />, label: t("Promotions"), to: '/admin/promotions' },
-    { icon: <Star className="w-4.5 h-4.5" />, label: t("Reviews"), to: '/admin/reviews' },
     { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t("Reports"), to: '/admin/reports' },
     { icon: <Settings className="w-4.5 h-4.5" />, label: t("Settings"), to: '/admin/settings' },
   ];

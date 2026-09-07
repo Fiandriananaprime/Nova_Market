@@ -2086,6 +2086,18 @@ paths:
           content:
             application/json:
               schema: { $ref: '#/components/schemas/StoreAdmin' }
+  /admin/stores/{id}/verified:
+    patch:
+      tags: [Admin - Users]
+      summary: Mark a store as verified
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Store verified
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/StoreAdmin' }
         '404':
           description: Store not found
           content:
@@ -2557,15 +2569,6 @@ paths:
                     type: array
                     items: { $ref: '#/components/schemas/Review' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
-
-  /admin/reviews/{id}:
-    delete:
-      tags: [Admin - Reviews]
-      summary: Delete a review (inappropriate content)
-      parameters:
-        - { $ref: '#/components/parameters/IdParam' }
-      responses:
-        '204': { description: Review deleted }
 
   # ============================================================
   # ADMIN - SETTINGS

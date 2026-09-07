@@ -4,7 +4,7 @@ import { Button, Input, Toggle } from '../../components/ui';
 import { Link, useNavigate, useParams } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { getMyStores, updateMyStore } from '@/api/seller/store.api';
-import { Store } from '@/type/catalog/store';
+import { StoreAdmin } from '@/type/catalog/store';
 
 export default function SellerStoreSettings() {
   const { t } = useTranslation();
@@ -12,7 +12,7 @@ export default function SellerStoreSettings() {
   const { id } = useParams();
   const [open, setOpen] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [stores, setStores] = useState<Store[]>([]);
+  const [stores, setStores] = useState<StoreAdmin[]>([]);
 
   useEffect(() => {
     getMyStores().then((response) => setStores(response.data)).catch(() => setStores([]));

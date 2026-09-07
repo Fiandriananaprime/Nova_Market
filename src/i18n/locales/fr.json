@@ -547,5 +547,20 @@
   "Thank you for your order. We\\\\'ll notify you when it ships.": "Merci pour votre commande. Nous vous informerons lors de son expédition.",
   "Ordered on": "Commandé le",
   "Delivery tracking": "Suivi de livraison",
-  "ID": "ID"
+  "ID": "ID",
+  "Ordered items": "Produits Commandés",
+  "Unit price": "Prix unitaire",
+  "Total": "Total",
+  "Note": "Note",
+  "No note for this order.": "Aucune note sur ce commande",
+  "Shipping fee": "Frais de Livraison",
+  "Copied": "Copiée",
+  "Copy": "Copier",
+  "No tracking number has been assigned yet.": "Aucun numero de suivi assigné",
+  "History": "Historique",
+  "Order created": "Commande passée",
+  "Current status": "Statut actuelle",
+  "Estimated delivery on": "Livraison estimée à",
+  "${prop} not found": "${prop} introuvable",
+  "The ${prop} you're looking for doesn't exist.": "${prop} introuvable"
 }

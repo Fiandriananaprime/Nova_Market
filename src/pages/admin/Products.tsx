@@ -71,7 +71,7 @@ export default function AdminProducts() {
   );
 
   const filterHeader = (label: string) => {
-    const options = [['all', 'All statuses'], ['approved', 'Approved'], ['pending', 'Pending'], ['rejected', 'Rejected']];
+    const options = [['all', t('All statuses')], ['approved', t('Approved')], ['pending', t('Pending')], ['rejected', t('Rejected')]];
     const selected = activeTab;
     return (
       <div className="relative inline-flex items-center gap-1">
@@ -117,7 +117,7 @@ export default function AdminProducts() {
           to={`/admin/seller/${p.sellerId}`}
           onClick={(e) => e.stopPropagation()}
         >
-          {p.sellerName || 'Vendeur Inconnu'}
+          {p.sellerName || t('Unknown seller')}
         </Link>
       ),
     },
@@ -139,7 +139,7 @@ export default function AdminProducts() {
           className="text-muted-foreground hover:underline"
           onClick={(e) => e.stopPropagation()}
         >
-          {p.categoryName || 'Catégorie'}
+          {p.categoryName || t('Category unavailable')}
         </Link>
       ),
     },

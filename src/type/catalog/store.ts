@@ -1,5 +1,6 @@
-export interface Seller {
+export interface Store {
   id: string;
+  userId: string;
   name: string;
   logo: string;
   cover: string;

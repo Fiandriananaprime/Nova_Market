@@ -25,6 +25,7 @@ export const sellerRoutes = {
     { path: 'reviews', Component: SellerReviews },
     { path: 'promotions', Component: SellerPromotions },
     { path: 'store', Component: SellerStoreSettings },
+    { path: 'store/:id', Component: SellerStoreSettings },
     { path: 'settings', Component: Settings },
     { path: 'customers', Component: SellerCustomers },
   ],

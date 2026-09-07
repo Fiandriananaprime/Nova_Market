@@ -1,4 +1,4 @@
-import { Review } from "@/type/catalog/seller";
+import { Review } from "@/type/catalog/store";
 import { baseApi } from "../axios";
 import { GetProductsResponse, GetProductsQueryParams, Product, PaginationMeta, RatingCount} from "@/type/catalog/product";
 

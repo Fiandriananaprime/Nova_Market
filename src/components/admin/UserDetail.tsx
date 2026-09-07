@@ -7,6 +7,7 @@ import {
   MapPin,
   Calendar,
   ShoppingBag,
+  Store,
   UserX,
   UserCheck,
   Loader2,
@@ -295,6 +296,37 @@ export default function UserDetails() {
           </div>
         </div>
       </div>
+
+      {user.role === 'seller' && (
+        <div className="bg-card border border-border rounded-xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-border">
+            <h2 className="font-semibold font-display text-foreground">Stores</h2>
+          </div>
+          <div className="divide-y divide-border">
+            {user.stores.map((store) => (
+              <Link
+                key={store.id}
+                to={`/admin/stores/${store.id}`}
+                className="p-5 flex items-center gap-3 hover:bg-secondary/40"
+              >
+                {store.logo ? (
+                  <img src={store.logo} alt="" className="w-10 h-10 rounded-lg object-cover" />
+                ) : (
+                  <div className="w-10 h-10 rounded-lg bg-secondary flex items-center justify-center">
+                    <Store className="w-5 h-5 text-muted-foreground" />
+                  </div>
+                )}
+                <div>
+                  <p className="font-medium text-foreground">{store.name}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {store.location || 'No location'} · {store.productsCount} products
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       {/* Addresses */}
       <div className="bg-card border border-border rounded-xl overflow-hidden">

@@ -13,6 +13,9 @@ import SellerAnalytics from '../pages/seller/Analytics';
 import UserDetails from '@/components/admin/UserDetail';
 import SellerApplicationDetails from '@/components/admin/SellerApplicationDetail';
 import ProductAbout from '@/pages/admin/ProductAbout';
+import OrderDetail from '../components/admin/OrderDetail';
+import SellerManagement from '../pages/admin/SellerManagement';
+import StoreDetail from '@/pages/buyer/StoreDetail';
 
 export const adminRoutes = {
   path: '/admin',
@@ -21,14 +24,15 @@ export const adminRoutes = {
     { index: true, Component: AdminDashboard },
     { path: 'users', Component: AdminUsers },
     { path: 'users/:id', Component: UserDetails },
-    { path: 'buyers', Component: AdminUsers },
-    { path: 'sellers', Component: AdminUsers },
+    { path: 'sellers', Component: SellerManagement },
+    {path: 'seller/:id', Component: StoreDetail },
     { path: 'sellers/applications', Component: SellerApplications },
     { path: 'sellers/applications/:id', Component: SellerApplicationDetails },
     { path: 'products', Component: AdminProducts },
     { path: 'products/:id', Component: ProductAbout },
     { path: 'categories', Component: AdminCategories },
     { path: 'orders', Component: AdminOrders },
+    { path: 'orders/:id', Component: OrderDetail},
     { path: 'payments', Component: AdminPayments },
     { path: 'promotions', Component: SellerPromotions },
     { path: 'reviews', Component: SellerReviews },

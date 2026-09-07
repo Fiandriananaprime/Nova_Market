@@ -1,17 +1,5 @@
-export interface Seller {
-    id: string;
-    name: string;
-    logo?: string;
-    cover?: string;
-    verified: boolean;
-    rating: number;
-    productsCount: number;
-    location?: string | null;
-    joinedYear?: string | null;
-    followersCount: number;
-    description?: string | null;
-    isFollowedByCurrentUser?: boolean;
-}
+import { Store } from "./catalog/store";
+
 export type UserRole = "admin" | "seller" | "buyer";
 
 export type status = "active" | "suspended";
@@ -38,4 +26,5 @@ export interface User {
     joinedAt: string;
     ordersCount: number;
     addresses: Address[];
+    stores: Store[];
 }

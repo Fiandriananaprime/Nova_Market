@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, Users, Package, Grid3x3, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Store, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';
@@ -24,7 +24,7 @@ export default function AdminLayout() {
     { icon: <Users className="w-4.5 h-4.5" />, label: t("Users"), to: '/admin/users' },
     { icon: <UserCheck className="w-4.5 h-4.5" />, label: t("Seller Applications"), to: '/admin/sellers/applications' },
     { icon: <Package className="w-4.5 h-4.5" />, label: t("Products"), to: '/admin/products' },
-    { icon: <Grid3x3 className="w-4.5 h-4.5" />, label: t("Categories"), to: '/admin/categories' },
+    { icon: <Store className="w-4.5 h-4.5" />, label: t("Stores"), to: '/admin/sellers' },
     { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t("Orders"), to: '/admin/orders' },
     { icon: <CreditCard className="w-4.5 h-4.5" />, label: t("Payments"), to: '/admin/payments' },
     { icon: <Tag className="w-4.5 h-4.5" />, label: t("Promotions"), to: '/admin/promotions' },
@@ -32,6 +32,10 @@ export default function AdminLayout() {
     { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t("Reports"), to: '/admin/reports' },
     { icon: <Settings className="w-4.5 h-4.5" />, label: t("Settings"), to: '/admin/settings' },
   ];
+  const isNavItemActive = (to: string) => {
+    if (to === '/admin' || to === '/admin/sellers') return location.pathname === to;
+    return location.pathname === to || location.pathname.startsWith(`${to}/`);
+  };
   const handleLogout = async () => {
     setUserRole(null);
     await logout();
@@ -53,7 +57,7 @@ export default function AdminLayout() {
 
       <nav className="flex-1 p-3 space-y-0.5 overflow-y-auto">
         {navItems.map(item => {
-          const active = location.pathname === item.to || (item.to !== '/admin' && location.pathname.startsWith(item.to));
+          const active = isNavItemActive(item.to);
           return (
             <Link
               key={item.to}
@@ -106,7 +110,7 @@ export default function AdminLayout() {
           </button>
           <div className="flex-1">
             <h1 className="font-semibold text-sm font-display text-foreground hidden sm:block">
-              {navItems.find(i => i.to === location.pathname || (i.to !== '/admin' && location.pathname.startsWith(i.to)))?.label || 'Admin Dashboard'}
+              {navItems.find(i => isNavItemActive(i.to))?.label || 'Admin Dashboard'}
             </h1>
           </div>
           <div className="flex items-center gap-1">

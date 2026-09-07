@@ -1,12 +1,12 @@
 import { useNavigate } from 'react-router';
-import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store, Truck } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Search, ShoppingCart, Package, Shield, TrendingUp, ChevronRight, Building2, Store as StoreIcon, Truck } from 'lucide-react';
 import { DynamicIcon } from "lucide-react/dynamic";
 import { Button, Rating, VerifiedBadge, Badge } from '../../components/ui';
 import { formatPrice } from '@/hook/format';
 import { useTranslation } from 'react-i18next';
 import { getCategories, getFeaturedSellers } from '../../api/public/catalog.api';
 import { Category } from '@/type/catalog/category';
-import { Seller } from '@/type/user';
+import { Store } from '@/type/catalog/store';
 import { useEffect, useState } from 'react';
 import { Product } from '@/type/catalog/product';
 import { getFeaturedProducts } from '@/api/public/product.api';
@@ -16,7 +16,7 @@ import { useToast } from '@/contexts/ToastContext';
 type HomeData = {
   categories: Category[];
   featuredProducts: Product[];
-  featuredSellers: Seller[];
+  featuredSellers: Store[];
 };
 
 export default function LandingPage() {
@@ -231,7 +231,7 @@ export default function LandingPage() {
           </div>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { step: '01', icon: <Store className="w-5 h-5" />, title: t("Discover"), desc: t("Explore stores, categories and products.") },
+              { step: '01', icon: <StoreIcon className="w-5 h-5" />, title: t("Discover"), desc: t("Explore stores, categories and products.") },
               { step: '02', icon: <Search className="w-5 h-5" />, title: t("Search"), desc: t("Find exactly what you need using search and filters.") },
               { step: '03', icon: <ShoppingCart className="w-5 h-5" />, title: t("Add-to-cart-Ajouter-au-panier"), desc: t("Add products from one or multiple sellers.") },
               { step: '04', icon: <Package className="w-5 h-5" />, title: t("Order-Commander"), desc: t("Complete your purchase and track your order.") },

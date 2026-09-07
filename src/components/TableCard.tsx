@@ -3,34 +3,38 @@ import { Link, useNavigate } from 'react-router';
 
 export interface Column<T> {
   key: string;
-  header: string;
+  header: ReactNode;
   render?: (item: T, index: number) => ReactNode;
   className?: string;
 }
 
 interface AdminTableCardProps<T> {
   title: string;
+  headerAction?: ReactNode;
   data: T[];
   columns: Column<T>[];
   viewAllHref?: string;
   className?: string;
   rowKey: (item: T, index: number) => string | number;
   rowHref?: (item: T) => string;
+  headerOverflowVisible?: boolean;
 }
 
  const TableCard = <T,>({
   title,
+  headerAction,
   data,
   columns,
   viewAllHref,
   className = '',
   rowKey,
   rowHref,
+  headerOverflowVisible = false,
 }: AdminTableCardProps<T>) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`bg-card border border-border rounded-xl overflow-hidden ${className}`}
+      className={`bg-card border border-border rounded-xl overflow-visible ${className}`}
     >
       {/* Header */}
       <div className="px-5 py-4 border-b border-border flex items-center justify-between">
@@ -38,18 +42,20 @@ interface AdminTableCardProps<T> {
           {title}
         </h2>
 
-        {viewAllHref && (
-          <Link
-            to={viewAllHref}
-            className="text-xs text-[#0077B6] hover:underline"
-          >
-            View all
-          </Link>
-        )}
+      {headerAction ? (
+        headerAction
+      ) : viewAllHref ? (
+        <Link
+          to={viewAllHref}
+          className="text-xs text-[#0077B6] hover:underline"
+        >
+          View all
+        </Link>
+      ) : null}
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className={headerOverflowVisible ? 'overflow-visible' : 'overflow-x-auto'}>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-secondary">

@@ -14,4 +14,6 @@ export interface AdminGetProductsQueryParams {
   page?: number;
   limit?: number;
   status?: 'approved' | 'pending' | 'rejected';
+  sortBy?: 'price' | 'status' | 'submitted';
+  sortDirection?: 'asc' | 'desc';
 }

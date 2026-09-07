@@ -16,3 +16,4 @@ export { Tabs } from './Tabs';
 export { Breadcrumb } from './Breadcrumb';
 export { Skeleton } from './Skeleton';
 export { Pagination } from './Pagination';
+export {PaymentBadge} from './PaymentBadge';

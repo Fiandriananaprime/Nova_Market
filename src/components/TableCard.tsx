@@ -17,6 +17,7 @@ interface AdminTableCardProps<T> {
   className?: string;
   rowKey: (item: T, index: number) => string | number;
   rowHref?: (item: T) => string;
+  headerOverflowVisible?: boolean;
 }
 
  const TableCard = <T,>({
@@ -28,6 +29,7 @@ interface AdminTableCardProps<T> {
   className = '',
   rowKey,
   rowHref,
+  headerOverflowVisible = false,
 }: AdminTableCardProps<T>) => {
   const navigate = useNavigate();
   return (
@@ -53,7 +55,7 @@ interface AdminTableCardProps<T> {
       </div>
 
       {/* Table */}
-      <div className="overflow-x-auto">
+      <div className={headerOverflowVisible ? 'overflow-visible' : 'overflow-x-auto'}>
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-border bg-secondary">

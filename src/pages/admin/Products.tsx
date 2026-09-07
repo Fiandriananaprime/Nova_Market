@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Search } from 'lucide-react';
+import { ArrowDown, ArrowUp, RefreshCw, Search } from 'lucide-react';
 import { Tabs, StatusBadge } from '../../components/ui';
 import TableCard, { type Column } from '@/components/TableCard';
 import { getAdminProducts } from '@/api/admin/product.api';
@@ -21,6 +21,10 @@ export default function AdminProducts() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [searchRequest, setSearchRequest] = useState(0);
+  const [sortBy, setSortBy] = useState<'price' | 'status' | 'submitted'>('submitted');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('desc');
+  const [activeFilter, setActiveFilter] = useState<'status' | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
 
   const [counts, setCounts] = useState({
     all: 0,
@@ -36,21 +40,70 @@ export default function AdminProducts() {
     }
   };
 
+  const resetFilters = () => {
+    setActiveTab('all');
+    setSearchInput('');
+    setSearch('');
+    setSortBy('submitted');
+    setSortDirection('desc');
+    setPage(1);
+    setActiveFilter(null);
+    setReloadKey((key) => key + 1);
+  };
+
+  const changeSort = (nextSort: 'price' | 'status' | 'submitted') => {
+    if (sortBy === nextSort) {
+      setSortDirection((direction) => direction === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortBy(nextSort);
+      setSortDirection('desc');
+    }
+    setPage(1);
+  };
+
+  const sortableHeader = (label: string, sort: 'price' | 'status' | 'submitted') => (
+    <button type="button" onClick={() => changeSort(sort)} className="inline-flex items-center gap-1 hover:text-[#0077B6]">
+      {label}
+      {sortDirection === 'asc'
+        ? <ArrowUp className={`h-3.5 w-3.5 ${sortBy === sort ? '' : 'opacity-30'}`} />
+        : <ArrowDown className={`h-3.5 w-3.5 ${sortBy === sort ? '' : 'opacity-30'}`} />}
+    </button>
+  );
+
+  const filterHeader = (label: string) => {
+    const options = [['all', 'All statuses'], ['approved', 'Approved'], ['pending', 'Pending'], ['rejected', 'Rejected']];
+    const selected = activeTab;
+    return (
+      <div className="relative inline-flex items-center gap-1">
+        <button type="button" onClick={() => setActiveFilter(activeFilter === 'status' ? null : 'status')} className="inline-flex items-center gap-1 hover:text-[#0077B6]">
+          {label}<ArrowDown className="h-3.5 w-3.5" />
+        </button>
+        {selected !== 'all' && <span className="max-w-20 truncate rounded bg-[#0077B6]/10 px-1 text-[9px] normal-case text-[#0077B6]">{selected}</span>}
+        {activeFilter === 'status' && (
+          <div className="absolute left-0 top-full z-30 mt-1 min-w-40 rounded-md border border-border bg-card p-1 normal-case shadow-lg">
+            {options.map(([value, optionLabel]) => (
+              <button key={value} type="button" onClick={() => {
+                handleTabChange(value);
+                setPage(1);
+                setActiveFilter(null);
+              }} className="block w-full rounded px-2 py-1.5 text-left text-xs font-normal text-foreground hover:bg-secondary">
+                {optionLabel}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
+
   const columns: Column<Product>[] = [
     {
       key: 'name',
       header: t("PRODUCT"),
       render: (p) => (
         <div className="flex items-center gap-2.5">
-          <div className="w-10 h-10 flex items-center justify-center text-white text-sm font-bold flex-shrink-0 bg-secondary overflow-hidden">
-            <img
-              src={p.image}
-              alt={p.name}
-              className="w-full h-full object-cover rounded-full"
-            />
-          </div>
           <span className="font-medium text-foreground truncate max-w-[180px]">
-            {p.name}
+            {p.id}
           </span>
         </div>
       ),
@@ -70,7 +123,7 @@ export default function AdminProducts() {
     },
     {
       key: 'price',
-      header: t("PRICE"),
+      header: sortableHeader(t("PRICE"), 'price'),
       render: (p) => (
         <span className="font-medium text-foreground whitespace-nowrap">
           {formatPrice ? formatPrice(p.price) : `${p.price} Ar`}
@@ -92,12 +145,12 @@ export default function AdminProducts() {
     },
     {
       key: 'status',
-      header: t("STATUS"),
+      header: filterHeader(t("STATUS")),
       render: (p) => <StatusBadge status={p.status} />,
     },
     {
       key: 'submittedAt',
-      header: t("SUBMITTED"),
+      header: sortableHeader(t("SUBMITTED"), 'submitted'),
       render: (p) => (
         <span className="text-muted-foreground whitespace-nowrap">
           {p.createdAt ? new Date(p.createdAt).toLocaleDateString() : '-'}
@@ -115,6 +168,8 @@ export default function AdminProducts() {
           limit: 20,
           status: activeTab !== 'all' ? activeTab : undefined,
           search: search || undefined,
+          sortBy,
+          sortDirection,
         });
         setCounts(response.counts);
         setProducts(response.data);
@@ -126,7 +181,7 @@ export default function AdminProducts() {
     };
 
     fetchProducts();
-  }, [page, activeTab, search, searchRequest]);
+  }, [page, activeTab, search, searchRequest, sortBy, sortDirection, reloadKey]);
 
   const handleSearch = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -137,9 +192,20 @@ export default function AdminProducts() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">
-        {t("Product Moderation")}
-      </h1>
+      <div className="flex items-center justify-between mb-5">
+        <h1 className="text-xl font-bold font-display text-foreground">
+          {t("Product Moderation")}
+        </h1>
+        <button
+          type="button"
+          onClick={resetFilters}
+          title={t('Refresh products')}
+          className="p-2 text-muted-foreground hover:bg-secondary rounded-lg"
+        >
+          <RefreshCw className="h-4 w-4" />
+          <span className="sr-only">{t('Refresh products')}</span>
+        </button>
+      </div>
 
       <div className="overflow-x-auto mb-4">
         <Tabs tabs = {[
@@ -152,7 +218,7 @@ export default function AdminProducts() {
       onChange={handleTabChange} />
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
+      <div className="bg-card border border-border rounded-xl overflow-visible">
         <div className="p-4 border-b border-border flex items-center justify-between">
           <form
             onSubmit={handleSearch}
@@ -202,6 +268,7 @@ export default function AdminProducts() {
           rowKey={(product) => product.id}
           rowHref={(product) => `/admin/products/${product.id}?status=${activeTab}`}
           className="border-0 rounded-none"
+          headerOverflowVisible
         />
       </div>
     </div>

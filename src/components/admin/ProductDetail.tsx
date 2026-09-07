@@ -15,14 +15,14 @@ import {
 } from 'lucide-react';
 import { useState } from 'react';
 import {  Product } from '@/type/catalog/product';
-import { Review, Seller } from '@/type/catalog/seller';
+import { Review, Store } from '@/type/catalog/store';
 import { StatusBadge } from '../ui';
 import { formatPrice } from '@/hook/format';
 import { useTranslation } from 'react-i18next';
 
 interface ProductDetailsProps {
   product: Product;
-  seller: Seller;
+  seller: Store;
   reviews: Review[];
   onBack?: () => void;
   onEdit?: () => void;

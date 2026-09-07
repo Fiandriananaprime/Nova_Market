@@ -1,7 +1,7 @@
 import { api } from "../axios";
 import { OrderResponse, OrderQueryParam, Order, OrderDetails } from "@/type/order/order";
 import { getUserById } from "./user.api";
-import { getSellerById } from "../public/seller.api";
+import { getSellerById } from "../public/store.api";
 
 export const getOrder = async (params: OrderQueryParam): Promise<OrderResponse> => {
     const response = await api.get("/admin/orders" ,{params});

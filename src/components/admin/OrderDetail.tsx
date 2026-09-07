@@ -12,6 +12,7 @@ import {
   Check,
   Clock,
   FileText,
+  ArrowLeft
 } from 'lucide-react';
 
 import type {
@@ -25,7 +26,8 @@ import { useTranslation } from 'react-i18next';
 import { getOrderDetailsById } from '@/api/admin/order.api';
 import { useToast } from '@/contexts/ToastContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
-import NotFound from '../NotFound';
+import NotFound from '../../pages/NotFound';
+import { Badge, PaymentBadge } from '@/components/ui';
 
 type Tab = 'summary' | 'tracking';
 
@@ -105,6 +107,13 @@ export default function OrderReceipt() {
 
   return (
     <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+      <Link
+        to="/admin/orders"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground p-5 pb-0"
+      >
+        <ArrowLeft className="w-4 h-4" />
+        {t("Back to Orders")}
+      </Link>
       <div className="border-b border-gray-200 bg-gray-50/70 px-6 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -123,7 +132,7 @@ export default function OrderReceipt() {
 
           <div className="flex flex-wrap gap-2">
             <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
-              {order.status}
+              <Badge children={order.status} />
             </span>
 
             <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
@@ -267,7 +276,7 @@ export default function OrderReceipt() {
                     header: t('Product'),
                     render: (item) => (
                       <Link
-                        to={`/products/${item.productId}`}
+                        to={`/admin/products/${item.productId}`}
                         onClick={(e) => e.stopPropagation()}
                         className="group flex items-center gap-3"
                       >
@@ -333,7 +342,7 @@ export default function OrderReceipt() {
                     className="overflow-hidden"
                     headerAction={
                       <Link
-                        to={`/admin/sellers/${sellerId}`}
+                        to={`/admin/store/${sellerId}`}
                         className="group flex items-center gap-2"
                       >
                         {seller?.avatarUrl ? (
@@ -378,7 +387,7 @@ export default function OrderReceipt() {
                   </dt>
 
                   <dd className="font-medium text-gray-900">
-                    {order.paymentMethod}
+                    <PaymentBadge method= {order.paymentMethod} />
                   </dd>
                 </div>
 
@@ -410,11 +419,11 @@ export default function OrderReceipt() {
           </div>
 
           <section className="mt-6 rounded-xl border border-gray-200 p-5">
+
+            <div className="ml-auto max-w-md space-y-3 text-sm">
             <h2 className="mb-5 text-sm font-semibold uppercase tracking-wide text-gray-900">
               {t('Summary')}
             </h2>
-
-            <div className="ml-auto max-w-md space-y-3 text-sm">
               <div className="flex justify-between gap-4">
                 <span className="text-gray-500">
                   {t('Subtotal')}

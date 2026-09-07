@@ -1,13 +1,13 @@
 import { PaginationMeta } from '@/type/catalog/product';
 import { baseApi } from '../axios';
-import { Seller, Review } from '@/type/catalog/seller';
+import { Store, Review } from '@/type/catalog/store';
 
-export const getAllSellers = async (): Promise<{data: Seller[], meta: PaginationMeta}> => {
+export const getAllSellers = async (): Promise<{data: Store[], meta: PaginationMeta}> => {
   const response = await baseApi.get('/stores');
   return response.data;
 }
-export const getSellerById = async (id: string): Promise<Seller> => {
-  const response = await baseApi.get<Seller>(`/stores/${encodeURIComponent(id)}`);
+export const getSellerById = async (id: string): Promise<Store> => {
+  const response = await baseApi.get<Store>(`/stores/${encodeURIComponent(id)}`);
     return response.data;
 };
 

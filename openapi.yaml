@@ -173,6 +173,10 @@ components:
         addresses:
           type: array
           items: { $ref: '#/components/schemas/Address' }
+        stores:
+          type: array
+          description: Stores owned by the user. Present for seller users.
+          items: { $ref: '#/components/schemas/Store' }
 
     RegisterBuyerRequest:
       type: object
@@ -318,10 +322,11 @@ components:
           enum: [active, draft, inactive]
           default: draft
 
-    Seller:
+    Store:
       type: object
       properties:
         id: { type: string, example: "1" }
+        userId: { type: string, example: "user-1" }
         name: { type: string, example: "TechStore MG" }
         logo: { type: string }
         cover: { type: string }
@@ -1186,7 +1191,7 @@ paths:
                   data:
                     type: array
                     maxItems: 6
-                    items: { $ref: '#/components/schemas/Seller' }
+                    items: { $ref: '#/components/schemas/Store' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
 
   /stores:
@@ -1214,7 +1219,7 @@ paths:
                 properties:
                   data:
                     type: array
-                    items: { $ref: '#/components/schemas/Seller' }
+                    items: { $ref: '#/components/schemas/Store' }
                   meta: { $ref: '#/components/schemas/PaginationMeta' }
 
   /stores/{id}:
@@ -1229,7 +1234,7 @@ paths:
           description: Store
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/Seller' }
+              schema: { $ref: '#/components/schemas/Store' }
         '404':
           description: Store not found
           content:
@@ -1516,7 +1521,7 @@ paths:
             application/json:
               schema:
                 type: array
-                items: { $ref: '#/components/schemas/Seller' }
+                items: { $ref: '#/components/schemas/Store' }
 
   # ============================================================
   # BUYER - PROFILE & SETTINGS
@@ -1958,16 +1963,35 @@ paths:
   /seller/store:
     get:
       tags: [Seller - Store]
-      summary: My store settings (StoreSettings.tsx)
+      summary: List stores owned by the authenticated seller
       responses:
         '200':
-          description: Store settings
+          description: Seller stores
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/StoreSettings' }
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Store' }
+  /seller/store/{id}:
+    get:
+      tags: [Seller - Store]
+      summary: Get one store owned by the authenticated seller
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: Seller store
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Store' }
     patch:
       tags: [Seller - Store]
-      summary: Update my store settings
+      summary: Update one store owned by the authenticated seller
+      parameters:
+        - { $ref: '#/components/parameters/IdParam' }
       requestBody:
         content:
           application/json:
@@ -1979,7 +2003,7 @@ paths:
           description: Store updated
           content:
             application/json:
-              schema: { $ref: '#/components/schemas/StoreSettings' }
+              schema: { $ref: '#/components/schemas/Store' }
 
   # ============================================================
   # SELLER - CUSTOMERS

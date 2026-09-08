@@ -44,7 +44,7 @@ export default function AdminDashboard() {
       key: 'id',
       header: t("Order"),
       render: (order) => (
-        <span className="font-mono text-xs text-[#0077B6] font-bold">
+        <span className="font-mono text-xs text-primary font-bold">
           {order.id}
         </span>
       ),
@@ -53,7 +53,7 @@ export default function AdminDashboard() {
       key: 'buyer',
       header: t("Buyer"),
       render: (order) => (
-        <span className="text-foreground">
+        <span className="text-secondary-foreground">
           {order.buyerName}
         </span>
       ),
@@ -62,7 +62,7 @@ export default function AdminDashboard() {
       key: 'amount',
       header: t("Amount"),
       render: (order) => (
-        <span className="font-medium text-foreground whitespace-nowrap">
+        <span className="font-medium text-secondary-foreground whitespace-nowrap">
           {formatMillionAr(order.total)}
         </span>
       ),
@@ -82,11 +82,11 @@ export default function AdminDashboard() {
       header: t("Seller"),
       render: (seller, index) => (
         <div className="flex items-center gap-2">
-          <span className="w-5 h-5 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">
+          <span className="w-5 h-5 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">
             {index + 1}
           </span>
 
-          <span className="font-medium text-foreground">
+          <span className="font-medium text-secondary-foreground">
             {seller.name}
           </span>
         </div>
@@ -96,7 +96,7 @@ export default function AdminDashboard() {
       key: 'revenue',
       header: 'Revenue',
       render: (seller) => (
-        <span className="font-medium text-foreground">
+        <span className="font-medium text-secondary-foreground">
           {(seller.revenue / 1000000).toFixed(1)}M Ar
         </span>
       ),
@@ -121,7 +121,7 @@ export default function AdminDashboard() {
       key: 'commission',
       header: 'Commission',
       render: (seller) => (
-        <span className="text-[#5ABCB9] font-medium">
+        <span className="text-accent font-medium">
           {((seller.revenue * 0.10) / 1000000).toFixed(1)}M Ar
         </span>
       ),
@@ -224,20 +224,20 @@ export default function AdminDashboard() {
         {/* Pending applications */}
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border flex items-center justify-between">
-            <h2 className="font-semibold font-display text-foreground">{t("Pending seller applications")}</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">{t("Pending seller applications")}</h2>
             <Badge variant="warning">{dashBoardData?.sellerApplications.meta.total} {t("pending")}</Badge>
           </div>
           <div className="divide-y divide-border">
             {dashBoardData?.sellerApplications.data.map(app => (
               <div key={app.id} className="px-5 py-4 flex items-center gap-3">
-                <div className="w-9 h-9 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] font-bold text-sm flex-shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary font-bold text-sm flex-shrink-0">
                   {app.businessName[0]}
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="font-medium text-sm text-foreground truncate">{app.businessName}</div>
+                  <div className="font-medium text-sm text-secondary-foreground truncate">{app.businessName}</div>
                   <div className="text-xs text-muted-foreground">{app.owner} · {app.category} · {app.date}</div>
                 </div>
-                <Link to="/admin/sellers/applications" className="text-xs text-[#0077B6] hover:underline flex-shrink-0">Review</Link>
+                <Link to="/admin/sellers/applications" className="text-xs text-primary hover:underline flex-shrink-0">Review</Link>
               </div>
             ))}
           </div>

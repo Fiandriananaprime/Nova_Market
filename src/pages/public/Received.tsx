@@ -12,7 +12,7 @@ export default function ApplicationReceived() {
   const { t } = useTranslation();
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex items-center justify-center px-4 py-4">
+    <div className="min-h-screen bg-background text-secondary-foreground flex items-center justify-center px-4 py-4">
       <div className="w-full max-w-[430px]">
 
         {/* Logo */}

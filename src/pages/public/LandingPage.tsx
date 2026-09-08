@@ -177,7 +177,7 @@ export default function LandingPage() {
       <section className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
+            <h2 className="text-3xl sm:text-4xl font-bold font-display text-secondary-foreground mb-3">
               {t("One marketplace. Many sellers.")}
             </h2>
             <p className="text-muted-foreground max-w-xl mx-auto">
@@ -196,7 +196,7 @@ export default function LandingPage() {
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-3" style={{ backgroundColor: `${f.color}15`, color: f.color }}>
                   {f.icon}
                 </div>
-                <h3 className="font-semibold font-display text-foreground mb-1.5">{f.title}</h3>
+                <h3 className="font-semibold font-display text-secondary-foreground mb-1.5">{f.title}</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
               </div>
             ))}
@@ -204,7 +204,7 @@ export default function LandingPage() {
 
           {/* Seller types */}
           <div className="bg-card border border-border rounded-2xl p-6 sm:p-8">
-            <h3 className="font-semibold font-display text-foreground mb-5 text-center">{t("Who sells on MasoMarket?")}</h3>
+            <h3 className="font-semibold font-display text-secondary-foreground mb-5 text-center">{t("Who sells on MasoMarket?")}</h3>
             <div className="flex flex-wrap justify-center gap-4">
               {[
                 { icon: '🏢', label: t("Companies") },
@@ -215,7 +215,7 @@ export default function LandingPage() {
               ].map((s, i) => (
                 <div key={i} className="flex items-center gap-2.5 px-4 py-2.5 bg-secondary rounded-full">
                   <span className="text-lg">{s.icon}</span>
-                  <span className="text-sm font-medium text-foreground">{s.label}</span>
+                  <span className="text-sm font-medium text-secondary-foreground">{s.label}</span>
                 </div>
               ))}
             </div>
@@ -257,7 +257,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Popular categories")}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-secondary-foreground">{t("Popular categories")}</h2>
               <p className="text-muted-foreground mt-1">{t("Browse by category")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/categories')}>
@@ -284,7 +284,7 @@ export default function LandingPage() {
                 </div>
 
                 <div>
-                  <div className="text-xs font-medium text-foreground leading-tight">
+                  <div className="text-xs font-medium text-secondary-foreground leading-tight">
                     {cat.name}
                   </div>
 
@@ -303,7 +303,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Featured Sellers")}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-secondary-foreground">{t("Featured Sellers")}</h2>
               <p className="text-muted-foreground mt-1">{t("Top verified stores")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/sellers')}>
@@ -325,7 +325,7 @@ export default function LandingPage() {
                 <div className="p-4 pt-3">
                   <div className="flex items-start justify-between mb-2">
                     <div>
-                      <h3 className="font-semibold font-display text-foreground">{seller.name}</h3>
+                      <h3 className="font-semibold font-display text-secondary-foreground">{seller.name}</h3>
                       {seller.verified && <VerifiedBadge small />}
                     </div>
                     <Rating value={seller.rating} showCount={false} />
@@ -350,7 +350,7 @@ export default function LandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h2 className="text-2xl sm:text-3xl font-bold font-display text-foreground">{t("Featured Products")}</h2>
+              <h2 className="text-2xl sm:text-3xl font-bold font-display text-secondary-foreground">{t("Featured Products")}</h2>
               <p className="text-muted-foreground mt-1">{t("Handpicked for you")}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => navigate('/products')}>
@@ -367,10 +367,10 @@ export default function LandingPage() {
                 </div>
                 <div className="p-3">
                   <p className="text-xs text-muted-foreground">{product.brand}</p>
-                  <h3 className="font-medium text-sm text-foreground truncate mt-0.5">{product.name}</h3>
+                  <h3 className="font-medium text-sm text-secondary-foreground truncate mt-0.5">{product.name}</h3>
                   <div className="flex items-center justify-between mt-2">
                     <div>
-                      <div className="font-bold text-foreground text-sm">{formatPrice(product.price)}</div>
+                      <div className="font-bold text-secondary-foreground text-sm">{formatPrice(product.price)}</div>
                       {product.originalPrice && <div className="text-xs text-muted-foreground line-through">{formatPrice(product.originalPrice)}</div>}
                     </div>
                     <Rating value={product.rating} showCount={false} size="xs" />
@@ -420,7 +420,7 @@ export default function LandingPage() {
       {/* Final CTA */}
       <section className="py-16 sm:py-20 text-center">
         <div className="max-w-2xl mx-auto px-4">
-          <h2 className="text-3xl sm:text-4xl font-bold font-display text-foreground mb-3">
+          <h2 className="text-3xl sm:text-4xl font-bold font-display text-secondary-foreground mb-3">
             {t("Ready to start shopping?")}
           </h2>
           <p className="text-muted-foreground mb-8">

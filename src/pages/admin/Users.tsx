@@ -53,7 +53,7 @@ export default function AdminUsers() {
             )}
           </div>
 
-          <span className="font-medium text-foreground">
+          <span className="font-medium text-secondary-foreground">
             {user.name}
           </span>
         </div>
@@ -73,9 +73,9 @@ export default function AdminUsers() {
         <span
           className={`text-xs font-medium px-2 py-0.5 rounded-full ${
             user.role === 'admin'
-              ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]'
+              ? 'bg-accent/10 text-accent'
               : user.role === 'seller'
-                ? 'bg-[#0077B6]/10 text-[#0077B6]'
+                ? 'bg-primary/10 text-primary'
                 : 'bg-secondary text-muted-foreground'
           }`}
         >
@@ -101,7 +101,7 @@ export default function AdminUsers() {
     {
       key: 'ordersCount',
       header: t("Orders"),
-      className: 'text-foreground',
+      className: 'text-secondary-foreground',
       render: (user) => String(user.ordersCount ?? 0),
     },
 
@@ -212,7 +212,7 @@ export default function AdminUsers() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">
+      <h1 className="text-xl font-bold font-display text-secondary-foreground mb-5">
         {t("User Management")}
       </h1>
 
@@ -234,7 +234,7 @@ export default function AdminUsers() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder={t("Search users...")}
-              className=" pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
+              className=" pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-secondary-foreground focus:outline-none focus:border-primary"
             />
             <button
               type="submit"

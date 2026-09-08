@@ -39,12 +39,9 @@ export default function UserDetails() {
 
       try {
         setLoading(true);
-
         const data = await getUserById(id);
-
         setUser(data);
       } catch (error) {
-        console.error('Error fetching user:', error);
         toast(getApiErrorMessage(error, 'Unable to load user details.'), 'error');
       } finally {
         setLoading(false);
@@ -83,7 +80,7 @@ export default function UserDetails() {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-20">
-        <Loader2 className="w-6 h-6 animate-spin text-[#0077B6]" />
+        <Loader2 className="w-6 h-6 animate-spin text-primary" />
       </div>
     );
   }
@@ -91,7 +88,7 @@ export default function UserDetails() {
   if (!user) {
     return (
       <div className="text-center py-20">
-        <h2 className="text-lg font-semibold text-foreground">
+        <h2 className="text-lg font-semibold text-secondary-foreground">
           {t("User not found")}
         </h2>
 
@@ -112,7 +109,7 @@ export default function UserDetails() {
       {/* Back */}
       <Link
         to="/admin/users"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-foreground"
       >
         <ArrowLeft className="w-4 h-4" />
         {t("Back to users")}
@@ -135,10 +132,10 @@ export default function UserDetails() {
               <div
                 className={`w-16 h-16 rounded-full flex items-center justify-center text-white text-xl font-bold ${
                   user.role === 'admin'
-                    ? 'bg-[#5ABCB9]'
+                    ? 'bg-accent'
                     : user.role === 'seller'
-                      ? 'bg-[#0077B6]'
-                      : 'bg-[#8da8b5]'
+                      ? 'bg-primary'
+                      : 'bg-darkMutedForeground'
                 }`}
               >
                 {user.firstName?.[0]}
@@ -147,7 +144,7 @@ export default function UserDetails() {
             )}
 
             <div>
-              <h1 className="text-xl font-bold font-display text-foreground">
+              <h1 className="text-xl font-bold font-display text-secondary-foreground">
                 {user.name}
               </h1>
 
@@ -159,9 +156,9 @@ export default function UserDetails() {
                 <span
                   className={`text-xs font-medium px-2 py-0.5 rounded-full ${
                     user.role === 'admin'
-                      ? 'bg-[#5ABCB9]/10 text-[#5ABCB9]'
+                      ? 'bg-accent/10 text-accent'
                       : user.role === 'seller'
-                        ? 'bg-[#0077B6]/10 text-[#0077B6]'
+                        ? 'bg-primary/10 text-primary'
                         : 'bg-secondary text-muted-foreground'
                   }`}
                 >
@@ -207,7 +204,7 @@ export default function UserDetails() {
         <div className="bg-card border border-border rounded-xl overflow-hidden">
 
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">
+            <h2 className="font-semibold font-display text-secondary-foreground">
               {t("Account information")}
             </h2>
           </div>
@@ -254,7 +251,7 @@ export default function UserDetails() {
         <div className="bg-card border border-border rounded-xl overflow-hidden">
 
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">
+            <h2 className="font-semibold font-display text-secondary-foreground">
               {t("Activity")}
             </h2>
           </div>
@@ -262,8 +259,8 @@ export default function UserDetails() {
           <div className="p-5 space-y-5">
 
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-lg bg-[#0077B6]/10 flex items-center justify-center">
-                <ShoppingBag className="w-5 h-5 text-[#0077B6]" />
+              <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center">
+                <ShoppingBag className="w-5 h-5 text-primary" />
               </div>
 
               <div>
@@ -271,7 +268,7 @@ export default function UserDetails() {
                   {t("Orders")}
                 </p>
 
-                <p className="font-semibold text-foreground">
+                <p className="font-semibold text-secondary-foreground">
                   {user.ordersCount}
                 </p>
               </div>
@@ -287,7 +284,7 @@ export default function UserDetails() {
                   {t("Member since")}
                 </p>
 
-                <p className="font-semibold text-foreground">
+                <p className="font-semibold text-secondary-foreground">
                   {formatDate(user.joinedAt)}
                 </p>
               </div>
@@ -300,7 +297,7 @@ export default function UserDetails() {
       {user.role === 'seller' && (
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">Stores</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">Stores</h2>
           </div>
           <div className="divide-y divide-border">
             {user.stores.map((store) => (
@@ -317,7 +314,7 @@ export default function UserDetails() {
                   </div>
                 )}
                 <div>
-                  <p className="font-medium text-foreground">{store.name}</p>
+                  <p className="font-medium text-secondary-foreground">{store.name}</p>
                   <p className="text-sm text-muted-foreground">
                     {store.location || 'No location'} · {store.productsCount} products
                   </p>
@@ -332,7 +329,7 @@ export default function UserDetails() {
       <div className="bg-card border border-border rounded-xl overflow-hidden">
 
         <div className="px-5 py-4 border-b border-border">
-          <h2 className="font-semibold font-display text-foreground">
+          <h2 className="font-semibold font-display text-secondary-foreground">
             Addresses
           </h2>
         </div>
@@ -352,12 +349,12 @@ export default function UserDetails() {
 
                   <div>
                     <div className="flex items-center gap-2">
-                      <p className="font-medium text-foreground">
+                      <p className="font-medium text-secondary-foreground">
                         {address.label}
                       </p>
 
                       {address.isDefault && (
-                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-[#0077B6]/10 text-[#0077B6]">
+                        <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-primary/10 text-primary">
                           Default
                         </span>
                       )}
@@ -409,7 +406,7 @@ function InfoRow({
         {label}
       </div>
 
-      <div className="text-sm font-medium text-foreground text-right">
+      <div className="text-sm font-medium text-secondary-foreground text-right">
         {value}
       </div>
     </div>

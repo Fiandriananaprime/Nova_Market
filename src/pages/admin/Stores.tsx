@@ -70,12 +70,12 @@ export default function SellerManagement() {
 
   const locations = [...new Set(stores.map((store) => store.location).filter(Boolean))];
   const years = [...new Set(stores.map((store) => String(store.joinedYear)).filter(Boolean))].sort().reverse();
-  const selectClass = 'h-10 rounded-xl border border-border bg-background px-3 text-sm outline-none focus:border-primary';
+  const selectClass = 'h-10 rounded-xl border border-border bg-background px-3 text-sm text-secondary-foreground outline-none focus:border-primary';
 
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold font-display text-foreground">{t('Stores')}</h1>
+        <h1 className="text-2xl font-bold font-display text-secondary-foreground">{t('Stores')}</h1>
         <p className="mt-1 text-sm text-muted-foreground">{t('Manage and monitor marketplace stores.')}</p>
       </div>
       <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
@@ -83,11 +83,11 @@ export default function SellerManagement() {
           <div className="flex flex-col gap-3 lg:flex-row">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('Search by store ID or name...')} className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
+              <input value={search} onChange={(event) => setSearch(event.target.value)} placeholder={t('Search by store ID or name...')} className="h-11 w-full rounded-xl border border-border bg-background pl-10 pr-4 text-sm text-secondary-foreground outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/10" />
             </div>
-            <button type="button" onClick={resetFilters} className="h-11 rounded-xl border border-border px-4 text-sm font-medium text-muted-foreground transition hover:bg-secondary hover:text-foreground">{t('Reset filters')}</button>
+            <button type="button" onClick={resetFilters} className="h-11 rounded-xl border border-border px-4 text-sm font-medium text-muted-foreground transition hover:bg-secondary hover:text-secondary-foreground">{t('Reset filters')}</button>
           </div>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 ">
             <select value={rating} onChange={(event) => setRating(event.target.value as AdminStoreFilters['rating'])} className={selectClass}><option value="all">{t('All ratings')}</option><option value="5">{t('5 stars')}</option><option value="4">{t('4 - 5 stars')}</option><option value="3">{t('3 - 4 stars')}</option></select>
             <select value={products} onChange={(event) => setProducts(event.target.value as AdminStoreFilters['products'])} className={selectClass}><option value="all">{t('All products')}</option><option value="small">{t('< 100 products')}</option><option value="medium">{t('100 - 999')}</option><option value="large">{t('1,000+ products')}</option></select>
             <select value={followers} onChange={(event) => setFollowers(event.target.value as AdminStoreFilters['followers'])} className={selectClass}><option value="all">{t('All followers')}</option><option value="small">{t('< 1K followers')}</option><option value="medium">{t('1K - 10K')}</option><option value="large">{t('10K+ followers')}</option></select>
@@ -101,7 +101,7 @@ export default function SellerManagement() {
       {loading && page === 1 ? <div className="p-10 text-center text-muted-foreground">{t('Loading stores...')}</div> : stores.length ? <>
         <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">{stores.map((store) => <StoreCard key={store.id} store={store} />)}</div>
         <div ref={loadMoreRef} className="min-h-10 py-4 text-center text-sm text-muted-foreground">{loadingMore ? t('Loading stores...') : hasMore ? '' : t('All stores loaded')}</div>
-      </> : <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card"><Store className="h-10 w-10 text-muted-foreground/50" /><h3 className="mt-4 font-semibold text-foreground">{t('No stores found')}</h3><p className="mt-1 text-sm text-muted-foreground">{t('Try adjusting your search or filters.')}</p></div>}
+      </> : <div className="flex min-h-[300px] flex-col items-center justify-center rounded-2xl border border-dashed border-border bg-card"><Store className="h-10 w-10 text-muted-foreground/50" /><h3 className="mt-4 font-semibold text-secondary-foreground">{t('No stores found')}</h3><p className="mt-1 text-sm text-muted-foreground">{t('Try adjusting your search or filters.')}</p></div>}
     </div>
   );
 }

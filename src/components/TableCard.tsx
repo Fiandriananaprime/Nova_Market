@@ -38,7 +38,7 @@ interface AdminTableCardProps<T> {
     >
       {/* Header */}
       <div className="px-5 py-4 border-b border-border flex items-center justify-between">
-        <h2 className="font-semibold font-display text-foreground">
+        <h2 className="font-semibold font-display text-secondary-foreground">
           {title}
         </h2>
 
@@ -47,7 +47,7 @@ interface AdminTableCardProps<T> {
       ) : viewAllHref ? (
         <Link
           to={viewAllHref}
-          className="text-xs text-[#0077B6] hover:underline"
+          className="text-xs text-primary hover:underline"
         >
           View all
         </Link>

@@ -136,7 +136,7 @@ const ProductAbout = () => {
         <button
           type="button"
           onClick={() => navigate(-1)}
-          className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-foreground hover:bg-muted"
+          className="rounded-lg border border-border bg-card px-4 py-2 text-sm font-medium text-secondary-foreground hover:bg-muted"
         >
           {t("Go back")}
         </button>

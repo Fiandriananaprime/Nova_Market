@@ -73,7 +73,7 @@ export default function Register() {
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
         <div className="w-full max-w-sm">
           <div className="text-center mb-6">
-            <h1 className="text-2xl font-bold font-display text-foreground mb-1">
+            <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-1">
               {t("Create buyer account")}
             </h1>
             <p className="text-sm text-muted-foreground">
@@ -99,7 +99,7 @@ export default function Register() {
           </form>
 
           <p className="text-center text-sm mt-4">
-            <button type="button" onClick={() => setStep('choose')} className="text-muted-foreground hover:text-foreground">
+            <button type="button" onClick={() => setStep('choose')} className="text-muted-foreground hover:text-secondary-foreground">
               ← {t("Back")}
             </button>
           </p>
@@ -113,12 +113,12 @@ export default function Register() {
       <div className="w-full max-w-lg">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#0077B6] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
               <ShoppingBag className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl font-display text-foreground">MasoMarket</span>
+            <span className="font-bold text-xl font-display text-secondary-foreground">MasoMarket</span>
           </div>
-          <h1 className="text-2xl font-bold font-display text-foreground mb-1">
+          <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-1">
             {t("Create an account")}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -129,16 +129,16 @@ export default function Register() {
         <div className="grid sm:grid-cols-2 gap-4">
           <button
             onClick={() => setStep('buyer')}
-            className="bg-card border-2 border-border hover:border-[#0077B6] rounded-2xl p-6 text-left transition-all group"
+            className="bg-card border-2 border-border hover:border-primary rounded-2xl p-6 text-left transition-all group"
           >
-            <div className="w-12 h-12 rounded-xl bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] mb-4 group-hover:bg-[#0077B6] group-hover:text-white transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4 group-hover:bg-primary group-hover:text-white transition-colors">
               <User className="w-6 h-6" />
             </div>
-            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t("Buyer")}</h2>
+            <h2 className="font-bold font-display text-secondary-foreground text-lg mb-1">{t("Buyer")}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t("Browse products, add to cart and place orders from multiple sellers.")}
             </p>
-            <div className="flex items-center gap-1 text-[#0077B6] text-sm font-medium mt-4">
+            <div className="flex items-center gap-1 text-primary text-sm font-medium mt-4">
               {t("Create buyer account")}
               <ChevronRight className="w-4 h-4" />
             </div>
@@ -146,16 +146,16 @@ export default function Register() {
 
           <button
             onClick={() => setStep('seller')}
-            className="bg-card border-2 border-border hover:border-[#5ABCB9] rounded-2xl p-6 text-left transition-all group"
+            className="bg-card border-2 border-border hover:border-accent rounded-2xl p-6 text-left transition-all group"
           >
-            <div className="w-12 h-12 rounded-xl bg-[#5ABCB9]/10 flex items-center justify-center text-[#5ABCB9] mb-4 group-hover:bg-[#5ABCB9] group-hover:text-white transition-colors">
+            <div className="w-12 h-12 rounded-xl bg-accent/10 flex items-center justify-center text-accent mb-4 group-hover:bg-accent group-hover:text-white transition-colors">
               <Building2 className="w-6 h-6" />
             </div>
-            <h2 className="font-bold font-display text-foreground text-lg mb-1">{t("Seller")}</h2>
+            <h2 className="font-bold font-display text-secondary-foreground text-lg mb-1">{t("Seller")}</h2>
             <p className="text-sm text-muted-foreground leading-relaxed">
               {t("Create a store, list products and sell to thousands of customers.")}
             </p>
-            <div className="flex items-center gap-1 text-[#5ABCB9] text-sm font-medium mt-4">
+            <div className="flex items-center gap-1 text-accent text-sm font-medium mt-4">
               {t("Apply as seller")}
               <ChevronRight className="w-4 h-4" />
             </div>
@@ -164,7 +164,7 @@ export default function Register() {
 
         <p className="text-center text-sm text-muted-foreground mt-6">
           {t("Already have an account?")}{' '}
-          <Link to="/login" className="text-[#0077B6] font-medium hover:underline">
+          <Link to="/login" className="text-primary font-medium hover:underline">
             {t("Sign-in-Se-connecter")}
           </Link>
         </p>

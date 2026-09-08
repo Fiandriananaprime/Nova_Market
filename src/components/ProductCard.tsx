@@ -40,7 +40,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div
-      className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md hover:border-[#5ABCB9]/40 transition-all duration-200 group flex flex-col cursor-pointer"
+      className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md hover:border-accent/40 transition-all duration-200 group flex flex-col cursor-pointer"
       onClick={() => navigate(`/products/${product.id}`)}
     >
       <div className="relative overflow-hidden bg-secondary">
@@ -71,11 +71,11 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="p-3 flex flex-col gap-2 flex-1">
         <div>
           <p className="text-xs text-muted-foreground mb-0.5">{product.brand}</p>
-          <h3 className="font-medium text-sm text-foreground leading-snug line-clamp-2 hover:text-[#0077B6] transition-colors">{product.name}</h3>
+          <h3 className="font-medium text-sm text-secondary-foreground leading-snug line-clamp-2 hover:text-primary transition-colors">{product.name}</h3>
         </div>
         <Rating value={product.rating} count={product.reviews} size="xs" />
         <div className="flex items-center gap-2">
-          <span className="font-bold text-foreground">{formatPrice(product.price)}</span>
+          <span className="font-bold text-secondary-foreground">{formatPrice(product.price)}</span>
           {product.originalPrice && (
             <span className="text-xs text-muted-foreground line-through">{formatPrice(product.originalPrice)}</span>
           )}

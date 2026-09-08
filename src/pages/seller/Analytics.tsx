@@ -29,13 +29,13 @@ export default function SellerAnalytics() {
   return (
     <div className="space-y-5">
       <div className="flex items-center justify-between">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Analytics")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Analytics")}</h1>
         <div className="flex gap-1 bg-secondary p-1 rounded-xl">
           {dateFilters.map(f => (
             <button
               key={f}
               onClick={() => setDateFilter(f)}
-              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${dateFilter === f ? 'bg-card text-foreground shadow-sm' : 'text-muted-foreground hover:text-foreground'}`}
+              className={`px-3 py-1.5 text-xs font-medium rounded-lg transition-colors ${dateFilter === f ? 'bg-card text-secondary-foreground shadow-sm' : 'text-muted-foreground hover:text-secondary-foreground'}`}
             >
               {t(f, f === 'Today' ? "Aujourd'hui" : f === '7 days' ? '7 jours' : f === '30 days' ? '30 jours' : f === '3 months' ? '3 mois' : 'Personnalisé')}
             </button>
@@ -52,7 +52,7 @@ export default function SellerAnalytics() {
 
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Revenue over time")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Revenue over time")}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={revenueData} barSize={20}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -65,7 +65,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Orders over time")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Orders over time")}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <LineChart data={revenueData}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -78,7 +78,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Top products by sales")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Top products by sales")}</h2>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={topProducts} layout="vertical" barSize={14}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" horizontal={false} />
@@ -91,7 +91,7 @@ export default function SellerAnalytics() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Sales by category")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Sales by category")}</h2>
           <div className="flex items-center gap-4">
             <ResponsiveContainer width="60%" height={180}>
               <PieChart>
@@ -105,7 +105,7 @@ export default function SellerAnalytics() {
                 <div key={c.name} className="flex items-center gap-2 text-sm">
                   <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: c.color }} />
                   <span className="text-muted-foreground">{c.name}</span>
-                  <span className="font-bold text-foreground ml-auto">{c.value}%</span>
+                  <span className="font-bold text-secondary-foreground ml-auto">{c.value}%</span>
                 </div>
               ))}
             </div>

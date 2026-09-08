@@ -41,13 +41,13 @@ export default function Products() {
   const Filters = () => (
     <div className="space-y-5">
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Category")}</h3>
+        <h3 className="font-semibold text-sm text-secondary-foreground mb-2.5">{t("Category")}</h3>
         <div className="space-y-1">
-          <button onClick={() => setSelectedCategory('')} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${!selectedCategory ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
+          <button onClick={() => setSelectedCategory('')} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${!selectedCategory ? 'bg-primary/10 text-primary font-medium' : 'text-secondary-foreground hover:bg-secondary'}`}>
             {t("All categories")}
           </button>
           {categories.map(c => (
-            <button key={c.id} onClick={() => setSelectedCategory(c.id)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${selectedCategory === c.id ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
+            <button key={c.id} onClick={() => setSelectedCategory(c.id)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${selectedCategory === c.id ? 'bg-primary/10 text-primary font-medium' : 'text-secondary-foreground hover:bg-secondary'}`}>
               {c.name} <span className="text-muted-foreground">({c.count.toLocaleString()})</span>
             </button>
           ))}
@@ -55,18 +55,18 @@ export default function Products() {
       </div>
 
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Price range")}</h3>
+        <h3 className="font-semibold text-sm text-secondary-foreground mb-2.5">{t("Price range")}</h3>
         <div className="flex gap-2 items-center">
-          <input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} className="w-full px-2 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+          <input type="number" placeholder="Min" value={minPrice} onChange={e => setMinPrice(e.target.value)} className="w-full px-2 py-1.5 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-primary" />
           <span className="text-muted-foreground text-sm flex-shrink-0">—</span>
-          <input type="number" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="w-full px-2 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+          <input type="number" placeholder="Max" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} className="w-full px-2 py-1.5 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-primary" />
         </div>
       </div>
 
       <div>
-        <h3 className="font-semibold text-sm text-foreground mb-2.5">{t("Minimum rating")}</h3>
+        <h3 className="font-semibold text-sm text-secondary-foreground mb-2.5">{t("Minimum rating")}</h3>
         {[0, 3, 4, 4.5].map(r => (
-          <button key={r} onClick={() => setMinRating(r)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${minRating === r ? 'bg-[#0077B6]/10 text-[#0077B6] font-medium' : 'text-foreground hover:bg-secondary'}`}>
+          <button key={r} onClick={() => setMinRating(r)} className={`w-full text-left px-2 py-1.5 text-sm rounded-lg transition-colors ${minRating === r ? 'bg-primary/10 text-primary font-medium' : 'text-secondary-foreground hover:bg-secondary'}`}>
             {r === 0 ? t("All ratings") : `${r}+ ⭐`}
           </button>
         ))}
@@ -88,7 +88,7 @@ export default function Products() {
             value={search}
             onChange={e => setSearch(e.target.value)}
             placeholder={t("Search products, brands...")}
-            className="w-full pl-10 pr-4 py-2.5 text-sm bg-card border border-border rounded-xl text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] transition-all"
+            className="w-full pl-10 pr-4 py-2.5 text-sm bg-card border border-border rounded-xl text-secondary-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
           />
         </div>
         <Select
@@ -145,7 +145,7 @@ export default function Products() {
         <div className="flex-1 min-w-0">
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm text-muted-foreground">
-              <span className="font-medium text-foreground">{sorted.length}</span> {t("results")}
+              <span className="font-medium text-secondary-foreground">{sorted.length}</span> {t("results")}
             </p>
             <Select
               options={[
@@ -163,7 +163,7 @@ export default function Products() {
           {sorted.length === 0 ? (
             <div className="text-center py-16">
               <div className="text-4xl mb-3">🔍</div>
-              <h3 className="font-semibold text-foreground mb-1">{t("No products found")}</h3>
+              <h3 className="font-semibold text-secondary-foreground mb-1">{t("No products found")}</h3>
               <p className="text-sm text-muted-foreground">{t("Try adjusting your search or filters")}</p>
             </div>
           ) : (

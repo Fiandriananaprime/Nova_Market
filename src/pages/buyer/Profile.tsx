@@ -39,15 +39,15 @@ export default function Profile() {
       {/* Header */}
       <div className="flex items-center gap-5 mb-6">
         <div className="relative">
-          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#0077B6] to-[#5ABCB9] flex items-center justify-center text-white text-3xl font-bold shadow-lg">
+          <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center text-white text-3xl font-bold shadow-lg">
             A
           </div>
-          <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-card border-2 border-background flex items-center justify-center text-muted-foreground hover:text-[#0077B6] transition-colors shadow-sm">
+          <button className="absolute -bottom-1 -right-1 w-7 h-7 rounded-full bg-card border-2 border-background flex items-center justify-center text-muted-foreground hover:text-primary transition-colors shadow-sm">
             <Edit className="w-3.5 h-3.5" />
           </button>
         </div>
         <div>
-          <h1 className="text-2xl font-bold font-display text-foreground">Andry Rakoto</h1>
+          <h1 className="text-2xl font-bold font-display text-secondary-foreground">Andry Rakoto</h1>
           <p className="text-sm text-muted-foreground">andry@email.com</p>
           <div className="flex items-center gap-3 mt-2">
             <span className="flex items-center gap-1 text-xs text-muted-foreground"><Package className="w-3.5 h-3.5" /> {orders.length} {t("orders")}</span>
@@ -68,7 +68,7 @@ export default function Profile() {
         {activeTab === 'info' && (
           <div className="bg-card border border-border rounded-xl p-5">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="font-semibold font-display text-foreground">{t("Personal information")}</h2>
+              <h2 className="font-semibold font-display text-secondary-foreground">{t("Personal information")}</h2>
               <Button variant="outline" size="sm" onClick={() => setEditing(!editing)}>
                 <Edit className="w-3.5 h-3.5" />
                 {editing ? t("Cancel") : t("Edit")}
@@ -101,7 +101,7 @@ export default function Profile() {
                 ].map(f => (
                   <div key={f.label}>
                     <div className="text-xs font-medium text-muted-foreground mb-0.5">{f.label}</div>
-                    <div className="font-medium text-foreground">{f.value}</div>
+                    <div className="font-medium text-secondary-foreground">{f.value}</div>
                   </div>
                 ))}
               </div>
@@ -113,14 +113,14 @@ export default function Profile() {
           <div className="space-y-3">
             {addresses.map(addr => (
               <div key={addr.id} className="bg-card border border-border rounded-xl p-4 flex items-start gap-3">
-                <div className="w-9 h-9 rounded-lg bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] flex-shrink-0 mt-0.5">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0 mt-0.5">
                   <MapPin className="w-4.5 h-4.5" />
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-0.5">
-                    <span className="font-semibold text-foreground">{addr.label}</span>
+                    <span className="font-semibold text-secondary-foreground">{addr.label}</span>
                     {addr.default && (
-                      <span className="text-xs bg-[#0077B6]/10 text-[#0077B6] px-1.5 py-0.5 rounded-full font-medium flex items-center gap-1">
+                      <span className="text-xs bg-primary/10 text-primary px-1.5 py-0.5 rounded-full font-medium flex items-center gap-1">
                         <CheckCircle2 className="w-3 h-3" /> {t("Default")}
                       </span>
                     )}
@@ -129,7 +129,7 @@ export default function Profile() {
                   <p className="text-sm text-muted-foreground">{addr.phone}</p>
                 </div>
                 <div className="flex gap-1">
-                  <button className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-foreground transition-colors"><Edit className="w-3.5 h-3.5" /></button>
+                  <button className="p-1.5 rounded-lg hover:bg-secondary text-muted-foreground hover:text-secondary-foreground transition-colors"><Edit className="w-3.5 h-3.5" /></button>
                   {!addr.default && <button className="p-1.5 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 text-muted-foreground hover:text-red-500 transition-colors"><Trash2 className="w-3.5 h-3.5" /></button>}
                 </div>
               </div>
@@ -150,8 +150,8 @@ export default function Profile() {
                 onClick={() => navigate(`/orders/${order.id}`)}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-mono text-sm font-bold text-[#0077B6]">{order.id}</span>
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${order.status === 'delivered' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : order.status === 'shipped' ? 'bg-blue-50 text-[#0077B6] dark:bg-blue-900/30' : 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'}`}>
+                  <span className="font-mono text-sm font-bold text-primary">{order.id}</span>
+                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${order.status === 'delivered' ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400' : order.status === 'shipped' ? 'bg-blue-50 text-primary dark:bg-blue-900/30' : 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400'}`}>
                     {order.status}
                   </span>
                 </div>
@@ -164,7 +164,7 @@ export default function Profile() {
                 </div>
                 <div className="flex items-center justify-between text-sm">
                   <span className="text-muted-foreground">{order.date}</span>
-                  <span className="font-bold text-foreground">{formatPrice(order.total)}</span>
+                  <span className="font-bold text-secondary-foreground">{formatPrice(order.total)}</span>
                 </div>
               </div>
             ))}

@@ -31,7 +31,7 @@ export default function AddProduct() {
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-card border border-border rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-foreground mb-4">{title}</h2>
+      <h2 className="font-semibold font-display text-secondary-foreground mb-4">{title}</h2>
       {children}
     </div>
   );
@@ -39,7 +39,7 @@ export default function AddProduct() {
   return (
     <div className="max-w-3xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Add product")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Add product")}</h1>
       </div>
 
       <div className="grid md:grid-cols-3 gap-5">
@@ -48,25 +48,25 @@ export default function AddProduct() {
             <div className="space-y-3">
               <Input label={t("Product name")} placeholder="Samsung Galaxy A56" />
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">{t("Description")}</label>
-                <textarea rows={4} placeholder={t("Describe your product...")} className="w-full bg-card border border-border rounded-md px-3 py-2 text-sm text-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none transition-all" />
+                <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Description")}</label>
+                <textarea rows={4} placeholder={t("Describe your product...")} className="w-full bg-card border border-border rounded-md px-3 py-2 text-sm text-secondary-foreground placeholder:text-muted-foreground outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary resize-none transition-all" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <Input label={t("Brand")} placeholder="Samsung" />
                 <Select label={t("Category")} options={[{ value: '', label: t("Select category") }, { value: '1', label: 'Electronics' }, { value: '2', label: 'Fashion' }]} />
               </div>
               <div>
-                <label className="text-sm font-medium text-foreground mb-1 block">{t("Tags")}</label>
+                <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Tags")}</label>
                 <div className="flex flex-wrap gap-1.5 mb-2">
                   {tags.map(tag => (
-                    <span key={tag} className="flex items-center gap-1 text-xs bg-[#0077B6]/10 text-[#0077B6] px-2 py-1 rounded-full">
+                    <span key={tag} className="flex items-center gap-1 text-xs bg-primary/10 text-primary px-2 py-1 rounded-full">
                       {tag}
                       <button onClick={() => setTags(tags.filter(t => t !== tag))} className="hover:opacity-70"><X className="w-3 h-3" /></button>
                     </span>
                   ))}
                 </div>
                 <div className="flex gap-2">
-                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder={t("Add a tag...")} className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+                  <input value={tagInput} onChange={e => setTagInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && addTag()} placeholder={t("Add a tag...")} className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-primary" />
                   <Button size="xs" onClick={addTag}>{t("Add")}</Button>
                 </div>
               </div>
@@ -75,7 +75,7 @@ export default function AddProduct() {
 
           <Section title={t("Images")}>
             <div className="grid grid-cols-4 gap-2">
-              <label className="col-span-4 sm:col-span-2 h-28 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-[#0077B6] transition-colors">
+              <label className="col-span-4 sm:col-span-2 h-28 border-2 border-dashed border-border rounded-xl flex flex-col items-center justify-center gap-2 cursor-pointer hover:border-primary transition-colors">
                 <Upload className="w-5 h-5 text-muted-foreground" />
                 <span className="text-xs text-muted-foreground">{t("Upload images")}</span>
                 <input type="file" multiple accept="image/*" className="sr-only" />
@@ -107,10 +107,10 @@ export default function AddProduct() {
             {variants.map((v, i) => (
               <div key={i} className="flex items-center gap-3 mb-3 p-3 bg-secondary rounded-xl">
                 <div className="flex-1">
-                  <div className="text-sm font-medium text-foreground mb-1">{v.name}</div>
+                  <div className="text-sm font-medium text-secondary-foreground mb-1">{v.name}</div>
                   <div className="flex gap-1.5 flex-wrap">
                     {v.values.map(val => (
-                      <span key={val} className="text-xs px-2 py-0.5 bg-card border border-border rounded-full text-foreground">{val}</span>
+                      <span key={val} className="text-xs px-2 py-0.5 bg-card border border-border rounded-full text-secondary-foreground">{val}</span>
                     ))}
                   </div>
                 </div>
@@ -134,7 +134,7 @@ export default function AddProduct() {
         {/* Sidebar */}
         <div>
           <div className="bg-card border border-border rounded-xl p-4 sticky top-6 space-y-3">
-            <h3 className="font-semibold text-sm font-display text-foreground">{t("Publish")}</h3>
+            <h3 className="font-semibold text-sm font-display text-secondary-foreground">{t("Publish")}</h3>
             <Select label={t("Status")} options={[{ value: 'active', label: t("Active") }, { value: 'draft', label: t("Draft") }, { value: 'inactive', label: t("Inactive") }]} />
             <Button className="w-full" loading={loading} onClick={handleSave}>{t("Save product")}</Button>
             <Button variant="outline" size="sm" className="w-full" onClick={() => navigate('/seller/products')}>{t("Cancel")}</Button>

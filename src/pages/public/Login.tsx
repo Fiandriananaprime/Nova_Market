@@ -98,12 +98,12 @@ const handleSubmit = async (
       <div className="w-full max-w-sm">
         <div className="text-center mb-8">
           <div className="inline-flex items-center gap-2 mb-4">
-            <div className="w-10 h-10 rounded-xl bg-[#0077B6] flex items-center justify-center">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
               <ShoppingBag className="w-5 h-5 text-white" />
             </div>
-            <span className="font-bold text-xl font-display text-foreground">MasoMarket</span>
+            <span className="font-bold text-xl font-display text-secondary-foreground">MasoMarket</span>
           </div>
-          <h1 className="text-2xl font-bold font-display text-foreground mb-1">{t("Sign in")}</h1>
+          <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-1">{t("Sign in")}</h1>
           <p className="text-sm text-muted-foreground">{t("Welcome back! Please sign in to continue.")}</p>
         </div>
 
@@ -128,7 +128,7 @@ const handleSubmit = async (
               onChange={handleChange}
               icon={<Lock className="w-4 h-4" />}
               iconRight={
-                <button onClick={() => setShowPassword(!showPassword)} className="text-muted-foreground hover:text-foreground">
+                <button onClick={() => setShowPassword(!showPassword)} className="text-muted-foreground hover:text-secondary-foreground">
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
               }
@@ -137,10 +137,10 @@ const handleSubmit = async (
 
           <div className="flex items-center justify-between mt-3 mb-5">
             <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" checked={form.remember} onChange={handleChange} name="remember" className="w-3.5 h-3.5 rounded border-border text-[#0077B6]" />
+              <input type="checkbox" checked={form.remember} onChange={handleChange} name="remember" className="w-3.5 h-3.5 rounded border-border text-primary" />
               <span className="text-sm text-muted-foreground">{t("Remember me")}</span>
             </label>
-            <a href="#" className="text-sm text-[#0077B6] hover:underline">{t("Forgot password?")}</a>
+            <a href="#" className="text-sm text-primary hover:underline">{t("Forgot password?")}</a>
           </div>
 
           {error && (
@@ -156,7 +156,7 @@ const handleSubmit = async (
         <p className="text-center text-sm text-muted-foreground mt-5">
           {t("Don't have an account?")}
           {' '}
-          <Link to="/register" className="text-[#0077B6] font-medium hover:underline">{t("Create one")}</Link>
+          <Link to="/register" className="text-primary font-medium hover:underline">{t("Create one")}</Link>
         </p>
       </div>
     </div>

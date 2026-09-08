@@ -36,12 +36,12 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
     <div className="bg-card border border-border rounded-xl p-5">
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">
             {review.customer[0]}
           </div>
 
           <div>
-            <div className="font-medium text-sm text-foreground">
+            <div className="font-medium text-sm text-secondary-foreground">
               {review.customer}
             </div>
 
@@ -64,17 +64,17 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
         </div>
       </div>
 
-      <p className="text-sm text-foreground mb-3">
+      <p className="text-sm text-secondary-foreground mb-3">
         {review.comment}
       </p>
 
       {review.replied ? (
-        <div className="ml-4 p-3 bg-[#0077B6]/5 border border-[#0077B6]/20 rounded-xl">
-          <div className="text-xs font-medium text-[#0077B6] mb-1">
+        <div className="ml-4 p-3 bg-primary/5 border border-primary/20 rounded-xl">
+          <div className="text-xs font-medium text-primary mb-1">
             {t("Your reply")}
           </div>
 
-          <p className="text-sm text-foreground">
+          <p className="text-sm text-secondary-foreground">
             {review.reply}
           </p>
         </div>
@@ -85,7 +85,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             onChange={(e) => setReplyText(e.target.value)}
             rows={2}
             placeholder={t("Write your reply...")}
-            className="w-full px-3 py-2 text-sm bg-secondary border border-border rounded-xl text-foreground focus:outline-none focus:border-[#0077B6] resize-none"
+            className="w-full px-3 py-2 text-sm bg-secondary border border-border rounded-xl text-secondary-foreground focus:outline-none focus:border-primary resize-none"
           />
 
           <div className="flex gap-2">
@@ -112,7 +112,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
       ) : (
         <button
           onClick={() => setIsReplying(true)}
-          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-[#0077B6] transition-colors"
+          className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
         >
           <MessageSquare className="w-3.5 h-3.5" />
           {t("Reply")}

@@ -18,11 +18,11 @@ export default function SellerReviews() {
 
   return (
     <div className="max-w-3xl">
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">{t("Reviews")}</h1>
+      <h1 className="text-xl font-bold font-display text-secondary-foreground mb-5">{t("Reviews")}</h1>
 
       <div className="bg-card border border-border rounded-xl p-5 mb-5 flex items-center gap-8">
         <div className="text-center">
-          <div className="text-5xl font-bold font-display text-foreground">{avg.toFixed(1)}</div>
+          <div className="text-5xl font-bold font-display text-secondary-foreground">{avg.toFixed(1)}</div>
           <Rating value={avg} showCount={false} size="md" />
           <div className="text-sm text-muted-foreground mt-1">{reviews.length} {t("reviews")}</div>
         </div>

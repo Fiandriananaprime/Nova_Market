@@ -27,7 +27,7 @@ export default function AdminCategories() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Category Management")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Category Management")}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
           {t("Add category")}
@@ -48,11 +48,11 @@ export default function AdminCategories() {
                   <ChevronRight className={`w-4 h-4 text-muted-foreground transition-transform ${expanded.includes(cat.id) ? 'rotate-90' : ''}`} />
                 )}
                 {cat.children.length === 0 && <span className="w-4" />}
-                <span className="font-medium text-foreground">{cat.name}</span>
+                <span className="font-medium text-secondary-foreground">{cat.name}</span>
                 <Badge variant="outline">{cat.count.toLocaleString()}</Badge>
               </button>
               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                <button className="p-1 rounded hover:bg-border text-muted-foreground hover:text-foreground"><Edit className="w-3.5 h-3.5" /></button>
+                <button className="p-1 rounded hover:bg-border text-muted-foreground hover:text-secondary-foreground"><Edit className="w-3.5 h-3.5" /></button>
                 <button className="p-1 rounded hover:bg-red-100 text-muted-foreground hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
                 <Button size="xs" variant="ghost" onClick={() => setModal(true)}>
                   <Plus className="w-3 h-3" />
@@ -64,10 +64,10 @@ export default function AdminCategories() {
             {expanded.includes(cat.id) && cat.children.map(sub => (
               <div key={sub.id} className="flex items-center gap-2 pl-12 pr-4 py-2.5 border-t border-border hover:bg-secondary transition-colors group">
                 <GripVertical className="w-4 h-4 text-border cursor-grab" />
-                <span className="flex-1 text-sm text-foreground">{sub.name}</span>
+                <span className="flex-1 text-sm text-secondary-foreground">{sub.name}</span>
                 <Badge variant="outline">{sub.count.toLocaleString()}</Badge>
                 <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                  <button className="p-1 rounded hover:bg-border text-muted-foreground hover:text-foreground"><Edit className="w-3.5 h-3.5" /></button>
+                  <button className="p-1 rounded hover:bg-border text-muted-foreground hover:text-secondary-foreground"><Edit className="w-3.5 h-3.5" /></button>
                   <button className="p-1 rounded hover:bg-red-100 text-muted-foreground hover:text-red-500"><Trash2 className="w-3.5 h-3.5" /></button>
                 </div>
               </div>
@@ -91,15 +91,15 @@ export default function AdminCategories() {
           <Input label={t("Category name")} placeholder="Electronics" />
           <Input label={t("Category name (French)")} placeholder="Électronique" />
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t("Parent category (optional)")}</label>
-            <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
+            <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Parent category (optional)")}</label>
+            <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-secondary-foreground focus:outline-none focus:border-primary">
               <option value="">{t("No parent (top-level)")}</option>
               {categories.map(c => <option key={c.id} value={c.id}>{c.name}</option>)}
             </select>
           </div>
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t("Icon")}</label>
-            <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-foreground focus:outline-none focus:border-[#0077B6]">
+            <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Icon")}</label>
+            <select className="w-full px-3 py-2 text-sm bg-card border border-border rounded-md text-secondary-foreground focus:outline-none focus:border-primary">
               <option>Cpu</option>
               <option>Shirt</option>
               <option>ShoppingBasket</option>

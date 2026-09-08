@@ -18,9 +18,9 @@ export default function StoreDetail() {
   return (
     <div className="pb-8">
       {/* Header */}
-      <div className="bg-[#16262E] rounded-2xl overflow-hidden mb-6 relative">
+      <div className="bg-foreground rounded-2xl overflow-hidden mb-6 relative">
         <img src={`https://images.unsplash.com/${seller.cover}?w=1400&h=300&fit=crop&auto=format`} alt="" className="w-full h-40 object-cover opacity-50" />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#16262E]/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 to-transparent" />
         <div className="relative px-5 pb-5 flex flex-col sm:flex-row sm:items-end gap-4 -mt-6">
           <div className="w-16 h-16 rounded-xl overflow-hidden border-3 border-white bg-white flex-shrink-0">
             <img src={`https://images.unsplash.com/${seller.logo}?w=80&h=80&fit=crop&auto=format`} alt={seller.name} className="w-full h-full object-cover" />
@@ -30,7 +30,7 @@ export default function StoreDetail() {
               <h1 className="text-xl font-bold font-display text-white">{seller.name}</h1>
               {seller.verified && <VerifiedBadge />}
             </div>
-            <div className="flex flex-wrap items-center gap-3 text-sm text-[#8da8b5] mt-1">
+            <div className="flex flex-wrap items-center gap-3 text-sm text-darkMutedForeground mt-1">
               <Rating value={seller.rating} showCount={false} />
               <span>·</span>
               <span className="flex items-center gap-1"><Package className="w-3.5 h-3.5" /> {seller.products} {t("products")}</span>
@@ -74,12 +74,12 @@ export default function StoreDetail() {
 
       {activeTab === 'about' && (
         <div className="bg-card border border-border rounded-xl p-5 max-w-2xl">
-          <p className="text-foreground leading-relaxed mb-4">{seller.description}</p>
+          <p className="text-secondary-foreground leading-relaxed mb-4">{seller.description}</p>
           <div className="grid grid-cols-2 gap-3 text-sm">
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Location-Localisation")}</span><div className="font-medium text-foreground">{seller.location}</div></div>
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Member since")}</span><div className="font-medium text-foreground">{seller.joined}</div></div>
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Followers")}</span><div className="font-medium text-foreground">{seller.followers.toLocaleString()}</div></div>
-            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">Rating</span><div className="font-medium text-foreground">⭐ {seller.rating}/5</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Location-Localisation")}</span><div className="font-medium text-secondary-foreground">{seller.location}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Member since")}</span><div className="font-medium text-secondary-foreground">{seller.joined}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">{t("Followers")}</span><div className="font-medium text-secondary-foreground">{seller.followers.toLocaleString()}</div></div>
+            <div className="p-3 bg-secondary rounded-lg"><span className="text-muted-foreground">Rating</span><div className="font-medium text-secondary-foreground">⭐ {seller.rating}/5</div></div>
           </div>
         </div>
       )}
@@ -93,11 +93,11 @@ export default function StoreDetail() {
           ].map((review, i) => (
             <div key={i} className="bg-card border border-border rounded-xl p-4">
               <div className="flex items-center justify-between mb-2">
-                <span className="font-medium text-sm text-foreground">{review.name}</span>
+                <span className="font-medium text-sm text-secondary-foreground">{review.name}</span>
                 <span className="text-xs text-muted-foreground">{review.date}</span>
               </div>
               <Rating value={review.rating} showCount={false} size="xs" />
-              <p className="text-sm text-foreground mt-2">{review.comment}</p>
+              <p className="text-sm text-secondary-foreground mt-2">{review.comment}</p>
             </div>
           ))}
         </div>

@@ -88,7 +88,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 {/* Header */}
                 <div className="flex items-start justify-between gap-3">
                     <div className="min-w-0">
-                        <h3 className="truncate text-lg font-bold text-foreground">
+                        <h3 className="truncate text-lg font-bold text-secondary-foreground">
                             {store.name}
                         </h3>
 
@@ -100,7 +100,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
 
                     <div className="flex shrink-0 items-center gap-1 rounded-lg bg-amber-500/10 px-2 py-1">
                         <Star className="h-3.5 w-3.5 fill-current text-amber-500" />
-                        <span className="text-sm font-semibold text-foreground">
+                        <span className="text-sm font-semibold text-secondary-foreground">
                             {store.rating?.toFixed(1) ?? '0.0'}
                         </span>
                     </div>
@@ -117,7 +117,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 <div className="mt-5 grid grid-cols-3 divide-x divide-border rounded-xl border border-border bg-secondary/30 py-3">
                     <div className="flex flex-col items-center gap-1 px-2">
                         <Package className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-bold text-foreground">
+                        <span className="text-sm font-bold text-secondary-foreground">
                             {formatCount(store.productsCount)}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
@@ -127,7 +127,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
 
                     <div className="flex flex-col items-center gap-1 px-2">
                         <Users className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-bold text-foreground">
+                        <span className="text-sm font-bold text-secondary-foreground">
                             {formatCount(store.followersCount)}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
@@ -137,7 +137,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
 
                     <div className="flex flex-col items-center gap-1 px-2">
                         <ShoppingBag className="h-4 w-4 text-muted-foreground" />
-                        <span className="text-sm font-bold text-foreground">
+                        <span className="text-sm font-bold text-secondary-foreground">
                             {orders.length}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
@@ -152,7 +152,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                         Annual revenue
                     </p>
 
-                    <p className="mt-1 text-xl font-bold tracking-tight text-foreground">
+                    <p className="mt-1 text-xl font-bold tracking-tight text-secondary-foreground">
                         {formatPrice(store.annualRevenue ?? 0)}
                     </p>
                 </div>
@@ -161,7 +161,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 {orders.length > 0 && (
                     <div className="mt-5">
                         <div className="mb-3 flex items-center justify-between">
-                            <h4 className="text-sm font-semibold text-foreground">
+                            <h4 className="text-sm font-semibold text-secondary-foreground">
                                 Recent orders
                             </h4>
 
@@ -177,7 +177,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                                     className="flex items-center justify-between gap-3 rounded-lg border border-border/70 p-2.5"
                                 >
                                     <div className="min-w-0">
-                                        <p className="truncate text-xs font-semibold text-foreground">
+                                        <p className="truncate text-xs font-semibold text-secondary-foreground">
                                             {order.id}
                                         </p>
 

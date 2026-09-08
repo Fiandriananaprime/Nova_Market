@@ -109,7 +109,7 @@ export default function OrderReceipt() {
     <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
       <Link
         to="/admin/orders"
-        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground p-5 pb-0"
+        className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-foreground p-5 pb-0"
       >
         <ArrowLeft className="w-4 h-4" />
         {t("Back to Orders")}
@@ -287,7 +287,7 @@ export default function OrderReceipt() {
                         />
 
                         <div className="min-w-0">
-                          <p className="truncate font-medium text-foreground group-hover:underline">
+                          <p className="truncate font-medium text-secondary-foreground group-hover:underline">
                             {item.productName}
                           </p>
 
@@ -302,7 +302,7 @@ export default function OrderReceipt() {
                     key: 'price',
                     header: t('Unit price'),
                     render: (item) => (
-                      <span className="font-medium text-foreground">
+                      <span className="font-medium text-secondary-foreground">
                         {formatPrice(item.price)}
                       </span>
                     ),
@@ -321,7 +321,7 @@ export default function OrderReceipt() {
                     header: t('Total'),
                     className: 'text-right',
                     render: (item) => (
-                      <span className="font-semibold text-foreground">
+                      <span className="font-semibold text-secondary-foreground">
                         {formatPrice(item.price * item.qty)}
                       </span>
                     ),
@@ -357,7 +357,7 @@ export default function OrderReceipt() {
                           </div>
                         )}
 
-                        <span className="text-sm font-medium text-foreground group-hover:underline">
+                        <span className="text-sm font-medium text-secondary-foreground group-hover:underline">
                           {seller?.name ?? items[0]?.sellerName}
                         </span>
 

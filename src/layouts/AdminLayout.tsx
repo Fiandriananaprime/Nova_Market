@@ -28,6 +28,7 @@ export default function AdminLayout() {
     { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t("Orders"), to: '/admin/orders' },
     { icon: <CreditCard className="w-4.5 h-4.5" />, label: t("Payments"), to: '/admin/payments' },
     { icon: <Tag className="w-4.5 h-4.5" />, label: t("Promotions"), to: '/admin/promotions' },
+    { icon: <Star className="w-4.5 h-4.5" />, label: t("Reviews"), to: '/admin/reviews' },
     { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t("Reports"), to: '/admin/reports' },
     { icon: <Settings className="w-4.5 h-4.5" />, label: t("Settings"), to: '/admin/settings' },
   ];
@@ -108,7 +109,7 @@ export default function AdminLayout() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1">
-            <h1 className="font-semibold text-sm font-display text-foreground hidden sm:block">
+            <h1 className="font-semibold text-sm font-display text-secondary-foreground hidden sm:block">
               {navItems.find(i => isNavItemActive(i.to))?.label || 'Admin Dashboard'}
             </h1>
           </div>
@@ -125,7 +126,7 @@ export default function AdminLayout() {
             </button>
             <div className="flex items-center gap-2 pl-2 ml-1 border-l border-border">
               <div className="w-7 h-7 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">A</div>
-              <span className="hidden sm:block text-sm font-medium text-foreground">Admin</span>
+              <span className="hidden sm:block text-sm font-medium text-secondary-foreground">Admin</span>
             </div>
           </div>
         </header>

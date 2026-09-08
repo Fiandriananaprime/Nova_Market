@@ -112,13 +112,13 @@ const AdminOrdersList = () => {
         <button
           type="button"
           onClick={() => setActiveFilter(activeFilter === filter ? null : filter)}
-          className="inline-flex items-center gap-1 hover:text-[#0077B6]"
+          className="inline-flex items-center gap-1 hover:text-primary"
           title={t(`Filter ${label}`)}
         >
           {label}
           <ArrowDown className="h-3.5 w-3.5" />
         </button>
-        {preview && <span className="max-w-16 truncate rounded bg-[#0077B6]/10 px-1 text-[9px] normal-case text-[#0077B6]">{preview}</span>}
+        {preview && <span className="max-w-16 truncate rounded bg-primary/10 px-1 text-[9px] normal-case text-primary">{preview}</span>}
         {activeFilter === filter && (
           <div className="absolute left-0 top-full z-30 mt-1 min-w-36 rounded-md border border-border bg-card p-1 normal-case shadow-lg">
             {filterOptionsFor(filter).map(([value, optionLabel]) => (
@@ -126,7 +126,7 @@ const AdminOrdersList = () => {
                 key={value}
                 type="button"
                 onClick={() => chooseFilter(value)}
-                className="block w-full rounded px-2 py-1.5 text-left text-xs font-normal text-foreground hover:bg-secondary"
+                className="block w-full rounded px-2 py-1.5 text-left text-xs font-normal text-secondary-foreground hover:bg-secondary"
               >
                 {optionLabel}
               </button>
@@ -142,7 +142,7 @@ const AdminOrdersList = () => {
       key: 'id',
       header: t("Order ID"),
       render: (order) => (
-        <span className="font-mono text-xs text-[#0077B6] font-bold">
+        <span className="font-mono text-xs text-primary font-bold">
           {order.id}
         </span>
       ),
@@ -154,7 +154,7 @@ const AdminOrdersList = () => {
         <Link
           to={`/admin/users/${order.buyerId || '1'}`}
           onClick={(e) => e.stopPropagation()}
-          className="text-foreground hover:text-[#0077B6] hover:underline"
+          className="text-secondary-foreground hover:text-primary hover:underline"
         >
           {order.buyerName}
         </Link>
@@ -165,10 +165,10 @@ const AdminOrdersList = () => {
       header: t('Seller'),
       render: (order) => (
         <div className="relative inline-flex items-start pr-5">
-          <span>{order.sellers[0]?.name}</span>
+          <span className='text-secondary-foreground'>{order.sellers[0]?.name}</span>
 
           {order.sellers.length > 1 && (
-            <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#0077B6] px-1 text-[9px] font-bold leading-none text-white">
+            <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-primary px-1 text-[9px] font-bold leading-none text-white">
               +{order.sellers.length - 1}
             </span>
           )}
@@ -178,7 +178,7 @@ const AdminOrdersList = () => {
     {
       key: 'amount',
       header: filterHeader(t("Amount"), 'amount'),
-      className: 'whitespace-nowrap font-medium text-foreground',
+      className: 'whitespace-nowrap font-medium text-secondary-foreground',
       render: (order) => formatPrice(order.total ?? 0),
     },
     {
@@ -219,7 +219,7 @@ const AdminOrdersList = () => {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={t("Search orders, buyers, sellers...")}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-primary"
             />
           </div>
         </div>

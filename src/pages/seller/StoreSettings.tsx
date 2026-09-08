@@ -31,7 +31,7 @@ export default function SellerStoreSettings() {
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-card border border-border rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-foreground mb-4">{title}</h2>
+      <h2 className="font-semibold font-display text-secondary-foreground mb-4">{title}</h2>
       {children}
     </div>
   );
@@ -39,7 +39,7 @@ export default function SellerStoreSettings() {
   return (
     <div className="max-w-2xl">
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Store settings")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Store settings")}</h1>
         <Button variant="outline" size="sm" disabled={!stores.find((store) => store.id === id) && !stores[0]} onClick={() => {
           const store = stores.find((item) => item.id === id) || stores[0];
           if (store) navigate(`/stores/${store.id}`);
@@ -66,7 +66,7 @@ export default function SellerStoreSettings() {
       <Section title={t("Store identity")}>
         {/* Cover */}
         <div className="mb-4">
-          <label className="text-sm font-medium text-foreground mb-2 block">{t("Cover image")}</label>
+          <label className="text-sm font-medium text-secondary-foreground mb-2 block">{t("Cover image")}</label>
           <div className="h-32 bg-[#16262E] rounded-xl overflow-hidden relative">
             <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&h=200&fit=crop" alt="" className="w-full h-full object-cover opacity-60" />
             <label className="absolute inset-0 flex items-center justify-center cursor-pointer hover:bg-black/20 transition-colors">
@@ -92,8 +92,8 @@ export default function SellerStoreSettings() {
           </div>
         </div>
         <div>
-          <label className="text-sm font-medium text-foreground mb-1 block">{t("Description")}</label>
-          <textarea rows={3} defaultValue="Official distributor of electronics and technology products in Madagascar." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
+          <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Description")}</label>
+          <textarea rows={3} defaultValue="Official distributor of electronics and technology products in Madagascar." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-secondary-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
         </div>
       </Section>
 
@@ -110,10 +110,10 @@ export default function SellerStoreSettings() {
         <div className="space-y-2">
           {['Monday - Friday', 'Saturday', 'Sunday'].map((day, i) => (
             <div key={day} className="flex items-center gap-3">
-              <span className="text-sm text-foreground w-36 flex-shrink-0">{day}</span>
-              <input defaultValue={i === 2 ? 'Closed' : '08:00'} className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />
+              <span className="text-sm text-secondary-foreground w-36 flex-shrink-0">{day}</span>
+              <input defaultValue={i === 2 ? 'Closed' : '08:00'} className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-[#0077B6]" />
               {i < 2 && <span className="text-muted-foreground">—</span>}
-              {i < 2 && <input defaultValue="18:00" className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:border-[#0077B6]" />}
+              {i < 2 && <input defaultValue="18:00" className="flex-1 px-3 py-1.5 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground focus:outline-none focus:border-[#0077B6]" />}
             </div>
           ))}
         </div>
@@ -122,7 +122,7 @@ export default function SellerStoreSettings() {
       <Section title={t("Store status")}>
         <div className="flex items-center justify-between">
           <div>
-            <div className="font-medium text-sm text-foreground">{t("Store is open")}</div>
+            <div className="font-medium text-sm text-secondary-foreground">{t("Store is open")}</div>
             <div className="text-xs text-muted-foreground">{t("Customers can browse and purchase products")}</div>
           </div>
           <Toggle checked={open} onChange={setOpen} />
@@ -130,7 +130,7 @@ export default function SellerStoreSettings() {
       </Section>
 
       <Section title={t("Return policy")}>
-        <textarea rows={3} defaultValue="We accept returns within 30 days of purchase. Products must be in original condition." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
+        <textarea rows={3} defaultValue="We accept returns within 30 days of purchase. Products must be in original condition." className="w-full px-3 py-2 text-sm bg-card border border-border rounded-xl text-secondary-foreground focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30 focus:border-[#0077B6] resize-none" />
       </Section>
 
       <Button size="lg" loading={loading} onClick={handleSave}>{t("Save-changes-Enregistrer-les-modifications")}</Button>

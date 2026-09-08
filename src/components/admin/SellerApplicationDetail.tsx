@@ -99,7 +99,7 @@ const SellerApplicationDetails = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
-        <p className="text-sm text-[var(--muted-foreground)]">
+        <p className="text-sm text-muted-foreground">
           Loading application...
         </p>
       </div>
@@ -109,8 +109,8 @@ const SellerApplicationDetails = () => {
   if (!application) {
     return (
       <div className="p-6">
-        <div className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-8 text-center">
-          <p className="text-[var(--foreground)] font-medium">
+        <div className="bg-card border border-border rounded-xl p-8 text-center">
+          <p className="text-secondary-foreground font-medium">
             {t("Seller application not found")}
           </p>
 
@@ -137,21 +137,21 @@ const SellerApplicationDetails = () => {
         <div>
           <Link
             to="/admin/sellers/applications"
-            className="inline-flex items-center gap-2 text-sm text-[var(--muted-foreground)] hover:text-[var(--foreground)] mb-4"
+            className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-foreground mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             {t("Back to applications")}
           </Link>
 
           <div className="flex items-center gap-3">
-            <h1 className="text-2xl font-bold font-display text-[var(--foreground)]">
+            <h1 className="text-2xl font-bold font-display text-secondary-foreground">
               {t("Seller Application")}
             </h1>
 
             <StatusBadge status={application.status} />
           </div>
 
-          <p className="text-sm text-[var(--muted-foreground)] mt-1">
+          <p className="text-sm text-muted-foreground mt-1">
             Application #{application.id}
           </p>
         </div>
@@ -189,16 +189,16 @@ const SellerApplicationDetails = () => {
             description="Information provided by the seller"
           >
             <div className="flex items-center gap-4 mb-6">
-              <div className="w-14 h-14 rounded-xl bg-[var(--secondary)] flex items-center justify-center">
-                <Building2 className="w-7 h-7 text-[#0077B6]" />
+              <div className="w-14 h-14 rounded-xl bg-secondary flex items-center justify-center">
+                <Building2 className="w-7 h-7 text-primary" />
               </div>
 
               <div>
-                <h2 className="text-xl font-semibold text-[var(--foreground)]">
+                <h2 className="text-xl font-semibold text-secondary-foreground">
                   {application.businessName}
                 </h2>
 
-                <p className="text-sm text-[var(--muted-foreground)]">
+                <p className="text-sm text-muted-foreground">
                   {application.category}
                 </p>
               </div>
@@ -279,13 +279,13 @@ const SellerApplicationDetails = () => {
         {/* Review */}
         <div>
           {isPending ? (
-            <section className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden sticky top-6">
-              <div className="px-6 py-5 border-b border-[var(--border)]">
-                <h2 className="font-semibold text-[var(--foreground)]">
+            <section className="bg-card border border-border rounded-xl overflow-hidden sticky top-6">
+              <div className="px-6 py-5 border-b border-border">
+                <h2 className="font-semibold text-secondary-foreground">
                   {t("Review application")}
                 </h2>
 
-                <p className="text-sm text-[var(--muted-foreground)] mt-1">
+                <p className="text-sm text-muted-foreground mt-1">
                   {t("Decide whether to approve or reject this seller.")}
                 </p>
               </div>
@@ -305,22 +305,22 @@ const SellerApplicationDetails = () => {
                     className={`p-4 rounded-xl border text-left transition-colors ${
                       decision === 'approve'
                         ? 'border-green-500 bg-green-500/10'
-                        : 'border-[var(--border)] hover:bg-[var(--secondary)]'
+                        : 'border-border hover:bg-secondary'
                     }`}
                   >
                     <Check
                       className={`w-5 h-5 mb-3 ${
                         decision === 'approve'
                           ? 'text-green-600'
-                          : 'text-[var(--muted-foreground)]'
+                          : 'text-muted-foreground'
                       }`}
                     />
 
-                    <p className="font-medium text-sm text-[var(--foreground)]">
+                    <p className="font-medium text-sm text-secondary-foreground">
                       {t("Approve")}
                     </p>
 
-                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t("Accept seller")}
                     </p>
                   </button>
@@ -331,22 +331,22 @@ const SellerApplicationDetails = () => {
                     className={`p-4 rounded-xl border text-left transition-colors ${
                       decision === 'reject'
                         ? 'border-red-500 bg-red-500/10'
-                        : 'border-[var(--border)] hover:bg-[var(--secondary)]'
+                        : 'border-border hover:bg-secondary'
                     }`}
                   >
                     <X
                       className={`w-5 h-5 mb-3 ${
                         decision === 'reject'
                           ? 'text-red-600'
-                          : 'text-[var(--muted-foreground)]'
+                          : 'text-muted-foreground'
                       }`}
                     />
 
-                    <p className="font-medium text-sm text-[var(--foreground)]">
+                    <p className="font-medium text-sm text-secondary-foreground">
                       {t("Reject")}
                     </p>
 
-                    <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                    <p className="text-xs text-muted-foreground mt-1">
                       {t("Decline seller")}
                     </p>
                   </button>
@@ -357,13 +357,13 @@ const SellerApplicationDetails = () => {
                   <div>
                     <label
                       htmlFor="reason"
-                      className="block text-sm font-medium text-[var(--foreground)] mb-2"
+                      className="block text-sm font-medium text-secondary-foreground mb-2"
                     >
                       {t("Reason")}
                       {decision === 'reject' ? (
                         <span className="text-red-500 ml-1">*</span>
                       ) : (
-                        <span className="text-xs font-normal text-[var(--muted-foreground)] ml-2">
+                        <span className="text-xs font-normal text-muted-foreground ml-2">
                           {t("Optional")}
                         </span>
                       )}
@@ -379,11 +379,11 @@ const SellerApplicationDetails = () => {
                           ? t("Explain why this application is being rejected...")
                           : t("Add an optional note...")
                       }
-                      className="w-full rounded-lg border border-[var(--border)] bg-[var(--background)] px-3 py-2.5 text-sm text-[var(--foreground)] placeholder:text-[var(--muted-foreground)] resize-none focus:outline-none focus:ring-2 focus:ring-[#0077B6]/30"
+                      className="w-full rounded-lg border border-border bg-background px-3 py-2.5 text-sm text-secondary-foreground placeholder:text-muted-foreground resize-none focus:outline-none focus:ring-2 focus:ring-primary/30"
                     />
 
                     {decision === 'reject' && (
-                      <p className="text-xs text-[var(--muted-foreground)] mt-2">
+                      <p className="text-xs text-muted-foreground mt-2">
                         {t("A reason is required when rejecting an application.")}
                       </p>
                     )}
@@ -421,23 +421,23 @@ const SellerApplicationDetails = () => {
                 )}
 
                 {!decision && (
-                  <p className="text-xs text-center text-[var(--muted-foreground)]">
+                  <p className="text-xs text-center text-muted-foreground">
                     {t("Select a decision to continue.")}
                   </p>
                 )}
               </div>
             </section>
           ) : (
-            <section className="bg-[var(--card)] border border-[var(--border)] rounded-xl p-6">
+            <section className="bg-card border border-border rounded-xl p-6">
               <div className="flex items-center gap-3">
                 <StatusBadge status={application.status} />
 
                 <div>
-                  <p className="font-medium text-[var(--foreground)]">
+                  <p className="font-medium text-secondary-foreground">
                     {t("Application reviewed")}
                   </p>
 
-                  <p className="text-xs text-[var(--muted-foreground)] mt-1">
+                  <p className="text-xs text-muted-foreground mt-1">
                     {t("This application is no longer pending.")}
                   </p>
                 </div>
@@ -459,14 +459,14 @@ const Section = ({
   description?: string;
   children: React.ReactNode;
 }) => (
-  <section className="bg-[var(--card)] border border-[var(--border)] rounded-xl overflow-hidden">
-    <div className="px-6 py-5 border-b border-[var(--border)]">
-      <h2 className="font-semibold text-[var(--foreground)]">
+  <section className="bg-card border border-border rounded-xl overflow-hidden">
+    <div className="px-6 py-5 border-b border-border">
+      <h2 className="font-semibold text-secondary-foreground">
         {title}
       </h2>
 
       {description && (
-        <p className="text-sm text-[var(--muted-foreground)] mt-1">
+        <p className="text-sm text-muted-foreground mt-1">
           {description}
         </p>
       )}
@@ -486,16 +486,16 @@ const InfoItem = ({
   value: string;
 }) => (
   <div className="flex items-start gap-3">
-    <div className="mt-0.5 text-[var(--muted-foreground)] [&>svg]:w-4 [&>svg]:h-4">
+    <div className="mt-0.5 text-muted-foreground [&>svg]:w-4 [&>svg]:h-4">
       {icon}
     </div>
 
     <div>
-      <p className="text-xs uppercase tracking-wide text-[var(--muted-foreground)]">
+      <p className="text-xs uppercase tracking-wide text-muted-foreground">
         {label}
       </p>
 
-      <p className="text-sm font-medium text-[var(--foreground)] mt-1">
+      <p className="text-sm font-medium text-secondary-foreground mt-1">
         {value}
       </p>
     </div>

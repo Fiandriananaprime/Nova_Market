@@ -12,14 +12,14 @@ export default function Settings() {
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-card border border-border rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-foreground mb-4 text-base">{title}</h2>
+      <h2 className="font-semibold font-display text-secondary-foreground mb-4 text-base">{title}</h2>
       {children}
     </div>
   );
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-2xl font-bold font-display text-foreground mb-6">{t("Settings")}</h1>
+      <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-6">{t("Settings")}</h1>
 
       <Section title={t("Appearance")}>
         <p className="text-sm text-muted-foreground mb-3">{t("Theme")}</p>
@@ -32,7 +32,7 @@ export default function Settings() {
             <button
               key={opt.id}
               onClick={() => setTheme(opt.id as any)}
-              className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-colors ${theme === opt.id ? 'border-[#0077B6] bg-[#0077B6]/5 text-[#0077B6]' : 'border-border text-muted-foreground hover:border-[#0077B6]/30'}`}
+              className={`flex flex-col items-center gap-2 p-3.5 rounded-xl border-2 transition-colors ${theme === opt.id ? 'border-primary bg-primary/5 text-primary' : 'border-border text-muted-foreground hover:border-primary/30'}`}
             >
               {opt.icon}
               <span className="text-sm font-medium">{opt.label}</span>
@@ -47,10 +47,10 @@ export default function Settings() {
             <button
               key={l.id}
               onClick={() => i18n.changeLanguage(l.id)}
-              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${i18n.language === l.id ? 'border-[#0077B6] bg-[#0077B6]/5' : 'border-border hover:border-[#0077B6]/30'}`}
+              className={`flex items-center gap-3 p-3.5 rounded-xl border-2 transition-colors ${i18n.language === l.id ? 'border-primary bg-primary/5' : 'border-border hover:border-primary/30'}`}
             >
               <span className="text-xl">{l.flag}</span>
-              <span className={`text-sm font-medium ${i18n.language === l.id ? 'text-[#0077B6]' : 'text-foreground'}`}>{l.label}</span>
+              <span className={`text-sm font-medium ${i18n.language === l.id ? 'text-primary' : 'text-secondary-foreground'}`}>{l.label}</span>
             </button>
           ))}
         </div>
@@ -67,7 +67,7 @@ export default function Settings() {
           ].map(item => (
             <div key={item.id} className="flex items-start justify-between gap-4 py-1">
               <div className="flex-1">
-                <div className="text-sm font-medium text-foreground">{item.label}</div>
+                <div className="text-sm font-medium text-secondary-foreground">{item.label}</div>
                 <div className="text-xs text-muted-foreground">{item.desc}</div>
               </div>
               <Toggle
@@ -89,7 +89,7 @@ export default function Settings() {
             <button key={i} className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-secondary transition-colors text-left">
               <span className="text-muted-foreground">{item.icon}</span>
               <div className="flex-1">
-                <div className="text-sm font-medium text-foreground">{item.label}</div>
+                <div className="text-sm font-medium text-secondary-foreground">{item.label}</div>
                 <div className="text-xs text-muted-foreground">{item.desc}</div>
               </div>
               <span className="text-muted-foreground">›</span>
@@ -101,7 +101,7 @@ export default function Settings() {
       <Section title={t("Security")}>
         <div className="space-y-3">
           <div>
-            <h3 className="text-sm font-medium text-foreground mb-2">{t("Change password")}</h3>
+            <h3 className="text-sm font-medium text-secondary-foreground mb-2">{t("Change password")}</h3>
             <div className="space-y-2 mb-3">
               <Input type="password" placeholder={t("Current password")} />
               <Input type="password" placeholder={t("New password")} />
@@ -111,7 +111,7 @@ export default function Settings() {
           </div>
           <div className="border-t border-border pt-3 flex items-start justify-between">
             <div>
-              <div className="text-sm font-medium text-foreground">{t("Two-factor authentication")}</div>
+              <div className="text-sm font-medium text-secondary-foreground">{t("Two-factor authentication")}</div>
               <div className="text-xs text-muted-foreground">{t("Add an extra layer of security")}</div>
             </div>
             <Button size="sm" variant="outline">{t("Enable")}</Button>

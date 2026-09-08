@@ -33,6 +33,17 @@ export interface TopSeller {
 }
 
 export interface StoreAdmin extends Store {
+  owner?: {
+    id: string;
+    name: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone?: string | null;
+    status: 'active' | 'suspended';
+    avatarUrl?: string | null;
+    storesCount?: number;
+  };
   annualRevenue: number;
   orders: Array<{
     id: string;

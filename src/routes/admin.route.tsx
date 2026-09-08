@@ -25,7 +25,7 @@ export const adminRoutes = {
     { path: 'users', Component: AdminUsers },
     { path: 'users/:id', Component: UserDetails },
     { path: 'sellers', Component: SellerManagement },
-    {path: 'sellers/:id', Component: StoreAdminDetail },
+    { path: 'sellers/:id', Component: StoreAdminDetail },
     { path: 'sellers/applications', Component: SellerApplications },
     { path: 'sellers/applications/:id', Component: SellerApplicationDetails },
     { path: 'products', Component: AdminProducts },

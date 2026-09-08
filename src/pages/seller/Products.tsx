@@ -17,7 +17,7 @@ export default function SellerProducts() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Products")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Products")}</h1>
         <Button onClick={() => navigate('/seller/products/new')}>
           <Plus className="w-4 h-4" />
           {t("Add product")}
@@ -32,10 +32,10 @@ export default function SellerProducts() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={t("Search products...")}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#0077B6]"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
             />
           </div>
-          <select className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block">
+          <select className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-secondary-foreground focus:outline-none hidden sm:block">
             <option>{t("All categories")}</option>
             <option>Electronics</option>
             <option>Fashion</option>
@@ -59,18 +59,18 @@ export default function SellerProducts() {
                         <img src={`https://images.unsplash.com/${product.image}?w=60&h=60&fit=crop&auto=format`} alt="" className="w-full h-full object-cover" />
                       </div>
                       <div>
-                        <div className="font-medium text-foreground truncate max-w-40">{product.name}</div>
+                        <div className="font-medium text-secondary-foreground truncate max-w-40">{product.name}</div>
                         <div className="text-xs text-muted-foreground">{product.brand}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">Electronics</td>
-                  <td className="px-4 py-3 font-medium text-foreground whitespace-nowrap">{formatPrice(product.price)}</td>
+                  <td className="px-4 py-3 font-medium text-secondary-foreground whitespace-nowrap">{formatPrice(product.price)}</td>
                   <td className="px-4 py-3">
-                    <span className={`font-medium ${product.stock < 10 ? 'text-amber-600' : 'text-foreground'}`}>{product.stock}</span>
+                    <span className={`font-medium ${product.stock < 10 ? 'text-amber-600' : 'text-secondary-foreground'}`}>{product.stock}</span>
                   </td>
                   <td className="px-4 py-3"><StatusBadge status={product.stock > 0 ? 'active' : 'out of stock'} /></td>
-                  <td className="px-4 py-3 text-foreground">{product.reviews}</td>
+                  <td className="px-4 py-3 text-secondary-foreground">{product.reviews}</td>
                   <td className="px-4 py-3">
                     <div className="relative">
                       <button
@@ -88,7 +88,7 @@ export default function SellerProducts() {
                               { icon: <EyeOff className="w-3.5 h-3.5" />, label: t("Disable"), action: () => {} },
                               { icon: <Trash2 className="w-3.5 h-3.5" />, label: t("Delete"), action: () => { setDeleteModal(product.id); setOpenMenu(null); }, danger: true },
                             ].map((item, i) => (
-                              <button key={i} onClick={() => { item.action(); setOpenMenu(null); }} className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors ${(item as any).danger ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-foreground hover:bg-secondary'}`}>
+                              <button key={i} onClick={() => { item.action(); setOpenMenu(null); }} className={`w-full flex items-center gap-2.5 px-3 py-2 text-sm rounded-lg transition-colors ${(item as any).danger ? 'text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20' : 'text-secondary-foreground hover:bg-secondary'}`}>
                                 {item.icon}
                                 {item.label}
                               </button>

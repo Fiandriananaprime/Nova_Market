@@ -47,7 +47,7 @@ export default function AdminPayments() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-foreground">{t("Payments")}</h1>
+      <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Payments")}</h1>
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard title={t("Total volume")} value="284.5M Ar" change={14.2} icon={<DollarSign className="w-5 h-5" />} color="#0077B6" />
@@ -59,7 +59,7 @@ export default function AdminPayments() {
       {/* Payment methods breakdown */}
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Revenue by payment method")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Revenue by payment method")}</h2>
           <ResponsiveContainer width="100%" height={220}>
             <BarChart data={paymentData} barSize={10}>
               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} />
@@ -75,7 +75,7 @@ export default function AdminPayments() {
         </div>
 
         <div className="bg-card border border-border rounded-xl p-5">
-          <h2 className="font-semibold font-display text-foreground mb-4">{t("Payment method share")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground mb-4">{t("Payment method share")}</h2>
           <div className="space-y-3">
             {[
               { name: 'MVola', pct: 44, color: '#5ABCB9', amount: 125060000 },
@@ -87,10 +87,10 @@ export default function AdminPayments() {
                 <div className="flex items-center justify-between text-sm mb-1">
                   <div className="flex items-center gap-2">
                     <div className="w-2.5 h-2.5 rounded-full" style={{ background: m.color }} />
-                    <span className="text-foreground">{m.name}</span>
+                    <span className="text-secondary-foreground">{m.name}</span>
                   </div>
                   <div className="text-right">
-                    <span className="font-bold text-foreground">{m.pct}%</span>
+                    <span className="font-bold text-secondary-foreground">{m.pct}%</span>
                     <span className="text-xs text-muted-foreground ml-2">{(m.amount / 1000000).toFixed(1)}M Ar</span>
                   </div>
                 </div>
@@ -106,7 +106,7 @@ export default function AdminPayments() {
       {/* Transactions table */}
       <div className="bg-card border border-border rounded-xl overflow-hidden">
         <div className="flex items-center justify-between px-5 py-4 border-b border-border">
-          <h2 className="font-semibold font-display text-foreground">{t("Transactions")}</h2>
+          <h2 className="font-semibold font-display text-secondary-foreground">{t("Transactions")}</h2>
           <Select
             options={[
               { value: 'all', label: t("All methods") },
@@ -132,12 +132,12 @@ export default function AdminPayments() {
             <tbody className="divide-y divide-border">
               {filtered.map(t => (
                 <tr key={t.id} className="hover:bg-secondary transition-colors">
-                  <td className="px-4 py-3 font-mono text-xs text-[#5ABCB9] font-bold">{t.id}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-[#0077B6]">{t.order}</td>
-                  <td className="px-4 py-3 text-foreground">{t.buyer}</td>
-                  <td className="px-4 py-3 text-foreground">{t.seller}</td>
-                  <td className="px-4 py-3 font-bold text-foreground whitespace-nowrap">{formatPrice(t.amount)}</td>
-                  <td className="px-4 py-3 text-[#5ABCB9] font-medium whitespace-nowrap">{formatPrice(t.commission)}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-accent font-bold">{t.id}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-primary">{t.order}</td>
+                  <td className="px-4 py-3 text-secondary-foreground">{t.buyer}</td>
+                  <td className="px-4 py-3 text-secondary-foreground">{t.seller}</td>
+                  <td className="px-4 py-3 font-bold text-secondary-foreground whitespace-nowrap">{formatPrice(t.amount)}</td>
+                  <td className="px-4 py-3 text-accent font-medium whitespace-nowrap">{formatPrice(t.commission)}</td>
                   <td className="px-4 py-3">
                     <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: `${methodColors[t.method] || '#8da8b5'}18`, color: methodColors[t.method] || '#8da8b5' }}>
                       {t.method}
@@ -155,8 +155,8 @@ export default function AdminPayments() {
         <div className="px-5 py-3 border-t border-border bg-secondary flex items-center justify-between text-sm">
           <span className="text-muted-foreground">Showing {filtered.length} transactions</span>
           <div className="flex gap-6">
-            <span className="text-muted-foreground">Volume: <span className="font-bold text-foreground">{formatPrice(totalVolume)}</span></span>
-            <span className="text-muted-foreground">Commission: <span className="font-bold text-[#5ABCB9]">{formatPrice(totalCommission)}</span></span>
+            <span className="text-muted-foreground">Volume: <span className="font-bold text-secondary-foreground">{formatPrice(totalVolume)}</span></span>
+            <span className="text-muted-foreground">Commission: <span className="font-bold text-accent">{formatPrice(totalCommission)}</span></span>
           </div>
         </div>
       </div>

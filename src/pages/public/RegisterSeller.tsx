@@ -78,7 +78,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold font-display text-foreground mb-1">
+          <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-1">
             {t("Seller application")}
           </h1>
           <p className="text-sm text-muted-foreground">
@@ -88,7 +88,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
 
         <form onSubmit={handleSubmit} className="bg-card border border-border rounded-2xl p-6 shadow-sm space-y-4">
           <div className="pb-3 mb-1 border-b border-border">
-            <h3 className="text-sm font-semibold text-foreground">
+            <h3 className="text-sm font-semibold text-secondary-foreground">
               {t("Personal information")}
             </h3>
           </div>
@@ -99,7 +99,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
           <Input value={form.email} name="email" label="Email" type="email" placeholder="jean@business.mg" icon={<Mail className="w-4 h-4" />} onChange={handleChange} />
 
           <div className="pb-3 mb-1 border-b border-border pt-2">
-            <h3 className="text-sm font-semibold text-foreground">
+            <h3 className="text-sm font-semibold text-secondary-foreground">
               {t("Business information")}
             </h3>
           </div>
@@ -123,7 +123,7 @@ export default function RegisterSeller({ onBack}: RegisterSellerProps ) {
 
         {onBack && (
           <p className="text-center text-sm mt-4">
-            <button type="button" onClick={onBack} className="text-muted-foreground hover:text-foreground">
+            <button type="button" onClick={onBack} className="text-muted-foreground hover:text-secondary-foreground">
               ← {t("Back")}
             </button>
           </p>

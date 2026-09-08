@@ -13,7 +13,7 @@ export default function AdminSettings() {
 
   const Section = ({ title, children }: { title: string; children: React.ReactNode }) => (
     <div className="bg-card border border-border rounded-xl p-5 mb-4">
-      <h2 className="font-semibold font-display text-foreground mb-4">{title}</h2>
+      <h2 className="font-semibold font-display text-secondary-foreground mb-4">{title}</h2>
       {children}
     </div>
   );
@@ -21,7 +21,7 @@ export default function AdminSettings() {
   const Row = ({ label, value }: { label: string; value: string }) => (
     <div className="flex justify-between items-center py-2 border-b border-border last:border-0">
       <span className="text-sm text-muted-foreground">{label}</span>
-      <span className="font-medium text-foreground">{value}</span>
+      <span className="font-medium text-secondary-foreground">{value}</span>
     </div>
   );
 
@@ -33,7 +33,7 @@ export default function AdminSettings() {
 
   return (
     <div className="max-w-2xl">
-      <h1 className="text-xl font-bold font-display text-foreground mb-6">{t("Platform Settings")}</h1>
+      <h1 className="text-xl font-bold font-display text-secondary-foreground mb-6">{t("Platform Settings")}</h1>
 
       <Section title={t("General")}>
         <div className="space-y-3">
@@ -46,7 +46,7 @@ export default function AdminSettings() {
       <Section title={t("Commission settings")}>
         <div className="grid sm:grid-cols-2 gap-5">
           <div>
-            <label className="text-sm font-medium text-foreground mb-1 block">{t("Default commission rate (%)")}</label>
+            <label className="text-sm font-medium text-secondary-foreground mb-1 block">{t("Default commission rate (%)")}</label>
             <div className="flex items-center gap-3">
               <input
                 type="range"
@@ -54,9 +54,9 @@ export default function AdminSettings() {
                 max={30}
                 value={commissionRate}
                 onChange={e => setCommissionRate(Number(e.target.value))}
-                className="flex-1 accent-[#0077B6]"
+                className="flex-1 accent-primary"
               />
-              <span className="w-12 text-center font-bold text-[#0077B6] text-lg font-display">{commissionRate}%</span>
+              <span className="w-12 text-center font-bold text-primary text-lg font-display">{commissionRate}%</span>
             </div>
           </div>
           <div className="bg-secondary rounded-xl p-4">
@@ -79,7 +79,7 @@ export default function AdminSettings() {
           ].map((m, i) => (
             <div key={i} className="flex items-center justify-between py-2">
               <div>
-                <div className="text-sm font-medium text-foreground">{m.name}</div>
+                <div className="text-sm font-medium text-secondary-foreground">{m.name}</div>
                 <div className="text-xs text-muted-foreground">{m.desc}</div>
               </div>
               <Toggle checked={m.enabled} onChange={() => {}} />
@@ -95,8 +95,8 @@ export default function AdminSettings() {
               <div className="flex items-center gap-3">
                 <span className="text-xl">{l.flag}</span>
                 <div>
-                  <div className="font-medium text-sm text-foreground">{l.lang}</div>
-                  {l.default && <div className="text-xs text-[#5ABCB9]">{t("Default language")}</div>}
+                  <div className="font-medium text-sm text-secondary-foreground">{l.lang}</div>
+                  {l.default && <div className="text-xs text-accent">{t("Default language")}</div>}
                 </div>
               </div>
               <Toggle checked onChange={() => {}} />
@@ -109,21 +109,21 @@ export default function AdminSettings() {
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-foreground">Require email verification</div>
+              <div className="text-sm font-medium text-secondary-foreground">Require email verification</div>
               <div className="text-xs text-muted-foreground">New accounts must verify their email</div>
             </div>
             <Toggle checked onChange={() => {}} />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-foreground">Manual seller approval</div>
+              <div className="text-sm font-medium text-secondary-foreground">Manual seller approval</div>
               <div className="text-xs text-muted-foreground">New sellers must be approved by admins</div>
             </div>
             <Toggle checked onChange={() => {}} />
           </div>
           <div className="flex items-center justify-between">
             <div>
-              <div className="text-sm font-medium text-foreground">Product moderation</div>
+              <div className="text-sm font-medium text-secondary-foreground">Product moderation</div>
               <div className="text-xs text-muted-foreground">New products must be approved before going live</div>
             </div>
             <Toggle checked onChange={() => {}} />

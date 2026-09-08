@@ -14,8 +14,7 @@ import {
   Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Rating } from "../../components/ui";
-import {VerifiedBadge} from "@/components/ui/VerifiedBadge";
+import { Rating,VerifiedBadge,CopyableText } from "../../ui";
 import { StoreAdmin } from "@/type/admin/seller";
 import { useEffect, useState } from "react";
 import { useToast } from "@/contexts/ToastContext";
@@ -38,7 +37,7 @@ type StatCardProps = {
 type InfoRowProps = {
   icon: React.ElementType;
   label: string;
-  value: React.ReactNode;
+  value: any;
 };
 
 
@@ -74,7 +73,7 @@ const InfoRow = ({ icon: Icon, label, value }: InfoRowProps) => (
     <div className="min-w-0">
       <p className="text-xs text-muted-foreground">{label}</p>
       <div className="text-sm text-secondary-foreground mt-0.5 break-words">
-        {value}
+        <CopyableText text={value} />
       </div>
     </div>
   </div>
@@ -88,7 +87,7 @@ const Overview = ({ store }: OverviewProps) => {
   useEffect(() => {
     const fetchOverviewData = async () => {
       try {
-        const review = await getSellerReviews(store.id,1,2);
+        const review = await getSellerReviews(store.id,1,2,'all');
         setRecentReview(review.data);
       } catch (error) {
         toast("Failed to fetch seller information", "error");
@@ -199,7 +198,7 @@ const Overview = ({ store }: OverviewProps) => {
               <p className="text-xs text-muted-foreground">
                 {t("Reviews")}
               </p>
-              <p className="mt-1 font-semibold text-secondary-foreground">342</p>
+              <p className="mt-1 font-semibold text-secondary-foreground">{ store.reviewsCount}</p>
             </div>
           </div>
         </div>

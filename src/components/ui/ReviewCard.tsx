@@ -3,23 +3,15 @@ import { MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../components/ui";
 import { Rating } from "../../components/ui";
-
-type Review = {
-  id: string;
-  customer: string;
-  product: string;
-  rating: number;
-  date: string;
-  comment: string;
-  replied: boolean;
-  reply?: string;
-};
+import { Review } from '@/type/catalog/store';
+import { UserRole } from "@/type/user";
 
 type ReviewCardProps = {
   review: Review;
+  role: UserRole;
 };
 
-const ReviewCard = ({ review }: ReviewCardProps) => {
+const ReviewCard = ({ review, role }: ReviewCardProps) => {
   const { t } = useTranslation();
 
   const [isReplying, setIsReplying] = useState(false);
@@ -37,16 +29,16 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
       <div className="flex items-start justify-between mb-2">
         <div className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">
-            {review.customer[0]}
+            {review.customerName[0]}
           </div>
 
           <div>
             <div className="font-medium text-sm text-secondary-foreground">
-              {review.customer}
+              {review.customerName}
             </div>
 
             <div className="text-xs text-muted-foreground">
-              {review.product}
+              {review.productName}
             </div>
           </div>
         </div>
@@ -71,14 +63,14 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
       {review.replied ? (
         <div className="ml-4 p-3 bg-primary/5 border border-primary/20 rounded-xl">
           <div className="text-xs font-medium text-primary mb-1">
-            {t("Your reply")}
+            {role==="admin" ? t("Seller Reply") : t("Your Reply") }
           </div>
 
           <p className="text-sm text-secondary-foreground">
             {review.reply}
           </p>
         </div>
-      ) : isReplying ? (
+      ) : isReplying && role==='seller' ? (
         <div className="ml-4 space-y-2">
           <textarea
             value={replyText}
@@ -109,7 +101,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
             </Button>
           </div>
         </div>
-      ) : (
+      ) : role==='seller' ? (
         <button
           onClick={() => setIsReplying(true)}
           className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
@@ -117,7 +109,7 @@ const ReviewCard = ({ review }: ReviewCardProps) => {
           <MessageSquare className="w-3.5 h-3.5" />
           {t("Reply")}
         </button>
-      )}
+      ): null }
     </div>
   );
 };

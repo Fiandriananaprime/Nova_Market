@@ -106,7 +106,7 @@ export default function OrderReceipt() {
   }
 
   return (
-    <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+    <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-card shadow-sm">
       <Link
         to="/admin/orders"
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-foreground p-5 pb-0"
@@ -114,28 +114,26 @@ export default function OrderReceipt() {
         <ArrowLeft className="w-4 h-4" />
         {t("Back to Orders")}
       </Link>
-      <div className="border-b border-gray-200 bg-gray-50/70 px-6 py-5">
+      <div className="border-b border-gray-200 bg-card px-6 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <Package className="h-5 w-5 text-gray-500" />
+              <Package className="h-5 w-5 text-secondary-foreground" />
 
-              <h1 className="text-lg font-semibold text-gray-900">
+              <h1 className="text-lg font-semibold text-secondary-foreground">
                 {t('Order')} #{order.id}
               </h1>
             </div>
 
-            <p className="mt-1 text-sm text-gray-500">
+            <p className="mt-1 text-sm text-secondary-foreground">
               {t('Ordered on')} {formatDate(order.createdAt)}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
               <Badge children={order.status} />
-            </span>
 
-            <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-gray-700">
+            <span className="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-medium text-foreground">
               {t('Payment')}: {order.paymentStatus}
             </span>
           </div>
@@ -147,11 +145,8 @@ export default function OrderReceipt() {
           <button
             type="button"
             onClick={() => setActiveTab('summary')}
-            className={`relative py-4 text-sm font-medium ${
-              activeTab === 'summary'
-                ? 'text-gray-900'
-                : 'text-gray-500 hover:text-gray-800'
-            }`}
+            className={`relative py-4 text-sm font-medium text-secondary-foreground `
+             }
           >
             {t('Order summary')}
 
@@ -163,11 +158,7 @@ export default function OrderReceipt() {
           <button
             type="button"
             onClick={() => setActiveTab('tracking')}
-            className={`relative flex items-center gap-2 py-4 text-sm font-medium ${
-              activeTab === 'tracking'
-                ? 'text-gray-900'
-                : 'text-gray-500 hover:text-gray-800'
-            }`}
+            className={`relative flex items-center gap-2 py-4 text-sm font-medium text-secondary-foreground`}
           >
             <Truck className="h-4 w-4" />
 
@@ -185,9 +176,9 @@ export default function OrderReceipt() {
           <div className="grid gap-6 lg:grid-cols-2">
             <section className="rounded-xl border border-gray-200 p-5">
               <div className="mb-4 flex items-center gap-2">
-                <User className="h-4 w-4 text-gray-500" />
+                <User className="h-4 w-4 text-secondary-foreground" />
 
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                   {t('Buyer')}
                 </h2>
               </div>
@@ -203,32 +194,32 @@ export default function OrderReceipt() {
                 />
 
                 <div className="min-w-0 flex-1">
-                  <p className="font-medium text-gray-900 group-hover:underline">
+                  <p className="font-medium text-secondary-foreground group-hover:underline">
                     {order.buyerName}
                   </p>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-secondary-foreground">
                     {t('ID')}: {order.buyerId}
                   </p>
 
-                  <p className="mt-1 text-xs text-gray-500">
+                  <p className="mt-1 text-xs text-secondary-foreground">
                     {order.buyerEmail}
                   </p>
 
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-secondary-foreground">
                     {order.buyerPhone}
                   </p>
                 </div>
 
-                <ChevronRight className="h-4 w-4 text-gray-400" />
+                <ChevronRight className="h-4 w-4 text-secondary-foreground" />
               </Link>
             </section>
 
             <section className="rounded-xl border border-gray-200 p-5">
               <div className="mb-4 flex items-center gap-2">
-                <MapPin className="h-4 w-4 text-gray-500" />
+                <MapPin className="h-4 w-4 text-secondary-foreground" />
 
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                   {t('Delivery')}
                 </h2>
               </div>
@@ -246,11 +237,11 @@ export default function OrderReceipt() {
               </div>
 
               <div className="mt-4 flex items-center justify-between border-t border-gray-100 pt-4">
-                <span className="text-xs text-gray-500">
+                <span className="text-xs text-secondary-foreground">
                   {t('Delivery method')}
                 </span>
 
-                <span className="text-sm font-medium text-gray-900">
+                <span className="text-sm font-medium text-secondary-foreground">
                   {order.deliveryMethod}
                 </span>
               </div>
@@ -259,9 +250,9 @@ export default function OrderReceipt() {
 
           <section className="mt-6">
             <div className="mb-4 flex items-center gap-2">
-              <Store className="h-4 w-4 text-gray-500" />
+              <Store className="h-4 w-4 text-secondary-foreground" />
 
-              <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
+              <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                 {t('Ordered items')}
               </h2>
             </div>
@@ -373,30 +364,30 @@ export default function OrderReceipt() {
           <div className="mt-6 grid gap-6 lg:grid-cols-2">
             <section className="rounded-xl border border-gray-200 p-5">
               <div className="mb-4 flex items-center gap-2">
-                <CreditCard className="h-4 w-4 text-gray-500" />
+                <CreditCard className="h-4 w-4 text-secondary-foreground" />
 
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                   {t('Payment')}
                 </h2>
               </div>
 
               <dl className="space-y-3 text-sm">
                 <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">
+                  <dt className="text-secondary-foreground">
                     {t('Method')}
                   </dt>
 
-                  <dd className="font-medium text-gray-900">
+                  <dd className="font-medium text-secondary-foreground">
                     <PaymentBadge method= {order.paymentMethod} />
                   </dd>
                 </div>
 
                 <div className="flex justify-between gap-4">
-                  <dt className="text-gray-500">
+                  <dt className="text-secondary-foreground">
                     {t('Status')}
                   </dt>
 
-                  <dd className="font-medium text-gray-900">
+                  <dd className="font-medium text-secondary-foreground">
                     {order.paymentStatus}
                   </dd>
                 </div>
@@ -405,9 +396,9 @@ export default function OrderReceipt() {
 
             <section className="rounded-xl border border-gray-200 p-5">
               <div className="mb-4 flex items-center gap-2">
-                <FileText className="h-4 w-4 text-gray-500" />
+                <FileText className="h-4 w-4 text-secondary-foreground" />
 
-                <h2 className="text-sm font-semibold uppercase tracking-wide text-gray-900">
+                <h2 className="text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                   {t('Note')}
                 </h2>
               </div>
@@ -421,36 +412,36 @@ export default function OrderReceipt() {
           <section className="mt-6 rounded-xl border border-gray-200 p-5">
 
             <div className="ml-auto max-w-md space-y-3 text-sm">
-            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wide text-gray-900">
+            <h2 className="mb-5 text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
               {t('Summary')}
             </h2>
               <div className="flex justify-between gap-4">
-                <span className="text-gray-500">
+                <span className="text-secondary-foreground">
                   {t('Subtotal')}
                 </span>
 
-                <span className="font-medium text-gray-900">
+                <span className="font-medium text-secondary-foreground">
                   {formatPrice(order.subtotal)}
                 </span>
               </div>
 
               <div className="flex justify-between gap-4">
-                <span className="text-gray-500">
+                <span className="text-secondary-foreground">
                   {t('Shipping fee')}
                 </span>
 
-                <span className="font-medium text-gray-900">
+                <span className="font-medium text-secondary-foreground">
                   {formatPrice(order.shippingFee)}
                 </span>
               </div>
 
               <div className="border-t border-gray-200 pt-3">
                 <div className="flex justify-between gap-4">
-                  <span className="text-base font-semibold text-gray-900">
+                  <span className="text-base font-semibold text-secondary-foreground">
                     {t('Total')}
                   </span>
 
-                  <span className="text-lg font-bold text-gray-900">
+                  <span className="text-lg font-bold text-secondary-foreground">
                     {formatPrice(order.total)}
                   </span>
                 </div>
@@ -459,15 +450,15 @@ export default function OrderReceipt() {
           </section>
 
           {order.estimatedDelivery && (
-            <div className="mt-6 flex items-center gap-3 rounded-xl bg-gray-50 p-4">
-              <Clock className="h-5 w-5 text-gray-500" />
+            <div className="mt-6 flex items-center gap-3 rounded-xl bg-card p-4">
+              <Clock className="h-5 w-5 text-secondary-foreground" />
 
               <div>
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                   {t('Estimated delivery')}
                 </p>
 
-                <p className="mt-1 text-sm font-semibold text-gray-900">
+                <p className="mt-1 text-sm font-semibold text-secondary-foreground">
                   {formatDate(order.estimatedDelivery)}
                 </p>
               </div>
@@ -485,31 +476,31 @@ export default function OrderReceipt() {
               </div>
 
               <div>
-                <h2 className="font-semibold text-gray-900">
+                <h2 className="font-semibold text-secondary-foreground">
                   {t('Delivery tracking')}
                 </h2>
 
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-secondary-foreground">
                   {t('Order')} #{order.id}
                 </p>
               </div>
             </div>
 
             <div className="rounded-xl border border-gray-200 p-5">
-              <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+              <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                 {t('Tracking number')}
               </p>
 
               {order.tracking ? (
                 <div className="mt-3 flex flex-col gap-3 sm:flex-row sm:items-center">
-                  <div className="flex-1 rounded-lg bg-gray-50 px-4 py-3 font-mono text-sm text-gray-900">
+                  <div className="flex-1 rounded-lg bg-gray-50 px-4 py-3 font-mono text-sm text-secondary-foreground">
                     {order.tracking}
                   </div>
 
                   <button
                     type="button"
                     onClick={handleCopyTracking}
-                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+                    className="inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 px-4 py-3 text-sm font-medium text-secondary-foreground transition hover:bg-gray-50"
                   >
                     {copied ? (
                       <>
@@ -525,7 +516,7 @@ export default function OrderReceipt() {
                   </button>
                 </div>
               ) : (
-                <p className="mt-3 text-sm text-gray-500">
+                <p className="mt-3 text-sm text-secondary-foreground">
                   {t('No tracking number has been assigned yet.')}
                 </p>
               )}
@@ -533,21 +524,21 @@ export default function OrderReceipt() {
 
             <div className="mt-5 grid gap-4 sm:grid-cols-2">
               <div className="rounded-xl border border-gray-200 p-5">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                   {t('Delivery method')}
                 </p>
 
-                <p className="mt-2 font-medium text-gray-900">
+                <p className="mt-2 font-medium text-secondary-foreground">
                   {order.deliveryMethod}
                 </p>
               </div>
 
               <div className="rounded-xl border border-gray-200 p-5">
-                <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                   {t('Status')}
                 </p>
 
-                <p className="mt-2 font-medium text-gray-900">
+                <p className="mt-2 font-medium text-secondary-foreground">
                   {order.status}
                 </p>
               </div>
@@ -556,14 +547,14 @@ export default function OrderReceipt() {
             {order.estimatedDelivery && (
               <div className="mt-5 rounded-xl border border-gray-200 p-5">
                 <div className="flex items-center gap-3">
-                  <Clock className="h-5 w-5 text-gray-500" />
+                  <Clock className="h-5 w-5 text-secondary-foreground" />
 
                   <div>
-                    <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                    <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                       {t('Estimated delivery')}
                     </p>
 
-                    <p className="mt-1 font-medium text-gray-900">
+                    <p className="mt-1 font-medium text-secondary-foreground">
                       {formatDate(order.estimatedDelivery)}
                     </p>
                   </div>
@@ -573,14 +564,14 @@ export default function OrderReceipt() {
 
             <div className="mt-5 rounded-xl border border-gray-200 p-5">
               <div className="flex items-start gap-3">
-                <MapPin className="mt-0.5 h-5 w-5 text-gray-500" />
+                <MapPin className="mt-0.5 h-5 w-5 text-secondary-foreground" />
 
                 <div>
-                  <p className="text-xs font-medium uppercase tracking-wide text-gray-500">
+                  <p className="text-xs font-medium uppercase tracking-wide text-secondary-foreground">
                     {t('Delivery address')}
                   </p>
 
-                  <div className="mt-2 text-sm leading-6 text-gray-700">
+                  <div className="mt-2 text-sm leading-6 text-secondary-foreground">
                     <p>{order.address.id}</p>
                     <p>{order.address.city}</p>
                     <p>
@@ -596,7 +587,7 @@ export default function OrderReceipt() {
             </div>
 
             <div className="mt-8">
-              <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-gray-900">
+              <h3 className="mb-5 text-sm font-semibold uppercase tracking-wide text-secondary-foreground">
                 {t('History')}
               </h3>
 
@@ -608,11 +599,11 @@ export default function OrderReceipt() {
                   </div>
 
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-secondary-foreground">
                       {t('Order created')}
                     </p>
 
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-secondary-foreground">
                       {formatDate(order.createdAt)}
                     </p>
                   </div>
@@ -624,12 +615,12 @@ export default function OrderReceipt() {
                   </div>
 
                   <div>
-                    <p className="font-medium text-gray-900">
+                    <p className="font-medium text-secondary-foreground">
                       {t('Current status')}: {order.status}
                     </p>
 
                     {order.estimatedDelivery && (
-                      <p className="mt-1 text-sm text-gray-500">
+                      <p className="mt-1 text-sm text-secondary-foreground">
                         {t('Estimated delivery on')}{' '}
                         {formatDate(order.estimatedDelivery)}
                       </p>

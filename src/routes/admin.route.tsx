@@ -8,7 +8,7 @@ import AdminOrders from '../pages/admin/Orders';
 import AdminSettings from '../pages/admin/Settings';
 import AdminPayments from '../pages/admin/Payments';
 import SellerPromotions from '../pages/seller/Promotions';
-import SellerReviews from '../pages/seller/Reviews';
+import SellerReviews from '../components/admin/Reviews';
 import SellerAnalytics from '../pages/seller/Analytics';
 import UserDetails from '@/components/admin/UserDetail';
 import SellerApplicationDetails from '@/components/admin/SellerApplicationDetail';

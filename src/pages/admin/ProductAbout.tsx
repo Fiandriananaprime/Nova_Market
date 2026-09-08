@@ -149,7 +149,7 @@ const ProductAbout = () => {
       product={product}
       seller={seller}
       reviews={reviews}
-      onBack={() => navigate('/admin/products')}
+      onBack={() => navigate(-1)}
       onApprove={() => handleStatusChange('approved')}
       onDisable={() => handleStatusChange('inactive')}
       onReject={() => handleStatusChange('rejected')}

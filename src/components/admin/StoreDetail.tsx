@@ -2,21 +2,25 @@ import { StoreAdmin } from "@/type/admin/seller";
 import { MapPin, Package, Star, Store, Users } from "lucide-react";
 import {  VerifiedBadge } from "@/components/ui";
 import { useState } from "react";
-import SellerReviews from "../../pages/seller/Reviews";
-import Overview from "@/components/admin/StoreOverView";
-import Products from "@/components/admin/StoreProduct";
-import Orders from "@/components/admin/StoreOrders";
+import SellerReviews from "./Reviews";
+import Overview from "@/components/admin/store/StoreOverView";
+import Products from "@/components/admin/store/StoreProduct";
+import Orders from "@/components/admin/store/StoreOrders";
 import { useTranslation } from "react-i18next";
 import { useEffect } from "react";
 import { getAdminStoreById } from "@/api/admin/store.api";
 import NotFound from "@/pages/NotFound";
-import { useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
+import { getApiErrorMessage } from "@/api/errorMessage";
+import { useToast} from "@/contexts/ToastContext";
 
 type Tab = "OVERVIEW" | "PRODUCTS" | "ORDERS" | "REVIEWS";
 
 const StoreAdminDetail = () => {
   const { id: storeId } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const { t } = useTranslation();
+  const { toast } = useToast()
   const [ store, setStore] = useState<StoreAdmin>();
   const [activeTab, setActiveTab] = useState<Tab>("OVERVIEW");
   const [loading, setLoading] = useState(true);
@@ -29,7 +33,7 @@ const StoreAdminDetail = () => {
         const response = await getAdminStoreById(storeId);
         setStore(response);
       } catch (error) {
-        console.error("Failed to fetch store information", error);
+        toast(getApiErrorMessage(error,"Error fetching store detail"), "error")
       } finally {
         setLoading(false);
       }
@@ -44,19 +48,18 @@ const StoreAdminDetail = () => {
     REVIEWS: t("REVIEWS"),
   };
 
-  const sellerAvatar =
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&h=300&q=80";
   if(loading) {
     return <div>Loading...</div>;
   }
   if (!store ) {
     return <NotFound prop={"store"} />;
   }
+  const sellerAvatar = store.owner?.avatarUrl;
    const tabs: Record<Tab, React.ReactNode> = {
     OVERVIEW: <Overview store={store} />,
     PRODUCTS: <Products />,
     ORDERS: <Orders />,
-    REVIEWS: <SellerReviews />,
+    REVIEWS: <SellerReviews id={store.id} />,
   };
   return (
     <div>
@@ -74,15 +77,23 @@ const StoreAdminDetail = () => {
             ID: {store.id}
           </span>
 
-          <div className="absolute top-4 right-4 flex items-center gap-2">
+          <button 
+            onClick={() => navigate(`/admin/users/${store.owner?.id}`)}
+            className="absolute top-4 right-4 flex items-center gap-2 hover:scale-105">
             <div className="w-15 h-15 rounded-full overflow-hidden border-2 border-white/70 bg-white">
-              <img
+             {sellerAvatar ? (<img
                 src={sellerAvatar}
                 alt="Seller"
                 className="w-full h-full object-cover"
-              />
+              />):
+              ( 
+                <div className="w-15 h-15 rounded-full overflow-hidden border-2 border-white/70 bg-white">
+                  store.owner?.name[0]
+                </div>
+              )
+              }
             </div>
-          </div>
+          </button>
         </div>
 
         <div className="relative px-6 pb-6">

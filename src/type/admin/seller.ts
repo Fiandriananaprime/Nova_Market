@@ -44,6 +44,7 @@ export interface StoreAdmin extends Store {
     avatarUrl?: string | null;
     storesCount?: number;
   };
+  reviewsCount: number;
   annualRevenue: number;
   orders: Array<{
     id: string;

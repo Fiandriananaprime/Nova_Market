@@ -18,3 +18,4 @@ export { Skeleton } from './Skeleton';
 export { Pagination } from './Pagination';
 export {PaymentBadge} from './PaymentBadge';
 export {ReviewCard} from './ReviewCard';
+export {CopyableText} from './CopyAbleText';

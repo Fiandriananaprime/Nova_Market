@@ -2,6 +2,7 @@ import { StoreAdmin } from '@/type/admin/seller';
 import { api } from '../axios';
 import { Order } from '@/type/order/order';
 import { PaginationMeta } from '@/type/catalog/product';
+import { number } from 'react-i18next/icu.macro';
 
 export type AdminStore = StoreAdmin;
 
@@ -28,7 +29,7 @@ export const getAdminStoreById = async (id: string): Promise<AdminStore> => {
   return response.data;
 };
 
-export const getAdminStoreOrder = async (id: string): Promise<{data: Order[], meta: PaginationMeta}>  => {
-  const response = await api.get(`/admin/stores/${encodeURIComponent(id)}`);
+export const getAdminStoreOrder = async (id:string,page:number,limit:number): Promise<{data: Order[], meta: PaginationMeta}>  => {
+  const response = await api.get(`/admin/stores/${encodeURIComponent(id)}/orders`,{params: {page,limit}});
   return response.data;
 }

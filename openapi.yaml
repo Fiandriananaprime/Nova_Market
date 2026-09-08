@@ -2128,22 +2128,22 @@ paths:
               
   /admin/stores/{id}/orders:
     get:
-    tags: [Admin - Users]
-    summary: Get all orders of a store
-    parameters:
-     - { $ref: '#/components/parameters/IdParam' }
-    responses:
-      '200':
-      description: All Store Order
-      content:
-        application/json:
-          schema:
-          type: object
-          properties:
-            data:
-              type: array
-              schema: { $ref: '#/components/schemas/Order' }
-            meta: { $ref: '#/components/schemas/PaginationMeta' }
+      tags: [Admin - Users]
+      summary: Get all orders of a store
+      parameters:
+      - { $ref: '#/components/parameters/IdParam' }
+      responses:
+        '200':
+          description: All Store Order
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items: { $ref: '#/components/schemas/Order' }
+                  meta: { $ref: '#/components/schemas/PaginationMeta' }
 
   /admin/stores/{id}/verified:
     patch:

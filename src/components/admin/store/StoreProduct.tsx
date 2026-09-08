@@ -24,7 +24,7 @@ const StoreProducts = () => {
 
   const fetchProduct = useCallback(
       async (page:number) => {
-            if(loading || !id) return;
+            if(!id) return;
             setLoading(true);
             try {
                 setLoading(true)
@@ -34,6 +34,7 @@ const StoreProducts = () => {
                     ? result.data
                     : [...prev, ...result.data]
                 );
+                console.log(result)
             }
             catch (error) {
                 toast(getApiErrorMessage(error,"Unable to fetch Store Products"),"error");
@@ -41,8 +42,9 @@ const StoreProducts = () => {
             finally{
                 setLoading(false);
             }
-        }
-    ,[id,loading]);
+        },
+        [id,loading]
+    );
     
   useEffect(() => {
     setProducts([]);
@@ -50,7 +52,7 @@ const StoreProducts = () => {
     setTotal(0);
     setTotalPages(0);
     fetchProduct(1);
-  },[])
+  },[id]);
 
   useEffect(() => {
     const element = loadMoreRef.current;
@@ -82,7 +84,7 @@ const StoreProducts = () => {
 
     return (
         <>
-            <div className="flex items-center justify-center flex-wrap gap-5 p-5">
+            <div className="flex items-center justify-center flex-wrap gap-5 py-5">
                 {(
                     products.map((p) =>{
                         return (

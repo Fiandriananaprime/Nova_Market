@@ -641,5 +641,20 @@
   "Seller Reply": "Seller Reply",
   "Your Reply": "Your Reply",
   "Annual revenue": "Annual revenue",
-  "View store": "View store"
+  "View store": "View store",
+  "followers": "followers",
+  "No location": "No location",
+  "Failed to load payment summary": "Failed to load payment summary",
+  "Failed to load transactions": "Failed to load transactions",
+  "Refund initiated successfully": "Refund initiated successfully",
+  "Failed to refund transaction": "Failed to refund transaction",
+  "No payment data available": "No payment data available",
+  "Completed": "Completed",
+  "No transactions found": "No transactions found",
+  "Refund": "Refund",
+  "transactions": "transactions",
+  "Volume": "Volume",
+  "Commission": "Commission",
+  "Previous": "Previous",
+  "Next": "Next"
 }

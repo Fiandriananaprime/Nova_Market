@@ -48,7 +48,7 @@ export interface Product {
 export interface PaginationMeta {
   page?: number;
   limit?: number;
-  total?: number;
+  total: number;
   totalPages?: number;
 }
 

@@ -24,13 +24,7 @@ export default function SellerPromotions() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Promotions")}</h1>
-        <Button onClick={() => setModal(true)}>
-          <Plus className="w-4 h-4" />
-          {t("Create promotion")}
-        </Button>
-      </div>
+
 
       <div className="grid gap-4">
         {promotions.map(promo => (
@@ -58,29 +52,6 @@ export default function SellerPromotions() {
           </div>
         ))}
       </div>
-
-      <Modal
-        open={modal}
-        onClose={() => setModal(false)}
-        title={t("Create promotion")}
-        footer={
-          <>
-            <Button variant="outline" className="flex-1" onClick={() => setModal(false)}>{t("Cancel")}</Button>
-            <Button className="flex-1" loading={loading} onClick={handleCreate}>{t("Create")}</Button>
-          </>
-        }
-      >
-        <div className="space-y-3">
-          <Input label={t("Promotion name")} placeholder="Summer Sale" />
-          <Select label={t("Discount type")} options={[{ value: 'percentage', label: t("Percentage (%)") }, { value: 'fixed', label: t("Fixed amount (Ar)") }]} />
-          <Input label={t("Discount value")} type="number" placeholder="15" />
-          <div className="grid grid-cols-2 gap-2">
-            <Input label={t("Start date")} type="date" />
-            <Input label={t("End date")} type="date" />
-          </div>
-          <p className="text-xs text-muted-foreground">{t("You can select specific products after creating the promotion.")}</p>
-        </div>
-      </Modal>
     </div>
   );
 }

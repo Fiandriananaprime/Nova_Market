@@ -30,6 +30,13 @@ export interface AnalyticsResponse {
   totalBuyers: number;
   totalSellers: number;
   revenueSeries: AdminRevenue[];
+  orderSeries:AdminOrderSeries[]
   topSellers: TopSellerAnalytics[];
   topCategories: TopCategoryAnalytics[];
 }
+export type AdminOrderSeries = {
+    day: string;
+    orders: number;
+    sellers: number;
+    buyers: number;
+};

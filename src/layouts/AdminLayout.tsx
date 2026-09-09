@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router';
-import { LayoutDashboard, Users, Package, Store, ShoppingCart, CreditCard, Tag, Star, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck } from 'lucide-react';
+import { LayoutDashboard, Users, Package, Store, ShoppingCart, CreditCard, Tag, BarChart3, Settings, Bell, Menu, Sun, Moon, Globe, LogOut, UserCheck } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 import { useApp } from '../contexts/AppContext';
 import { logout } from '@/api/auth.api';

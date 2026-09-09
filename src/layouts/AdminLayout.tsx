@@ -7,6 +7,7 @@ import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
 import Logo from '../assets/NovaLogo.png';
 import i18n from '../i18n';
+import { ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 
@@ -113,9 +114,23 @@ export default function AdminLayout() {
             </h1>
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
-              <Globe className="w-4 h-4" />
-            </button>
+            <div className="relative hidden sm:block">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-secondary transition-colors">
+                <Globe className="w-4 h-4 text-muted-foreground" />
+
+                <select
+                  value={i18n.language}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  className="appearance-none bg-transparent pr-5 text-sm font-medium text-foreground outline-none cursor-pointer"
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="mg">Malagasy</option>
+                </select>
+
+                <ChevronDown className="absolute right-2.5 w-3.5 h-3.5 pointer-events-none text-muted-foreground" />
+              </div>
+            </div>
             <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               {resolvedTheme === 'dark' ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
             </button>

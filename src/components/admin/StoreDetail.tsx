@@ -134,14 +134,14 @@ const StoreAdminDetail = () => {
                 <span className="flex items-center gap-1">
                   <Users className="w-3.5 h-3.5" />
                   {store.followersCount.toLocaleString()}
-                  <span>followers</span>
+                  <span>{t("followers")}</span>
                 </span>
 
                 <span>·</span>
 
                 <span className="flex items-center gap-1">
                   <MapPin className="w-3.5 h-3.5" />
-                  {store.location || "No location"}
+                  {store.location || t("No location")}
                 </span>
 
                 <span>·</span>
@@ -149,7 +149,7 @@ const StoreAdminDetail = () => {
                 <span className="flex items-center gap-1">
                   <Package className="w-3.5 h-3.5" />
                   {store.productsCount.toLocaleString()}
-                  <span>products</span>
+                  <span>{t("products")}</span>
                 </span>
               </div>
             </div>

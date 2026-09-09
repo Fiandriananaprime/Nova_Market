@@ -30,12 +30,12 @@ export const CopyableText = ({
     <button
       type="button"
       onClick={handleCopy}
-      className={`relative inline-flex items-center gap-2 group ${className}`}
+      className={`relative px-2 py-1 border border-border rounded-lg  inline-flex items-center gap-2 group ${className}`}
     >
       <span>{text}</span>
 
       {copied ? (
-        <span className="absolute left-full ml-2 text-sm font-medium text-green-600 flex items-center gap-1 whitespace-nowrap">
+        <span className="absolute left-0 -bottom-5 ml-2 text-sm font-medium text-green-600 flex items-center gap-1 whitespace-nowrap">
           <Check className="w-4 h-4" />
           Copied
         </span>

@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Star, Loader2 } from "lucide-react";
+import { Star, Loader2, RotateCcw } from "lucide-react";
 import { Rating, ReviewCard } from "../ui";
 import { useTranslation } from "react-i18next";
 import { Review } from "@/type/catalog/store";
 import { useToast } from "@/contexts/ToastContext";
-import { getSellerReviews } from "@/api/public/store.api";
+import { getSellerReviews, StarFilter } from "@/api/public/store.api";
 import { RatingCount } from "@/type/catalog/product";
 
 interface SellerReviewsProps {
@@ -19,48 +19,63 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [rating,setRating] = useState<RatingCount>({
-    "all":0,
-    "1":0,
-    "2":0,
-    "3":0,
-    "4":0,
-    "5":0
-  })
+  const [filterRating, setRatingFilter] = useState<StarFilter>("all");
+
+  const [rating, setRating] = useState<RatingCount>({
+    all: 0,
+    "1": 0,
+    "2": 0,
+    "3": 0,
+    "4": 0,
+    "5": 0,
+  });
+
   const [loading, setLoading] = useState(false);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
 
-  const avg = rating.all ? (rating["1"] + 2 * rating["2"] + 3 * rating["3"] + 4 * rating["4"] + 5 * rating["5"]) / rating.all : 0;
+  const avg = rating.all
+    ? (rating["1"] +
+        2 * rating["2"] +
+        3 * rating["3"] +
+        4 * rating["4"] +
+        5 * rating["5"]) /
+      rating.all
+    : 0;
 
   const hasMore = page < totalPages;
 
   const fetchReviews = useCallback(
-    async (pageNumber: number) => {
+    async (pageNumber: number, ratingFilter: StarFilter = filterRating) => {
       if (loading) return;
 
       setLoading(true);
 
       try {
-        const response = await getSellerReviews(id, pageNumber, 10,"all");
+        const response = await getSellerReviews(
+          id,
+          pageNumber,
+          10,
+          ratingFilter
+        );
 
         setReviews((prev) =>
           pageNumber === 1
             ? response.data
             : [...prev, ...response.data]
         );
-        setRating(response.counts)
+
+        setRating(response.counts);
         setTotal(response.meta.total || 0);
         setTotalPages(response.meta.totalPages || 0);
-        setPage(response.meta.page || 0);
-
+        setPage(response.meta.page || 1);
       } catch {
         toast(t("Failed to fetch store reviews"), "error");
       } finally {
         setLoading(false);
       }
     },
-    [id, loading]
+    [id, filterRating, loading, t, toast]
   );
 
   useEffect(() => {
@@ -69,8 +84,8 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
     setTotal(0);
     setTotalPages(0);
 
-    fetchReviews(1);
-  }, [id]);
+    fetchReviews(1, filterRating);
+  }, [id, filterRating]);
 
   useEffect(() => {
     const element = loadMoreRef.current;
@@ -81,11 +96,7 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
       (entries) => {
         const entry = entries[0];
 
-        if (
-          entry.isIntersecting &&
-          !loading &&
-          hasMore
-        ) {
+        if (entry.isIntersecting && !loading && hasMore) {
           fetchReviews(page + 1);
         }
       },
@@ -100,6 +111,22 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
       observer.disconnect();
     };
   }, [page, hasMore, loading, fetchReviews]);
+
+  const handleRatingFilter = (ratingValue: number) => {
+    const newFilter = String(ratingValue) as StarFilter;
+
+    if (filterRating === newFilter) {
+      return;
+    }
+
+    setRatingFilter(newFilter);
+  };
+
+  const handleResetFilter = () => {
+    if (filterRating === "all") return;
+
+    setRatingFilter("all");
+  };
 
   return (
     <div className="max-w-3xl">
@@ -124,18 +151,42 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
           </div>
         </div>
 
-        <div className="flex-1 space-y-1.5">
+        <div className="flex-1 space-y-1.5 relative">
+          {filterRating !== "all" && (
+            <button
+              type="button"
+              onClick={handleResetFilter}
+              className="absolute -right-50 top-[50%] flex items-center gap-1.5 text-xs text-muted-foreground hover:text-secondary-foreground transition-colors"
+            >
+              <RotateCcw className="w-10 h-10" />
+              {t("Reset")}
+            </button>
+          )}
+
           {[5, 4, 3, 2, 1].map((r) => {
             const count = rating[String(r) as keyof typeof rating];
             const percentage = rating.all
               ? (count / rating.all) * 100
               : 0;
 
-            return (
-              <div key={r} className="flex items-center gap-2 text-sm">
-                <span className="w-4 text-muted-foreground">{r}</span>
+            const isActive = filterRating === String(r);
 
-                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400" />
+            return (
+              <button
+                key={r}
+                type="button"
+                onClick={() => handleRatingFilter(r)}
+                className={`w-full flex items-center gap-2 text-sm rounded-md px-1 py-0.5 transition-colors cursor-pointer ${
+                  isActive
+                    ? "bg-secondary"
+                    : "hover:bg-secondary/60"
+                }`}
+              >
+                <span className="w-4 text-muted-foreground text-left">
+                  {r}
+                </span>
+
+                <Star className="w-3.5 h-3.5 fill-amber-400 text-amber-400 shrink-0" />
 
                 <div className="flex-1 h-1.5 bg-border rounded-full overflow-hidden">
                   <div
@@ -147,7 +198,7 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
                 <span className="w-4 text-muted-foreground text-right">
                   {count}
                 </span>
-              </div>
+              </button>
             );
           })}
         </div>
@@ -158,7 +209,7 @@ export default function SellerReviews({ id }: SellerReviewsProps) {
           <ReviewCard
             key={review.id}
             review={review}
-            role={"admin"}
+            role="admin"
           />
         ))}
       </div>

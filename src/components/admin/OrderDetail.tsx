@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router';
+import { Link, useParams, useNavigate } from 'react-router';
 import {
   Package,
   MapPin,
@@ -35,6 +35,7 @@ type Tab = 'summary' | 'tracking';
 export default function OrderReceipt() {
   const [ order,setOrder ]= useState<OrderDetails>();
   const { toast }= useToast()
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const  { id } = useParams();
   const [activeTab, setActiveTab] = useState<Tab>('summary');
@@ -107,13 +108,13 @@ export default function OrderReceipt() {
 
   return (
     <div className="mx-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-gray-200 bg-card shadow-sm">
-      <Link
-        to="/admin/orders"
+      <button
+        onClick={() => navigate(-1)}
         className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-secondary-foreground p-5 pb-0"
       >
         <ArrowLeft className="w-4 h-4" />
-        {t("Back to Orders")}
-      </Link>
+        {t("Go Back")}
+      </button>
       <div className="border-b border-gray-200 bg-card px-6 py-5">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>

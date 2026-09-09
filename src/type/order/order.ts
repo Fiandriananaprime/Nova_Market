@@ -40,9 +40,9 @@ export interface Order {
     paymentMethod: paymentMethod,
     paymentStatus: PaymentStatus,
     address: Address
-    tracking: string | null,
-    estimatedDelivery: string | null,
-    note?: string | null,
+    tracking: string,
+    estimatedDelivery: string,
+    note?: string,
     createdAt: string
 }
 

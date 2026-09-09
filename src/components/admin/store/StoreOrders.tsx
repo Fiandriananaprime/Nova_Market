@@ -6,6 +6,8 @@ import { getAdminStoreOrder } from '@/api/admin/store.api';
 import { Order } from '@/type/order/order';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui';
+import OrderCard from './StoreOrdercard';
 
 const StoreOrders = () => {
     const { id } = useParams()
@@ -22,36 +24,44 @@ const StoreOrders = () => {
       const hasMore =  page < totalPages;
     
       const fetchOrder = useCallback(
-          async (page:number) => {
-                if(!id) return;
-                setLoading(true);
-                try {
-                    setLoading(true)
-                    const result = await getAdminStoreOrder(id,page,10);
-                    setOrders((prev) =>
-                    page === 1
-                        ? result.data
-                        : [...prev, ...result.data]
-                    );
-                }
-                catch (error) {
-                    console.error(error);
-                    toast(getApiErrorMessage(error,"Unable to fetch Store Orders"),"error");
-                }
-                finally{
-                    setLoading(false);
-                }
-            },
-            [id,loading]
-        );
+        async (page: number) => {
+          if (!id) return;
+
+          setLoading(true);
+
+          try {
+            const result = await getAdminStoreOrder(id, page, 10);
+
+            setOrders((prev) =>
+              page === 1
+                ? result.data
+                : [...prev, ...result.data]
+            );
+
+            setPage(result.meta.page || 0 );
+            setTotal(result.meta.total || 0);
+            setTotalPages(result.meta.totalPages || 0);
+          } catch (error) {
+            console.error(error);
+            toast(
+              getApiErrorMessage(error, "Unable to fetch Store Orders"),
+              "error"
+            );
+          } finally {
+            setLoading(false);
+          }
+        },
+        [id, toast]
+      );
         
       useEffect(() => {
         setOrders([]);
         setPage(1);
         setTotal(0);
         setTotalPages(0);
+
         fetchOrder(1);
-      },[id]);
+      }, [id, fetchOrder]);
     
       useEffect(() => {
         const element = loadMoreRef.current;
@@ -81,11 +91,31 @@ const StoreOrders = () => {
         };
       },[page,hasMore,loading,fetchOrder])
       
+    if (loading) {
+      return (
+        <div className="grid grid-cols-1 gap-5 p-5 lg:grid-cols-2 2xl:grid-cols-3">
+          {Array.from({ length: 6 }).map((_, index) => (
+            <Skeleton
+              key={index}
+              className="rounded-xl border border-border aspect-square bg-card p-5 shadow-sm"
+            />
+          ))}
+        </div>
+      );
+    } 
+
+    if(Orders.length===0){
+      return (
+          <div className="flex items-center justify-center text-secondary-foreground">
+              {t("This store doesnt have any order yet")}
+          </div>
+      )
+  }
     return (
-        <div className='flex items-center justify-center flex-wrap gap-5 p-5'>
+        <div className="grid grid-cols-1 gap-5 p-5 lg:grid-cols-2 2xl:grid-cols-3">
             {
                 Orders.map((o) => (
-                    <p>{o.id}</p>
+                    <OrderCard key={o.id} order={o} />
                 ))
             }
             <div

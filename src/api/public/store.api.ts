@@ -1,7 +1,7 @@
 import { PaginationMeta, Product, RatingCount } from '@/type/catalog/product';
 import { baseApi } from '../axios';
 import { Store, Review } from '@/type/catalog/store';
-type StarFilter ='all' | '1' | '2' | '3' | '4' | '5';
+export type StarFilter ='all' | '1' | '2' | '3' | '4' | '5';
 
 export const getAllSellers = async (): Promise<{data: Store[], meta: PaginationMeta}> => {
   const response = await baseApi.get('/stores');

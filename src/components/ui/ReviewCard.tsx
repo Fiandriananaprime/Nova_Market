@@ -3,6 +3,7 @@ import { MessageSquare } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { Button } from "../../components/ui";
 import { Rating } from "../../components/ui";
+import { useNavigate } from "react-router";
 import { Review } from '@/type/catalog/store';
 import { UserRole } from "@/type/user";
 
@@ -13,7 +14,7 @@ type ReviewCardProps = {
 
 const ReviewCard = ({ review, role }: ReviewCardProps) => {
   const { t } = useTranslation();
-
+  const navigate = useNavigate();
   const [isReplying, setIsReplying] = useState(false);
   const [replyText, setReplyText] = useState("");
 
@@ -27,13 +28,15 @@ const ReviewCard = ({ review, role }: ReviewCardProps) => {
   return (
     <div className="bg-card border border-border rounded-xl p-5">
       <div className="flex items-start justify-between mb-2">
-        <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold">
+        <button 
+          onClick={() => navigate(`/admin/users/${review.customerId}`)}
+          className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold hover:scale-110">
             {review.customerName[0]}
           </div>
 
           <div>
-            <div className="font-medium text-sm text-secondary-foreground">
+            <div className="font-medium text-sm text-secondary-foreground hover:underline">
               {review.customerName}
             </div>
 
@@ -41,7 +44,7 @@ const ReviewCard = ({ review, role }: ReviewCardProps) => {
               {review.productName}
             </div>
           </div>
-        </div>
+        </button>
 
         <div className="text-right">
           <Rating

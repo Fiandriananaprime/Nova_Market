@@ -344,7 +344,7 @@ const Overview = ({ store }: OverviewProps) => {
           </div>
 
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px]">
+            <table className="w-full min-w-[300px]">
               <thead>
                 <tr className="border-b border-border text-left">
                   <th className="px-5 py-3 text-xs font-medium text-muted-foreground">

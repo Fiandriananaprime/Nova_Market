@@ -1,5 +1,5 @@
 import {useState, useEffect, useCallback,useRef} from 'react';
-import {useParams, useNavigate} from 'react-router';
+import {useParams} from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/contexts/ToastContext';
 import { getAdminStoreOrder } from '@/api/admin/store.api';
@@ -14,7 +14,7 @@ const StoreOrders = () => {
       const [page,setPage] = useState(1);
       const [loading, setLoading] = useState(true);
       const [Orders,setOrders] = useState<Order[]>([]);
-      const [ total, setTotal] = useState(0);
+
       const [totalPages,setTotalPages] = useState(0);
       const loadMoreRef = useRef<HTMLDivElement | null>(null);
       
@@ -39,7 +39,6 @@ const StoreOrders = () => {
             );
 
             setPage(result.meta.page || 0 );
-            setTotal(result.meta.total || 0);
             setTotalPages(result.meta.totalPages || 0);
           } catch (error) {
             console.error(error);
@@ -57,7 +56,6 @@ const StoreOrders = () => {
       useEffect(() => {
         setOrders([]);
         setPage(1);
-        setTotal(0);
         setTotalPages(0);
 
         fetchOrder(1);

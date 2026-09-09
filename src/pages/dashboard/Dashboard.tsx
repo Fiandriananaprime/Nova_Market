@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 import { DollarSign, ShoppingCart, Users, Store, Package, AlertCircle } from 'lucide-react';
 
 import { StatCard, StatusBadge, Badge, BarStat, LineStat } from '../../components/ui';
-import  TableCard, { Column }  from '@/components/TableCard';
+import  TableCard, { Column }  from '@/components/Stats/TableCard';
 import { AdminMetrics, AdminRevenue} from '@/type/admin/dashboard';
 import { OrderResponse } from '@/type/order/order';
 import { SellerApplicationResponse, TopSeller } from '@/type/admin/seller';

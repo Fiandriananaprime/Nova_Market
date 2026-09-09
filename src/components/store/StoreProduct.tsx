@@ -1,4 +1,4 @@
-import { getSellerProducts } from "@/api/public/store.api";
+import { getSellerProducts } from "@/api/admin/store..public.api";
 import { Product } from "@/type/catalog/product";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useToast } from "@/contexts/ToastContext";
@@ -14,7 +14,6 @@ const StoreProducts = () => {
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<Product[]>([]);
-  const [total, setTotal] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
 
   const loadMoreRef = useRef<HTMLDivElement | null>(null);
@@ -38,7 +37,6 @@ const StoreProducts = () => {
             ? result.data
             : [...prev, ...result.data]
         );
-        setTotal(result.meta.total || 0);
         setTotalPages(result.meta.totalPages || 0);
         setPage(pageToFetch);
       } catch (error) {
@@ -56,7 +54,6 @@ const StoreProducts = () => {
   useEffect(() => {
     setProducts([]);
     setPage(1);
-    setTotal(0);
     setTotalPages(0);
 
     fetchProducts(1);

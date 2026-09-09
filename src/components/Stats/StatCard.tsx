@@ -3,7 +3,7 @@ import { formatMillionAr } from '@/hook/format';
 import { RotateCcw, ZoomIn, ZoomOut, TrendingUp, TrendingDown,Minus } from 'lucide-react';
 import { useState } from 'react';
 
-import { Card } from './Card';
+import { Card } from '../ui/Card';
 type BarStatProp={
     title:string,
   data:any[] | undefined

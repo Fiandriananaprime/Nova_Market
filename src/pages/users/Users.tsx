@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Search, UserX, UserCheck } from 'lucide-react';
 import { Tabs, StatusBadge, Button } from '../../components/ui';
-import TableCard, { type Column } from '@/components/TableCard';
+import TableCard, { type Column } from '@/components/Stats/TableCard';
 import { getAllUser, updateUserStatus } from '@/api/admin/user.api';
 import { User, type status } from '@/type/user';
 import { useToast } from '@/contexts/ToastContext';

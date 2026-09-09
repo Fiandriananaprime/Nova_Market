@@ -8,13 +8,13 @@ import {
   EyeOff,
 } from "lucide-react";
 
-import { Button, Input } from "../../components/ui";
-import { useApp } from "../../contexts/AppContext";
+import { Button, Input } from "../components/ui";
+import { useApp } from "../contexts/AppContext";
 import { useTranslation } from "react-i18next";
-import { LoginRequest } from "../../type/auth";
-import { login } from "../../api/auth.api";
-import { getApiErrorMessage } from "../../api/errorMessage";
-import { useToast } from "../../contexts/ToastContext";
+import { LoginRequest } from "../type/auth";
+import { login } from "../api/auth.api";
+import { getApiErrorMessage } from "../api/errorMessage";
+import { useToast } from "../contexts/ToastContext";
 
 export default function Login() {
   const navigate = useNavigate();

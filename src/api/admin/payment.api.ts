@@ -1,7 +1,7 @@
 import { Transaction, PaymentsSummary, Promotion } from "@/type/admin/payment";
 import { api } from "../axios"
 import { PaginationMeta } from "@/type/catalog/product";
-import { paymentMethod } from "@/type/order/payment";
+import { paymentMethod } from "@/type/admin/payment";
 
 export const getTransactions = async ({
   page,

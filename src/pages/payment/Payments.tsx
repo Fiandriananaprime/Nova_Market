@@ -2,14 +2,14 @@ import { useEffect, useState, useMemo } from 'react';
 import { DollarSign, TrendingUp, CreditCard, Smartphone, RefreshCw } from 'lucide-react';
 import { StatCard, Badge, Select } from '../../components/ui';
 
-import TableCard, { Column } from '@/components/TableCard'; 
+import TableCard, { Column } from '@/components/Stats/TableCard'; 
 import { formatPrice } from '@/hook/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
 import { useToast } from '@/contexts/ToastContext';
 import { getPaymentsSummary, getTransactions, refundTransaction } from '@/api/admin/payment.api';
-import { PaymentsSummary, Transaction } from '@/type/admin/payment';
-import { paymentMethod as PaymentMethod } from '@/type/order/payment';
+import { PaymentsSummary, Transaction,paymentMethod as PaymentMethod } from '@/type/admin/payment';
+
 import { PaginationMeta } from '@/type/catalog/product';
 import { formatMillionAr } from '@/hook/format';
 
@@ -23,7 +23,7 @@ export default function AdminPayments() {
   const [statusFilter, setStatusFilter] = useState<TransactionStatus | ''>('');
   const [summary, setSummary] = useState<PaymentsSummary | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [meta, setMeta] = useState<PaginationMeta>({total: 0});
+  const [meta, setMeta] = useState<PaginationMeta>();
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -120,9 +120,9 @@ export default function AdminPayments() {
     ? Math.round((mobileMoneyVolume / totalPaymentVolume) * 100)
     : 0;
 
-  const currentPage = meta.page ?? 1;
-  const totalPages = meta.totalPages ?? 1;
-  const totalTransactions = meta.total ?? 0;
+  const currentPage = meta?.page ?? 1;
+  const totalPages = meta?.totalPages ?? 1;
+  const totalTransactions = meta?.total ?? 0;
 
   const columns = useMemo<Column<Transaction>[]>(() => [
     {

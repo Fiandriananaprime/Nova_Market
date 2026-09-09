@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { ArrowDown, ArrowUp, RefreshCw, Search } from 'lucide-react';
 import { Tabs, StatusBadge } from '../../components/ui';
-import TableCard, { type Column } from '@/components/TableCard';
+import TableCard, { type Column } from '@/components/Stats/TableCard';
 import { getAdminProducts } from '@/api/admin/product.api';
 import { Product, productStatusDto } from '@/type/catalog/product';
 import { useToast } from '@/contexts/ToastContext';

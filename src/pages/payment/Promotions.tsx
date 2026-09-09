@@ -17,7 +17,7 @@ import {
 } from '@/api/admin/payment.api';
 import type { Promotion } from '@/type/admin/payment';
 import type { Product } from '@/type/catalog/product';
-import { getProductById } from '@/api/public/product.api';
+import { getProductById } from '@/api/admin/product.public.api';
 import type { PaginationMeta } from '@/type/catalog/product';
 
 type PromotionStatus = 'active' | 'scheduled' | 'inactive' | 'expired';

@@ -4,7 +4,7 @@ import { ProtectedRoute } from "./routes/ProtectedRoute";
 import { adminRoutes } from "./routes/admin.route";
 
 import NotFound from "./pages/NotFound";
-import Login from "./pages/public/Login";
+import Login from "./pages/Login";
 
 export const createAppRouter = () => {
   return createBrowserRouter([

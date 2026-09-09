@@ -21,12 +21,12 @@ import type {
   OrderSellerDetails,
 } from '@/type/order/order';
 import { formatPrice, formatDate } from '@/hook/format';
-import TableCard, { Column } from '@/components/TableCard';
+import TableCard, { Column } from '@/components/Stats/TableCard';
 import { useTranslation } from 'react-i18next';
 import { getOrderDetailsById } from '@/api/admin/order.api';
 import { useToast } from '@/contexts/ToastContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
-import NotFound from '../../pages/NotFound';
+import NotFound from '@/pages/NotFound';
 import { Badge, PaymentBadge } from '@/components/ui';
 
 type Tab = 'summary' | 'tracking';

@@ -2,7 +2,7 @@ import { StoreAdmin } from '@/type/admin/seller';
 import { api } from '../axios';
 import { Order } from '@/type/order/order';
 import { PaginationMeta } from '@/type/catalog/product';
-import { number } from 'react-i18next/icu.macro';
+
 
 export type AdminStore = StoreAdmin;
 

@@ -2,10 +2,9 @@ import {
   Smartphone,
   CreditCard,
   Banknote,
-  Wallet,
 } from 'lucide-react';
 
-import { paymentMethod } from '@/type/order/payment';
+import { paymentMethod } from '@/type/admin/payment';
 import { useTranslation } from 'react-i18next';
 
 interface PaymentMethodBadgeProps {

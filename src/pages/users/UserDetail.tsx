@@ -13,7 +13,7 @@ import {
   Loader2,
 } from 'lucide-react';
 
-import { Button, StatusBadge } from '../ui';
+import { Button, StatusBadge } from '../../components/ui';
 import {
   getUserById,
   updateUserStatus,

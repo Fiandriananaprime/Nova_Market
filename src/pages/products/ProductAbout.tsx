@@ -1,13 +1,13 @@
-import ProductDetail from '@/components/admin/ProductDetail';
+import ProductDetail from '@/pages/products/ProductDetail';
 import { updateProductStatus } from '@/api/admin/product.api';
 import { getAdminProducts } from '@/api/admin/product.api';
-import { getProductById } from '@/api/public/product.api';
+import { getProductById } from '@/api/admin/product.public.api';
 import { useParams, useNavigate, useSearchParams } from 'react-router';
 import { useEffect, useState } from 'react';
-import { Product,RatingCount } from '@/type/catalog/product';
+import { Product } from '@/type/catalog/product';
 import { Review, Store } from '@/type/catalog/store';
-import { getSellerById } from '@/api/public/store.api';
-import { getProductReviews } from '@/api/public/product.api';
+import { getSellerById } from '@/api/admin/store..public.api';
+import { getProductReviews } from '@/api/admin/product.public.api';
 import {useToast } from '@/contexts/ToastContext';
 import { getApiErrorMessage } from '@/api/errorMessage';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,6 @@ const ProductAbout = () => {
   const [seller, setSeller] = useState<Store>();
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
-  const [ratingCount, setRatingCount] = useState<RatingCount>();
   const [productIds, setProductIds] = useState<string[]>([]);
 
   const navigate = useNavigate();
@@ -110,9 +109,8 @@ const ProductAbout = () => {
 
         const reviewsData = await getProductReviews(id);
         setReviews(reviewsData.data);
-        setRatingCount(reviewsData.counts)
       }
-    } catch (error) {
+    } catch{
         toast(t("Error fetching product data"), 'error');
     } finally {
         setLoading(false);

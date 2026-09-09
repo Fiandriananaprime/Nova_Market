@@ -1,4 +1,4 @@
-import StoreCard from '@/components/admin/StoreCard';
+import StoreCard from '@/components/store/StoreCard';
 import { getAdminStores, AdminStoreFilters } from '@/api/admin/store.api';
 import { StoreAdmin } from '@/type/admin/seller';
 import { useEffect, useRef, useState } from 'react';
@@ -32,7 +32,7 @@ export default function SellerManagement() {
     try {
       const response = await getAdminStores(filters);
       setStores((current) => page === 1 ? response.data : [...current, ...response.data]);
-      setHasMore(response.meta.page < response.meta.totalPages);
+      setHasMore((response.meta.page ?? 0) < response.meta.totalPages);
     } finally {
       setLoading(false);
     }

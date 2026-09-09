@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Star, Loader2, RotateCcw } from "lucide-react";
-import { Rating, ReviewCard } from "../ui";
+import { Rating, ReviewCard } from "../../components/ui";
 import { useTranslation } from "react-i18next";
 import { Review } from "@/type/catalog/store";
 import { useToast } from "@/contexts/ToastContext";
-import { getSellerReviews, StarFilter } from "@/api/public/store.api";
+import { getSellerReviews, StarFilter } from "@/api/admin/store..public.api";
 import { RatingCount } from "@/type/catalog/product";
 
 interface SellerReviewsProps {

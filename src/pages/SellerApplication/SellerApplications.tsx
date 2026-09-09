@@ -13,8 +13,7 @@ export default function SellerApplications() {
   const { toast } = useToast();
   const [apps, setApps] = useState<SellerApplication[]>([]);
   const [loading, setLoading] = useState(true);
-  const [reviewModal, setReviewModal] = useState<typeof apps[0] | null>(null);
-  const [action, setAction] = useState<'approve' | 'reject' | null>(null);
+
 
   useEffect(() => {
     getSellerApplications({ page: 1, limit: 50, status: 'pending' })
@@ -23,11 +22,7 @@ export default function SellerApplications() {
       .finally(() => setLoading(false));
   }, []);
 
-  const handleAction = (id: string, newStatus: 'approved' | 'rejected') => {
-    setApps(prev => prev.map(a => a.id === id ? { ...a, status: newStatus } : a));
-    setReviewModal(null);
-    setAction(null);
-  };
+
 
   return (
     <div>

@@ -1,4 +1,6 @@
-import { paymentMethod, PaymentStatus } from "../order/payment";
+
+export type paymentMethod = 'mvola' | 'orange_money' | 'card' | 'cod';
+export type PaymentStatus = 'pending' | 'paid' | 'failed' | 'refunded';
 
 export interface Transaction {
     id: string,

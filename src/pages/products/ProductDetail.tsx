@@ -16,7 +16,7 @@ import {
 import { useState } from 'react';
 import {  Product } from '@/type/catalog/product';
 import { Review, Store } from '@/type/catalog/store';
-import { StatusBadge } from '../ui';
+import { StatusBadge } from '../../components/ui';
 import { formatPrice } from '@/hook/format';
 import { useTranslation } from 'react-i18next';
 

@@ -3,7 +3,7 @@ import { Link } from 'react-router';
 import { Search, ShoppingBag, Clock, CheckCircle2, DollarSign, ArrowDown, RefreshCw } from 'lucide-react';
 import { StatusBadge, Pagination, Button } from '@/components/ui';
 import { StatCard } from '@/components/ui';
-import TableCard, { Column } from '@/components/TableCard';
+import TableCard, { Column } from '@/components/Stats/TableCard';
 import { formatMillionAr, formatPrice } from '@/hook/format';
 import { useTranslation } from 'react-i18next';
 import { Order, OrderQueryParam, OrderStatus } from '@/type/order/order';
@@ -15,11 +15,6 @@ interface ExtendedOrder extends Order {
   seller?: string;
   amount?: number;
   payment?: string;
-}
-
-interface AdminOrdersListProps {
-  orders: ExtendedOrder[];
-  onSelectOrder: (order: ExtendedOrder) => void;
 }
 
 const formatDate = (dateString?: string): string => {
@@ -59,7 +54,7 @@ const AdminOrdersList = () => {
         setCounts(ordersData.counts);
         setTotalPages(ordersData.meta.totalPages || 1);
       }
-      catch(e) {
+      catch {
         toast("Failed to fetch orders Data", "error")
       }
     }

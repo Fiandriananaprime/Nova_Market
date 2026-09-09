@@ -3,8 +3,6 @@ import {
   CalendarDays,
   CheckCircle2,
   CircleUserRound,
-  Clock3,
-  DollarSign,
   ExternalLink,
   MapPin,
   Package,
@@ -14,13 +12,13 @@ import {
   Users,
 } from "lucide-react";
 import { useTranslation } from "react-i18next";
-import { Rating,VerifiedBadge,CopyableText } from "../../ui";
+import { Rating,VerifiedBadge,CopyableText } from "../ui";
 import { StoreAdmin } from "@/type/admin/seller";
 import { useEffect, useState } from "react";
 import { useToast } from "@/contexts/ToastContext";
 import { StatusBadge } from "@/components/ui";
 import { Review } from "@/type/catalog/store";
-import { getSellerReviews } from "@/api/public/store.api";
+import { getSellerReviews } from "@/api/admin/store..public.api";
 import { formatDateDigit, formatMillionAr as formatCurrency } from "@/hook/format";
 
 type OverviewProps = {
@@ -89,7 +87,7 @@ const Overview = ({ store }: OverviewProps) => {
       try {
         const review = await getSellerReviews(store.id,1,2,'all');
         setRecentReview(review.data);
-      } catch (error) {
+      } catch {
         toast("Failed to fetch seller information", "error");
       }
     };

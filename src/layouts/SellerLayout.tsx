@@ -38,14 +38,14 @@ export default function SellerLayout() {
   };
 
   const Sidebar = ({ mobile = false }) => (
-    <div className={`flex flex-col h-full bg-[#16262E] text-[#F5EFFF] ${mobile ? '' : 'w-56'}`}>
+    <div className={`flex flex-col h-full bg-foreground text-background ${mobile ? '' : 'w-56'}`}>
       <div className="flex items-center gap-2.5 px-5 h-16 border-b border-white/10">
-        <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
+        <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
           <ShoppingBag className="w-4.5 h-4.5 text-white" />
         </div>
         <div>
           <div className="font-bold text-sm font-display">MasoMarket</div>
-          <div className="text-[10px] text-[#8da8b5]">Seller Panel</div>
+          <div className="text-[10px] text-darkMutedForeground">Seller Panel</div>
         </div>
       </div>
 
@@ -57,7 +57,7 @@ export default function SellerLayout() {
               key={item.to}
               to={item.to}
               onClick={() => mobile && setSidebarOpen(false)}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active ? 'bg-[#0077B6] text-white' : 'text-[#8da8b5] hover:bg-white/8 hover:text-white'}`}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${active ? 'bg-primary text-white' : 'text-darkMutedForeground hover:bg-white/8 hover:text-white'}`}
             >
               {item.icon}
               {item.label}
@@ -68,13 +68,13 @@ export default function SellerLayout() {
 
       <div className="p-3 border-t border-white/10">
         <div className="flex items-center gap-2.5 px-3 py-2.5 mb-1">
-          <div className="w-8 h-8 rounded-full bg-[#5ABCB9] flex items-center justify-center text-white text-sm font-bold">T</div>
+          <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold">T</div>
           <div className="flex-1 min-w-0">
             <div className="text-sm font-medium truncate">TechStore MG</div>
-            <div className="text-xs text-[#8da8b5]">Seller</div>
+            <div className="text-xs text-darkMutedForeground">Seller</div>
           </div>
         </div>
-        <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-[#8da8b5] hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
+        <button onClick={handleLogout} className="w-full flex items-center gap-2.5 px-3 py-2 text-sm text-darkMutedForeground hover:bg-white/8 hover:text-red-400 rounded-lg transition-colors">
           <LogOut className="w-4 h-4" />
           Logout
         </button>
@@ -108,7 +108,7 @@ export default function SellerLayout() {
           </button>
 
           <div className="flex-1">
-            <h1 className="font-semibold text-sm font-display text-foreground hidden sm:block">
+            <h1 className="font-semibold text-sm font-display text-secondary-foreground hidden sm:block">
               {navItems.find(i => i.to === location.pathname || (i.to !== '/seller' && location.pathname.startsWith(i.to)))?.label || 'Seller Dashboard'}
             </h1>
           </div>
@@ -122,11 +122,11 @@ export default function SellerLayout() {
             </button>
             <button className="relative p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               <Bell className="w-4.5 h-4.5" />
-              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-[#5ABCB9] rounded-full" />
+              <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-accent rounded-full" />
             </button>
             <div className="flex items-center gap-2 pl-2 ml-1 border-l border-border">
-              <div className="w-7 h-7 rounded-full bg-[#5ABCB9] flex items-center justify-center text-white text-sm font-bold">T</div>
-              <span className="hidden sm:block text-sm font-medium text-foreground">TechStore</span>
+              <div className="w-7 h-7 rounded-full bg-accent flex items-center justify-center text-white text-sm font-bold">T</div>
+              <span className="hidden sm:block text-sm font-medium text-secondary-foreground">TechStore</span>
             </div>
           </div>
         </header>

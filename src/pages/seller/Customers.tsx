@@ -31,18 +31,18 @@ export default function SellerCustomers() {
 
   return (
     <div className="space-y-5">
-      <h1 className="text-xl font-bold font-display text-foreground">{t("Customers")}</h1>
+      <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Customers")}</h1>
 
       {/* Top metrics */}
       <div className="grid grid-cols-3 gap-4">
         {topMetrics.map((m, i) => (
           <div key={i} className="bg-card border border-border rounded-xl p-4 flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-[#0077B6]/10 flex items-center justify-center text-[#0077B6] flex-shrink-0">
+            <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center text-primary flex-shrink-0">
               {m.icon}
             </div>
             <div>
               <div className="text-xs text-muted-foreground">{m.label}</div>
-              <div className="font-bold font-display text-foreground">{m.value}</div>
+              <div className="font-bold font-display text-secondary-foreground">{m.value}</div>
             </div>
             <div className={`ml-auto text-xs font-medium ${m.change > 0 ? 'text-emerald-600' : 'text-red-500'}`}>
               {m.change > 0 ? '+' : ''}{m.change}%
@@ -59,13 +59,13 @@ export default function SellerCustomers() {
               value={search}
               onChange={e => setSearch(e.target.value)}
               placeholder={t("Search customers...")}
-              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-[#0077B6]"
+              className="w-full pl-9 pr-4 py-2 text-sm bg-secondary border border-border rounded-lg text-secondary-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
             />
           </div>
           <select
             value={sort}
             onChange={e => setSort(e.target.value)}
-            className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-foreground focus:outline-none hidden sm:block"
+            className="text-sm bg-secondary border border-border rounded-lg px-3 py-2 text-secondary-foreground focus:outline-none hidden sm:block"
           >
             <option value="totalSpent">{t("Sort: Top spenders")}</option>
             <option value="orders">{t("Sort: Most orders")}</option>
@@ -86,15 +86,15 @@ export default function SellerCustomers() {
                 <tr key={customer.id} className="hover:bg-secondary transition-colors">
                   <td className="px-4 py-3">
                     <div className="flex items-center gap-2.5">
-                      <div className="w-8 h-8 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
                         {customer.avatar}
                       </div>
-                      <span className="font-medium text-foreground">{customer.name}</span>
+                      <span className="font-medium text-secondary-foreground">{customer.name}</span>
                     </div>
                   </td>
                   <td className="px-4 py-3 text-muted-foreground">{customer.email}</td>
-                  <td className="px-4 py-3 font-medium text-foreground">{customer.orders}</td>
-                  <td className="px-4 py-3 font-bold text-foreground">{formatPrice(customer.totalSpent)}</td>
+                  <td className="px-4 py-3 font-medium text-secondary-foreground">{customer.orders}</td>
+                  <td className="px-4 py-3 font-bold text-secondary-foreground">{formatPrice(customer.totalSpent)}</td>
                   <td className="px-4 py-3 text-muted-foreground">{customer.lastOrder}</td>
                   <td className="px-4 py-3">
                     <Badge variant={customer.status === 'active' ? 'success' : 'outline'}>{customer.status}</Badge>

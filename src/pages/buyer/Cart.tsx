@@ -35,7 +35,7 @@ export default function Cart() {
 
   return (
     <div className="max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold font-display text-foreground mb-6">
+      <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-6">
         {t("Shopping cart")}
         <span className="ml-2 text-base font-normal text-muted-foreground">({cart.reduce((s, i) => s + i.qty, 0)} items)</span>
       </h1>
@@ -45,8 +45,8 @@ export default function Cart() {
           {Object.entries(bySeller).map(([sellerId, items]) => (
             <div key={sellerId} className="bg-card border border-border rounded-xl overflow-hidden">
               <div className="flex items-center gap-2 px-4 py-3 border-b border-border bg-secondary">
-                <Store className="w-4 h-4 text-[#0077B6]" />
-                <span className="font-medium text-sm text-foreground">{items[0].sellerName}</span>
+                <Store className="w-4 h-4 text-primary" />
+                <span className="font-medium text-sm text-secondary-foreground">{items[0].sellerName}</span>
               </div>
               <div className="divide-y divide-border">
                 {items.map(item => (
@@ -55,8 +55,8 @@ export default function Cart() {
                       <img src={`https://images.unsplash.com/${item.image}?w=80&h=80&fit=crop&auto=format`} alt={item.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-sm text-foreground mb-1 truncate">{item.name}</h3>
-                      <div className="text-sm font-bold text-foreground">{formatPrice(item.price)}</div>
+                      <h3 className="font-medium text-sm text-secondary-foreground mb-1 truncate">{item.name}</h3>
+                      <div className="text-sm font-bold text-secondary-foreground">{formatPrice(item.price)}</div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
                       <div className="flex items-center border border-border rounded-lg overflow-hidden">
@@ -68,7 +68,7 @@ export default function Cart() {
                           <Plus className="w-3.5 h-3.5" />
                         </button>
                       </div>
-                      <div className="text-xs font-bold text-[#0077B6]">{formatPrice(item.price * item.qty)}</div>
+                      <div className="text-xs font-bold text-primary">{formatPrice(item.price * item.qty)}</div>
                       <button onClick={() => { removeFromCart(item.productId); toast(t("Item removed from cart"), 'info'); }} className="text-muted-foreground hover:text-red-500 transition-colors">
                         <Trash2 className="w-4 h-4" />
                       </button>
@@ -78,7 +78,7 @@ export default function Cart() {
               </div>
               <div className="px-4 py-2.5 border-t border-border bg-secondary text-sm flex items-center justify-between">
                 <span className="text-muted-foreground">{items[0].sellerName} subtotal</span>
-                <span className="font-semibold text-foreground">{formatPrice(items.reduce((s, i) => s + i.price * i.qty, 0))}</span>
+                <span className="font-semibold text-secondary-foreground">{formatPrice(items.reduce((s, i) => s + i.price * i.qty, 0))}</span>
               </div>
             </div>
           ))}
@@ -94,19 +94,19 @@ export default function Cart() {
         {/* Order summary */}
         <div>
           <div className="bg-card border border-border rounded-xl p-5 sticky top-24">
-            <h2 className="font-bold font-display text-foreground mb-4">{t("Order summary")}</h2>
+            <h2 className="font-bold font-display text-secondary-foreground mb-4">{t("Order summary")}</h2>
             <div className="space-y-2.5 text-sm mb-4">
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("Subtotal")}</span>
-                <span className="text-foreground">{formatPrice(cartTotal)}</span>
+                <span className="text-secondary-foreground">{formatPrice(cartTotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">{t("Shipping")}</span>
-                <span className="text-foreground">{formatPrice(shipping)}</span>
+                <span className="text-secondary-foreground">{formatPrice(shipping)}</span>
               </div>
               <div className="border-t border-border pt-2.5 flex justify-between">
-                <span className="font-semibold text-foreground">Total</span>
-                <span className="font-bold text-lg text-foreground">{formatPrice(total)}</span>
+                <span className="font-semibold text-secondary-foreground">Total</span>
+                <span className="font-bold text-lg text-secondary-foreground">{formatPrice(total)}</span>
               </div>
             </div>
             <Button className="w-full" size="lg" onClick={() => navigate('/checkout')}>

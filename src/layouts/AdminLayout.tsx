@@ -7,6 +7,7 @@ import { logout } from '@/api/auth.api';
 import { useToast } from '../contexts/ToastContext';
 import Logo from '../assets/NovaLogo.png';
 import i18n from '../i18n';
+import { ChevronDown } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 
 
@@ -28,7 +29,6 @@ export default function AdminLayout() {
     { icon: <ShoppingCart className="w-4.5 h-4.5" />, label: t("Orders"), to: '/admin/orders' },
     { icon: <CreditCard className="w-4.5 h-4.5" />, label: t("Payments"), to: '/admin/payments' },
     { icon: <Tag className="w-4.5 h-4.5" />, label: t("Promotions"), to: '/admin/promotions' },
-    { icon: <Star className="w-4.5 h-4.5" />, label: t("Reviews"), to: '/admin/reviews' },
     { icon: <BarChart3 className="w-4.5 h-4.5" />, label: t("Reports"), to: '/admin/reports' },
     { icon: <Settings className="w-4.5 h-4.5" />, label: t("Settings"), to: '/admin/settings' },
   ];
@@ -109,14 +109,28 @@ export default function AdminLayout() {
             <Menu className="w-5 h-5" />
           </button>
           <div className="flex-1">
-            <h1 className="font-semibold text-sm font-display text-foreground hidden sm:block">
+            <h1 className="font-semibold text-sm font-display text-secondary-foreground hidden sm:block">
               {navItems.find(i => isNavItemActive(i.to))?.label || 'Admin Dashboard'}
             </h1>
           </div>
           <div className="flex items-center gap-1">
-            <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="hidden sm:flex items-center gap-1 px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
-              <Globe className="w-4 h-4" />
-            </button>
+            <div className="relative hidden sm:block">
+              <div className="flex items-center gap-2 px-3 py-2 rounded-lg border border-border bg-card hover:bg-secondary transition-colors">
+                <Globe className="w-4 h-4 text-muted-foreground" />
+
+                <select
+                  value={i18n.language}
+                  onChange={(e) => i18n.changeLanguage(e.target.value)}
+                  className="appearance-none bg-transparent pr-5 text-sm font-medium text-foreground outline-none cursor-pointer"
+                >
+                  <option value="en">English</option>
+                  <option value="fr">Français</option>
+                  <option value="mg">Malagasy</option>
+                </select>
+
+                <ChevronDown className="absolute right-2.5 w-3.5 h-3.5 pointer-events-none text-muted-foreground" />
+              </div>
+            </div>
             <button onClick={() => setTheme(resolvedTheme === 'dark' ? 'light' : 'dark')} className="p-2 text-muted-foreground hover:bg-secondary rounded-lg transition-colors">
               {resolvedTheme === 'dark' ? <Sun className="w-4.5 h-4.5" /> : <Moon className="w-4.5 h-4.5" />}
             </button>
@@ -126,7 +140,7 @@ export default function AdminLayout() {
             </button>
             <div className="flex items-center gap-2 pl-2 ml-1 border-l border-border">
               <div className="w-7 h-7 rounded-full bg-[#0077B6] flex items-center justify-center text-white text-sm font-bold">A</div>
-              <span className="hidden sm:block text-sm font-medium text-foreground">Admin</span>
+              <span className="hidden sm:block text-sm font-medium text-secondary-foreground">Admin</span>
             </div>
           </div>
         </header>

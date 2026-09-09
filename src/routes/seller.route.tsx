@@ -5,7 +5,7 @@ import AddProduct from '../pages/seller/AddProduct';
 import Inventory from '../pages/seller/Inventory';
 import SellerOrders from '../pages/seller/Orders';
 import SellerAnalytics from '../pages/seller/Analytics';
-import SellerReviews from '../pages/seller/Reviews';
+import SellerReviews from '../components/admin/Reviews';
 import SellerPromotions from '../pages/seller/Promotions';
 import SellerStoreSettings from '../pages/seller/StoreSettings';
 import SellerCustomers from '../pages/seller/Customers';

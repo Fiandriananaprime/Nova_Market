@@ -7,11 +7,13 @@ export interface Store {
   verified: boolean;
   rating: number;
   productsCount: number;
+  productIds: string[];
   location: string;
   joinedYear: number;
   followersCount: number;
   description: string;
 }
+
 
 export interface Review {
   id: string;

@@ -19,7 +19,7 @@ export default function Favorites() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold font-display text-foreground mb-5">{t("My Favorites")}</h1>
+      <h1 className="text-2xl font-bold font-display text-secondary-foreground mb-5">{t("My Favorites")}</h1>
 
       <Tabs
         tabs={[
@@ -51,9 +51,9 @@ export default function Favorites() {
                   </div>
                   <div className="p-3">
                     <p className="text-xs text-muted-foreground">{product.brand}</p>
-                    <h3 className="font-medium text-sm text-foreground truncate">{product.name}</h3>
+                    <h3 className="font-medium text-sm text-secondary-foreground truncate">{product.name}</h3>
                     <div className="flex items-center justify-between mt-1.5">
-                      <span className="font-bold text-foreground">{formatPrice(product.price)}</span>
+                      <span className="font-bold text-secondary-foreground">{formatPrice(product.price)}</span>
                       <Rating value={product.rating} showCount={false} size="xs" />
                     </div>
                     <Button variant="outline" size="sm" className="w-full mt-2" onClick={() => addToCart(product.id)}>
@@ -71,14 +71,14 @@ export default function Favorites() {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {favStores.map(seller => (
               <div key={seller.id} className="bg-card border border-border rounded-xl overflow-hidden hover:shadow-md transition-all">
-                <div className="h-24 bg-[#16262E] relative">
+                <div className="h-24 bg-foreground relative">
                   <img src={`https://images.unsplash.com/${seller.cover}?w=600&h=200&fit=crop&auto=format`} alt="" className="w-full h-full object-cover opacity-60" />
                   <div className="absolute bottom-3 left-3 w-12 h-12 rounded-xl bg-white border-2 border-white overflow-hidden">
                     <img src={`https://images.unsplash.com/${seller.logo}?w=80&h=80&fit=crop&auto=format`} alt={seller.name} className="w-full h-full object-cover" />
                   </div>
                 </div>
                 <div className="p-4">
-                  <h3 className="font-semibold font-display text-foreground">{seller.name}</h3>
+                  <h3 className="font-semibold font-display text-secondary-foreground">{seller.name}</h3>
                   {seller.verified && <VerifiedBadge small />}
                   <div className="flex gap-2 mt-3">
                     <Button size="sm" className="flex-1" onClick={() => navigate(`/stores/${seller.id}`)}>

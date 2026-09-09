@@ -62,7 +62,7 @@ const BarStat = ({title,data}: BarStatProp) => {
     return (
         <div className="bg-card border border-border rounded-xl p-5">
       <div className="flex items-center justify-between mb-4">
-      <h2 className="font-semibold font-display text-foreground">{title}</h2>
+      <h2 className="font-semibold font-display text-secondary-foreground">{title}</h2>
       <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
       </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -85,7 +85,7 @@ const LineStat = ({title,data}: BarStatProp) => {
     return (
         <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="font-semibold font-display text-foreground">{title}</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">{title}</h2>
             <ChartZoomControls zoom={zoom} onZoomChange={setZoom} />
           </div>
           <ResponsiveContainer width="100%" height={200}>
@@ -124,8 +124,8 @@ export function StatCard({ title, value, change, icon, color = '#0077B6' }: Stat
           </div>
         )}
       </div>
-      <div className="text-2xl font-bold font-display text-[var(--foreground)] mb-0.5">{value}</div>
-      <div className="text-sm text-[var(--muted-foreground)]">{title}</div>
+      <div className="text-2xl font-bold font-display text-secondary-foreground mb-0.5">{value}</div>
+      <div className="text-sm text-muted-foreground">{title}</div>
     </Card>
   );
 }

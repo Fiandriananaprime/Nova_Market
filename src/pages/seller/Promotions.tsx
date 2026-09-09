@@ -25,7 +25,7 @@ export default function SellerPromotions() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">{t("Promotions")}</h1>
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">{t("Promotions")}</h1>
         <Button onClick={() => setModal(true)}>
           <Plus className="w-4 h-4" />
           {t("Create promotion")}
@@ -35,12 +35,12 @@ export default function SellerPromotions() {
       <div className="grid gap-4">
         {promotions.map(promo => (
           <div key={promo.id} className="bg-card border border-border rounded-xl p-5 flex flex-col sm:flex-row sm:items-center gap-4">
-            <div className="w-10 h-10 rounded-xl bg-[#5ABCB9]/10 flex items-center justify-center text-[#5ABCB9] flex-shrink-0">
+            <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center text-accent flex-shrink-0">
               <Tag className="w-5 h-5" />
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
-                <span className="font-semibold font-display text-foreground">{promo.name}</span>
+                <span className="font-semibold font-display text-secondary-foreground">{promo.name}</span>
                 <StatusBadge status={promo.status} />
               </div>
               <div className="flex flex-wrap gap-3 text-sm text-muted-foreground">

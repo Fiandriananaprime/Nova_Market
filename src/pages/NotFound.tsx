@@ -8,14 +8,14 @@ interface NotFoundProps {
 export const aboutNotFound = ({ prop }: NotFoundProps) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-
+  
   return (
     <div className="flex flex-col items-center justify-center min-h-[50vh] text-center p-8">
       <div className="text-6xl font-bold font-display text-border mb-3">
         404
       </div>
 
-      <h2 className="text-2xl font-bold font-display text-foreground mb-2">
+      <h2 className="text-2xl font-bold font-display text-secondary-foreground mb-2">
         {t(`${prop} not found`)}
       </h2>
 
@@ -25,7 +25,7 @@ export const aboutNotFound = ({ prop }: NotFoundProps) => {
 
       <button
         onClick={() => navigate(-1)}
-        className="text-[#0077B6] hover:underline font-medium"
+        className="text-primary hover:underline font-medium"
       >
         ← {t('Go Back')}
       </button>

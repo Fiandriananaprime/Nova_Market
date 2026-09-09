@@ -62,7 +62,7 @@ export default function AdminProducts() {
   };
 
   const sortableHeader = (label: string, sort: 'price' | 'status' | 'submitted') => (
-    <button type="button" onClick={() => changeSort(sort)} className="inline-flex items-center gap-1 hover:text-[#0077B6]">
+    <button type="button" onClick={() => changeSort(sort)} className="inline-flex items-center gap-1 hover:text-primary">
       {label}
       {sortDirection === 'asc'
         ? <ArrowUp className={`h-3.5 w-3.5 ${sortBy === sort ? '' : 'opacity-30'}`} />
@@ -75,10 +75,10 @@ export default function AdminProducts() {
     const selected = activeTab;
     return (
       <div className="relative inline-flex items-center gap-1">
-        <button type="button" onClick={() => setActiveFilter(activeFilter === 'status' ? null : 'status')} className="inline-flex items-center gap-1 hover:text-[#0077B6]">
+        <button type="button" onClick={() => setActiveFilter(activeFilter === 'status' ? null : 'status')} className="inline-flex items-center gap-1 hover:text-primary">
           {label}<ArrowDown className="h-3.5 w-3.5" />
         </button>
-        {selected !== 'all' && <span className="max-w-20 truncate rounded bg-[#0077B6]/10 px-1 text-[9px] normal-case text-[#0077B6]">{selected}</span>}
+        {selected !== 'all' && <span className="max-w-20 truncate rounded bg-primary/10 px-1 text-[9px] normal-case text-primary">{selected}</span>}
         {activeFilter === 'status' && (
           <div className="absolute left-0 top-full z-30 mt-1 min-w-40 rounded-md border border-border bg-card p-1 normal-case shadow-lg">
             {options.map(([value, optionLabel]) => (
@@ -86,7 +86,7 @@ export default function AdminProducts() {
                 handleTabChange(value);
                 setPage(1);
                 setActiveFilter(null);
-              }} className="block w-full rounded px-2 py-1.5 text-left text-xs font-normal text-foreground hover:bg-secondary">
+              }} className="block w-full rounded px-2 py-1.5 text-left text-xs font-normal text-secondary-foreground hover:bg-secondary">
                 {optionLabel}
               </button>
             ))}
@@ -102,7 +102,7 @@ export default function AdminProducts() {
       header: t("PRODUCT"),
       render: (p) => (
         <div className="flex items-center gap-2.5">
-          <span className="font-medium text-foreground truncate max-w-[180px]">
+          <span className="font-medium text-secondary-foreground truncate max-w-[180px]">
             {p.id}
           </span>
         </div>
@@ -125,7 +125,7 @@ export default function AdminProducts() {
       key: 'price',
       header: sortableHeader(t("PRICE"), 'price'),
       render: (p) => (
-        <span className="font-medium text-foreground whitespace-nowrap">
+        <span className="font-medium text-secondary-foreground whitespace-nowrap">
           {formatPrice ? formatPrice(p.price) : `${p.price} Ar`}
         </span>
       ),
@@ -193,7 +193,7 @@ export default function AdminProducts() {
   return (
     <div>
       <div className="flex items-center justify-between mb-5">
-        <h1 className="text-xl font-bold font-display text-foreground">
+        <h1 className="text-xl font-bold font-display text-secondary-foreground">
           {t("Product Moderation")}
         </h1>
         <button
@@ -228,7 +228,7 @@ export default function AdminProducts() {
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
               placeholder={t("Search products...")}
-              className="w-full pl-3 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-foreground focus:outline-none focus:border-[#0077B6]"
+              className="w-full pl-3 pr-4 py-2 text-sm bg-secondary border border-border rounded-l-lg text-secondary-foreground focus:outline-none focus:border-primary"
             />
             <button
               type="submit"

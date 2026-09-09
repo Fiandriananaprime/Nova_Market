@@ -36,8 +36,8 @@ export default function SellerDashboard() {
       <div className="grid lg:grid-cols-2 gap-5">
         <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-foreground">{t("Revenue")}</h2>
-            <TrendingUp className="w-4 h-4 text-[#5ABCB9]" />
+            <h2 className="font-semibold font-display text-secondary-foreground">{t("Revenue")}</h2>
+            <TrendingUp className="w-4 h-4 text-accent" />
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <BarChart data={revenueData} barSize={20}>
@@ -52,7 +52,7 @@ export default function SellerDashboard() {
 
         <div className="bg-card border border-border rounded-xl p-5">
           <div className="flex items-center justify-between mb-5">
-            <h2 className="font-semibold font-display text-foreground">{t("Orders")}</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">{t("Orders")}</h2>
           </div>
           <ResponsiveContainer width="100%" height={200}>
             <LineChart data={revenueData}>
@@ -70,7 +70,7 @@ export default function SellerDashboard() {
       <div className="grid lg:grid-cols-3 gap-5">
         <div className="lg:col-span-2 bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">{t("Recent orders")}</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">{t("Recent orders")}</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
@@ -84,10 +84,10 @@ export default function SellerDashboard() {
               <tbody className="divide-y divide-border">
                 {recentOrders.map(order => (
                   <tr key={order.id} className="hover:bg-secondary transition-colors">
-                    <td className="px-4 py-3 font-mono text-xs text-[#0077B6] font-bold">{order.id}</td>
-                    <td className="px-4 py-3 text-foreground">{order.customer}</td>
-                    <td className="px-4 py-3 text-foreground truncate max-w-32">{order.product}</td>
-                    <td className="px-4 py-3 font-medium text-foreground">{formatPrice(order.amount)}</td>
+                    <td className="px-4 py-3 font-mono text-xs text-primary font-bold">{order.id}</td>
+                    <td className="px-4 py-3 text-secondary-foreground">{order.customer}</td>
+                    <td className="px-4 py-3 text-secondary-foreground truncate max-w-32">{order.product}</td>
+                    <td className="px-4 py-3 font-medium text-secondary-foreground">{formatPrice(order.amount)}</td>
                     <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
                     <td className="px-4 py-3 text-muted-foreground">{order.date}</td>
                   </tr>
@@ -99,17 +99,17 @@ export default function SellerDashboard() {
 
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-border">
-            <h2 className="font-semibold font-display text-foreground">{t("Top products")}</h2>
+            <h2 className="font-semibold font-display text-secondary-foreground">{t("Top products")}</h2>
           </div>
           <div className="p-4 space-y-3">
             {topProducts.map((p, i) => (
               <div key={i} className="flex items-center gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#0077B6]/10 flex items-center justify-center text-xs font-bold text-[#0077B6]">{i + 1}</div>
+                <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-xs font-bold text-primary">{i + 1}</div>
                 <div className="flex-1 min-w-0">
-                  <div className="text-sm font-medium text-foreground truncate">{p.name}</div>
+                  <div className="text-sm font-medium text-secondary-foreground truncate">{p.name}</div>
                   <div className="text-xs text-muted-foreground">{p.sales} {t("sold")}</div>
                 </div>
-                <div className="text-xs font-bold text-foreground">{(p.revenue / 1000000).toFixed(1)}M Ar</div>
+                <div className="text-xs font-bold text-secondary-foreground">{(p.revenue / 1000000).toFixed(1)}M Ar</div>
               </div>
             ))}
           </div>

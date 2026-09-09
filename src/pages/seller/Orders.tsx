@@ -31,7 +31,7 @@ export default function SellerOrders() {
 
   return (
     <div>
-      <h1 className="text-xl font-bold font-display text-foreground mb-5">{t("Orders")}</h1>
+      <h1 className="text-xl font-bold font-display text-secondary-foreground mb-5">{t("Orders")}</h1>
 
       <div className="overflow-x-auto mb-5">
         <Tabs tabs={tabs} active={activeTab} onChange={setActiveTab} />
@@ -50,11 +50,11 @@ export default function SellerOrders() {
             <tbody className="divide-y divide-border">
               {filtered.map(order => (
                 <tr key={order.id} className="hover:bg-secondary transition-colors">
-                  <td className="px-4 py-3 font-mono text-xs text-[#0077B6] font-bold">{order.id}</td>
-                  <td className="px-4 py-3 text-foreground">{order.customer}</td>
-                  <td className="px-4 py-3 text-foreground truncate max-w-36">{order.product}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-primary font-bold">{order.id}</td>
+                  <td className="px-4 py-3 text-secondary-foreground">{order.customer}</td>
+                  <td className="px-4 py-3 text-secondary-foreground truncate max-w-36">{order.product}</td>
                   <td className="px-4 py-3 text-muted-foreground">{order.qty}</td>
-                  <td className="px-4 py-3 font-medium text-foreground whitespace-nowrap">{formatPrice(order.amount)}</td>
+                  <td className="px-4 py-3 font-medium text-secondary-foreground whitespace-nowrap">{formatPrice(order.amount)}</td>
                   <td className="px-4 py-3"><StatusBadge status={order.status} /></td>
                   <td className="px-4 py-3 text-muted-foreground">{order.date}</td>
                   <td className="px-4 py-3">
@@ -89,19 +89,19 @@ export default function SellerOrders() {
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
               <span className="text-muted-foreground">{t("Product")}</span>
-              <span className="font-medium text-foreground">{detailOrder.product}</span>
+              <span className="font-medium text-secondary-foreground">{detailOrder.product}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
               <span className="text-muted-foreground">{t("Quantity")}</span>
-              <span className="font-medium text-foreground">{detailOrder.qty}</span>
+              <span className="font-medium text-secondary-foreground">{detailOrder.qty}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
               <span className="text-muted-foreground">{t("Amount")}</span>
-              <span className="font-bold text-foreground">{formatPrice(detailOrder.amount)}</span>
+              <span className="font-bold text-secondary-foreground">{formatPrice(detailOrder.amount)}</span>
             </div>
             <div className="flex justify-between py-1.5 border-b border-border">
               <span className="text-muted-foreground">{t("Payment")}</span>
-              <span className="text-foreground">{detailOrder.payment}</span>
+              <span className="text-secondary-foreground">{detailOrder.payment}</span>
             </div>
             <Select
               label={t("Update status")}

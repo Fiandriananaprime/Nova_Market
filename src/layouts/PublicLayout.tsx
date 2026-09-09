@@ -47,7 +47,7 @@ function PublicNavbar() {
             <div className="w-8 h-8 rounded-lg  flex items-center justify-center">
               <img src={Logo} alt="NovaMarket Logo" className="w-full h-full object-contain" />
             </div>
-            <span className="font-bold text-lg font-display text-foreground">NovaMarket</span>
+            <span className="font-bold text-lg font-display text-secondary-foreground">NovaMarket</span>
           </Link>
 
          <div className="hidden md:flex items-center gap-1">
@@ -62,7 +62,7 @@ function PublicNavbar() {
                 key={href}
                 href={href}
                 onClick={() => setActiveHash(href)}
-                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-secondary transition-colors ${activeHash === href ? "text-primary after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-foreground after:content-['']" : 'text-muted-foreground hover:text-foreground'}`}
+                className={`relative px-3 py-2 text-sm font-medium rounded-lg hover:bg-secondary transition-colors ${activeHash === href ? "text-primary after:absolute after:left-3 after:right-3 after:bottom-0 after:h-0.5 after:bg-foreground after:content-['']" : 'text-muted-foreground hover:text-secondary-foreground'}`}
               >
                 {label}
               </a>
@@ -72,7 +72,7 @@ function PublicNavbar() {
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')}
-              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:bg-secondary rounded-lg transition-colors"
+              className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-muted-foreground hover:text-secondary-foreground hover:bg-secondary rounded-lg transition-colors"
             >
               <Globe className="w-4 h-4" />
               {i18n.language.toUpperCase()}
@@ -98,7 +98,7 @@ function PublicNavbar() {
       {mobileOpen && (
         <div className="md:hidden border-t border-border bg-card px-4 py-3 space-y-1">
           {[['/', t("Home")], ['/how-it-works', t("How it works")], ['/categories', t("Categories")], ['/sellers', t("Sellers")]].map(([href, label]) => (
-            <Link key={href} to={href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-foreground hover:bg-secondary rounded-lg transition-colors">{label}</Link>
+            <Link key={href} to={href} onClick={() => setMobileOpen(false)} className="block px-3 py-2 text-sm font-medium text-secondary-foreground hover:bg-secondary rounded-lg transition-colors">{label}</Link>
           ))}
           <div className="flex gap-2 pt-2">
             {userRole ? (
@@ -121,40 +121,40 @@ function PublicNavbar() {
 function PublicFooter() {
   const { t } = useTranslation();
   return (
-    <footer className="bg-[#16262E] text-[#F5EFFF]">
+    <footer className="bg-foreground text-background">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-8">
           <div className="col-span-2 md:col-span-1">
             <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-lg bg-[#0077B6] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <ShoppingBag className="w-4.5 h-4.5 text-white" />
               </div>
               <span className="font-bold text-lg font-display">NovaMarket</span>
             </div>
-            <p className="text-sm text-[#8da8b5] leading-relaxed">{t("Your trusted multi-vendor marketplace.")}</p>
+            <p className="text-sm text-darkMutedForeground leading-relaxed">{t("Your trusted multi-vendor marketplace.")}</p>
           </div>
           <div>
             <h4 className="font-semibold text-sm mb-3 font-display">Marketplace</h4>
-            <ul className="space-y-2 text-sm text-[#8da8b5]">
+            <ul className="space-y-2 text-sm text-darkMutedForeground">
               {['Products', 'Categories', 'Sellers'].map(l => <li key={l}><Link to={`/${l.toLowerCase()}`} className="hover:text-white transition-colors">{l}</Link></li>)}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold text-sm mb-3 font-display">{t("Company")}</h4>
-            <ul className="space-y-2 text-sm text-[#8da8b5]">
+            <ul className="space-y-2 text-sm text-darkMutedForeground">
               {[t("About"), t("Become a seller"), t("Contact")].map(l => <li key={l}><a href="#" className="hover:text-white transition-colors">{l}</a></li>)}
             </ul>
           </div>
           <div>
             <h4 className="font-semibold text-sm mb-3 font-display">{t("Help")}</h4>
-            <ul className="space-y-2 text-sm text-[#8da8b5]">
+            <ul className="space-y-2 text-sm text-darkMutedForeground">
               {['FAQ', t("Shipping"), t("Returns"), t("Terms"), t("Privacy")].map(l => <li key={l}><a href="#" className="hover:text-white transition-colors">{l}</a></li>)}
             </ul>
           </div>
         </div>
         <div className="border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3">
-          <p className="text-sm text-[#8da8b5]">© 2026 NovaMarket. {t("All rights reserved.")}</p>
-          <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="flex items-center gap-1.5 text-sm text-[#8da8b5] hover:text-white transition-colors">
+          <p className="text-sm text-darkMutedForeground">© 2026 NovaMarket. {t("All rights reserved.")}</p>
+          <button onClick={() => i18n.changeLanguage(i18n.language === 'en' ? 'fr' : 'en')} className="flex items-center gap-1.5 text-sm text-darkMutedForeground hover:text-white transition-colors">
             <Globe className="w-4 h-4" />
             {i18n.language === 'en' ? 'English' : 'Français'}
           </button>

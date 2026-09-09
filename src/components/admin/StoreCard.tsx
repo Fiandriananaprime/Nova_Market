@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router';
 import { formatDate, formatPrice,formatMillionAr as formatCount } from '@/hook/format';
 import  { StoreAdmin } from '@/type/admin/seller';
 import { OrderStatus } from '@/type/order/order';
-
+import { useTranslation } from 'react-i18next';
 interface StoreCardProps {
     store: StoreAdmin;
 }
@@ -27,18 +27,19 @@ const statusStyles: Record<OrderStatus, string> = {
     cancelled: 'bg-red-500/10 text-red-600',
 };
 
-const statusLabels: Record<OrderStatus, string> = {
-    pending: 'Pending',
-    confirmed: 'Confirmed',
-    processing: 'Processing',
-    preparing: 'Preparing',
-    shipped: 'Shipped',
-    delivered: 'Delivered',
-    cancelled: 'Cancelled',
-};
 
 
 const StoreCard = ({ store }: StoreCardProps) => {
+    const { t } = useTranslation();
+    const statusLabels: Record<OrderStatus, string> = {
+        pending: t('Pending'),
+        confirmed: t('Confirmed'),
+        processing: t('Processing'),
+        preparing: t('Preparing'),
+        shipped: t('Shipped'),
+        delivered: t('Delivered'),
+        cancelled: t('Cancelled'),
+    };
     const orders = store.orders ?? [];
     const navigate = useNavigate();
     return (
@@ -61,7 +62,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 {store.verified && (
                     <div className="absolute right-4 top-4 flex items-center gap-1 rounded-full bg-background/90 px-2.5 py-1 text-xs font-medium backdrop-blur">
                         <BadgeCheck className="h-4 w-4 text-primary" />
-                        Verified
+                        {t("Verified")}
                     </div>
                 )}
 
@@ -121,7 +122,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                             {formatCount(store.productsCount)}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
-                            Products
+                            {t("Products")}
                         </span>
                     </div>
 
@@ -131,7 +132,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                             {formatCount(store.followersCount)}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
-                            Followers
+                            {t("Followers")}
                         </span>
                     </div>
 
@@ -141,7 +142,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                             {orders.length}
                         </span>
                         <span className="text-[11px] text-muted-foreground">
-                            Orders
+                            {t("Orders")}
                         </span>
                     </div>
                 </div>
@@ -149,7 +150,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 {/* Revenue */}
                 <div className="mt-4 rounded-xl bg-primary/5 p-4">
                     <p className="text-xs font-medium text-muted-foreground">
-                        Annual revenue
+                        {t("Annual revenue")}
                     </p>
 
                     <p className="mt-1 text-xl font-bold tracking-tight text-secondary-foreground">
@@ -162,7 +163,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                     <div className="mt-5">
                         <div className="mb-3 flex items-center justify-between">
                             <h4 className="text-sm font-semibold text-secondary-foreground">
-                                Recent orders
+                                {t("Recent orders")}
                             </h4>
 
                             <span className="text-xs text-muted-foreground">
@@ -183,7 +184,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
 
                                         <p className="mt-0.5 truncate text-[11px] text-muted-foreground">
                                             {order.buyerName} ·{' '}
-                                            {order.itemsCount} items
+                                            {order.itemsCount} {t("items")}
                                         </p>
                                     </div>
 
@@ -208,7 +209,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                 <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
                     <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
                         <CalendarDays className="h-3.5 w-3.5" />
-                        Joined {store.joinedYear}
+                        {t("Joined")} {store.joinedYear}
                     </div>
 
                     <button
@@ -216,7 +217,7 @@ const StoreCard = ({ store }: StoreCardProps) => {
                         className="flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:underline"
                         onClick={() => navigate(`/admin/sellers/${store.id}`)}
                     >
-                        View store
+                        {t("View store")}
                         <ArrowUpRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                     </button>
                 </div>

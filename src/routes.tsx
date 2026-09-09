@@ -1,33 +1,20 @@
-import { createBrowserRouter } from 'react-router';
-import { ProtectedRoute } from './routes/ProtectedRoute';
+import { createBrowserRouter, Navigate } from "react-router";
+import { ProtectedRoute } from "./routes/ProtectedRoute";
 
-import { publicRoutes } from './routes/public.route';
-import { buyerRoutes } from './routes/buyer.route';
-import { sellerRoutes } from './routes/seller.route';
-import { adminRoutes } from './routes/admin.route';
+import { adminRoutes } from "./routes/admin.route";
 
-import NotFound from './pages/NotFound';
+import NotFound from "./pages/NotFound";
+import Login from "./pages/public/Login";
 
 export const createAppRouter = () => {
   return createBrowserRouter([
-    ...publicRoutes,
     {
-      element: (
-        <ProtectedRoute
-          requiredRole="buyer"
-          redirectTo="/login"
-        />
-      ),
-      children: [buyerRoutes],
+      path: "/login",
+      element: <Navigate to="/" replace />,
     },
     {
-      element: (
-        <ProtectedRoute
-          requiredRole="seller"
-          redirectTo="/login"
-        />
-      ),
-      children: [sellerRoutes],
+      path: "/",
+      Component: Login,
     },
     {
       element: (
@@ -38,7 +25,10 @@ export const createAppRouter = () => {
       ),
       children: [adminRoutes],
     },
-    { path: '*', element: <NotFound prop={"page"} /> },
+    {
+      path: "*",
+      element: <NotFound prop="page" />,
+    },
   ]);
 };
 

@@ -2,7 +2,7 @@ import { Product, productStatus } from "@/type/catalog/product";
 import { Badge, Rating } from "@/components/ui";
 import { formatPrice } from "@/hook/format";
 import { useNavigate } from "react-router";
-  
+import { useTranslation } from "react-i18next";
 const statusConfig: Record<
   productStatus,
   { label: string; variant: "success" | "warning" | "danger" | "info" }
@@ -34,7 +34,7 @@ const statusConfig: Record<
 };
 const StoreProductCard = ({ product }: { product: Product }) => {
   const navigate = useNavigate();
-
+  const { t } = useTranslation();
   return (
     <div
       className="
@@ -89,7 +89,7 @@ const StoreProductCard = ({ product }: { product: Product }) => {
         {/* Brand + name */}
         <div>
           <p className="text-xs text-muted-foreground">
-            {product.brand || "No brand"}
+            {product.brand || t("No brand")}
           </p>
 
           <h3 className="font-semibold text-sm text-secondary-foreground truncate mt-1">

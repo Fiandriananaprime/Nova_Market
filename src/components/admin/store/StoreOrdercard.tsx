@@ -65,7 +65,7 @@ export default function OrderCard({ order }: OrderCardProps) {
       {/* Header */}
       <div className="flex items-start justify-between gap-4">
         <div>
-          <p className="text-sm text-muted-foreground">Order</p>
+          <p className="text-sm text-muted-foreground">{t("Order")}</p>
 
           <h3 className="font-semibold text-secondary-foreground">
             #{order.id}
@@ -93,7 +93,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         </div>
 
         <div>
-          <p className="text-xs text-muted-foreground">Customer</p>
+          <p className="text-xs text-muted-foreground">{t("Customer")}</p>
           <p className="text-sm font-medium text-secondary-foreground">
             {order.buyerName}
           </p>
@@ -106,7 +106,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <div>
           <div className="mb-1 flex items-center gap-2 text-muted-foreground">
             <Package size={15} />
-            <span className="text-xs">Items</span>
+            <span className="text-xs">{t("Items")}</span>
           </div>
 
           <p className="font-medium text-secondary-foreground">
@@ -118,7 +118,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <div>
           <div className="mb-1 flex items-center gap-2 text-muted-foreground">
             <User size={15} />
-            <span className="text-xs">Sellers</span>
+            <span className="text-xs">{t("Sellers")}</span>
           </div>
 
           <p className="font-medium text-secondary-foreground">
@@ -130,7 +130,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <div>
           <div className="mb-1 flex items-center gap-2 text-muted-foreground">
             <Truck size={15} />
-            <span className="text-xs">Delivery</span>
+            <span className="text-xs">{t("Delivery")}</span>
           </div>
 
           <p className="font-medium text-secondary-foreground">
@@ -142,7 +142,7 @@ export default function OrderCard({ order }: OrderCardProps) {
         <div>
           <div className="mb-1 flex items-center gap-2 text-muted-foreground">
             <CreditCard size={15} />
-            <span className="text-xs">Payment</span>
+            <span className="text-xs">{t("Payment")}</span>
           </div>
 
           <p className="font-medium text-secondary-foreground">
@@ -155,7 +155,7 @@ export default function OrderCard({ order }: OrderCardProps) {
       <div className="mt-5 flex items-center justify-between border-t border-border pt-4">
         <div>
           <p className="text-xs text-muted-foreground">
-            Payment status
+            {t("Payment status")}
           </p>
 
           <span
@@ -187,7 +187,7 @@ export default function OrderCard({ order }: OrderCardProps) {
               <CopyableText text={order.tracking} />
             </>
           ) : (
-            "No tracking number"
+            t("No tracking number")
           )}
         </div>
 
@@ -197,7 +197,7 @@ export default function OrderCard({ order }: OrderCardProps) {
           className="flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm font-medium text-secondary-foreground transition hover:bg-muted"
         >
           <Eye size={16} />
-          View details
+          {t("View details")}
         </button>
       </div>
     </div>

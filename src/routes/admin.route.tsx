@@ -3,13 +3,11 @@ import AdminDashboard from '../pages/admin/Dashboard';
 import AdminUsers from '../pages/admin/Users';
 import SellerApplications from '../pages/admin/SellerApplications';
 import AdminProducts from '../pages/admin/Products';
-import AdminCategories from '../pages/admin/Categories';
 import AdminOrders from '../pages/admin/Orders';
 import AdminSettings from '../pages/admin/Settings';
 import AdminPayments from '../pages/admin/Payments';
 import SellerPromotions from '../pages/admin/Promotions';
-import SellerReviews from '../components/admin/Reviews';
-import SellerAnalytics from '../pages/seller/Analytics';
+import Analytics from '../pages/admin/Analytics';
 import UserDetails from '@/components/admin/UserDetail';
 import SellerApplicationDetails from '@/components/admin/SellerApplicationDetail';
 import ProductAbout from '@/pages/admin/ProductAbout';
@@ -34,7 +32,7 @@ export const adminRoutes = {
     { path: 'orders/:id', Component: OrderDetail},
     { path: 'payments', Component: AdminPayments },
     { path: 'promotions', Component: SellerPromotions },
-    { path: 'reports', Component: SellerAnalytics },
+    { path: 'reports', Component: Analytics },
     { path: 'settings', Component: AdminSettings },
   ],
 };

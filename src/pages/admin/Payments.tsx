@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { DollarSign, TrendingUp, CreditCard, Smartphone, RefreshCw } from 'lucide-react';
 import { StatCard, Badge, Select } from '../../components/ui';
+
+import TableCard, { Column } from '@/components/TableCard'; 
 import { formatPrice } from '@/hook/format';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { useTranslation } from 'react-i18next';
@@ -21,7 +23,7 @@ export default function AdminPayments() {
   const [statusFilter, setStatusFilter] = useState<TransactionStatus | ''>('');
   const [summary, setSummary] = useState<PaymentsSummary | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [meta, setMeta] = useState<PaginationMeta>({total:0});
+  const [meta, setMeta] = useState<PaginationMeta>({total: 0});
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
   const [loadingSummary, setLoadingSummary] = useState(false);
@@ -41,7 +43,6 @@ export default function AdminPayments() {
       setLoadingSummary(true);
       const data = await getPaymentsSummary({ from, to });
       setSummary(data);
-      console.log(summary)
     } catch (error) {
       console.error(error);
       toast(t('Failed to load payment summary'), 'error');
@@ -122,6 +123,88 @@ export default function AdminPayments() {
   const currentPage = meta.page ?? 1;
   const totalPages = meta.totalPages ?? 1;
   const totalTransactions = meta.total ?? 0;
+
+  const columns = useMemo<Column<Transaction>[]>(() => [
+    {
+      key: 'id',
+      header: t('Transaction'),
+      className: 'font-mono text-xs text-accent font-bold',
+    },
+    {
+      key: 'orderId',
+      header: t('Order'),
+      className: 'font-mono text-xs text-primary',
+    },
+    {
+      key: 'buyerName',
+      header: t('Buyer'),
+      className: 'text-secondary-foreground',
+    },
+    {
+      key: 'sellerName',
+      header: t('Seller'),
+      className: 'text-secondary-foreground',
+    },
+    {
+      key: 'amount',
+      header: t('Amount'),
+      className: 'font-bold text-secondary-foreground whitespace-nowrap',
+      render: (item) => formatPrice(item.amount),
+    },
+    {
+      key: 'commission',
+      header: t('Commission'),
+      className: 'text-accent font-medium whitespace-nowrap',
+      render: (item) => formatPrice(item.commission),
+    },
+    {
+      key: 'method',
+      header: t('Method'),
+    },
+    {
+      key: 'status',
+      header: t('Status'),
+      render: (item) => (
+        <Badge
+          variant={
+            item.status === 'paid'
+              ? 'success'
+              : item.status === 'pending'
+                ? 'warning'
+                : item.status === 'failed'
+                  ? 'danger'
+                  : 'outline'
+          }
+        >
+          {item.status}
+        </Badge>
+      ),
+    },
+    {
+      key: 'date',
+      header: t('Date'),
+      className: 'text-muted-foreground',
+    },
+    {
+      key: 'action',
+      header: t('Action'),
+      render: (item) =>
+        item.status === 'paid' ? (
+          <button
+            type="button"
+            disabled={refundingId === item.id}
+            onClick={() => handleRefund(item.id)}
+            className="px-3 py-1.5 rounded-lg border border-border text-xs font-medium hover:bg-secondary disabled:opacity-50"
+          >
+            {refundingId === item.id ? (
+              <RefreshCw className="w-4 h-4 animate-spin" />
+            ) : (
+              t('Refund')
+            )}
+          </button>
+        ) : null,
+    },
+  ], [t, refundingId]);
 
   if (loadingSummary && !summary) {
     return (
@@ -289,144 +372,55 @@ export default function AdminPayments() {
         </div>
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between px-5 py-4 border-b border-border gap-3">
-          <h2 className="font-semibold font-display text-secondary-foreground">
-            {t('Transactions')}
-          </h2>
-
-          <div className="flex flex-wrap gap-2">
-            <Select
-              options={[
-                { value: 'all', label: t('All methods') },
-                { value: 'MVola', label: 'MVola' },
-                { value: 'Orange Money', label: 'Orange Money' },
-                { value: 'Card', label: 'Card' },
-                { value: 'COD', label: 'COD' }
-              ]}
-              value={methodFilter}
-              onChange={e => handleMethodChange(e.target.value)}
-              className="w-40"
-            />
-
-            <Select
-              options={[
-                { value: '', label: t('All statuses') },
-                { value: 'completed', label: t('Completed') },
-                { value: 'pending', label: t('Pending') },
-                { value: 'failed', label: t('Failed') },
-                { value: 'refunded', label: t('Refunded') }
-              ]}
-              value={statusFilter}
-              onChange={e => handleStatusChange(e.target.value)}
-              className="w-40"
-            />
-          </div>
-        </div>
-
-        <div className="overflow-x-auto">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-border bg-secondary">
-                {['Transaction', 'Order', 'Buyer', 'Seller', 'Amount', 'Commission', 'Method', 'Status', 'Date', 'Action'].map(h => (
-                  <th
-                    key={h}
-                    className="text-left px-4 py-2.5 text-xs font-semibold text-muted-foreground uppercase tracking-wide whitespace-nowrap"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-
-            <tbody className="divide-y divide-border">
-              {loadingTransactions ? (
-                <tr>
-                  <td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">
-                    <RefreshCw className="w-5 h-5 animate-spin mx-auto" />
-                  </td>
-                </tr>
-              ) : transactions.length === 0 ? (
-                <tr>
-                  <td colSpan={10} className="px-4 py-10 text-center text-muted-foreground">
-                    {t('No transactions found')}
-                  </td>
-                </tr>
-              ) : (
-                transactions.map(transaction => (
-                  <tr key={transaction.id} className="hover:bg-secondary transition-colors">
-                    <td className="px-4 py-3 font-mono text-xs text-accent font-bold">
-                      {transaction.id}
-                    </td>
-
-                    <td className="px-4 py-3 font-mono text-xs text-primary">
-                      {transaction.orderId}
-                    </td>
-
-                    <td className="px-4 py-3 text-secondary-foreground">
-                      {transaction.buyerName}
-                    </td>
-
-                    <td className="px-4 py-3 text-secondary-foreground">
-                      {transaction.sellerName}
-                    </td>
-
-                    <td className="px-4 py-3 font-bold text-secondary-foreground whitespace-nowrap">
-                      {formatPrice(transaction.amount)}
-                    </td>
-
-                    <td className="px-4 py-3 text-accent font-medium whitespace-nowrap">
-                      {formatPrice(transaction.commission)}
-                    </td>
-
-                    <td className="px-4 py-3">
-                      {transaction.method}
-                    </td>
-
-                    <td className="px-4 py-3">
-                      <Badge
-                        variant={
-                          transaction.status === 'paid'
-                            ? 'success'
-                            : transaction.status === 'pending'
-                              ? 'warning'
-                              : transaction.status === 'failed'
-                                ? 'danger'
-                                : 'outline'
-                        }
-                      >
-                        {transaction.status}
-                      </Badge>
-                    </td>
-
-                    <td className="px-4 py-3 text-muted-foreground">
-                      {transaction.date}
-                    </td>
-
-                    <td className="px-4 py-3">
-                      {transaction.status === 'paid' && (
-                        <button
-                          type="button"
-                          disabled={refundingId === transaction.id}
-                          onClick={() => handleRefund(transaction.id)}
-                          className="px-3 py-1.5 rounded-lg border border-border text-xs font-medium hover:bg-secondary disabled:opacity-50"
-                        >
-                          {refundingId === transaction.id ? (
-                            <RefreshCw className="w-4 h-4 animate-spin" />
-                          ) : (
-                            t('Refund')
-                          )}
-                        </button>
-                      )}
-                    </td>
-                  </tr>
-                ))
+      {/* Utilisation de TableCard ici */}
+      <div className="flex flex-col">
+        <TableCard
+          title={t('Transactions')}
+          className="rounded-b-none border-b-0"
+          data={transactions}
+          columns={columns}
+          rowKey={(item) => item.id}
+          headerAction={
+            <div className="flex flex-wrap items-center gap-2">
+              {loadingTransactions && (
+                <RefreshCw className="w-5 h-5 animate-spin text-muted-foreground mr-2" />
               )}
-            </tbody>
-          </table>
-        </div>
+              <Select
+                options={[
+                  { value: 'all', label: t('All methods') },
+                  { value: 'MVola', label: 'MVola' },
+                  { value: 'Orange Money', label: 'Orange Money' },
+                  { value: 'Card', label: 'Card' },
+                  { value: 'COD', label: 'COD' }
+                ]}
+                value={methodFilter}
+                onChange={e => handleMethodChange(e.target.value)}
+                className="w-40"
+              />
+              <Select
+                options={[
+                  { value: '', label: t('All statuses') },
+                  { value: 'completed', label: t('Completed') },
+                  { value: 'pending', label: t('Pending') },
+                  { value: 'failed', label: t('Failed') },
+                  { value: 'refunded', label: t('Refunded') }
+                ]}
+                value={statusFilter}
+                onChange={e => handleStatusChange(e.target.value)}
+                className="w-40"
+              />
+            </div>
+          }
+        />
 
-        <div className="px-5 py-3 border-t border-border bg-secondary flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 text-sm">
+        {/* État vide pris en charge en dehors du tableau pour matcher le style original */}
+        {transactions.length === 0 && !loadingTransactions && (
+          <div className="bg-card border-x border-border py-10 text-center text-sm text-muted-foreground">
+            {t('No transactions found')}
+          </div>
+        )}
+
+        <div className="px-5 py-3 border border-border rounded-b-xl bg-secondary flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 text-sm">
           <span className="text-muted-foreground">
             {t('Showing')} {transactions.length} {t('transactions')}
           </span>
@@ -452,7 +446,7 @@ export default function AdminPayments() {
                   type="button"
                   disabled={currentPage <= 1}
                   onClick={() => setPage(value => Math.max(1, value - 1))}
-                  className="px-3 py-1 rounded border border-border disabled:opacity-50"
+                  className="px-3 py-1 rounded border border-border bg-card disabled:opacity-50"
                 >
                   {t('Previous')}
                 </button>
@@ -465,7 +459,7 @@ export default function AdminPayments() {
                   type="button"
                   disabled={currentPage >= totalPages}
                   onClick={() => setPage(value => value + 1)}
-                  className="px-3 py-1 rounded border border-border disabled:opacity-50"
+                  className="px-3 py-1 rounded border border-border bg-card disabled:opacity-50"
                 >
                   {t('Next')}
                 </button>

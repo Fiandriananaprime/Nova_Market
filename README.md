@@ -1,287 +1,383 @@
-# Nova Market
+# Nova Market Admin
 
-> A modern multi-vendor marketplace platform connecting buyers, sellers, local businesses and administrators in a single shopping experience.
+> Admin frontend for Nova Market, a multi-vendor e-commerce marketplace.
 
-Nova Market is a full-featured marketplace frontend designed around a multi-vendor e-commerce model. The platform provides dedicated experiences for **buyers**, **sellers**, and **administrators**, with product discovery, shopping cart management, checkout, orders, seller management, analytics and marketplace administration.
+Nova Market Admin is the administration portal used to manage the marketplace from a single interface.
 
-The application is currently built with mocked data for frontend development and UI validation.
-
----
-
-## ✨ Features
-
-### 🛍️ Buyer experience
-
-Buyers can browse and interact with the marketplace through a complete shopping flow:
-
-* Landing page with marketplace overview
-* Product discovery and browsing
-* Product categories
-* Product details with specifications
-* Seller/store profiles
-* Product search and filtering
-* Shopping cart
-* Quantity management
-* Favorites / wishlist
-* Checkout
-* Order history
-* Order details and tracking information
-* Buyer profile
-* Account settings
-* Multi-language interface: English / French
-* Light / dark / system theme
-
-### 🏪 Seller dashboard
-
-Sellers have their own dedicated workspace to manage their store:
-
-* Seller dashboard
-* Revenue and order statistics
-* Product management
-* Add and edit products
-* Inventory management
-* Order management
-* Analytics
-* Customer management
-* Reviews management
-* Promotions
-* Store settings
-* Seller account settings
-
-### ⚙️ Administration
-
-Administrators can manage the complete marketplace:
-
-* Admin dashboard
-* Marketplace revenue statistics
-* Buyer statistics
-* Seller statistics
-* Product statistics
-* User management
-* Buyer management
-* Seller management
-* Seller application review
-* Product management
-* Category management
-* Order management
-* Payment management
-* Promotion management
-* Review management
-* Reports and analytics
-* Admin settings
-
-### 🌍 Public pages
-
-Visitors can access:
-
-* Landing page
-* How it works
-* Categories
-* Sellers
-* About
-* Login
-* Registration
-
-### 🎨 UI / UX
-
-* Responsive design
-* Modern marketplace dashboard interfaces
-* Reusable UI components
-* Toast notifications
-* Ratings and verified seller badges
-* Status badges
-* Responsive tables
-* Charts and analytics
-* Dark mode
-* System theme detection
-* English / French interface
+The frontend is **admin-only**. Buyers and sellers are still business entities managed by administrators, but their dedicated Buyer and Seller portals are not part of this repository.
 
 ---
 
-## 🧱 Tech Stack
+## Features
 
-### Frontend
+### Dashboard
 
-| Technology   | Version / Usage |
-| ------------ | --------------- |
-| React        | `19.x`          |
-| TypeScript   | `5.7.x`         |
-| Vite         | `8.x`           |
-| Tailwind CSS | `4.x`           |
-| React Router | `8.3.x`         |
-| Recharts     | `3.x`           |
-| Lucide React | `1.x`           |
-| Oxfmt        | Code formatting |
+- Marketplace overview
+- Revenue and order statistics
+- User and seller statistics
+- Product statistics
+- Reports and analytics
 
-The project uses **React + TypeScript + Vite** and Tailwind CSS for the interface.
+### User management
 
----
+- Browse users
+- View user details
+- Manage marketplace accounts
 
-## 📁 Project Structure
+### Seller management
 
-```text
-Nova_Market/
-├── src/
-│   ├── components/
-│   │   ├── ui/
-│   │   └── ProductCard.tsx
-│   │
-│   ├── contexts/
-│   │   ├── AppContext.tsx
-│   │   ├── ThemeContext.tsx
-│   │   └── ToastContext.tsx
-│   │
-│   ├── data/
-│   │   └── mock.ts
-│   │
-│   ├── layouts/
-│   │   ├── PublicLayout.tsx
-│   │   ├── BuyerLayout.tsx
-│   │   ├── SellerLayout.tsx
-│   │   └── AdminLayout.tsx
-│   │
-│   ├── pages/
-│   │   ├── public/
-│   │   ├── buyer/
-│   │   ├── seller/
-│   │   └── admin/
-│   │
-│   ├── App.tsx
-│   ├── main.tsx
-│   ├── routes.tsx
-│   └── index.css
-│
-├── package.json
-├── pnpm-lock.yaml
-├── tsconfig.json
-├── vite.config.ts
-└── LICENSE
-```
+- Browse sellers
+- View seller/store information
+- Review seller applications
+
+### Product management
+
+- Browse products
+- View product details
+- Manage marketplace products
+
+### Order management
+
+- Browse orders
+- View order details
+- Monitor order status
+
+### Payment management
+
+- View payment information
+- Monitor payment methods and payment activity
+
+### Promotions
+
+- Manage marketplace promotions
+- Filter and review promotional products
+
+### Settings
+
+- Manage administrator settings
+
+### UI / UX
+
+- Responsive admin interface
+- Reusable components
+- Charts and analytics with Recharts
+- Toast notifications
+- Light / dark / system theme
+- English / French interface
 
 ---
 
-## 🚀 Installation
+## Tech Stack
 
-### Prerequisites
+| Technology | Usage |
+| --- | --- |
+| React | UI |
+| TypeScript | Type-safe development |
+| Vite | Development server and build tool |
+| Tailwind CSS | Styling |
+| React Router | Routing |
+| Axios | API communication |
+| Recharts | Charts and analytics |
+| Lucide React | Icons |
+| i18next / react-i18next | Internationalization |
+| Oxfmt | Code formatting |
 
-Make sure you have installed:
+---
 
-* Node.js
-* pnpm
+## Requirements
 
-You can verify your environment with:
+Install the following before running the project:
+
+- Node.js
+- pnpm
+
+Check your versions:
 
 ```bash
 node -v
 pnpm -v
 ```
 
-### Clone the repository
+The repository includes a `pnpm-lock.yaml`, so pnpm is the recommended package manager.
+
+---
+
+## Installation
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/Fiandriananaprime/Nova_Market.git
 cd Nova_Market
 ```
 
-### Install dependencies
-
-Since the repository includes a `pnpm-lock.yaml`, pnpm is the recommended package manager.
+Install dependencies:
 
 ```bash
-pnpm install
+pnpm install or
+npm install
 ```
 
 ---
 
-## 💻 Development
+## Environment configuration
 
-Start the Vite development server:
+The frontend reads the backend API URL from the Vite environment variable:
+
+```text
+VITE_API_URL
+```
+
+Create a `.env` file in the project root and configure the API URL used by the backend.
+
+Example:
+
+```env
+VITE_API_URL=http://localhost:3001
+```
+
+Use the actual URL of your running Nova Market backend when deploying or connecting to another environment.
+
+> Do not commit secrets to `.env` files. The frontend should only receive configuration values that are safe to expose to the browser.
+
+---
+
+## Run the application
+
+Start the development server:
 
 ```bash
 pnpm dev
+or
+npm run dev
 ```
 
-The application is configured to run Vite with:
-
-```text
---host 0.0.0.0
-```
-
-Vite will display the local development URL in the terminal, typically:
+The project starts Vite with `--host 0.0.0.0`. The terminal will display the local URL, normally:
 
 ```text
 http://localhost:5173
 ```
 
----
-
-## 📦 Build
-
-Create a production build:
-
-```bash
-pnpm build
-```
-
-Preview the production build locally:
-
-```bash
-pnpm preview
-```
+Open the application in your browser and use the administrator login.
 
 ---
 
-## 🧹 Formatting
+## How authentication works
 
-The project uses **Oxfmt** for formatting.
+The application uses JWT-based authentication.
 
-Run:
-
-```bash
-pnpm format
-```
-
----
-
-## 🎨 Design System
-
-Nova Market uses a custom color palette defined in `src/index.css`.
-
-### Primary palette
-
-| Color     | Hex       | Usage                                       |
-| --------- | --------- | ------------------------------------------- |
-| Navy      | `#16262E` | Main dark surfaces, headings, hero sections |
-| Blue      | `#0077B6` | Primary actions, links, charts              |
-| Turquoise | `#5ABCB9` | Accent color, highlights, success elements  |
-| Lavender  | `#F5EFFF` | Main light background                       |
-| Gray      | `#D0CCD0` | Borders and separators                      |
-
-### Additional colors
+The general flow is:
 
 ```text
-Foreground:          #16262E
-Card:                #FFFFFF
-Secondary:           #EBE8F0
-Muted foreground:    #5D6D75
-Primary:             #0077B6
-Accent:              #5ABCB9
-Border:              #D0CCD0
+Login
+  ↓
+POST /auth/login
+  ↓
+Check user role
+  ↓
+Admin only
+  ↓
+Store access token / refresh token
+  ↓
+Open /admin
 ```
 
-### Dark mode
+The API client automatically attaches the access token to authenticated requests.
 
-Dark theme variables are also defined in the design system:
+When an access token expires, the client attempts to refresh it using the refresh token. If authentication can no longer be restored, the local session is cleared and the user is redirected to the login page.
+
+The stored browser keys are:
 
 ```text
-Background:       #0F1E25
-Foreground:       #F5EFFF
-Card:             #16262E
-Secondary:        #1E3540
-Border:           #2A4555
+accessToken
+refreshToken
+user
 ```
 
-The theme supports:
+The admin frontend rejects non-admin accounts at login and does not open the administration portal for them.
+
+---
+
+## Main routes
+
+The application is restricted to the administrator portal.
+
+```text
+/login
+
+/admin
+/admin/users
+/admin/users/:id
+/admin/sellers
+/admin/sellers/:id
+/admin/sellers/applications
+/admin/sellers/applications/:id
+/admin/products
+/admin/products/:id
+/admin/orders
+/admin/orders/:id
+/admin/payments
+/admin/promotions
+/admin/reports
+/admin/settings
+```
+
+Unauthenticated users are redirected to the login page.
+
+---
+
+## Application architecture
+
+```text
+                 ┌─────────────────┐
+                 │      Login      │
+                 └────────┬────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │ ProtectedRoute     │
+                │ requiredRole=admin │
+                └─────────┬─────────┘
+                          │
+                          ▼
+                ┌───────────────────┐
+                │    AdminLayout    │
+                └─────────┬─────────┘
+                          │
+        ┌─────────────────┼──────────────────┐
+        ▼                 ▼                  ▼
+   Dashboard          Management          Analytics
+        │                 │                  │
+        │          Users / Sellers /        │
+        │          Products / Orders /      │
+        │          Payments / Promotions    │
+        │                                   │
+        └─────────────────┬─────────────────┘
+                          ▼
+                    Nova Market API
+```
+
+Admin pages are lazy-loaded so that each section can be loaded only when it is accessed, reducing the initial JavaScript bundle.
+
+---
+
+## Project structure
+
+The project is organized by technical responsibility and business domain:
+
+```text
+src/
+├── api/
+│   ├── admin/
+│   │   ├── analytics.api.ts
+│   │   ├── dashboard.api.ts
+│   │   ├── order.api.ts
+│   │   ├── payment.api.ts
+│   │   ├── product.api.ts
+│   │   ├── sellerApplication.ts
+│   │   ├── store.api.ts
+│   │   └── user.api.ts
+│   ├── auth.api.ts
+│   └── axios.ts
+│
+├── components/
+│   ├── ui/
+│   └── admin/domain-specific components
+│
+├── contexts/
+│   ├── AppContext.tsx
+│   ├── ThemeContext.tsx
+│   └── ToastContext.tsx
+│
+├── layouts/
+│   └── AdminLayout.tsx
+│
+├── pages/
+│   ├── dashboard/
+│   ├── users/
+│   ├── SellerApplication/
+│   ├── stores/
+│   ├── products/
+│   ├── orders/
+│   ├── payment/
+│   └── analytics/
+│
+├── routes/
+│   └── ProtectedRoute.tsx
+│
+├── routes.tsx
+├── main.tsx
+└── index.css
+```
+
+As the application is admin-only, Buyer and Seller portal layouts and routes are intentionally not part of the frontend architecture.
+
+---
+
+## API integration
+
+API communication is handled through Axios.
+
+The API base URL is read from:
+
+```text
+VITE_API_URL
+```
+
+Authenticated requests use the access token stored in browser storage.
+
+The API layer is separated into administration-specific modules under:
+
+```text
+src/api/admin/
+```
+
+Authentication is handled separately in:
+
+```text
+src/api/auth.api.ts
+```
+
+The frontend is designed to consume the Nova Market backend API rather than keeping marketplace business data in the frontend.
+
+---
+
+## Backend
+
+The backend is maintained in a separate repository:
+
+```text
+https://github.com/Fiandriananaprime/Nova_Backend.git
+```
+
+Run the backend separately, then point `VITE_API_URL` to its base URL.
+
+Example local configuration:
+
+```env
+VITE_API_URL=http://localhost:3001
+```
+
+The exact API contract should follow the Nova Market OpenAPI specification.
+
+---
+
+## Internationalization
+
+The interface supports:
+
+- English
+- French
+
+Translations are handled with `i18next` and `react-i18next`.
+
+Keep translated UI text inside the existing localization system instead of hard-coding user-facing strings across components.
+
+---
+
+## Theme
+
+The application supports:
 
 ```text
 light
@@ -289,319 +385,148 @@ dark
 system
 ```
 
-The selected theme is persisted using `localStorage`.
+The design system is defined through the project's CSS variables and Tailwind CSS.
+
+Core project colors include:
+
+| Color | Hex |
+| --- | --- |
+| Navy | `#16262E` |
+| Primary Blue | `#0077B6` |
+| Turquoise | `#5ABCB9` |
+| Light Lavender | `#F5EFFF` |
 
 ---
 
-## 🌐 Internationalization
+## Available commands
 
-The frontend currently supports:
+### Development
 
-* 🇬🇧 English
-* 🇫🇷 French
-
-The language state is managed through `AppContext`.
-
-Example:
-
-```tsx
-t(
-  'Explore products',
-  'Explorer les produits'
-)
+```bash
+pnpm dev
 ```
 
+Starts the Vite development server.
+
+### Production build
+
+```bash
+pnpm build
+```
+
+Creates the production build.
+
+### Preview production build
+
+```bash
+pnpm preview
+```
+
+Serves the generated production build locally for verification.
+
+### Formatting
+
+```bash
+pnpm format
+```
+
+Formats the project using Oxfmt.
+
 ---
 
-## 🛒 Application State
+## Recommended development workflow
 
-The main application context manages:
+### 1. Start the backend
 
-* Current language
-* Current user role
-* Shopping cart
-* Cart quantities
-* Cart total
-* Favorites
-* Favorite toggling
-* Translations
+Make sure the Nova Market backend is running and that its API URL is known.
 
-The relevant implementation is located in:
+### 2. Configure the frontend
+
+Create `.env` and set:
+
+```env
+VITE_API_URL=<backend-url>
+```
+
+### 3. Install dependencies
+
+```bash
+pnpm install
+```
+
+### 4. Start the frontend
+
+```bash
+pnpm dev
+```
+
+### 5. Authenticate as an administrator
+
+Open the application, sign in with an administrator account, then access the `/admin` portal.
+
+### 6. Develop by domain
+
+When adding a feature, keep the API, page and reusable components close to their business domain where practical. Avoid reintroducing Buyer/Seller portal logic into this repository.
+
+---
+
+## Build verification
+
+Before opening a pull request, run:
+
+```bash
+pnpm format
+pnpm build
+```
+
+Also verify:
+
+- Admin login works
+- Protected routes reject unauthenticated access
+- Non-admin users cannot access the admin portal
+- API requests use the configured backend URL
+- Lazy-loaded pages load correctly
+- No obsolete Buyer/Seller routes have been reintroduced
+
+---
+
+## Current scope
+
+This repository is the **Admin frontend** of Nova Market.
+
+The scope of this application is:
 
 ```text
-src/contexts/AppContext.tsx
+Administration
+├── Dashboard
+├── Users
+├── Sellers
+├── Seller Applications
+├── Stores
+├── Products
+├── Orders
+├── Payments
+├── Promotions
+├── Reports / Analytics
+└── Settings
 ```
+
+Buyer and Seller remain marketplace roles and entities, but their dedicated frontends are maintained outside this admin portal.
 
 ---
 
-## 📊 Current Data Source
-
-At the moment, the application uses local mock data stored in:
-
-```text
-src/data/mock.ts
-```
-
-This includes sample data for:
-
-* Categories
-* Sellers
-* Products
-* Orders
-* Seller metrics
-* Revenue statistics
-* Admin statistics
-* Seller applications
-
-The current frontend therefore works as a complete **UI / frontend prototype**, but it is not yet using a persistent API for marketplace data.
-
----
-
-## 🔌 Backend
-
-The frontend repository currently does not contain a public backend repository or API URL in its configuration.
-
-### Backend repository
-
-```text
-Backend repository: Not yet linked
-```
-
-The frontend can later be connected to a REST API for:
-
-* Authentication
-* User management
-* Products
-* Categories
-* Sellers
-* Orders
-* Payments
-* Reviews
-* Favorites
-* Inventory
-* Analytics
-
-> Replace this section with the actual backend repository URL once the Nova Market backend is available.
-
-Example:
-
-```md
-## 🔌 Backend
-
-Nova Market Backend:
-
-https://github.com/<username>/Nova_Market_backend
-```
-
----
-
-## 🗺️ Main Routes
-
-### Public
-
-```text
-/
- /how-it-works
- /categories
- /sellers
- /about
- /login
- /register
-```
-
-### Buyer
-
-```text
-/shop
-/products
-/products/:id
-/stores/:id
-/cart
-/checkout
-/orders
-/orders/:id
-/favorites
-/profile
-/settings
-```
-
-### Seller
-
-```text
-/seller
-/seller/products
-/seller/products/new
-/seller/products/:id/edit
-/seller/inventory
-/seller/orders
-/seller/analytics
-/seller/reviews
-/seller/promotions
-/seller/store
-/seller/settings
-/seller/customers
-```
-
-### Admin
-
-```text
-/admin
-/admin/users
-/admin/buyers
-/admin/sellers
-/admin/sellers/applications
-/admin/products
-/admin/categories
-/admin/orders
-/admin/payments
-/admin/promotions
-/admin/reviews
-/admin/reports
-/admin/settings
-```
-
----
-
-## 🧩 Architecture
-
-The frontend is organized around reusable layouts and role-specific pages.
-
-```text
-PublicLayout
-     │
-     ├── Landing
-     ├── Login
-     ├── Register
-     └── Public pages
-
-BuyerLayout
-     │
-     ├── Shop
-     ├── Products
-     ├── Product details
-     ├── Cart
-     ├── Checkout
-     ├── Orders
-     ├── Favorites
-     └── Profile
-
-SellerLayout
-     │
-     ├── Dashboard
-     ├── Products
-     ├── Inventory
-     ├── Orders
-     ├── Analytics
-     ├── Customers
-     ├── Reviews
-     └── Store settings
-
-AdminLayout
-     │
-     ├── Dashboard
-     ├── Users
-     ├── Sellers
-     ├── Products
-     ├── Categories
-     ├── Orders
-     ├── Payments
-     └── Reports
-```
-
----
-
-## 📈 Marketplace Model
-
-Nova Market follows a **multi-vendor marketplace architecture**.
-
-A typical marketplace flow is:
-
-```text
-Buyer
-  │
-  ├── Discover products
-  │
-  ├── Compare sellers
-  │
-  ├── Add products to cart
-  │
-  ├── Checkout
-  │
-  └── Track orders
-
-Seller
-  │
-  ├── Manage store
-  ├── Manage products
-  ├── Manage inventory
-  ├── Manage orders
-  ├── Analyze revenue
-  └── Manage customers
-
-Admin
-  │
-  ├── Manage users
-  ├── Manage sellers
-  ├── Review applications
-  ├── Manage products/categories
-  ├── Monitor orders/payments
-  └── Monitor marketplace performance
-```
-
----
-
-## 🛠️ Development Status
-
-### Implemented
-
-* Responsive marketplace UI
-* Public pages
-* Buyer interface
-* Seller dashboard
-* Admin dashboard
-* Product browsing
-* Product details
-* Shopping cart
-* Checkout interface
-* Orders
-* Favorites
-* Seller management screens
-* Admin management screens
-* Analytics dashboards
-* Charts
-* Theme system
-* English / French interface
-* Reusable components
-* Mock marketplace data
-
-### Planned backend integration
-
-* Real authentication
-* User roles and permissions
-* Product API
-* Seller API
-* Order API
-* Payment integration
-* Persistent cart
-* Favorites persistence
-* Inventory synchronization
-* Reviews and ratings
-* Real analytics
-* Database integration
-
----
-
-## 📜 License
-
-This project is distributed under the license available in the [`LICENSE`](./LICENSE) file.
-
----
-
-## 🔗 Repository
+## Repository
 
 Frontend:
 
-https://github.com/Fiandriananaprime/Nova_Market.git
+https://github.com/Fiandriananaprime/Nova_Market
 
 Backend:
-https://github.com/Fiandriananaprime/Nova_Backend.git
+
+https://github.com/Fiandriananaprime/Nova_Backend
+
+---
+
+## License
+
+See the [`LICENSE`](./LICENSE) file for the project's license.

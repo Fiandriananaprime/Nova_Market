@@ -27,7 +27,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   const icons = {
     success: <CheckCircle2 className="w-4 h-4 text-emerald-400 flex-shrink-0" />,
     error: <XCircle className="w-4 h-4 text-red-400 flex-shrink-0" />,
-    info: <Info className="w-4 h-4 text-[#5ABCB9] flex-shrink-0" />,
+    info: <Info className="w-4 h-4 text-accent flex-shrink-0" />,
   };
 
   return (
@@ -37,7 +37,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         {toasts.map(t => (
           <div
             key={t.id}
-            className="flex items-center gap-3 bg-[#16262E] text-[#F5EFFF] px-4 py-3 rounded-xl shadow-2xl border border-white/10 min-w-64 max-w-sm pointer-events-auto"
+            className="flex items-center gap-3 bg-foreground text-background px-4 py-3 rounded-xl shadow-2xl border border-white/10 min-w-64 max-w-sm pointer-events-auto"
             style={{ animation: 'slideUp 0.2s ease-out' }}
           >
             {icons[t.type]}

@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 @import 'tailwindcss';
-
+html {
+  scroll-behavior: smooth;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -48,13 +50,13 @@
 
 .dark {
   --background: #0f1e25;
-  --foreground: #F5EFFF;
+  --foreground: #16262E;
   --card: #16262E;
-  --card-foreground: #F5EFFF;
+  --card-foreground: #16262E;
   --primary: #0077B6;
   --primary-foreground: #ffffff;
   --secondary: #1e3540;
-  --secondary-foreground: #F5EFFF;
+  --secondary-foreground: #ffffff;
   --muted: #1e3540;
   --muted-foreground: #8da8b5;
   --accent: #5ABCB9;
@@ -99,4 +101,10 @@ h1, h2, h3, h4, h5, h6 {
 
 .font-display {
   font-family: 'Manrope', system-ui, sans-serif;
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
 }

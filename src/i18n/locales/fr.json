@@ -641,5 +641,20 @@
   "Seller Reply": "Réponse du vendeur",
   "Your Reply": "Votre réponse",
   "Annual revenue": "Revenue annuel",
-  "View store": "Voir Magasin"
+  "View store": "Voir Magasin",
+  "followers": "Abonné",
+  "No location": "Pas de localisation",
+  "Failed to load payment summary": "Erreur de chargement des données de paiement",
+  "Failed to load transactions": "Echec du chargement des transactions",
+  "Refund initiated successfully": "Remboursement initié avec succès.",
+  "Failed to refund transaction": "Erreur lors du remboursement",
+  "No payment data available": "Aucun données de paiment disponible",
+  "Completed": "Completé",
+  "No transactions found": "Aucun transaction trouvé",
+  "Refund": "Rembourser",
+  "transactions": "transactions",
+  "Volume": "volume",
+  "Commission": "Commission",
+  "Previous": "Précedent",
+  "Next": "Suivant"
 }

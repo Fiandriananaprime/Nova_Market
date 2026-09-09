@@ -13,6 +13,8 @@ const statusConfig: Record<string, { label: string; variant: BadgeProps['variant
   'low stock': { label: 'Low Stock', variant: 'warning' },
   'out of stock': { label: 'Out of Stock', variant: 'danger' },
   active: { label: 'Active', variant: 'success' },
+  scheduled: { label: 'Scheduled', variant: 'info' },
+  expired: { label: 'Expired', variant: 'danger' },
   inactive: { label: 'Inactive', variant: 'outline' },
   approved: { label: 'Approved', variant: 'success' },
   rejected: { label: 'Rejected', variant: 'danger' },

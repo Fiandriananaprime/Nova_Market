@@ -7,7 +7,7 @@ import AdminCategories from '../pages/admin/Categories';
 import AdminOrders from '../pages/admin/Orders';
 import AdminSettings from '../pages/admin/Settings';
 import AdminPayments from '../pages/admin/Payments';
-import SellerPromotions from '../pages/seller/Promotions';
+import SellerPromotions from '../pages/admin/Promotions';
 import SellerReviews from '../components/admin/Reviews';
 import SellerAnalytics from '../pages/seller/Analytics';
 import UserDetails from '@/components/admin/UserDetail';
@@ -30,7 +30,6 @@ export const adminRoutes = {
     { path: 'sellers/applications/:id', Component: SellerApplicationDetails },
     { path: 'products', Component: AdminProducts },
     { path: 'products/:id', Component: ProductAbout },
-    { path: 'categories', Component: AdminCategories },
     { path: 'orders', Component: AdminOrders },
     { path: 'orders/:id', Component: OrderDetail},
     { path: 'payments', Component: AdminPayments },
